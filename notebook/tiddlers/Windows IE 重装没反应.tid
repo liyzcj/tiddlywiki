@@ -1,0 +1,40 @@
+created: 20190709160539442
+creator: liyzcj
+modified: 20190828172126908
+modifier: liyzcj
+tags: Windows Issue
+title: Windows IE 重装没反应
+type: text/vnd.tiddlywiki
+
+!! Windows IE 重装没反应问题
+
+之前觉得 IE 没有用处, 就把 IE 删除了, 后来发现还是有点用处的, 虽然 Chrome 的[ext[IE 扩展插件|https://chrome.google.com/webstore/detail/ie-tab/hehijbfgiekmjfkfjpbkbammjbdenadd?utm_source=chrome-ntp-icon]]可以解决需要 IE 的网站的大部分问题, 但是遇到需要上传文件时就不那么好用. 
+
+虽然 IE 真的用的很少, 但是想了想还是重新装上吧, 偶尔可能会用到. 
+
+搜索到微软官方的 IE [ext[下载链接|https://support.microsoft.com/zh-cn/help/17621/internet-explorer-downloads]]以后, 点击安装会提示重启电脑, 但是我发现重启电脑以后点击启动 IE 仍然没有任何反应. 
+
+查看了 IE 的安装文件夹:
+
+```bash
+C:\Program Files\Internet Explorer
+```
+
+发现文件夹内没有 `iexplore.exe` 文件, 快捷方式是链接到 `ieinstal.exe` 上的, 点击之后没有任何反应.
+
+!!! 解决
+
+查询资料发现一个博客 : https://blog.csdn.net/Perfect_Accepted/article/details/79561792
+
+才记起好像删除的时候是直接把 IE 的功能删除了, 那就简单了直接按照博客的步骤:
+
+> 设置 → 应用 → 可选功能 → 增加功能
+
+将 IE 浏览器增加以后再重启即可出现 `iexplore.exe` 文件, 启动正常.
+
+
+---
+
+❗ 注意: 有些博客写的是在`控制面版 → 程序 → 增加或删除Windows 功能`里可以打开 IE 功能. 但是我没有发现这个选项.
+
+版本: Windows 10 1903

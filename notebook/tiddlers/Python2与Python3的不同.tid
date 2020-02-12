@@ -1,0 +1,41 @@
+created: 20190719224601810
+creator: liyzcj
+modified: 20190828184329768
+modifier: liyzcj
+tags: Python
+title: Python2与Python3的不同
+type: text/vnd.tiddlywiki
+
+> Python 2 将于 2020 年全面弃用并不再提供支持.
+
+!! 除法的不同
+
+!!! 普通除法 `/`
+
+Python 2 中的普通除法:
+
+* 如果两边都为 `int` 类型, 则结果也为 `int` 类型.
+* 如果有一边为 `float` 类型, 则结果为 `float` 类型.
+
+Python 3 中的普通除法:
+
+无论两边变量为什么类型, 结果都为 `float` 类型.
+
+!!! 地板除法 `//`
+
+地板除法是后来添加到 Python 2 中的, 与 Python 3 的作用相同.
+
+首先, 无论如何都只保存结果的整数部分.
+
+* 如果两边都是 `int` 类型, 则结果为 `int` 类型
+* 如果两边有 `float` 类型, 则结果为 `float` 类型.
+
+!!! 💡 总结
+
+# ''普通除法 `/` '', Python 2 根据两边类型决定结果类型, Python 3 全部为 `float` 类型.
+# ''地板除法 `//` '', Python 2 与 Python 3 相同, 结果''只取整数''部分, 由两边类型就决定.
+
+!! 类的不同
+
+Python 2 中继承 `object` 的为新式类, 否则为经典类. Python 3 中所有的都是新式类. 详见 [[Python 面向对象]]
+

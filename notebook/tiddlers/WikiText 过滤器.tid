@@ -1,0 +1,64 @@
+created: 20190803183949464
+creator: liyzcj
+modified: 20190828180137866
+modifier: liyzcj
+tags: Wikitext
+title: WikiText 过滤器
+type: text/vnd.tiddlywiki
+
+! 过滤器
+---
+
+Filter 过滤器是快速检索 Tiddlers 的方法.
+
+!! 一般语法:
+
+```
+[operator[parameter]]
+```
+
+例如最常用的:
+
+```
+[title[ATiddler]]
+[tag[some_tag]]
+```
+
+也可以通过 Field 字段来过滤:
+
+```
+[field:serving[4]]
+```
+
+如果 serving 没有歧义, field 也可以省略:
+
+```
+[[serving[4]]
+```
+
+
+!! 组合:
+
+不同的 `operator` 也可以组合使用:
+
+```
+[tag[Vegetarian]!tag[soup]serving[4]]
+```
+
+* `!` : 表示排除
+* `+` : 表示对前面已经选中的条目进行进一步过滤
+* `-` : 用来在已经选中的条目中进行排除.
+
+!! 特殊参数:
+
+* `{}` : 大括号代表 [[文本嵌入|WikiText 嵌入]].
+* `<>` : 尖括号代表 [[变量|WikiText 变量]].
+
+<<<
+例如:
+
+```
+[tag<currentTiddler>]
+```
+
+<<<

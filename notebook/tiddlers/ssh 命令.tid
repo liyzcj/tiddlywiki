@@ -1,0 +1,62 @@
+created: 20190820145145921
+modified: 20200203111255767
+tags: Linux Windows Macos Shell编程 Command
+title: ssh 命令
+type: text/vnd.tiddlywiki
+
+!ssh
+---
+登陆远程服务器：
+
+```bash
+ssh username@hostname -p port
+```
+
+!! 密钥登陆
+
+创建公钥密钥：
+
+```bash
+ssh-keygen -t rsa
+```
+
+默认会在 `~/.ssh` 下生成私钥 `id_rsa` 与公钥 `id_rsa.pub`。 然后将公钥内容放入要链接的服务器文件：
+
+```bash
+~/.ssh/authorized_keys
+```
+
+> 注意: <div>
+
+* `.ssh` 文件夹的权限最多为 755，也就是说其他用户不能有写入权限。
+* 私钥 `id_rsa` 权限必须为 `600`.
+* 公钥和 `authorized_keys` 可以为 600 或 644
+</div>
+
+!!! 连接配置
+
+可以在 `~/.ssh/config` 文件内写入连接的配置，就可以直接 ssh 登陆远程服务器了。
+
+```bash
+Host ml
+HostName 192.168.10.10
+User liyanzhe
+Port 53122
+IdentityFile ~/.ssh/id_rsa
+```
+
+> ⚠️ ~IdentityFile 需要配置本地私钥。
+
+!scp
+---
+
+远程复制
+
+```bash
+scp -P port /path/to/file username@host:/path/to/file
+```
+
+!! 登陆日志
+
+* Centos: `/var/log/secure`
+* Debian: `/var/log/auth.log`

@@ -1,0 +1,56 @@
+caption: FLAGS 参数传递
+created: 20190718210544774
+creator: liyzcj
+modified: 20190828182323594
+modifier: liyzcj
+tags: Tensorflow
+title: tf.app.flags
+type: text/vnd.tiddlywiki
+
+!! tf.app.flags
+---
+
+Tensorflow 里的参数解析是 `tensorflow.app.flags`, 是基于 `argparse` 再封装的专门给 Tensorflow 应用提供的参数解析模块. 配合 `tensorflow.app` 使用.
+
+!!! 使用方法
+
+使用方法非常简单:
+
+```python
+import tensorflow as tf
+
+flags = tf.app.flags
+
+flags.DEFINE_string(flag_name, default_value, docstring)
+```
+
+主要提供了四种类型的参数:
+
+```python
+DEFINE_string(flag_name, default_value, docstring)
+DEFINE_integer(flag_name, default_value, docstring)
+DEFINE_boolean(flag_name, default_value, docstring)
+DEFINE_float(flag_name, default_value, docstring)
+```
+
+在传递参数以后, 参数会自动解析, 并将解析后的变量保存在 `flags.FLAGS` 内.
+
+> 💡 FLAGS 是全局变量, 在程序的任何位置都可以使用.
+
+最后, 需要配合 `tf.app.run()` 函数来解析参数, 并运行定义的 `main()` 函数.
+
+通常是以下形式:
+
+```python
+import tensorflow as tf
+
+def main():
+	do_something()
+    
+if __name__ == "__main__":
+	flags = tf.app.flags
+   flags.DEFINE_string(flag_name, default_value, docstring)
+   ...
+   
+   tf.app.run()
+```

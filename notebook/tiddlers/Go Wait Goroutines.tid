@@ -1,0 +1,82 @@
+created: 20200131185859593
+modified: 20200131193839300
+tags: Go
+title: Go Wait Goroutines
+type: text/vnd.tiddlywiki
+
+如何等待 Go 中的 Goroutine 结束？
+
+在 Go 中，[[并发|Go Goroutines]] 是非常常见的操作，可以提高程序的效率，但是对于并发执行程序的逻辑控制是非常重要的，而且''主 Goroutine 	并不会等待所有 Goroutine 执行完毕才会退出。''
+
+所以当我们需要等待某些进程执行结束时，就需要手动进行控制。
+
+!! 等待单个 Goroutine
+
+等待单个的 Goroutine 可以通过 Channel 方便的实现。因为 Channel 的一个特性就是在''发送端没有发送数据时，接收端会 block。'' 所以可以在 Goroutine 结束的时候发送一个信号到 channel 中，这样主 Goroutine 就知道 Goroutine 已经执行结束。
+
+```go
+package main
+
+import (
+		"fmt"
+		"time"
+)
+
+func worker(finished chan bool) {
+	fmt.Println("Worker: Started")
+	time.Sleep(time.Second)
+	fmt.Println("Worker: Finished")
+	finished <- true
+}
+
+func main() {
+	finished := make(chan bool)
+
+	fmt.Println("Main: Starting worker")
+	go worker(finished)
+
+	fmt.Println("Main: Waiting for worker to finish")
+	<- finished
+	fmt.Println("Main: Completed")
+}
+```
+
+!! 等待多个 Goroutines
+
+当我们需要等待多个 Goroutines 的时候，我们可以使用 `sync.WaitGroup` 来实现。`WaitGroup` 可以实现等待一组Goroutine执行结束。
+
+由于 `WaitGroup` 是通过统计Goroutine的个数来实现的，所以只需要在增加Goroutine时调用 `Add(num int)` 方法, ''参数是增加的Goroutine个数''。
+
+在子Goroutine中调用 `Done()` 即可消耗一个 Goroutine 个数，最后在主 Goroutine 调用 `Wait()` 方法，即可等待所有Goroutine执行结束。
+
+```go
+package main
+
+import (
+		"fmt"
+		"sync"
+		"time"
+)
+
+func worker(wg *sync.WaitGroup, id int) {
+	defer wg.Done()
+
+	fmt.Printf("Worker %v: Started\n", id)
+	time.Sleep(time.Second)
+	fmt.Printf("Worker %v: Finished\n", id)
+}
+
+func main() {
+	var wg sync.WaitGroup
+
+	for i := 0; i < 5; i++ {
+		fmt.Println("Main: Starting worker", i)
+		wg.Add(1)
+		go worker(&wg, i)
+	}
+
+	fmt.Println("Main: Waiting for workers to finish")
+	wg.Wait()
+	fmt.Println("Main: Completed")
+}
+```

@@ -1,0 +1,27 @@
+created: 20200202095926966
+modified: 20200202110942982
+title: Bash Number-based Conditions
+type: text/vnd.tiddlywiki
+
+
+数字相关的条件仅仅限于整数，对于字符串，如果可能会转换为整数。
+
+!! 单括号语法
+
+|!Condition|!True if|
+|`[ NUM1 -eq NUM2 ]`|等于|
+|`[ NUM1 -ne NUM2 ]`|不等于|
+|`[ NUM1 -gt NUM2 ]`|大于|
+|`[ NUM1 -ge NUM2 ]`|大于等于|
+|`[ NUM1 -lt NUM2 ]`|小于|
+|`[ NUM1 -le NUM2 ]`|小于等于|
+
+!! 双圆括号语法
+
+|!Condition|!True if|
+|`(( NUM1 == NUM2 ))`|等于|
+|`(( NUM1 != NUM2 ))`|不等于|
+|`(( NUM1 > NUM2 ))`|大于|
+|`(( NUM1 >= NUM2 ))`|大于等于|
+|`(( NUM1 < NUM2 ))`|小于|
+|`(( NUM1 <= NUM2 ))`|小于等于|

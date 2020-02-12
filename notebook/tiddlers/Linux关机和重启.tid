@@ -1,0 +1,26 @@
+created: 20190804192547892
+creator: liyzcj
+modified: 20190826155410535
+modifier: liyzcj
+tags: Linux Command
+title: Linux关机和重启
+type: text/vnd.tiddlywiki
+
+!! 关机
+
+```bash
+halt ## 马上关机
+poweroff ## 马上关机
+shutdown -h now ## 马上关机
+shutdown -h 10 ## 十分钟后关机
+shutdown -c ## 取消shutdown计划
+```
+
+!! 重启
+
+```bash
+reboot
+shutdown -r now ## 马上重启
+shutdown -r 10 ## 过十分钟重启
+shutdown -r 21:52 ## 在特定时间重启
+```

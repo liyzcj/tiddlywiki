@@ -1,0 +1,33 @@
+created: 20191126053544207
+modified: 20191126060935807
+tags: Definitions
+title: URL and URI and URN
+type: text/vnd.tiddlywiki
+
+!! Definitions
+
+> [[WIKI 定义|https://zh.wikipedia.org/wiki/%E7%BB%9F%E4%B8%80%E8%B5%84%E6%BA%90%E6%A0%87%E5%BF%97%E7%AC%A6#%E4%B8%8EURL%E5%92%8CURN%E7%9A%84%E5%85%B3%E7%B3%BB]]
+
+
+URI 统一资源定位符
+
+> wiki: 统一资源标识符（英語：Uniform Resource Identifier，縮寫：URI）在電腦术语中是一个用于标识某一互联网资源名称的字符串。
+
+> a string of characters used to identify a resource on a computer network, of which the best known type is the web address or URL.
+
+用来定位计算机网络中一个资源的字符串，其中最出名的是 URL。 所以 URL 是URI 的子集。
+
+<<image-center "https://danielmiessler.com/images/uri-urn-url-miessler-2019-1024x969.png">>
+
+!! URI and URL and URN
+
+> WIKI: URI可被视为定位符（URL），名称（URN）或两者兼备。统一资源名（URN）如同一个人的名称，而统一资源定位符（URL）代表一个人的住址。换言之，URN定义某事物的身份，而URL提供查找该事物的方法。
+> 用于标识唯一书目的ISBN系统是一个典型的URN使用范例。例如，ISBN 0-486-27557-4无二义性地标识出莎士比亚的戏剧《罗密欧与朱丽叶》的某一特定版本。为获得该资源并阅读该书，人们需要它的位置，也就是一个URL地址。在类Unix操作系统中，一个典型的URL地址可能是一个文件目录，例如file:///home/username/RomeoAndJuliet.pdf 
+> 该URL标识出存储于本地硬盘中的电子书文件。因此，URL和URN有着互补的作用。
+
+!! 技术角度
+
+URL是一种URI，它标识一个互联网资源，并指定对其进行操作或取得该资源的方法。可能通过对主要访问手段的描述，也可能通过网络“位置”进行标识。例如，http://www.wikipedia.org/
+这个URL 标识一个特定资源（首页）并表示该资源的某种形式（例如以编码字符表示的，首页的HTML代码）是可以通过HTTP协议从 www.wikipedia.org 这个网络主机获得的。
+
+URN是基于某命名空间通过名称指定资源的URI。人们可以通过URN来指出某个资源，而无需指出其位置和获得方式。资源无需是基于互联网的。例如，URN urn:ISBN 0-395-36341-1 指定标识系统（即国际标准书号ISBN）和某资源在该系统中的唯一表示的URI。它可以允许人们在不指出其位置和获得方式的情况下谈论这本书。

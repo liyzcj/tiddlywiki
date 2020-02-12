@@ -1,0 +1,13 @@
+created: 20190809200148609
+modified: 20190828173952668
+tags: 插件 Vim
+title: nerdtree
+type: text/vnd.tiddlywiki
+
+方便的文件树插件.
+
+https://github.com/scrooloose/nerdtree
+
+!! 使用
+
+* 打开文件树 `C-n`.

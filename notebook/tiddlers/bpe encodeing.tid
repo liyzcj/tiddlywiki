@@ -1,0 +1,11 @@
+created: 20191201152344782
+modified: 20191201152615854
+tags: Concept
+title: bpe encodeing
+type: text/vnd.tiddlywiki
+
+! Byte pair Encoding
+
+BPE 是一种常用的数据压缩编码方式，将数据中出现次数最多的成对字符由一个未出现过的字符代替，直到没有任何成对的字符。
+
+这种数据的解压需要一个描述了替换方式的表格。

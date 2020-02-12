@@ -1,0 +1,10 @@
+created: 20200211075704919
+modified: 20200211075945094
+tags: Python Module TODO Builtin
+title: Python timeit
+type: text/vnd.tiddlywiki
+
+! Python timeit
+---
+
+Python timeit module 可以用来方便的测试程序运行时间。

@@ -1,0 +1,105 @@
+caption: 特殊属性与方法
+created: 20190720174624892
+creator: liyzcj
+modified: 20190828184231845
+modifier: liyzcj
+title: Python 特殊属性方法
+type: text/vnd.tiddlywiki
+
+! 特殊属性与方法
+
+Python 的类有一些内置的特殊属性与方法, 也叫''魔术方法''.
+
+---
+
+!! 特殊属性
+
+* 对于方法实例: <div>
+
+|!特殊属性|!权限|!解释|
+|`__doc__` |读写|方法的描述 |
+|`__name__` |读写|方法的名称|
+|`__qualname__` |读写|函数的全名([ext[New in 3.3|https://docs.python.org/3/glossary.html#term-qualified-name]]) |
+|`__module__` |读写|函数所属的模组名称 |
+|`__defaults__` |读写|一个包含所有默认参数值的 Tuple|
+|`__code__` |读写|已编译函数体的 code 实例 |
+|`__globals__` |只读|函数可用的所有全局变量的 Dict|
+|`__dict__`|读写|自定义函数属性的字典[ext[PEP 232|https://www.python.org/dev/peps/pep-0232/]]|
+|`__closure__`|只读|闭包, 返回外层函数的变量 cell|
+|`__annotations__`|读写|包含函数参数注释的 Dict ([ext[PEP 3107|https://www.python.org/dev/peps/pep-3107/]])|
+|`__kwdefaults__` |读写|包含关键字默认参数的字典|
+
+> Python 中的方法也是对象, 类也是对象, ''一切都是对象''.
+
+</div>
+
+* 对于类: <div>
+
+|!特殊属性|!解释|
+|`__doc__` |类的描述 |
+|`__name__` |类的名称|
+|`__qualname__` |类的全名([ext[New in 3.3|https://docs.python.org/3/glossary.html#term-qualified-name]]) |
+|`__module__` |类所属的模组名称 |
+|`__base__` |类的基类(父类)|
+|`__bases__` |所有基类的 Tuple |
+|`__mro__` |方法的调用搜索路径 Tuple (`mro()`返回List)|
+|`__abstractmethods__`|一个包含抽象方法的set(仅抽象类)|
+|`__class__`|所属的类, 一般类属于type|
+|`__dict__`|类的静态属性以及实现的方法|
+
+> 💡 可以使用 `vars()` 方法获取一个对象的 `__dict__`.
+
+</div>
+
+* 对于实例: <div>
+
+|!特殊属性|!解释|
+|`__doc__` |类的描述|
+|`__module__`|类所属的 module |
+|`__class__`|所实例化的类|
+|`__dict__`|实例所有的属性的字典|
+
+> 注意实例的 `__dict__` 与类的 `__dict__` 不同.
+
+
+</div>
+
+---
+
+!! 特殊方法
+
+|!特殊方法|!调用方式|!解释|
+|`__new__(cls [,...])`|instance = ~MyClass(arg1, arg2)|在创建实例的时候被调用|
+|`__init__(self [,...])`|instance = ~MyClass(arg1, arg2)|在创建实例的时候被调用|
+|`__cmp__(self, other)`|self == other, self > other, 等|在使用比较符的时候调用|
+|`__pos__(self)`|+self|一元加运算符|
+|`__neg__(self)`|-self|一元减运算符|
+|`__invert__(self)`|~self|取反运算符|
+|`__index__(self)`|x[self]|对象被作为索引使用的时候|
+|`__nonzero__(self)`|bool(self)|对象的布尔值|
+|`__getattr__(self, name)`|self.name # name 不存在|访问一个不存在的属性时|
+|`__setattr__(self, name, val)`|self.name = val|对一个属性赋值时|
+|`__delattr__(self, name)`|del self.name|删除一个属性时|
+|`__getattribute(self, name)`|self.name|访问任何属性时|
+|`__getitem__(self, key)`|self[key]|使用索引访问元素时|
+|`__setitem__(self, key, val)`|self[key] = val|对某个索引值赋值时|
+|`__delitem__(self, key)`|del self[key]|删除某个索引值时|
+|`__iter__(self)`|for x in self|迭代时|
+|`__contains__(self, value)`| value in self, value not in self|使用 in 操作测试关系时|
+|`__concat__(self, value)`|self + other|连接两个对象时|
+|`__call__(self [,...])`|self(args)|“调用”对象时|
+|`__enter__(self)` |with self as x:|with 语句环境管理|
+|`__exit__(self, exc, val, trace)`|with self as x:|with 语句环境管理|
+|`__getstate__(self)`|pickle.dump(pkl_file, self)|序列化时|
+|`__setstate__(self)`|data = pickle.load(pkl_file)|序列化读取时|
+
+<<<
+参考文档:
+
+* [ext[Python 魔术方法指南|https://pycoders-weekly-chinese.readthedocs.io/en/latest/issue6/a-guide-to-pythons-magic-methods.html#python]]
+
+* [ext[Python 官方文档|https://docs.python.org/3/reference/datamodel.html#basic-customization]]
+
+* [ext[一篇文章搞懂Python中的面向对象编程|http://yangcongchufang.com/%E9%AB%98%E7%BA%A7python%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/python-object-class.html#dir5]]
+
+* [ext[Python 面向对象(进阶篇)|https://www.imooc.com/article/3066]]

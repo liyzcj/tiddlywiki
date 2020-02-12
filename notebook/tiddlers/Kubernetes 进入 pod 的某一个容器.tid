@@ -1,0 +1,11 @@
+created: 20191023162426178
+modified: 20191023162550850
+tags: Kubernetes
+title: Kubernetes 进入 pod 的某一个容器
+type: text/vnd.tiddlywiki
+
+```bash
+kubectl exec -it my-pod --container main-app -- /bin/bash
+```
+
+> https://k8smeetup.github.io/docs/tasks/debug-application-cluster/get-shell-running-container/

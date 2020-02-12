@@ -1,0 +1,58 @@
+created: 20191201153553095
+modified: 20191201154310580
+tags: Python
+title: Python Fire
+type: text/vnd.tiddlywiki
+
+! Python Fire
+---
+
+> https://github.com/google/python-fire
+
+Python Fire 是一个用来自动生成命令行脚本工具的 module。
+
+这个module 可以比 [[click]] 更快更简单的将 Python 脚本函数包装成一个 CLi 工具。
+
+!! Basic Usage
+
+```python
+import fire
+
+def hello(name="World"):
+  return "Hello %s!" % name
+
+if __name__ == '__main__':
+  fire.Fire(hello)
+```
+
+只需要一个命令就可以将一个 Python函数变成命令行工具：
+
+```bash
+python hello.py  # Hello World!
+python hello.py --name=David  # Hello David!
+python hello.py --help  # Shows usage information.
+```
+
+!! Use with Class
+
+Fire 同样可以用于将 Class 变成命令行工具，那这时候可能有小朋友问了：类怎么变成命令行工具啊？
+
+这个问题非常好，Fire 包装类其实是为了使用这个类的方法：
+
+```python
+import fire
+
+class Calculator(object):
+  """A simple calculator class."""
+
+  def double(self, number):
+    return 2 * number
+
+if __name__ == '__main__':
+  fire.Fire(Calculator)
+```
+
+```bash
+python calculator.py double 10  # 20
+python calculator.py double --number=15  # 30
+```

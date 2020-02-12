@@ -1,0 +1,54 @@
+created: 20191205084228188
+modified: 20200114052816479
+tags: Python
+title: Python tempfile
+type: text/vnd.tiddlywiki
+
+!tempfile
+
+!! ~TemporaryDirectory
+
+~TemporaryDirectory 可以用来创建一个临时的文件夹，一种用法是直接调用 `TemporaryDirectory()` 方法，会返回一个对象:
+
+```python
+>>> tmpdir = tempfile.TemporaryDirectory()
+<TemporaryDirectory '/tmp/tmpccz_9lf2'>
+```
+
+这个对象有一个 attribute `name` and a method `cleanup()`, `name` is the path of this temporary directory and `cleanup()` is used to cleanup.
+
+This is another common use of `TemporaryDirector()`, That is use `with` context. 
+
+```python
+>>> with tempfile.TemporaryDirectory() as tempdir:
+>>>     print(tempdir)
+/tmp/tmpm1ar4gal
+```
+
+Note that in context mode, variable `tempdir` is `name` attribute above. And this Temporary directory will automate cleanup when the context over.
+
+注意如果在一个函数中使用 `tempfile.TemporaryDirectory()` 创建一个临时文件夹，当函数结束时，这个临时文件夹也会自动清除。
+
+```python
+def foo():
+    tmpdir = tempfile.TemporaryDirectory()
+    tmpfile = os.path.join(tmpdir.name, 'test.txt')
+    Path(tmpfile).write_text("12345")
+    return tmpfile
+```
+
+代码中 `foo()` 函数返回的路径是已经被清除了的。
+
+!! mkdtemp
+
+如果不想在函数结束时让临时文件夹清除，应该使用 `tempfile.mkdtemp()` 来创建文件夹。
+
+```python
+def foo():
+    tmpdir = tempfile.mkdtemp()
+    tmpfile = os.path.join(tmpdir, 'test.txt')
+    Path(tmpfile).write_text("12345")
+    return tmpfile
+```
+
+> [[官方文档|https://docs.python.org/3/library/tempfile.html#tempfile.mkdtemp]]清楚的写到 The user of `mkdtemp()` is responsible for deleting the temporary directory and its contents when done with it.

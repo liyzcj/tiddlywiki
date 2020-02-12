@@ -1,0 +1,33 @@
+created: 20190701013419876
+creator: liyzcj
+modified: 20190920025745537
+modifier: liyzcj
+tags: Macos 破解 Windows Software
+title: Xmind Zen 破解版
+type: text/vnd.tiddlywiki
+
+!! Xmind Zen
+
+!!! Windows
+
+最新版本: 9.2.1
+http://www.carrotchou.blog/20331.html
+
+
+
+# 下载最新安装包并安装
+# 下载破解补丁并安装
+
+!!! Macos
+
+> https://www.macxin.com/archives/10392.html#toc-3
+> 最新版本： 9.2.1
+
+# 下载安装包并安装
+# 打开可以是任何来源： <div>
+
+```bash
+sudo spctl --master-disable
+```
+
+</div>

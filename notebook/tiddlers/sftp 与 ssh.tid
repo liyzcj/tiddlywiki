@@ -1,0 +1,51 @@
+created: 20190805180737993
+creator: liyzcj
+modified: 20190830100518648
+modifier: liyzcj
+tags: Shell编程 Linux Command
+title: sftp 与 ssh
+type: text/vnd.tiddlywiki
+
+通过 sftp 或 ssh 批量执行远程命令:
+
+!! sftp
+
+单个命令:
+
+```bash
+sftp username@hostname "command"
+```
+
+批命令:
+
+* 文件方式 <div>
+
+```bash
+sftp -b command.file user@hostname
+```
+
+</div>
+
+* EOF 方式 <div>
+
+```bash
+sftp user@hostname << EOF
+command 1
+command 2
+command 3
+EOF
+```
+
+</div>
+
+!! ssh
+
+SSH 与 SFTP 相同:
+
+```bash
+ssh user@hostname << EOF
+command 1
+command 2
+command 3
+EOF
+```

@@ -1,0 +1,23 @@
+caption: CLI 交互
+created: 20190719225149104
+creator: liyzcj
+modified: 20190828183720832
+modifier: liyzcj
+tags: Python
+title: PythonCLI
+type: text/vnd.tiddlywiki
+
+!Python 交互式命令行
+---
+
+!! 历史结果
+
+交互式CLI 里, 像 shell 的上次命令是 `!!` 一样, `_` 代表上次的输出. 更进一步的 `__` 代表倒数第二次的输出, `___` 代表倒数第三次的输出.
+
+!! Ipython
+
+运行文件:
+
+```python
+%run file
+```

@@ -1,0 +1,114 @@
+created: 20200128134118856
+modified: 20200128181045856
+title: Go Types
+type: text/vnd.tiddlywiki
+
+! Go 数据类型
+---
+
+Go 的数据类型包括''内建类型和自定义类型''。
+
+数据类型都可以递归的作为其他类型的组成使用，例如：
+
+```go
+[][][]int // [][]int 类型组成新的 slice 类型
+[3][]string // 长度为3，元素类型为 []string 的数组类型
+```
+
+> ''一个特例就是[[哈希表|Go Map]] 的 key type 只能是部分类型。''
+
+!! 内建类型
+
+内建类型包括
+
+```go
+bool
+string
+int int8, int16, int32, int64
+uint uint8, uint16, uint32, uint64, uintptr
+byte // uint8 的别名
+rune // int32 的别名，代表一个 Unicode 符号
+float32, float64
+complex64, complex128
+```
+
+这些内建类型都有各自的[[zero value|Go zero value]].
+
+!! 自定义类型
+
+自定义类型包括两种，''一种是组合类型，另一种是其他类型。''
+
+!!! 组合类型
+
+组合类型主要是指[[数组和切片|Go Array and Slice]]，[[哈希表|Go Map]] 和 [[函数类型|Go Function]]，即通过现有的类型组合为新的类型。
+
+> 下文中 `T` 代表一种数据类型，包括基本类型和自定义类型，与 `type` 相同。
+
+''数组 array''
+
+数组的组合 `[n]T` 为一个新的类型，''注意长度 `n` 也是类型的一部分。''
+
+''切片 slice''
+
+切片类型 `[]T`。
+
+''哈希表 map''
+
+哈希表包含 key 和 value 两种数据类型，`map[T]T`。
+
+```go
+map[key type]value type
+```
+
+''函数func''
+
+函数组合类型由参数类型和返回值类型组成 `func(T, T) T`
+
+```go
+func SomeFunc(fn func(type, type) (type, type)) type {}
+```
+
+!!! 其他类型
+
+其他类型的意思是''完全自定义类型名称''的数据类型，包括[[结构体|Go Struct]]以及[[接口|Go Interface]]。
+
+''结构体 Struct''
+
+结构体类型由字段 Field 和 `value type` 组成：
+
+```go
+type SomeStruct struct {
+	Field1 type
+	Field2 type
+	...
+}
+```
+
+定义之后，`SomeStruct` 为新的 Type 名称。
+
+''接口 Interface''
+
+接口类型由[[方法|Go Method]]名称，方法的参数类型以及返回值类型组成：
+
+```go
+type SomeInterface interface {
+	SomeMethod1(type, type) type
+	SomeMethod2(type) (type, type)
+}
+```
+
+定义后的 `SomeInterface` 为新的类型，可以作为参数类型使用：
+
+```go
+func SomeFunc(i SomeInterface) type {}
+```
+
+''别名''
+
+也可以为已有的数据类型起一个别名：
+
+```go
+type MyFloat float64
+```
+
+这个特性可以用来为内建类型编写[[方法|Go Method]]，因为''方法只能和 receiver 的 type 定义在同一个 package。''

@@ -1,0 +1,149 @@
+created: 20191205022608716
+modified: 20200207174144318
+tags: Python Survey
+title: Python 错误和异常
+type: text/vnd.tiddlywiki
+
+! Python 错误和异常
+---
+
+错误大概分为两种：''语法错误''和''异常''。
+
+
+!! 语法错误
+
+语法错误也称为解析错误，可能是在学习 Python 的时候遇到的最多的错误。
+
+解析器会将错误语法的那一行打印出来并打印一个小箭头指向错误的字符。
+
+!! 异常
+
+即使语法没有错误了，在尝试执行代码的时候也可能遇到错误。在''执行时出现的错误称作异常''。大多数异常并不会被程序处理，反而会作为错误抛出并终止执行程序。
+
+```python
+ >>> '2' + 2
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: Can't convert 'int' object to str implicitly
+```
+
+错误信息的最后一行会展示发生了什么。异常有许多不同的类型，并且类型名称会作为错误信息的一部分，就像上面的 `TypeError`。打印出的字符串为异常的名称，对于[[内建异常|Python Built-in Exceptions]]都是这样，但是对于用户定义的异常是不一定的。''内建的异常在编写代码时可以直接作为变量使用，但不是关键字。''
+
+最后一行错误信息中剩下的部分是错误的详细信息。
+
+前面的几行以 stack traceback 的形式显示了发生异常的上下文。通常它包含了一个回溯栈。
+
+[[内建异常|Python Built-in Exceptions]]展示了内建异常以及他们的含义。
+
+!! 处理异常
+
+可以通过编写代码来自动处理异常。
+
+```python
+while True:
+    try:
+        x = int(input("Please enter a number: "))
+        break
+    except ValueError:
+        print("Oops!  That was no valid number.  Try again...")
+```
+
+try 的工作机制是这样的：
+
+* 首先，try 与 except 之间的 clause 代码被执行。
+* 如果没有异常抛出，except clause 会被跳过，try statement 结束。
+* 如果在执行 try clause 时出现异常，clause 中剩下的代码不会执行。然后如果出现的异常与 except 中声明的异常匹配，except clause 被执行，并且 try statement 结束。
+* 如果出现的异常与 except 中声明的异常''不匹配''，这个异常会从 try 中传递出去，如果没有其他的 handler 来处理这个异常，那么这个异常会显示出来并且程序中断。
+
+''try statement 可以有多个 except clause，来为不同类型的 Exception 指定操作。''Handler 仅仅会处理对应的 try clause 中发生的异常，一个 except clause 也可以通过括号指定多个异常类型：
+
+```python
+... except (RuntimeError, TypeError, NameError):
+...     pass
+```
+
+并且，except 中指定的异常类不仅可以捕捉同样类型的异常，还可以捕捉这些异常的子类。注意如果有多个 except 语句，顺序是从上倒下执行，当匹配一个异常时，程序''仅仅会运行匹配的那一个 except clause。''
+
+最后一个 excpet 可以省略异常类型不填，那么它会捕捉所有异常类型。这样可以打印出错误信息，并重新 raise 这个异常，让代码的调用者去处理这个异常。
+
+`try ... except` 语法还有一个可选的关键字 ''else''，它必须在所有的 except 之后。''当 try clause 中没有抛出异常时会执行 else clause。''这样可以减少 try clause 中的代码，因为这样可以避免错误捕获不是被 `try .. except` 保护的代码抛出的异常。
+
+当一个异常出现时，通常会有一个相关值，作为异常类型的构造参数。参数的类型取决于异常类型。
+
+except clause 可以在 异常类型后面指定一个变量，这个变量就是异常类型的实例，它包含了异常类型实例的关联参数 `instance.args`. 通常为了方便，异常类会定义 `__str__()` 来展示关联值。
+
+如果一个异常有参数，那么参数会作为错误信息打印出来。
+
+Exception 不仅仅会处理 try 中出现的异常，而是会递归的检测 try clause 中调用的任何代码的异常。
+
+!! 抛出异常
+
+raise statement 允许编程人员指定一个要抛出的异常：
+
+```python
+>>> raise NameError('HiThere')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: HiThere
+```
+
+raise 唯一的参数代表要抛出的异常类型。如果仅仅传递一个异常类名，那么会被隐式的构造成实例。
+
+```python
+raise ValueError  # shorthand for 'raise ValueError()'
+```
+
+如果你需要确定一个异常是否被抛出，而不是想要处理它，你可以在 except 中使用 raise 来重新raise 这个异常。
+
+```python
+>>> try:
+...     raise NameError('HiThere')
+... except NameError:
+...     print('An exception flew by!')
+...     raise
+...
+An exception flew by!
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+NameError: HiThere
+```
+
+> [[用户自定义异常|Python User-defined Exceptions]]
+
+!! 定义 clean-up actions
+
+try statement 还有一个可选的关键字 `finally`，通常用来做代码的清理工作。finally clause 永远都会被执行。在更多复杂的情况中：
+
+* 如果在 try 中抛出异常，并且没有在 except 中处理，那么在 finally 执行完毕以后会重新抛出异常。
+* 在 except 和 else clause 中也可能抛出异常，同样的，这些异常也会在 finally 执行后重新抛出。
+* 如果在 try 中包含 `break` `continue` 或者 `return` 语句，finally clause 会在这些语句之前执行。
+* 如果 finally 中包含 `return` 语句，则以这个 return 为准，而不是 try 中的 return。
+
+```python
+>>> def bool_return():
+...     try:
+...         return True
+...     finally:
+...         return False
+...
+>>> bool_return()
+False
+```
+
+!! 预定义的 clean-up 动作
+
+某些对象定义了不再需要该对象时要进行的标准清理工作，无论使用该对象的操作成功还是失败。
+
+```python
+for line in open("myfile.txt"):
+    print(line, end="")
+```
+
+这个代码的问题是打开了文件却没有在确定的时间内关闭。对于小脚本这样可能没问题，但是对于大型应用来说，这绝对是不允许的。`with` 可以用来确保类似文件这种对象的关闭。
+
+在执行操作时，无论是否出现错误，with 都会关闭文件。
+
+!! Reference
+---
+* [[office Docs|https://docs.python.org/zh-cn/3/tutorial/errors.html]]
+* 内置异常： https://docs.python.org/zh-cn/3/library/exceptions.html

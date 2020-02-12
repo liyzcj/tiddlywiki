@@ -1,0 +1,35 @@
+created: 20190803153401435
+creator: liyzcj
+modified: 20190828180138577
+modifier: liyzcj
+tags: Wikitext
+title: WikiText 代码块
+type: text/vnd.tiddlywiki
+
+三个反引号加上代码类型:
+
+<pre>
+&#96;&#96;&#96;python
+代码
+&#96;&#96;&#96;
+</pre>
+
+效果:
+
+```python
+print("Hello World`)
+```
+
+---
+
+支持的代码类型:
+
+|!支持的类型|<|<|<|
+| apache | bash | coffeescript | cpp |
+| cs | css | diff | http |
+| ini | java | javascript | json |
+| makefile | markdown | nginx | objectivec |
+| perl | php | python | ruby |
+| sql |<| xml |<|
+
+代码高亮需要代码高亮插件: $:/plugins/tiddlywiki/highlight

@@ -1,0 +1,30 @@
+created: 20190809191944692
+modified: 20190828174159195
+tags: 插件 Tmux
+title: tmux-mem-cpu-load
+type: text/vnd.tiddlywiki
+
+!! tmux-mem-cpu-load
+---
+
+在状态栏显示当前 cpu 使用百分比.
+
+https://github.com/thewtex/tmux-mem-cpu-load
+
+!! 安装
+
+使用 [[tpm]] 安装, 将插件添加到 `.tmux.conf`
+
+```bash
+set -g @plugin 'thewtex/tmux-mem-cpu-load'
+```
+
+!! 使用
+
+在状态栏变量中调用 `tmux-mem-cpu-load` 命令. 
+
+注意 :
+
+* 命令需要绝对路径
+* 注意设置 status 的长度
+* 刷新率需要和status 保持一致

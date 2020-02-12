@@ -1,0 +1,107 @@
+created: 20200131060253406
+modified: 20200131193715182
+title: Go Goroutines
+type: text/vnd.tiddlywiki
+
+! 并发 Goroutines 
+---
+
+<<<.tc-big-quote
+注意 Goroutine 并不是 OS 级别的线程，Goroutine 由 Go 调度器单独管理，是Go 实现的轻量线程。
+<<<
+
+Goroutines 是由 Go Runtime 管理的一个轻量的线程。使用 `go` 命令可以启动一个新的 Goroutine：
+
+```go
+go f(x, y, z)
+```
+
+> 函数 f 的求值发生在当前Goroutine，而函数 f 的执行发生在新的Goroutine。
+
+''所有的Goroutine运行在同一个地址空间，所以共享内存的访问一定是同步的。''
+
+!! Channels
+
+Channel 是一种并发专用的数据类型，可以在多个Goroutine中传递数据，从 Channel 中接收或者发送数据都使用操作符 `<-`:
+
+```go
+ch <- v    // 将 v 发送到 ch
+v := <-ch  // 从 ch 拿出赋值给 v
+```
+
+''数据朝着箭头的方向流动。''
+
+!!! 初始化
+
+channel 的初始化也是使用 `make()`
+
+```go
+ch := make(chan int)
+```
+
+> ''默认情况下，发送端和接收端会 block 直到另一端ready。'' 这样就可以实现多个 goroutines 之间的同步，并且不需要显式的进行加锁。
+
+!!! Buffered Channels
+
+channel 可以进行缓冲。`make()` 的第二个参数可以作为缓冲的大小：
+
+```go
+ch := make(chan int, 100)
+```
+
+发送端在发送数据到 channel 的时候，仅仅会当 channel 的''缓冲区满''了的时候才''会 block''。
+
+!!! Range 和 Close
+
+Channel 的发送端可以使用函数 `close()` 控制''关闭''这个 channel，而接收端可以根据第二个返回值判断 Channel 有没有被关闭：
+
+```go
+v, ok := <-ch
+```
+
+> `ok == false` 如果没有更多的值可以接收 && channel 被关闭了。
+
+接收端还可以使用 `range` 来从 channel 中重复的接收值：
+
+```go
+for i := range ch
+```
+
+> 注意，Channel 和文件不同，你''并不需要总是关闭一个 Channel''。
+> ''仅仅当接收端需要被告知没有更多的数据可以从 channel 中获取时，发送端才需要关闭 channel，''例如：结束一个 range 的循环。
+
+!! Select
+
+`select` statement 可以用来让 goroutine 与多个 channel 通信，并执行不同的操作。
+
+`select` 会'' block 直到某个 case 可以运行''，然后会运行那个 case。如果多个 case 同时准备好，则会''随机选择一个运行。''
+
+使用 `default` case 来进行发送或者接收操作，以避免 block。
+
+```go
+select {
+case i := <-ch:
+	// use i
+default:
+	// 当从 ch 中获取数据 block 时
+}
+```
+
+!! sync.Mutex
+
+虽然 channel 可以做到多个Goroutine之间的通信，但是有时候我们并不想在多个Goroutine之间传递数据，而是想让多个Goroutine访问同一个变量，但是''多个Goroutine访问同一个变量可能会造成 conflicts''。所以需要使用锁来控制Goroutine对变量的访问权限。
+
+Go 标准库提供了 `sync.Mutex` 和它的两个方法来解决冲突：
+
+* `Lock()`
+* `Unlock()`
+
+我们可以将互斥的代码块用 `Lock()` 和 `Unlock()` 包起来来解决。
+
+> 一个很好的方法是使用 [[Defer|Go Flow Control]] 来保证变量会在下一次被访问的时候被 `Unlock`。
+
+---
+
+有时候可能需要等待子Goroutine或者所有Goroutine结束：
+
+[[Go Wait Goroutines]]

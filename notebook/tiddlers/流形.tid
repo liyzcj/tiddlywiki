@@ -1,0 +1,13 @@
+created: 20190812195728582
+modified: 20190901150959425
+tags: Definitions
+title: 流形
+type: text/vnd.tiddlywiki
+
+Manifold
+
+---
+
+''高维空间中曲线, 曲面的扩展''. 一句话概括就是''高维度中的低维图形''.
+
+例如, 三维空间中的曲面是一个二维流形, 因为它的本质维度(intrinsic dimention) 只有 2. 同理, 三维或二维中的一条直线都是一个一维流形.

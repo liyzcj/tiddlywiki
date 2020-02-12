@@ -1,0 +1,70 @@
+created: 20191206153951757
+modified: 20191206164109836
+tags: Macos
+title: Macbook 2k 显示器打开 HiDPI
+type: text/vnd.tiddlywiki
+
+> https://www.smslit.top/2019/01/02/mac_hidpi/
+
+首先需要[[关闭SIP|Macbook SIP]], 配置完毕后最好再打开 SIP。
+
+!! 开启 ~HiDPI
+
+```bash
+sudo defaults write /Library/Preferences/com.apple.windowserver.plist DisplayResolutionEnabled -bool true
+```
+
+使用 read 查看是否写入成功：
+
+```bash
+sudo defaults read /Library/Preferences/com.apple.windowserver.plist DisplayResolutionEnabled
+```
+
+!! 获取显示器信息
+
+```bash
+ioreg -lw0 | grep IODisplayPrefsKey
+```
+
+># 外接显示器标记为 `AppleDisplay`
+># 内建显示器标记为 `AppleBacklightDisplay`
+
+
+`AppleDisplay` 的后面有两个十六进制数：
+
+# 前一个是 `DisplayVendorID`
+# 后一个是 `DisplayProductID`
+
+!! 创建显示配置文件
+
+[[这个网站|https://comsysto.github.io/Display-Override-PropertyList-File-Parser-and-Generator-with-HiDPI-Support-For-Scaled-Resolutions/]] 可以用来方便的构建显示器配置文件。
+
+将显示器名称以及上面获取到的 `DisplayVendorID` 和 `DisplayProductID` 填上以后，生成配置文件。
+
+然后创建 文件夹，命名为 `DisplayVendorID-5e3`, 其中 5e3 是上面的 `DisplayVendorID`：
+
+```bash
+mkdir DisplayVendorID-5e3
+```
+
+并将刚刚下载的配置文件放入文件夹，去掉后缀 plist
+
+```bash
+mv DisplayProductID-2790.plist DisplayVendorID-5e3/DisplayProductID-2790
+```
+
+最后将整个目录拷贝到系统文件夹下：
+
+```bash
+sudo mv DisplayVendorID-5e3 /System/Library/Displays/Contents/Resources/Overrides/
+```
+
+!! RDM 软件
+
+在安装完配置文件以后，最好再打开 SIP。
+
+最后安装软件 http://avi.alkalay.net/software/RDM/
+
+就可以修改分辨率配置，带有小闪电的是开启 ~HiDPI 的分辨率。
+
+> 注意，按照上面的方法修改完配置文件以后需要重启的，不然直接打开 RDM 软件可能只有 1920x1200 可以选择，那样屏幕两边就会有黑边

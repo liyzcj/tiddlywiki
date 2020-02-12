@@ -1,0 +1,14 @@
+created: 20190903054411348
+modified: 20190903060223974
+tags: sudo Config
+title: sudo 无密码使用
+type: text/vnd.tiddlywiki
+
+```bash
+user_name ALL=(ALL) NOPASSWD:ALL
+%group_name ALL=(ALL) NOPASSWD:ALL
+```
+
+!! Reference
+
+https://help.ubuntu.com/community/Sudoers

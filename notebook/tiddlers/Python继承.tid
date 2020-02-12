@@ -1,0 +1,17 @@
+caption: 继承
+created: 20190720174051342
+creator: liyzcj
+modified: 20190828182706171
+modifier: liyzcj
+tags: Concept
+title: Python继承
+type: text/vnd.tiddlywiki
+
+通过继承可以使得子类获得父类的方法与属性, 使得代码易于管理与扩展.
+
+Python 可以实现多继承, 即继承多个类. 当继承多个类时, 调用时有两种搜索方式, 一种时 深度优先 , 一种是 广度优先 .
+
+> 💡 父类与子类也叫做基类与派生类.
+
+* 经典类按照深度优先搜索.
+* 新式类按照广度优先搜索.

@@ -1,0 +1,55 @@
+created: 20190803165706198
+creator: liyzcj
+modified: 20190828184442572
+modifier: liyzcj
+tags: Wikitext
+title: WikiText 图片
+type: text/vnd.tiddlywiki
+
+!! 内核
+
+插入图片语法:
+
+```
+[img[Motovun Jack.jpg]]
+[img[http://tiddlywiki.com/favicon.ico]]
+```
+
+也可以指定图片提示:
+
+```
+[img[一个解释性的提示|Motovun Jack.jpg]]
+```
+
+或着 CSS 类或者图片宽度:
+
+```
+[img width=32 [Motovun Jack.jpg]]
+[img width=32 class="tc-image" [Motovun Jack.jpg]]
+```
+
+<<<
+
+注意图片属性可以指定为 [[WikiText 引文]] 或者 [[WikiText 变量]]:
+
+```
+[img width={{!!mywidth}} class=<<image-classes>> [Motovun Jack.jpg]]
+```
+
+<<<
+
+
+!! 额外插件
+
+安装了两个小插件来进行更多的图片格式控制:
+
+* [[floating-image-css]] 图片中的类
+* [[floating-image-macros]] 图片宏
+
+插入时可以使用宏:
+
+```
+<<image-center "CircleJack.svg" caption:"centered image" width:"50%">>
+<<image-left "CircleJack.svg">>
+<<image-right "CircleJack.svg">>
+```

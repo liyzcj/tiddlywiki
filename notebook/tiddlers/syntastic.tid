@@ -1,0 +1,9 @@
+created: 20190809200045389
+modified: 20190828173943056
+tags: 插件 Vim
+title: syntastic
+type: text/vnd.tiddlywiki
+
+自动检查代码语法插件.
+
+https://github.com/vim-syntastic/syntastic

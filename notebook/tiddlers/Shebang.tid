@@ -1,0 +1,26 @@
+created: 20190830100814281
+modified: 20190830101343147
+tags: Python Linux Shell编程
+title: Shebang
+type: text/vnd.tiddlywiki
+
+在计算机中，Shebang 又称为 Hashbang，是由 `#!` 开头的字符序列，在文本文件的第一行。
+
+
+!! shell 编程
+
+shell 编程中，shebang 用来指定脚本的运行指令，最好的方法是：
+
+> https://stackoverflow.com/questions/10376206/what-is-the-preferred-bash-shebang
+
+```bash
+#!/usr/bin/env bash
+```
+
+!! Python
+
+在 Python 脚本中，一样可以指定脚本的执行命令：
+
+```python
+#!/usr/bin/env python
+```

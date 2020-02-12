@@ -1,0 +1,50 @@
+created: 20200121025820838
+modified: 20200121031610139
+tags: Python Pandas
+title: Pandas Options
+type: text/vnd.tiddlywiki
+
+! Pandas Options
+
+Pandas 可以使用 `pandas.set_option()` 函数来进行一些配置：
+
+* compute.[use_bottleneck, use_numexpr]
+* display.[chop_threshold, colheader_justify, column_space, date_dayfirst, date_yearfirst, encoding, expand_frame_repr, float_format]
+* display.html.[border, table_schema, use_mathjax]
+* display.[large_repr]
+* display.latex.[escape, longtable, multicolumn, multicolumn_format, multirow, repr]
+* display.[max_categories, max_columns, max_colwidth, max_info_columns, max_info_rows, max_rows, max_seq_items, memory_usage, min_rows, multi_sparse, notebook_repr_html, pprint_nest_depth, precision, show_dimensions]
+* display.unicode.[ambiguous_as_wide, east_asian_width]
+* display.[width]
+* io.excel.ods.[reader]
+* io.excel.xls.[reader, writer]
+* io.excel.xlsm.[reader, writer]
+* io.excel.xlsx.[reader, writer]
+* io.hdf.[default_format, dropna_table]
+* io.parquet.[engine]
+* mode.[chained_assignment, sim_interactive, use_inf_as_na, use_inf_as_null]
+* plotting.[backend]
+* plotting.matplotlib.[register_converters]
+
+!! 常用 Option
+
+!!! 显示
+
+显示行数目（`None` 代表所有）：
+
+```python
+pd.set_option('max_columns', None)
+```
+
+显示列数目（`None` 代表所有）：
+
+```python
+pd.set_option('max_rows', None)
+```
+
+每列宽度：
+
+```python
+# 默认50
+pd.set_option('max_colwidth', 100)
+```

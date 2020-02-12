@@ -1,0 +1,10 @@
+created: 20190809201724264
+modified: 20190828174041438
+tags: Git 插件 Vim
+title: vim-fugitive
+type: text/vnd.tiddlywiki
+
+[[vim-airline]] 的依赖, git 命令的 wrapper. 方便的在 vim 中使用 git.
+
+
+https://github.com/tpope/vim-fugitive

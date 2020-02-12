@@ -1,0 +1,19 @@
+created: 20191201155913176
+modified: 20191213073700851
+tags: Python
+title: Python God
+type: text/vnd.tiddlywiki
+
+! God
+
+这是一个我自己的 Module，里面包含我所有的常用的与不常用的 Python 函数等等。
+
+> 因为我觉得一个有经验的程序员不仅仅要靠理解与编程，还要积累下属于自己的代码仓库，避免重复造轮子。所以我决定在学习每一个新的编程语言的时候都要创建这样一个 Package，想想当自己使用的时候 `from god import ...` 肯定很爽哈哈。
+
+这个题条用来记录 Python 的 God Packge。
+
+!! 20191202 Born
+
+<<<.tc-big-quote
+God Said：Let there be light！
+<<<

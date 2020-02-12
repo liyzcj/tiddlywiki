@@ -1,0 +1,9 @@
+created: 20190809201516495
+modified: 20190828174011208
+tags: 插件 Vim
+title: auto-pairs
+type: text/vnd.tiddlywiki
+
+自动符号匹配插件, 可以自动匹配括号等成对的符号.
+
+https://github.com/jiangmiao/auto-pairs

@@ -1,0 +1,13 @@
+created: 20191127072913534
+modified: 20200110050452430
+tags: Linux
+title: bash startup process
+type: text/vnd.tiddlywiki
+
+[img[https://s2.ax1x.com/2019/11/27/Q9B3ex.png]]
+
+`/etc/profile` 只有在 login shell 的时候才会被执行。
+
+如果要在 interactive 的 non-login shell 中执行命令，可以使用 `.bashrc` 和 `/etc/bash.bashrc` 
+
+> https://askubuntu.com/questions/247738/why-is-etc-profile-not-invoked-for-non-login-shells

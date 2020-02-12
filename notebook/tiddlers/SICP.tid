@@ -1,0 +1,23 @@
+created: 20200206072127642
+modified: 20200206073108244
+tags: TODO Summary
+title: SICP
+type: text/vnd.tiddlywiki
+
+! SICP
+---
+
+《SICP: Structure and Interpretation of Computer Programs》
+
+《计算机程序的构造和解释》是一本关于计算机程序设计的总体观念性教科书。由麻省理工教授编写，是麻省理工计算机的头牌课程。
+
+原书采用 Lisp 的方言 Scheme 来解释计算机的核心概念，包括抽象、递归、解释器以及元语言的抽象。
+
+---
+
+!! 改编
+
+SICP 后经过改编使用 Python 语言，整体概念与原书一致。
+
+> 改编后的课本可以在[[该网站|http://composingprograms.com/about.html]]阅读，网站内还有 [[CS 61A|https://cs61a.org/]] 课程的链接。
+

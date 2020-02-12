@@ -1,0 +1,19 @@
+created: 20190709163842086
+creator: liyzcj
+modified: 20190828171651149
+modifier: liyzcj
+tags: Software Windows
+title: UninstallTool
+type: text/vnd.tiddlywiki
+
+!! Uninstall Tool
+
+能够将软件卸载的更加完全的软件.
+
+官方网站: https://www.crystalidea.com/uninstall-tool
+
+绿色便携版本: https://www.nocmd.com/432.html
+
+!!! 安装
+
+绿色版本, 直接解压即可使用. 但是如果需要安装追踪功能, 则需要右键 `/x86/CisUtMonitor.inf` 并点击安装.

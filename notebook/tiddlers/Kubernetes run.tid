@@ -1,0 +1,12 @@
+created: 20191213105911167
+modified: 20191213111031209
+tags: Kubernetes
+title: Kubernetes run
+type: text/vnd.tiddlywiki
+
+! Kubernetes run
+---
+
+```bash
+kubectl run <name> --image=<image> --namespace <ns> --rm -it --command -- <command> [args]
+```

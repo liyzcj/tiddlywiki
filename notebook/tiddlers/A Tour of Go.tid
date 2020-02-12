@@ -1,0 +1,44 @@
+created: 20200112151630336
+modified: 20200211065727962
+tags: Go Tutorial
+title: A Tour of Go
+type: text/vnd.tiddlywiki
+
+> https://tour.golang.org/welcome/1
+
+!! 离线版本
+
+```shell
+go get golang.org/x/tour
+```
+
+这会增加 `tour` 命令到 `GOBIN` 中。
+
+---
+
+网络原因，没法从官网 get 应用的话，可以从 Github 手动安装：
+
+```shell
+go get github.com/golang/tour
+```
+
+下载完毕后需要将应用改为官方的 import 路径，否则编译后会无法导入
+
+```shell
+mv $GOPATH/src/github.com/golang/tour $GOPATH/src/golang.org/x/tour
+```
+
+然后切换到源码目录进行安装就行了：
+
+```shell
+cd $GOPATH/src/golang.org/x/tour
+go install
+```
+
+然后就可以使用 `tour` 命令打开离线版本。
+
+---
+
+''Tour 中主要讲了 golang 的基本语法和基本特性。 总结如下：''
+
+[[Go]]

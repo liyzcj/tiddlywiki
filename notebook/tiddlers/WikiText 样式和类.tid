@@ -1,0 +1,69 @@
+created: 20190803183157688
+creator: liyzcj
+modified: 20190828180136431
+modifier: liyzcj
+tags: Wikitext
+title: WikiText 样式和类
+type: text/vnd.tiddlywiki
+
+使用 `@@` 分配样式与类:
+
+---
+
+类:
+
+```
+@@.myClass.red
+assign classes using double @
+@@
+```
+
+---
+
+样式:
+
+```
+@@color:darkorange; apply styles directly @@
+```
+@@color:darkorange; apply styles directly @@
+
+---
+
+
+结合样式与类:
+
+```
+@@.red
+@@border:1px solid blue;
+combine classes and styles 
+@@
+```
+
+@@.red
+@@border:1px solid blue;
+combine classes and styles 
+@@
+
+---
+
+使用 `<style>` HTML 标识:
+
+```
+@@.purple Use style tags. @@ – Is it purple?
+
+<style>
+.purple{color:purple;}
+</style>
+```
+
+@@.purple Use style tags. @@ – Is it purple?
+
+<style>
+.purple{color:purple;}
+</style>
+
+<style>
+.red {
+   color: red;
+}
+</style>

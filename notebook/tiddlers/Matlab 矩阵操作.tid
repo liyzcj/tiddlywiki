@@ -1,0 +1,33 @@
+created: 20190805175619607
+creator: liyzcj
+modified: 20190828180444055
+modifier: liyzcj
+tags: Matlab
+title: Matlab 矩阵操作
+type: text/vnd.tiddlywiki
+
+! 矩阵操作
+---
+
+!! 寻找最大值
+
+```matlab
+[a,b] = find(matrix == min(min(matrix)));
+% or
+[a,b] = find(matrix == min(matrix(:)));
+```
+
+!! APPEND 数组添加值
+
+```matlab
+array = [array a];
+```
+
+!! 限制矩阵内的值
+
+将矩阵的值限制在(min,max)内。
+
+```matlab
+m(m > max) = max;
+m(m < min) = min;
+```

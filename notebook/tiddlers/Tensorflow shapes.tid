@@ -1,0 +1,27 @@
+created: 20191201162545120
+modified: 20191201164149834
+tags: Tensorflow Python
+title: Tensorflow shapes
+type: text/vnd.tiddlywiki
+
+
+Tensorflow 中有两种 shape，一种是 static shape，也叫 inferred shape，因为它是根据你定义的 OP 推理出来的，这个 shape 用来构建静态图的时候使用；第二种是 dynamic shape，是运行时的一个 Tensor 真正的 shape。
+
+!! `tf.shape()` and `tensor.get_shape()`
+
+区分 Tensorflow 的 `tf.shape()` 以及 `tensor.get_shape()` 方法
+
+* `tf.shape()` 返回的是 dynamic shape，所以这个方法只能在 Session 中才能调用。
+
+* `Tensor.get_shape()` 返回的是 static shape，所以在任何时候都可以调用。
+
+Tensorflow 中一些 OP 是无法推导出返回的 shape的，所以 static shape 不是总能获取到。
+
+!! `tf.reshape()` and `Tensor.set_shape()`
+
+这两个方法的区别和上面的类似：
+
+* `tf.reshape()` 是在 Session 内执行的，会创建一个不同于 dynamic shape 的新的 Tensor。
+
+* `Tensor.set_shape()` 是用来更新 Tensor 的 static shape 的
+

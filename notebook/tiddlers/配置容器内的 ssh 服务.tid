@@ -1,0 +1,40 @@
+created: 20190905034522322
+modified: 20190905034921615
+tags: SSH Docker
+title: 配置容器内的 ssh 服务
+type: text/vnd.tiddlywiki
+
+! UBUNTU
+---
+
+# 安装 ssh server： <div>
+
+```bash
+apt-get install -y openssh-server
+```
+
+</div>
+
+# 修改默认监听端口： <div>
+
+```bash
+sed -i "s#\\#\(Port\) 22\S*#\1 8922#g" /etc/ssh/sshd_config
+```
+
+</div>
+
+# 创建运行文件夹：<div>
+
+```bash
+mkdir -p /var/run/sshd
+```
+
+</div>
+
+# 打开服务：<div>
+
+```dockerfile
+CMD ["/usr/sbin/sshd", "-D"]
+```
+
+</div>

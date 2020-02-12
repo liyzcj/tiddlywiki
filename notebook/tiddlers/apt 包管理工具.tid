@@ -1,0 +1,40 @@
+created: 20190804193747627
+creator: liyzcj
+modified: 20191010030719827
+modifier: liyzcj
+tags: Linux Command
+title: apt 包管理工具
+type: text/vnd.tiddlywiki
+
+! apt 包管理
+
+----
+
+|!命令|!功能|
+|apt install|安装包|
+|apt remove|删除包|
+|apt purge|删除包与配置文件|
+|apt update|更新仓库|
+|apt upgrade|更新所有包|
+|apt autoremove|删除无用包|
+|apt full-upgrade|升级并处理依赖|
+|apt search|搜索一个包|
+|apt show|显示包详细信息|
+|apt list|列出包|
+|apt edit-sources|编辑仓库源|
+
+!! 常用命令:
+
+列出已安装包:
+
+```bash
+apt list --installed
+```
+
+!! 修改镜像源
+
+Ubuntu:
+
+```bash
+sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+```

@@ -1,0 +1,27 @@
+caption: 面向对象
+created: 20190719224154076
+creator: liyzcj
+modified: 20190828184314220
+modifier: liyzcj
+tags: Concept Python
+title: Python 面向对象
+type: text/vnd.tiddlywiki
+
+Python 既可以面向过程编程, 也可以面向对象编程. 面向对象编程可以实现面向过程无法实现的功能. 所以应该偏向于利用面向对象的思想.
+
+> Python 中有两种类, ''经典类'' 与 ''新式类''. 新式类比经典类的属性和用法都更丰富. 新式类 在 Python2.2 版本引入.
+
+> 💡 Python 2 中, 显式继承 `object` 的都是新式类, 否则是经典类. Python 3 中所有的类都是新式类.
+
+---
+
+面向对象三大经典法则:
+
+* [[封装|Python封装]]
+* [[继承|Python继承]]
+* [[多态|Python多态]]
+
+其他:
+
+* [[元类|Python Meta Class]]
+* [[特殊属性与方法|Python 特殊属性方法]]

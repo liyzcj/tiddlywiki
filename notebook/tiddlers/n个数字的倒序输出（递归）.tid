@@ -1,0 +1,47 @@
+created: 20191117143515682
+modified: 20191117144031355
+tags: 算法
+title: n个数字的倒序输出（递归）
+type: text/vnd.tiddlywiki
+
+!! 题目
+
+输入 n 个数字，按回车结束，结束后将这些数组按照逆序输出。要求题目使用递归实现。
+
+```python
+def pr_func():
+    a = input()
+    if  a == '5':
+        print(a)
+        return
+    pr_func()
+    print(a)
+    return
+```
+
+由于 Python 每次输入都是以回车作为结束，所以不知道如何判断输入的回车，这里用字符 5 代替。
+
+```cpp
+#include<stdio.h>
+
+int pr_func();
+
+
+int main(){
+    pr_func();
+    return 0;
+}
+
+int pr_func(){
+    int a;
+    scanf("%d", &a);
+    char c = getchar();
+    if (c == '\n' ){
+        printf("%d", a);
+        return 0;
+    }
+    pr_func();
+    printf("%d", a);
+    return 0;
+}
+```

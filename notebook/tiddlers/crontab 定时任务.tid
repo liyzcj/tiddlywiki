@@ -1,0 +1,30 @@
+created: 20190805162205245
+creator: liyzcj
+modified: 20190826154237947
+modifier: liyzcj
+tags: Linux Command
+title: crontab 定时任务
+type: text/vnd.tiddlywiki
+
+! 定时命令
+---
+
+显示定时任务:
+
+```bash
+crontab -l
+```
+
+编辑定时任务:
+
+```bash
+crontab -e
+```
+
+使用命令添加定时任务:
+
+```bash
+crontab -l > conf && echo "定时任务" >> conf && crontab conf && rm -r conf
+```
+
+> 将定时任务保存到 `conf` ---> 添加定时任务到 `conf` ---> 将 `conf` 设置为定时任务 ---> 删除 `conf`

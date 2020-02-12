@@ -1,0 +1,27 @@
+created: 20190923140240786
+modified: 20190923140914638
+tags: Tensorflow
+title: SparseTensor 相关
+type: text/vnd.tiddlywiki
+
+!! 将 Dense 矩阵转换为稀疏矩阵：
+
+```python
+def dense_to_sparse(dense):
+	zero = tf.constant(0, dtype=tf.float32)
+	where = tf.not_equal(dense, zero)
+	indices = tf.where(where)
+	values = tf.gather_nd(dense, indices)
+	return tf.SparseTensor(indices, values, dense.shape)
+```
+
+> 注意， `dense.shape` 形状里不能有不确定形状，比如 Batch size， 如果需要可以手动指定。
+
+
+---
+
+!! 稀疏矩阵到dense 矩阵
+
+```python
+tf.sparse.to_dense(Sparsetensor)
+```

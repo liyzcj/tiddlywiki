@@ -1,0 +1,38 @@
+created: 20191208090502382
+modified: 20191208091254203
+tags: Git
+title: git delete submodule
+type: text/vnd.tiddlywiki
+
+! Git 删除 submodule
+---
+
+# deinit submodule, 反初始化，也就是从 config 中删除对应信息。<div>
+
+```bash
+git submodule deinit module_name
+```
+
+</div>
+
+# 从  `.gitmodules` 文件删除对应 submodule, 并 stage `.gitmodules` 文件。 <div>
+
+> 如果要删除所有 submodule， 使用: <div>
+
+```bash
+git rm -f .gitmodules
+```
+
+</div>
+
+</div>
+
+#  从 `.git/modules/` 文件夹中删除对应module：<div>
+
+```bash
+rm -rf .git/modules/module_name
+```
+
+</div>
+
+# 提交 Commit

@@ -1,0 +1,105 @@
+created: 20191215113419333
+modified: 20200120073505699
+tags: Python
+title: Python unittest
+type: text/vnd.tiddlywiki
+
+! unittest
+---
+
+Unittest 是 Python 内建的标准的编写 unittest 的包。
+
+!! 基础用法
+
+如果直接执行，可以在 Python 执行：
+
+```python
+if __name__ == '__main__':
+	unittest.main()
+```
+
+除此之外，还可以在命令行中执行：
+
+```bash
+python -m unittest -v test
+```
+
+> `-v` means verbose.
+
+查找 test
+
+```bash
+python -m unittest discover
+```
+
+使用 `-s` 指定文件夹：
+
+```bash
+python -m unittest discover -s tests
+```
+
+`-t` 指定运行文件夹
+
+```bash
+python -m unittest discover -s tests -t src
+```
+
+!! 高级用法
+
+!!! 跳过指定的 test
+
+```python
+@unittest.skip("Skip message")
+def test_func(self):
+	pass
+```
+
+```python
+@unittest.skip("Skip message")
+class TestCase1(unittest.TestCase):
+	pass
+```
+
+!!! assertion
+
+unittest 提供了许多实用的  assertion 方法。
+
+
+|!Method|!Equivalent to|
+|.assertEqual(a, b)	|a == b|
+|.assertTrue(x)	|bool(x) is True|
+|.assertFalse(x)	|bool(x) is False|
+|.assertIs(a, b)	|a is b|
+|.assertIsNone(x)	|x is None|
+|.assertIn(a, b)	|a in b|
+|.assertIsInstance(a, b)	|isinstance(a, b)|
+
+> 完整列表： https://docs.python.org/3/library/unittest.html#assert-methods
+
+
+!!! test logging
+
+Python 3.4+， unittest 加入了测试 logging 使用的方法：
+
+```python
+with self.assertLogs('foo', 'INFO') as cm:
+	logging.getLogger('foo').info('test info')
+	self.assertEqual(cm.output, ['INFO:foo:test info'])
+```
+
+
+!!! 测试初始化与清理
+
+测试可以通过 `setUp()` 方法进行初始化一些测试环境，并且可以在 `tearDown()` 方法中进行环境的清理。
+
+```python
+class SomeCase(unittest.TestCase):
+
+	def setUp(self):
+		start_something()
+		
+	def tearDown(self):
+		stop_something()
+```
+
+> 需要注意的是，''如果 `setUp()` 方法中抛出异常，unittest 是无法执行到 `tearDown()` 方法的。'' 这种情况可以使用 `addCleanup()` 方法，来增加需要执行的清理函数。案例见 [[Python mock doc]]

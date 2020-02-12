@@ -1,0 +1,16 @@
+created: 20190907073638625
+modified: 20190907074320328
+tags: 机器学习 算法 系列 TODO
+title: FM 系列算法
+type: text/vnd.tiddlywiki
+
+FM (Factorization Machines) 最早由 Steffen Rendle 于2010 年在 ICDM 上提出, 是一种通用的预测方法。算法在稀疏数据上的效果较好，因此引起许多学者的研究，对算法进行了不同程度的改进，衍生出了一系列算法。
+
+这一系列算法主要包括：
+
+* [[FM|分子分解机 FM]]
+* [[FFM| Field FM]]
+* [[Deep FM]]
+* [[NFM|Neural FM]]
+* [[AFM|Attentional FM]]
+

@@ -1,0 +1,37 @@
+created: 20190722200711511
+creator: liyzcj
+modified: 20190828181328053
+modifier: liyzcj
+tags: Issue Windows Python
+title: Python 2 与 Python 3 共存
+type: text/vnd.tiddlywiki
+
+! Python 2 3 共存
+
+---
+
+# 首先将 Python2 与 Python3 安装到不同目录.
+# 将Python2 与 Python3 的安装目录都添加到 PATH, 包括安装目录与脚本目录. <div>
+
+例如:
+
+```bash
+C:\Program Files\Python27\;
+C:\Program Files\Python27\Scripts;
+```
+</div>
+
+# 修改其中一个版本的名字. <div>
+
+例如将 Python2 的 ''`python.exe` 修改为 `python2.exe`''. 然后将 Scripts 文件夹的 `pip.exe` 删除.
+
+</div>
+
+
+---
+
+💡 安装两个版本时, Python2 的根目录可能会没有 Scripts 文件夹, 导致无法使用 `pip`. 这时候只要运行:
+
+```bash
+python2 -m ensurepip
+```

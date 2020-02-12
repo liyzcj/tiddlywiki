@@ -1,0 +1,36 @@
+created: 20190805191831504
+creator: liyzcj
+modified: 20190919081044354
+modifier: liyzcj
+tags: Python 语法
+title: Python dict 操作
+type: text/vnd.tiddlywiki
+
+!! 增加元素时自动创建字典
+
+有时候需要增加一个元素到新的字典中, 可以使用 `try ... except ...` 语法:
+
+```python
+dict = {}
+try:
+    dict[key].append(value)
+except:
+    dict[key] = [value]
+```
+
+!! 字典字符串相互转换
+
+字典转换为字符串：
+
+```python
+str(dictory)
+```
+
+字符串转换为字典：
+
+```python
+import ast
+ast.literal_eval("{'some': 'string'}")
+```
+
+> `eval()` 也可以得到相同的效果，不过建议使用 `ast.literal_eval()` ，详情见：[[Python eval 与 ast.literal_eval]]

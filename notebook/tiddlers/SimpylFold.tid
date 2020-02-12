@@ -1,0 +1,9 @@
+created: 20190809195650783
+modified: 20190828173911803
+tags: 插件 Vim
+title: SimpylFold
+type: text/vnd.tiddlywiki
+
+代码自动折叠插件. 按 `space` 键折叠与打开.
+
+https://github.com/tmhedberg/SimpylFold

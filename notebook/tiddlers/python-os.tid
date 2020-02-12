@@ -1,0 +1,54 @@
+caption: os
+created: 20190629215216423
+creator: liyzcj
+modified: 20190828182752010
+modifier: liyzcj
+tags: Python
+title: python-os
+type: text/vnd.tiddlywiki
+
+!! Python OS 模组
+---
+
+<<<.tc-big-quote
+系统级的接口
+<<<
+
+```python
+import os
+```
+
+!!! 文件或文件夹
+
+* 创建文件夹: <div>
+
+```python
+os.mkdir(path, mode=0777) # 非递归
+os.makedirs(path, mode=0777) # 递归
+```
+</div>
+
+* 连接目录: <div>
+
+```python
+os.path.join(path, *args)
+```
+</div>
+
+* 判断文件或着目录是否存在: <div>
+
+```python
+os.path.exists(path)
+```
+</div>
+
+!!! 其他
+
+* 运行系统指令: <div>
+
+```python
+os.system(command) # 不返回信息
+result = os.popen(command) # 返回输出信息
+print(result.read())
+```
+</div>

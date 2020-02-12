@@ -1,0 +1,646 @@
+created: 20190926083702955
+modified: 20200117025006614
+tags: Survey 软件开发 Python
+title: logging 模块
+type: text/x-markdown
+
+
+# logging
+
+
+
+## 什么时候使用 logging
+
+
+
+| Task you want to perform                                     | The best tool for the task                                   |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 简单输出到命令行，用于简单命令行脚本或程序                   | `print()`                                                    |
+| 报告程序正常运行期间发生的事件，用于状态或故障检查           | `logging.info()`  （`logging.debug()`用于排除故障的详细输出） |
+| 发出有关特定事件的警告                                       | `warning.warn()` 在库代码中，如果可以修改客户端程序而避免出现这个问题，则应该修改客户端应用程序。<br />`logging.warning()` 库代码中的警告，修改客户端也无济于事的时候。 |
+| 报告有关特定事件的一个错误                                   | Raise 一个 Exception                                         |
+| 报告一个错误而不引发异常（例如长时间运行的服务器进程中的错误处理） | `logging.error()` `logging.exception()` `logging.critical()` 适用于不同的错误等级 |
+
+
+
+日志级别和使用顺序：
+
+| 日志级别 | 描述                                                     | 数值 |
+| -------- | -------------------------------------------------------- | ---- |
+| NOTSET   | 未设置                                                   | 0    |
+| DEBUG    | 详细信息，往往在诊断程序时才显示                         | 10   |
+| INFO     | 日常信息，确认程序运行正常                               | 20   |
+| WARNING  | 发生了意外情况，或者程序将来会出问题（例如磁盘即将不足） | 30   |
+| ERROR    | 由于存在严重错误，程序无法执行某些功能                   | 40   |
+| CRITICAL | 严重错误，程序本身不能继续运行                           | 50   |
+
+
+
+> logging 的默认级别为 WARNING， 代表只有 WARNING 和更高级别的日志会被记录。
+>
+> 记录日志可以选择不同的方式，最常见的方式是打印到控制台或者写入文件，logging 提供了多个 Handler 来进行不同的处理，例如发送邮件到某个地址。
+
+
+
+## logging 框架解析
+
+### logging 记录流程
+
+![](https://docs.python.org/3.7/_images/logging_flow.png)
+
+### logging 代码架构
+
+![](https://s2.ax1x.com/2019/10/12/uLZfbV.png)
+
+## 初级实例代码
+
+
+
+### 最简单实例
+
+直接使用 root Logger 记录日志：
+
+> logging 的 Logger 对象是层级的，默认存在的同时也是所有 Logger 的根节点即 root Logger。
+
+```python
+import logging
+logging.warning('Watch out!')  # will print a message to the console
+logging.info('I told you so')  # will not print anything
+```
+
+输出：
+
+```
+WARNING:root:Watch out!
+```
+
+> 由于默认的 日志 level 是 Warning，所以 info 日志不会显示
+
+### 
+
+### 输出到文件
+
+将日志输出到文件是比较常见的场景。
+
+```python
+import logging
+logging.basicConfig(filename='example.log',level=logging.DEBUG)
+logging.debug('This message should go to the log file')
+logging.info('So should this')
+logging.warning('And this, too')
+```
+
+现在 example.log 里包含如下信息：
+
+```
+DEBUG:root:This message should go to the log file
+INFO:root:So should this
+WARNING:root:And this, too
+```
+
+basicConfig 内可以设置日志的 level，但是接受的需要是 logging 的属性（例如 logging.DEBUG, 其实这里面是一个整数，代表日志的级别），如果要在命令行指定日志信息，则可以采用如下方法获取 logging 属性：
+
+```python
+getattr(logging, loglevel.upper())
+```
+
+> 这里的 loglevel 即通过命令行传递进来的参数。
+
+完整示例如下：
+
+```python
+# assuming loglevel is bound to the string value obtained from the
+# command line argument. Convert to upper case to allow the user to
+# specify --log=DEBUG or --log=debug
+numeric_level = getattr(logging, loglevel.upper(), None)
+if not isinstance(numeric_level, int):
+    raise ValueError('Invalid log level: %s' % loglevel)
+logging.basicConfig(level=numeric_level, ...)
+```
+
+> 注意 basicConfig 的设置应该在写入任何日志之前，这样写入的日志才会根据 basicConfig 进行配置。
+
+如果想要每次运行都重新生成日志，而不是在 example.log 中append 日志，可以使用 `filemode` 参数：
+
+```python
+logging.basicConfig(filename='example.log', filemode='w', level=logging.DEBUG)
+```
+
+### 多个 module 的日志
+
+当一个项目包含多个 module，如果每个module 中都使用 root Logger，则所有module 的日志都会输出到指定日志文件。
+
+```python
+# myapp.py
+import logging
+import mylib
+
+def main():
+    logging.basicConfig(filename='myapp.log', level=logging.INFO)
+    logging.info('Started')
+    mylib.do_something()
+    logging.info('Finished')
+
+if __name__ == '__main__':
+    main()
+```
+
+```python
+# mylib.py
+import logging
+
+def do_something():
+    logging.info('Doing something')
+```
+
+运行 myapp.py，则得到如下结果：
+
+```
+INFO:root:Started
+INFO:root:Doing something
+INFO:root:Finished
+```
+
+> 记录多个 module 日志的最好的方法是使用多个 并按层级划分，是的记录的 日志可以包含日志的来源，更加方便和合理。参考 [Advanced Logging Tutorial](https://docs.python.org/3/howto/logging.html#logging-advanced-tutorial).
+
+### logging 中带有变量
+
+
+
+logging 使用 `format()` 函数实现在日志中记录变量：
+
+```python
+import logging
+logging.warning('%s before you %s', 'Look', 'leap!')
+```
+
+% 风格的变量替换是因为版本兼容，新的format 类型同样也支持。参考 [Using particular formatting styles throughout your application](https://docs.python.org/3/howto/logging-cookbook.html#formatting-styles)。
+
+
+
+### 修改日志的格式
+
+
+
+要改变日志的格式，需要指定所用的格式：
+
+```python
+import logging
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+logging.debug('This message should appear on the console')
+logging.info('So should this')
+logging.warning('And this, too')
+```
+
+
+
+记录的结果将是：
+
+```
+DEBUG:This message should appear on the console
+INFO:So should this
+WARNING:And this, too
+```
+
+参考 [LogRecord attributes](https://docs.python.org/3/library/logging.html#logrecord-attributes)来设置日志的 format。
+
+
+
+### 在日志中显示日期和时间
+
+
+
+要显示日期和时间，只需要在 format 中加入 `%(asctime)s` ：
+
+```python
+import logging
+logging.basicConfig(format='%(asctime)s %(message)s')
+logging.warning('is when this event was logged.')
+```
+
+结果如下：
+
+```
+2010-12-12 11:41:42,612 is when this event was logged.
+```
+
+如果想要自定义时间显示的格式则可以使用 `datefmt` 参数：
+
+```python
+import logging
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+logging.warning('is when this event was logged.')
+```
+
+结果如下：
+
+```
+12/12/2010 11:46:36 AM is when this event was logged.
+```
+
+> 日期与时间的格式设置可以参考：[`time.strftime()`](https://docs.python.org/3/library/time.html#time.strftime)。
+
+
+
+## 进阶使用教程
+
+### 多层级的 Logger 实例
+
+logging 库采用模块化的方法，并且提供了几个组件：loggers, handlers, filters, 和 formatters
+
+* logger 暴露了 应用直接使用的接口；
+* handler 将 log 日志发送到指定位置；
+* filter 对日志进行过滤；
+* formatter 指令了日志的输出格式。
+
+每个日志或者事件作为一个 LogRecord 在这些组件中传递。
+
+日志通过 Logger() 的实例进行记录，每个实例都有一个名称，命名是一个层级的命名空间，并且以 `.` 作为一个分隔符。例如名字叫做 `scan` 的 Logger 是名字叫做 `scan.text` 的Logger 的父 Logger。
+
+> Logger 名称可以是您想要的任何名称，并指示记录消息来源的应用程序区域。
+
+最好的方法是使用模块级的 Logger ，每个模块都有一个 Logger，这可以方便的由如下代码实现：
+
+```python
+logger = logging.getLogger(__name__)
+```
+
+这样的好处是可以直接 从logger 的名字看出 log 的来源，并且是和代码有着相同的层级结构，因为在 module 中，`__name__` 正好是以 `.` 连接的当前module 的层级。
+
+Logger 的根 logger 叫做 root logger，在输出中，名称就是 root。logging 中的函数都是暴露的这个 Logger，例如 `logging.DEBUG`。
+
+
+
+### 多个 Handler 的配置
+
+
+
+logging 可以将一条 log 发送至多个目标，例如文件，HTTP GET/POST，邮件，sockets 等等。不同的目标通过不同的 Handler 实现，如果有特殊需求，也可以自定义自己的 Handler。
+
+默认情况下，一个 Logger 没有设置任何的 Handler，也就是没有设置任何发送目标。这时候所有的日志都会发送到 console 控制台，并且使用默认的 format。
+
+> 可以通过 basicConfig 指定一个目标或者设置format。
+
+
+
+### Logger 组件
+
+
+
+Logger 对象有三个任务：
+
+* 首先会暴露一些方法以供应用来进行 log 记录；
+* 根据 loglevel 再根据 filter 来决定什么日志会被记录；
+* 最后将相关日志传递给所有设置的 Handler 中。
+
+Logger 最常用的方法有两种：配置和消息发送。
+
+#### 常用配置方法
+
+* [`Logger.setLevel()`](https://docs.python.org/3/library/logging.html#logging.Logger.setLevel) 指定记录日志的最低级别；
+* [`Logger.addHandler()`](https://docs.python.org/3/library/logging.html#logging.Logger.addHandler) and [`Logger.removeHandler()`](https://docs.python.org/3/library/logging.html#logging.Logger.removeHandler) 增加或删除 Handler；
+* [`Logger.addFilter()`](https://docs.python.org/3/library/logging.html#logging.Logger.addFilter) and [`Logger.removeFilter()`](https://docs.python.org/3/library/logging.html#logging.Logger.removeFilter) 增加或删除 Filter。
+
+#### log 记录
+
+当实例了一个 Logger 对象以后，就可以使用该对象的方法来记录日志：
+
+- [`Logger.debug()`](https://docs.python.org/3/library/logging.html#logging.Logger.debug), [`Logger.info()`](https://docs.python.org/3/library/logging.html#logging.Logger.info), [`Logger.warning()`](https://docs.python.org/3/library/logging.html#logging.Logger.warning), [`Logger.error()`](https://docs.python.org/3/library/logging.html#logging.Logger.error), and [`Logger.critical()`](https://docs.python.org/3/library/logging.html#logging.Logger.critical) 创建一条相应级别的日志；
+- [`Logger.exception()`](https://docs.python.org/3/library/logging.html#logging.Logger.exception) 类似 [`Logger.error()`](https://docs.python.org/3/library/logging.html#logging.Logger.error)，区别是 [`Logger.exception()`](https://docs.python.org/3/library/logging.html#logging.Logger.exception) dumps a stack trace along with it. 仅仅在拥有 exception handler时调用这个方法；
+- [`Logger.log()`](https://docs.python.org/3/library/logging.html#logging.Logger.log) 将 loglevel 作为一个显示的参数。
+
+#### getLogger
+
+[`getLogger()`](https://docs.python.org/3/library/logging.html#logging.getLogger) 返回一个拥有指定名称的 Logger 实例（如果不指定名称，则返回 root）。
+
+如果不设置一个 Logger 的 loglevel 则会默认使用 父Logger 的 loglevel。
+
+子Logger 会发送 log 日志到它所有 祖先Logger 的 Handler，所以不需要为每个 Logger 都设置 Handler。
+
+> 如果不想让 log 向父节点传递，则可以设置 *propagate* 为 False。
+
+
+
+### Handler 组件
+
+Handler 组件负责将合适的 log 日志分发到指定目标。一个 Logger 对象可以使用 `addHandler()` 方法增加**零个或多个** Handler。
+
+举个例子，比如你想要将所有等级的日志保存到一个日志文件中，将ERROR 以上级别的日志发送到 stdout，而 critical 级别的日志则使用邮件发送到邮箱。这种情况下，只需要将三个 Handler 增加到一个 Logger，每个 Handler 负责将不同级别的日志分发到不同的指定目标中。
+
+标准的库中包含了多个可能用到的 Handler 类型。
+
+1. [`StreamHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.StreamHandler) 将消息发送到流（文件类对象）。
+2. [`FileHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.FileHandler) 将日志发送到磁盘文件。
+3. [`BaseRotatingHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.handlers.BaseRotatingHandler) is the base class for handlers that rotate log files at a certain point. It is not meant to be instantiated directly. Instead, use [`RotatingFileHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.handlers.RotatingFileHandler) or [`TimedRotatingFileHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.handlers.TimedRotatingFileHandler).
+4. [`RotatingFileHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.handlers.RotatingFileHandler) instances send messages to disk files, with support for maximum log file sizes and log file rotation.
+5. [`TimedRotatingFileHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.handlers.TimedRotatingFileHandler) instances send messages to disk files, rotating the log file at certain timed intervals.
+6. [`SocketHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.handlers.SocketHandler) instances send messages to TCP/IP sockets. Since 3.4, Unix domain sockets are also supported.
+7. [`DatagramHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.handlers.DatagramHandler) instances send messages to UDP sockets. Since 3.4, Unix domain sockets are also supported.
+8. [`SMTPHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.handlers.SMTPHandler) instances send messages to a designated email address.
+9. [`SysLogHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.handlers.SysLogHandler) instances send messages to a Unix syslog daemon, possibly on a remote machine.
+10. [`NTEventLogHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.handlers.NTEventLogHandler) instances send messages to a Windows NT/2000/XP event log.
+11. [`MemoryHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.handlers.MemoryHandler) instances send messages to a buffer in memory, which is flushed whenever specific criteria are met.
+12. [`HTTPHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.handlers.HTTPHandler) instances send messages to an HTTP server using either `GET` or `POST` semantics.
+13. [`WatchedFileHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.handlers.WatchedFileHandler) instances watch the file they are logging to. If the file changes, it is closed and reopened using the file name. This handler is only useful on Unix-like systems; Windows does not support the underlying mechanism used.
+14. [`QueueHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.handlers.QueueHandler) instances send messages to a queue, such as those implemented in the [`queue`](https://docs.python.org/3/library/queue.html#module-queue) or [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing) modules.
+15. [`NullHandler`](https://docs.python.org/3/library/logging.handlers.html#logging.NullHandler) instances do nothing with error messages. They are used by library developers who want to use logging, but want to avoid the ‘No handlers could be found for logger XXX’ message which can be displayed if the library user has not configured logging. See [Configuring Logging for a Library](https://docs.python.org/3/howto/logging.html#library-config) for more information.
+
+对于 Handler，开发者使用的方法并不多，如果使用内置的 Handler，那么能使用到的方法大概有这些：
+
+* `setLevel()` 方法，就像 Logger 中的 方法一样，来设置需要记录的最低 level 的日志。为什么有两个 `setLevel()` 方法？Logger 的 `setLevel()` 方法是用来控制日志是否传递到 Handler 中，而 Handler 的 `setLevel()` 方法决定是否将日志发送到对应的终端。
+* `setFormatter()` 设置一个 Formatter 对象。
+* `addFilter()` 和 `removeFilter()` 用来增加和删除 Filter。
+
+你的代码不应该直接实例化和使用 Handler。Handler 类应该是作为一个基类被继承并且实现具体的 Handler 的。
+
+### Formatters
+
+Fomatter 对象配置了日志最终的顺序，结构和内容。与 logging.Handler 不同，应用代码必须实例化 formatter 对象，尽管你也可以继承 Formatter 类如果你的应用需要一些特殊的操作。Formatter 的构造函数接受的输入为：一个消息格式字符串，一个日期格式字符串，一个风格指示符号。
+
+```python
+logging.Formatter.__init__(fmt=None, datafmt=None, style='%')
+```
+
+如果不指定消息格式 fmt，那么会使用 raw message。如果没有指定 datafmt，那么会使用默认的日期格式：
+
+```python
+%Y-%m-%d %H:%M:%S
+```
+
+最后会加上毫秒。
+
+`syle` 是 `%` `{` 或者 `$`。如果不指定，则默认使用 `%`。
+
+如果 `style` 是 `%`，那么消息格式会使用 `%(<dictionary key>)s` 风格的字符串替换。可以使用的关键字可以参考 [LogRecord attributes](https://docs.python.org/3/library/logging.html#logrecord-attributes)。如果 `style` 等于 `{`，那么程序会认为消息字符串与 str.format() 相同。 如果 `style` 等于 `$`，那么消息的字符串格式应该符合  [`string.Template.substitute()`](https://docs.python.org/3/library/string.html#string.Template.substitute)。
+
+> 注意 `style` 参数是在 Python 3.2 之后加入的。
+
+下面这个日志格式会采用 human-readable 格式的日期 + 日志的 Level + 消息的内容：
+
+```python
+'%(asctime)s - %(levelname)s - %(message)s'
+```
+
+Formatters 采用用户自定义的函数来将一个记录的创建时间转换为一个 tuple。默认情况下，time.localtime() 会被使用，如果有特殊情况需要改变，使用 `converter` 参数指定一个与 time.localtime() 或者 time.gmtime() 有着相同的 signature 的函数。要为所有的 Formatters 修改这个函数，例如你想要所有的日志的时间都适用 GMT 时间，那么就将Formatter 类的 `converter` 属性为 `time.gmtime`
+
+### 配置 Logging
+
+开发者有三种方式来配置 Logging：
+
+1. 在 Python 代码中分别创建 Loggers， Handlers 和 Formatters，并调用上面的方法配置。
+2. 创建一个 Logger 配置文件，并且使用 `fileConfig()` 方法来读取。
+3. 创建一个配置相关的 Python 字典，并传递给函数 `dictConfig()`。
+
+对于后面这两种方法，可以参考：[Configuration functions](https://docs.python.org/3/library/logging.config.html#logging-config-api)。下面提供的实例配置了一个非常简单的 logger，一个 console handler 和一个简单的 formatter：
+
+```python
+import logging
+
+# create logger
+logger = logging.getLogger('simple_example')
+logger.setLevel(logging.DEBUG)
+
+# create console handler and set level to debug
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+# create formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# add formatter to ch
+ch.setFormatter(formatter)
+
+# add ch to logger
+logger.addHandler(ch)
+
+# 'application' code
+logger.debug('debug message')
+logger.info('info message')
+logger.warning('warn message')
+logger.error('error message')
+logger.critical('critical message')
+```
+
+在命令行中运行这些代码会产生如下输出：
+
+```bash
+$ python simple_logging_module.py
+2005-03-19 15:10:26,618 - simple_example - DEBUG - debug message
+2005-03-19 15:10:26,620 - simple_example - INFO - info message
+2005-03-19 15:10:26,695 - simple_example - WARNING - warn message
+2005-03-19 15:10:26,697 - simple_example - ERROR - error message
+2005-03-19 15:10:26,773 - simple_example - CRITICAL - critical message
+```
+
+下面的代码使用 `fileConfig()` 函数，做到了与上面相同的配置：
+
+```python
+import logging
+import logging.config
+
+logging.config.fileConfig('logging.conf')
+
+# create logger
+logger = logging.getLogger('simpleExample')
+
+# 'application' code
+logger.debug('debug message')
+logger.info('info message')
+logger.warning('warn message')
+logger.error('error message')
+logger.critical('critical message')
+```
+
+配置文件的内容如下：
+
+```ini
+[loggers]
+keys=root,simpleExample
+
+[handlers]
+keys=consoleHandler
+
+[formatters]
+keys=simpleFormatter
+
+[logger_root]
+level=DEBUG
+handlers=consoleHandler
+
+[logger_simpleExample]
+level=DEBUG
+handlers=consoleHandler
+qualname=simpleExample
+propagate=0
+
+[handler_consoleHandler]
+class=StreamHandler
+level=DEBUG
+formatter=simpleFormatter
+args=(sys.stdout,)
+
+[formatter_simpleFormatter]
+format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
+datefmt=
+```
+
+输出与上面使用 Python 代码产生的输出一致：
+
+```bash
+$ python simple_logging_config.py
+2005-03-19 15:38:55,977 - simpleExample - DEBUG - debug message
+2005-03-19 15:38:55,979 - simpleExample - INFO - info message
+2005-03-19 15:38:56,054 - simpleExample - WARNING - warn message
+2005-03-19 15:38:56,055 - simpleExample - ERROR - error message
+2005-03-19 15:38:56,130 - simpleExample - CRITICAL - critical message
+```
+
+使用配置文件相比 Python 代码有着很多优势，例如可以很方便的惊醒复杂的日志格式配置。
+
+> Warning: `fileConfig()` 函数有一个默认的参数 `disable_existing_loggers`，默认为 `True`  来进行向后兼容。这可能产生意想不到的效果，这会导致在调用 `fileConfig()` 之前的所有非 root logger 失效，除非这个logger 或它的祖先明确的在 配置文件中指定。详情可以查看参考文档，并酌情设置为 False。
+>
+> 传递给 `dictConfig()` 的字典也可以设置一个关键字 `disable_existing_loggers`，如果不指定，默认也是 True。会产生和上面一样的效果。
+
+在 Python 3.2 中，引入了一种新的配置方法 --- 将配置保存到一个字典中。这种方法是上述配置文件方法的超集，并且是现在最推荐的方法。
+
+因为使用 Python 字典来进行配置可以有更多的灵活性，你可以采用不同的方法来保存或者加载 Python 字典。例如你可以将配置保存为一个 JSON 文件，或者一个 YAML 文件，这些都能够很方便的加载为 Python 字典。并且，你还可以使用 Python 代码来构建这样一个字典。
+
+这是一个 YAML 格式的配置文件实例：
+
+```yaml
+version: 1
+formatters:
+  simple:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: simple
+    stream: ext://sys.stdout
+loggers:
+  simpleExample:
+    level: DEBUG
+    handlers: [console]
+    propagate: no
+root:
+  level: DEBUG
+  handlers: [console]
+```
+
+更多信息可以查看  [Configuration functions](https://docs.python.org/3/library/logging.config.html#logging-config-api)。
+
+### 如果不提供日志配置会发生什么
+
+如果不提供任何的日志配置，那么可能发生的一种情况是有日志输出，但是找不到可用的 Handler。这时候 logging 的行为取决于 Python 的版本。
+
+对于 Python 3.2 之前的版本：
+
+* 如果 logging.raiseExceptions 是 False（生产模式），那么这个日志不会被记录。
+* 如果 logging.raiseExceptions 是 True （开发者模式），一个消息 “No handlers could be found for logger X.Y.Z" 会打印出来。
+
+对于 Python 3.2 以及之后的版本：
+
+* 这个记录会使用 `handler of last resort` ，保存在 `logging.lastResort`，这个内部的 Handler 没有绑定到任何 Logger，并且类似于  StreamHandler，将日志打印到 `sys.stderr` 的当前值。没有任何的格式化，这个 Handler 的级别设置为 `WARNING`，所以所有大于等于这个级别的日志都会被 打印。
+
+> 要想在 3.2 以及之后的版本实现 3.2 之前的效果，只需要设置 `logging.lastResort` 为 `None`。
+
+### Configuring Logging for a Library
+
+当在开发一个库的时候使用 logging 时，你应该在文档中写清楚库是如何使用 logging 的。例如，logger 的名称和 logger 的配置等等。如果编写的应用没有使用 logging 而库使用了 logging。那么级别高于 `WARNING` 的日志会被打印到 `sys.stderr`。
+
+如果你不想让库中的日志打印出来，你可以使用一个 do-nothing handler 到 top-level logger。如果你对程序进行了 logging 的配置，那么库里的 logging 会有相同的配置。
+
+Python 3.1 版本创建了一个新的 Handler 叫做 NullHandler，这个Handler不会做任何处理。这个 Handler 可以用来让库的 logging 不被打印出来，例如有一个库叫做 `foo`：
+
+```python
+import logging
+logging.getLogger('foo').addHandler(logging.NullHandler())
+```
+
+> Note：强烈建议不要增加除了 NullHandler 以外的任何 Handler 到你的 库中。因为库中的 Handler 配置会传递到使用这个库的应用中。
+
+## Logging Levels
+
+logging 级别的数值如下：
+
+| Level    | Numeric value |
+| -------- | ------------- |
+| CRITICAL | 50            |
+| ERROR    | 40            |
+| WARNING  | 30            |
+| INFO     | 20            |
+| DEBUG    | 10            |
+| NOTSET   | 0             |
+
+如果你想要自定义级别，并且指定了和与定义的级别相关的数值，那么预定义的级别会被覆盖。
+
+Level 可以被绑定到 Logger 上，当 logging的方法被调用的时候，它会比较自己的 level 与对应的方法的级别来决定丢弃还是发送这个日志。
+
+Logging 的消息被编码称为一个 LogRecord 类的实例。当一个 Logger 决定去 log 一个 event 的时候，一个 LogRecord 实例会被创建。
+
+Logging 的消息使用 Handler 的一些子类来分发消息。特定的Handler 会负责将记录（LogRecord）发送到指定的位置。每一个logger 可以拥有零个，一个或多个 Handler。所有绑定到的 logger 上的 Handler 以及所有这个logger 的祖先的 Handler 都会根据自己的配置进行日志的分发，除非将 `propagate` 标志设置为 False。
+
+像 Logger 一样，Handler 也可以设置一个 Level。Handler 会根据自己的 level 来决定是否调用自己的 `emit()` 方法来进行日志的发送。用户自定义的 Handler 需要重写这个 `emit()` 方法。
+
+### 自定义 Level
+
+Level 是可以被自定义的，但是并不推荐这样做。如果你确定你需要自定义 level 的话，你需要好好考虑一下。此外，在一个库中使用自定义的 level 会造成非常大的麻烦。如果每个库的开发者都定义一套自己的 level，那么对于库的使用者会非常的困难，也会非常的难以理解。因为一个个定的数值可能在不同的库中对应着不同的级别。
+
+## logging 中的 Exception
+
+logging 包会吞噬 logging 运行中出现的 Exception。这样一来，程序不会因为例如日志配置错误或者网络错误而停止。
+
+SystemExit 和 KeyboardInterrupt 不会被 logging 包处理。其他在 emit() 方法中发生的异常会被传递给 handleError() 方法。
+
+默认的 handleError() 实现会检查 module-level 变量 `raiseExceptions` 是否设置，如果设置了，那么一个 trackback 会打印到 sys.stderr。如果没有设置，则异常会被吞噬。
+
+> Note：`raiseExceptions` 的默认值是 `True`。这是是因为在开发中，你通常想要在异常出现时看到他们。建议在生产环境中将它设置为 `False`。
+
+## 使用不同的对象作为消息
+
+在之前的部分与示例中，我们假设消息一定是一个字符串。然而，这并不是一定的。你可以传递不同的对象作为一个 message，当作为消息时，这个对象的 `__str__()` 方法会被调用。事实上你不一定需要计算出一个字符串，例如 SocketHandler 的 emit() 方法会将一个对象 pickling 以后再进行发送。
+
+
+
+## 优化
+
+日志消息的参数会被多次的计算知道不能被避免，不停的传递不需要的日志是非常耗费计算资源的，如果一个 logger 紧紧是将你的 event 丢掉，那么你可以选择不向logger 发送这个 event。你可以使用 `isEnableFor()` 方法，这个方法接受一个 level 作为输入，并且返回 true 如果这个级别的日志会被 logger 处理。例如：
+
+```python
+if logger.isEnabledFor(logging.DEBUG):
+    logger.debug('Message with %s, %s', expensive_func1(),
+                                        expensive_func2())
+```
+
+这样的话，如果 logger 的阈值是 DEBUG，才会调用这两个昂贵的操作。
+
+> Note：有些情况下，`isEnableFor()` 函数本身也会非常的耗时。这种情况下，你可以使用一个变量 Cache 这个函数的返回值，这样可以避免每次去计算是否会被这个 logger 记录。
+
+还有一些针对特定应用的优化方法，可以用来精确的控制收集哪些日志信息。下表列出了一些可以在不需要的时候避免发生的操作：
+
+
+
+| 你不想收集的信息         | 如何避免收集这些信息                                         |
+| ------------------------ | ------------------------------------------------------------ |
+| 关于哪里产生的调用的信息 | 设置 `logging._srcfile` 为 `None`。这可以避免调用 sys._getframe() |
+| 线程信息                 | 设置 `logging.logThreads` 为 0                               |
+| 进程信息                 | 设置 `logging.logProcesses` 为 0                             |
+
+注意，logging 的核心模组仅仅包含一些基础的 Handlers。如果你不导入 logging.handlers 和 logging.config，它们不会占用内存。
+
+
+
+## Reference
+
+https://docs.python.org/3/howto/logging.html#handlers
+
+https://www.jianshu.com/p/1772306cb3d
+
+[logging 模组](https://docs.python.org/3/library/logging.html#module-logging)
+
+[logging.config 模组](https://docs.python.org/3/library/logging.config.html#module-logging.config)
+
+[logging.handlers 模组](https://docs.python.org/3/library/logging.handlers.html#module-logging.handlers)
+
+[logging cookbook](https://docs.python.org/3/howto/logging-cookbook.html#logging-cookbook)

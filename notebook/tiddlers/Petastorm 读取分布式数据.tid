@@ -1,0 +1,193 @@
+created: 20190905070850503
+modified: 20190905102618564
+tags: 机器学习 Python 分布式
+title: Petastorm 读取分布式数据
+type: text/vnd.tiddlywiki
+
+Petastorm 是由 Uber ATG 开发的数据访问库，可以直接读取 Apache Parquet 格式的单机或者分布式文件，同时支持使用 TensorFlow、[[Pytorch]]、和 PySpark 进行模型训练。就像一个管道将 Parquet 数据与深度学习框架连接到了一起。
+
+!! 安装
+
+
+```bash
+pip install petastorm
+```
+
+要触发不同的接口，需要安装额外的依赖，
+例如安装tf_gpu 与 opencv 的接口：
+
+```bash
+pip install petastorm[opencv,tf_gpu]
+```
+
+> 依赖有： tf、tf_gpu、torch、opencv、docs、test
+
+---
+
+!! 深度学习集群配置
+
+典型的机器学习集群有以下几步：
+
+# 一个或多个机器从中心或本地数据集读取 samples
+# 单个机器独立的计算 loss 方程并且计算梯度。（通常使用 GPU）
+# 模型系数通过组合所有梯度来进行更新
+
+对于 GPU 集群来说，良好的 GPU 性能使用率非常重要，整个集群的训练速度会受到整个数据流通速度的影响。一个好的数据管道会保证数据一直能够供给给 GPU 进行计算。
+
+!! Streamlining model architecture research
+
+处理一个包含多个数据源点的大型实时数据集是一个 error-prone 任务。Petastorm 的目的是建立一个允许进行多个任务的数据集，而不是一个任务一个数据集。当针对一个新的任务构建新的模型是，一个新的数据管道从数据集连接出来，从预处理到模型训练，形成一个健康稳定的数据流。
+
+为了实现这个目标，必须遵守两个原则：
+
+* 数据集包含数据的超集，这样研究员才可以从这个超集中选择需要的子集。
+* 保存到数据集中的数据是经过轻微预处理的。鼓励研究员针对特定问题进行预处理，使用未利用完全的 CPU 资源。
+
+数据集存储有两个常用的方法： ''多文件数据集''和''记录流式数据集''。
+
+!! 多文件数据集
+
+每一个 tensor/image/label 存储到单个文件。整个数据集存储到一个或多个文件系统的不同文件夹里。例如，ImageNet 有 1.2 million 文件。
+
+这种方式使得用户可以随机访问任何行的任何一列。然而这是很昂贵的操作方式。在存储量大时这种方式很难实现。例如在 HDFS 或 S3 中，这些文件系统通常为大块的读取优化读取速度。
+
+!! 记录流式数据集
+
+这种方式是将多行数据分成一组存储在一个或多个文件中。例如 TensorFlow 的 TFRecord 格式或者 HDF5 或者 [[Python pickle|pickle]] files.
+
+这种方式在 HDFS 或者 S3 这种文件系统中非常好用。然而，如果要读取特定的某些列就需要一些转换。由于sample 是分组存储的，要读取某一行也需要一些自定义 index 实现。
+
+!! Petastorm
+
+区别于以上两种实现方式，Petastorm 选择了 Apache Parquet 存储格式，减轻了以上两种方式的缺点：
+
+* 加速大型连续读取 （hdfs/s3 友好）
+* 加速单行的快速读取
+* 某种case下支持单行快速读取
+* 与 Apache Spark 兼容性好，方便查询操作数据。
+
+在 Petastorm 之前，通常通过连接来自多个数据源的记录来生成数据集，该数据集由 Apache Spark 的Python 接口 PySpark 生成。 Petastorm 则提供了一个简单的功能，可以使用 Petastorm 特定的元数据扩展标准的 Parquet，从而使其与 Petastorm 兼容。
+
+Petastorm 通过 PyArrow 来读取 Parquet 文件。 架构如下：
+
+<<image-center "https://1fykyq3mdn5r21tpna3wkdyi-wpengine.netdna-ssl.com/wp-content/uploads/2018/09/Petastorm_Figure_02.png" "50%"">>
+
+!!  生成一个数据集
+
+要使用 Petastorm 生成一个数据集，用户必须首先定一个 data schema： Unischema。Petastorm 会自动将它转换为各种框架的格式，例如 PySpark、TensorFlow 和 Python。
+
+这个 Unischema 对象会被序列化作为 Parquet 的一个自定义 field 保存，因此可以通过 Parquet 的地址来读取它。
+
+下面这个例子展示了如何创建一个 Unischema 实例。每个Field 的参数为：
+
+* Field 名称
+* 数据类型（表示为 Numpy 数据类型）
+*	多维数组的 shape
+* codec 用于编码解码
+* 数据是否可 null
+
+建立 Unischema：
+
+```python
+HelloWorldSchema = Unischema('HelloWorldSchema', [
+  UnischemaField('id', np.int32, (), ScalarCodec(IntegerType()), False),
+  UnischemaField('image1', np.uint8, (128, 256, 3) CompressedImageCodec('png'), False),
+  UnischemaField('array_4d', np.uint8, (None, 128, 30, None), NdarrayCodec(), False),
+])
+```
+
+写入数据集：
+
+```python
+rows_count = 10
+with materialize_dataset(spark, output_url, HelloWorldSchema, rowgroup_size_mb):
+
+   rows_rdd = sc.parallelize(range(rows_count))\
+       .map(row_generator)\
+       .map(lambda x: dict_to_spark_row(HelloWorldSchema, x))
+
+   spark.createDataFrame(rows_rdd, HelloWorldSchema.as_spark_schema()) \
+       .write \
+       .parquet('file:///tmp/hello_world_dataset')
+```
+
+* materialize_dataset() 初始化配置并在推出加入 Petastorm 元数据
+* Rowgroup_size_mb 定义了 Parquet 组的大小，单位为 M。
+* row_generator 是一个返回 Python 字典的函数，字典匹配了 `HelloWorldSchema`
+* dict_to_spark_row 验证了数据类型并将字典转换到 PySpark 的 Row 类。
+
+!! 访问数据集
+
+!!! Python
+
+通过 Reader 访问petastorm 数据集， Reader 实现了数据的迭代器接口。
+
+```python
+with Reader('file:///tmp/hello_world_dataset') as reader:
+   # Pure python
+   for sample in reader:
+       print(sample.id)
+       plt.imshow(sample.image1)
+```
+
+!!! Tensorflow
+
+下面的实例展示了如何使数据流向 Tensorflow。
+
+```python
+with make_reader('file:///some/localpath/a_dataset') as reader:
+    dataset = make_petastorm_dataset(reader)
+    iterator = dataset.make_one_shot_iterator()
+    tensor = iterator.get_next()
+    with tf.Session() as sess:
+        sample = sess.run(tensor)
+        print(sample.id)
+```
+
+!!! Pytorch
+
+```python
+with DataLoader(Reader('file:///tmp/hello_world_dataset')) as train_loader:
+   sample = next(iter(train_loader))
+   print(sample['id'])
+   plt.plot(sample['image1'])
+```
+
+!!! Spark
+
+由于数据使用 Parquet 格式存储，所以被 Spark 天然支持。标准的 PySpark 工具可以使用 Petastorm 数据集。
+
+> 直接使用 Pyspark 读取的话数据不会解码并且只能Parguet原生的数据格式才有意义。
+
+```python
+# Create a dataframe object from a parquet file
+dataframe = spark.read.parquet(dataset_url)
+
+# Show a schema
+dataframe.printSchema()
+
+# Count all
+dataframe.count()
+
+# Show a single column
+dataframe.select('id').show()
+
+```
+
+
+SQL查询也可以使用
+
+```python
+number_of_rows = spark.sql(
+   'SELECT count(id) '
+   'from parquet.`file:///tmp/hello_world_dataset`').collect()
+```
+
+
+
+---
+
+!! Reference
+
+* 官方文档：https://petastorm.readthedocs.io
+* 官方博客：https://eng.uber.com/petastorm/

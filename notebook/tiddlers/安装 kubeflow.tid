@@ -1,0 +1,67 @@
+created: 20190916141603556
+modified: 20190916142340960
+tags: Kubeflow
+title: 安装 kubeflow
+type: text/vnd.tiddlywiki
+
+> 版本：0.6.2
+
+!! 安装 Kubeflow
+
+# 下载 kfctl ： https://github.com/kubeflow/kubeflow/releases/
+# 设置应用名称 <div>
+
+```bash
+export KFAPP=kubeflow-app
+```
+
+</div>
+
+# 设置 Config 地址： <div>
+
+```bash
+export CONFIG="https://raw.githubusercontent.com/kubeflow/kubeflow/v0.6-branch/bootstrap/config/kfctl_k8s_istio.0.6.2.yaml"
+```
+
+</div>
+
+# 初始化配置： <div>
+
+```bash
+kfctl init ${KFAPP} --config=${CONFIG} -V
+cd ${KFAPP}
+```
+
+</div>
+
+# 生成配置： <div>
+
+```bash
+kfctl generate k8s -V
+```
+
+</div>
+
+# 创建命名空间： <div>
+
+```bash
+kubectl create ns kubeflow-anonymous
+```
+
+</div>
+
+# 应用配置 <div>
+
+```bash
+kfctl apply k8s -V
+```
+
+</div>
+
+---
+
+!!! 删除
+
+```bash
+kfctl delete k8s -V
+```

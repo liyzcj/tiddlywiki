@@ -1,0 +1,16 @@
+created: 20191221165935250
+modified: 20191221170307675
+tags: Definitions Concept
+title: Semantic Version
+type: text/vnd.tiddlywiki
+
+! Semantic Version 
+[[SerVer|https://semver.org/]]
+
+Semantic Version 指的是语意化版本号，在许多大型项目中都使用语意化版本号。
+
+本质由三个版本组成，分别是：
+
+* major： 主版本号，一个新的不向下兼容的版本。
+* minor：兼容版本，增加了新的特性时。
+* patch： 补丁，没有增加特性，仅仅修改了 bug 等等。

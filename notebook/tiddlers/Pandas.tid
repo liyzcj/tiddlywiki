@@ -1,0 +1,20 @@
+caption: DataFrame 操作
+created: 20190801161535828
+creator: liyzcj
+modified: 20200205142932867
+modifier: liyzcj
+tags: Pandas
+title: Pandas
+type: text/vnd.tiddlywiki
+
+! ~DataFrame 操作
+---
+
+! 常用函数
+
+
+统计 unique 以及个数
+
+```python
+pd.value_counts()
+```

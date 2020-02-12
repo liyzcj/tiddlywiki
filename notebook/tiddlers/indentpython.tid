@@ -1,0 +1,9 @@
+created: 20190809195907426
+modified: 20190828173919895
+tags: 插件 Vim
+title: indentpython
+type: text/vnd.tiddlywiki
+
+控制 python 的自动缩进.
+
+https://github.com/vim-scripts/indentpython.vim

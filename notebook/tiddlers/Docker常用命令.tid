@@ -1,0 +1,187 @@
+created: 20190820040507403
+modified: 20200115074649375
+tags: Command Docker
+title: Docker常用命令
+type: text/vnd.tiddlywiki
+
+! Docker
+---
+>https://yeasy.gitbooks.io/docker_practice/
+
+
+!! 镜像相关
+
+搜索镜像：
+
+镜像的全名：`Registry/Repository/Image:tag`
+
+* Registry: Docker Registry 地址
+* Repository: 镜像仓库名称
+* Image: 具体的镜像名称
+* tag: 镜像的标签
+
+```bash
+docker search image_name
+```
+
+上述查找方法只能找到远端仓库的镜像名称，没法找到镜像的 Tag。 参考: [[Docker 查找远端仓库 Tag]]
+
+
+!!! 镜像保存&加载 save&load
+
+```bash
+docker save image:tag -o output.tar
+# 或者
+docker save image:tag > output.tar
+```
+
+保存的镜像可以使用 load 命令来加载。
+
+```bash
+docker load < output.tar
+```
+
+!!! list
+
+列出镜像：
+
+```bash
+# 列出所有本地镜像
+docker image ls
+# 列出特定镜像
+docker image ls image_name
+```
+
+使用 `--filter` `-f` 过滤符合条件的镜像, 总共有五个字段可以过滤：
+
+* dangling (boolean - true or false) - 是否是悬挂镜像
+
+* label  符合的lable
+
+* before - 在给定镜像之前创建的镜像
+
+* since - 在给定镜像之后创建的镜像
+
+* reference (pattern of an image reference) - 符合 pattern 的 reference。
+
+使用 `--format` 修改输出的格式（指定的是 Go Template）：
+
+
+```
+docker image ls --format "{{.ID}}: {{.Repository}}"
+```
+
+使用 `-q` 选项输出镜像的 id：
+
+```bash
+docker image ls -q
+```
+
+!!! 删除镜像
+
+删除镜像符合 `grep` 命令的镜像：
+
+```bash
+docker image ls --format "{{.Repository}}\t{{.ID}}" | grep istio | awk '{print $2}' | xargs docker image rm
+```
+
+另一种方法：
+
+```bash
+docker image ls | grep istio | awk '{printf "%s:%s\n",$1,$2}' | xargs docker image rm
+```
+
+!!! 查看镜像历史
+
+```bash
+docker history [image_name:tag or image_id]
+```
+
+---
+
+!! 容器相关
+
+!!! run
+
+使用 docker 启动容器，并在退出后自动删除：
+
+```bash
+docker run -it --rm image command
+```
+
+> 其中， -i 是指交互式操作， -t 指终端， --rm 指在运行完成后删除容器。
+
+挂起一个镜像，并不退出：
+
+```bash
+docker run -d --rm image command
+```
+
+> 挂起后，使用 `exec` 执行命令也不会推出，只要不执行 `exit`。
+
+挂载宿主机目录：
+
+```bash
+docker run --mount type=bind,source=/local/path,target=/container/path
+```
+
+进入容器：
+
+```bash
+docker exec -it image bash
+# or
+docker attach image
+```
+
+!!! commit
+
+```bash
+docker commit [选项] <容器ID或容器名> [<仓库名>[:<标签>]]
+```
+
+常用 snip：
+
+```bash
+docker commit \
+    --author "Tao Wang <twang2218@gmail.com>" \
+    --message "修改了默认网页" \
+    容器名或ID \
+    镜像:标签
+```
+
+---
+
+
+!! 其他
+
+---
+
+查看占用空间：
+
+```bash
+docker system df
+```
+
+---
+
+私有仓库使用：
+
+上传本地镜像到私有网络仓库需要首先将 Image tag 到远端仓库地址：
+
+```bash
+docker tag istio/citadel:1.1.6 192.168.10.251:5000/istio/citadel:1.1.6
+```
+
+然后再将镜像传到私有仓库：
+
+```bash
+docker push 192.168.10.251:5000/istio/citadel:1.1.6
+```
+
+---
+
+在容器与宿主机之间复制文件：
+
+```bash
+docker cp 容器ID:/path/to/file /local/path
+```

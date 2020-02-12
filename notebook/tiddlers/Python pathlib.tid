@@ -1,0 +1,299 @@
+created: 20191128153019144
+modified: 20200204075431689
+tags: Survey Python
+title: Python pathlib
+type: text/vnd.tiddlywiki
+
+! Python Pathlib
+---
+
+<<<.tc-big-quote
+面向对象的路径处理方式。
+<<<
+
+Pathlib 提供了''兼容不同操作系统的语义化的路径处理功能。'' 
+
+!! 结构
+
+Pathlib 中的所有类都是从 ~PurePath 派生出来的。~PurePath 提供了无需 IO 的纯路径计算操作。而 Concrete path 继承了 ~PurePath 并提供了 IO 操作。
+
+[img[https://docs.python.org/3/_images/pathlib-inheritance.png]]
+
+以下两种情况你可能会用到 ~PurePath：
+
+* 当你想要在 Unix 机器上操作 Windows 路径的时候。你不能在 Unix 的机器上实例化 `WindowsPath` 但是你可以实例化 `PureWindowsPath`。
+* 当你确保你的代码仅仅对路径进行操作而不真正的访问 OS 的时候。因为 ~PurePath 并没有对于 OS 的IO 操作。
+
+!! 基本用法
+
+* 导入主要 Path 类：<div>
+
+```python
+from pathlib import Path
+```
+</div>
+
+* 列出子文件夹：<div>
+
+```python
+p = Path('.')
+[x for x in p.iterdir() if x.is_dir()]
+```
+</div>
+
+*访问文件树的某个文件：<div>
+
+```python
+p = Path('/etc')
+q = p / 'init.d' / 'reboot'
+q
+
+q.resolve()
+```
+</div>
+
+* 查看路径的属性：<div>
+
+```python
+q.exists()
+
+q.is_dir()
+```
+</div>
+
+* 打开文件：<div>
+
+```python
+with q.open() as f: f.readline()
+```
+</div>
+
+!! 纯路径 ~PurePath
+
+''~PurePath 提供了对路径的操作而不真正的访问 OS。'' 有三种方法可以访问这个类，也称为 flavours：
+
+* `pathlib.PurePath`：<div>
+
+代表 system‘s path flavour 的基本类（初始化后会创建一个 `PurePosixPath` 或者 `PureWindowsPath`）：
+
+```python
+>>> PurePath('setup.py')      # Running on a Unix machine
+PurePosixPath('setup.py')
+```
+
+参数为一个或多个路径的片段，当为空时代表当前目录 `.`：
+
+```python
+>>> PurePath('foo', 'some/path', 'bar')
+PurePosixPath('foo/some/path/bar')
+>>> PurePath(Path('foo'), Path('bar'))
+PurePosixPath('foo/bar')
+```
+
+当给定多个绝对路径时，会取最后一个绝对路径作为基础路径：
+
+```python
+>>> PurePath('/etc', '/usr', 'lib64')
+PurePosixPath('/usr/lib64')
+>>> PureWindowsPath('c:/Windows', 'd:bar')
+PureWindowsPath('d:bar')
+```
+
+对于 Windows 路径，修改 local root 并不会修改盘符：
+
+```python
+>>> PureWindowsPath('c:/Windows', '/Program Files')
+PureWindowsPath('c:/Program Files')
+```
+
+多个斜杠 `/` 和单个点 `.` 组成的字符会折叠，当时两个点 `..` 不会，因为这代表上级目录：
+
+```python
+>>> PurePath('foo//bar')
+PurePosixPath('foo/bar')
+>>> PurePath('foo/./bar')
+PurePosixPath('foo/bar')
+>>> PurePath('foo/../bar')
+PurePosixPath('foo/../bar')
+```
+
+Pathlib 实现了 [[os.PathLike接口|https://docs.python.org/3/library/os.html#os.PathLike]]（Python >= 3.6)
+
+</div>
+
+* `pathlib.PurePosixPath`：<div>
+
+~PurePath 的子类，代表了非 windows 系统的路径。
+
+```python
+>>> PurePosixPath('/etc')
+PurePosixPath('/etc')
+```
+</div>
+
+* `pathlib.PureWindowsPath`：<div>
+
+~PurePath 的子类，代表了 windows 系统的路径。
+
+```python
+>>> PureWindowsPath('c:/Program Files/')
+PureWindowsPath('c:/Program Files')
+```
+</div>
+
+!!! 基本属性
+
+路径是''不可修改''的并且''可哈希''的。 所以同类型的的 Path 可以进行 `==` `<` 等操作。也可以作为字典。
+
+> 注意默认 Windows 路径是忽略大小写的。
+
+!!! 操作符
+
+操作符 `/` 被重写，进行路径的 join 操作：
+
+```python
+>>> p = PurePath('/etc')
+>>> p
+PurePosixPath('/etc')
+>>> p / 'init.d' / 'apache2'
+PurePosixPath('/etc/init.d/apache2')
+```
+
+所有的路径都可以作为 `os.PathLike()` 接口使用。
+
+!!! 属性和方法
+
+> 此部分仅列举名称与描述，详细使用方法可以查看[[官方文档|https://docs.python.org/3/library/pathlib.html]]。
+
+|!Attrs and Methods|!Description|
+|`parts`|返回各部分的元组|
+|`drive`|返回盘符|
+|`root`|返回根目录|
+|`anchor`|盘符与根目录的组合|
+|`parents`|一个包含每级父目录的列表|
+|`parent`|父级目录|
+|`name`|当前文件或目录名称|
+|`suffix`|当前文件后缀|
+|`suffixes`|文件后缀的列表|
+|`stem`|文件主干（非后缀部分）|
+|`as_posix()`|返回使用 `/` 的路径|
+|`as_uri()`|返回 uri 路径|
+|`is_absolute()`|返回是否为绝对路径|
+|`is_reserved()`|windows 下真，linux 永假|
+|`joinpath(*others)`|连接目录|
+|`match(pattern)`|是否匹配 glob-style 的 pattern|
+|`relative_to(*other)`|返回对于other的相对路径|
+|`with_name(name)`|返回一个修改了文件名的新路径|
+|`with_suffix()`|返回一个修改了文件后缀的新路径|
+
+!! Concrete Paths
+
+Concrete Path 继承了 `PurePath`，除了对 Path 的基础操作以外还提供了对于 OS 的调用。
+
+* `pathlib.Path` <div>
+
+Path 和 ~PurePath 类似，会根据不同的操作系统环境初始化不同的 Flavour，例如在非 Windows 操作系统上：
+
+```python
+>>> Path('setup.py')
+PosixPath('setup.py')
+```
+
+</div>
+
+
+* `pathlib.PosixPath` <div>
+
+Path 的子类，代表非 Windows 的路径。
+
+```python
+>>> PosixPath('/etc')
+PosixPath('/etc')
+```
+
+</div>
+
+* `pathlib.WindowsPath` <div>
+
+Path 的子类，代表 Windows 路径：
+
+```python
+>>> WindowsPath('c:/Program Files/')
+WindowsPath('c:/Program Files')
+```
+
+</div>
+
+> 注意：对于 Concrete Path，你''只能实例化你真实操作系统的路径''。
+
+!!! 方法和属性
+
+|!Methods and Attrs|!Description|
+|`cwd()`|返回当前目录|
+|`home()`|返回家目录 `~`|
+|`stat()`|返回当前路径信息|
+|`chmod(mod)`|修改当前文件权限|
+|`exists()`|文件是否存在|
+|`expanduser()`|将 `~` 替换为家目录|
+|`glob(pattern)`|返回当前目录所有符合 glob 的文件的列表|
+|`group()`|所属组名称|
+|`is_dir()`|是否是文件夹|
+|`is_file()`|是否为文件|
+|`is_mount()`|是否为挂载点|
+|`is_symlink()`|是否为符号链接|
+|`is_socket()`|是否为 socket文件|
+|`is_fifo()`|是否为 FIFO|
+|`is_block_device()`|是否为块设备|
+|`is_char_device()`|是否为字符设备|
+|`iterdir()`|遍历当前目录|
+|`lchmod(mode)`|类似 `chmod`，只针对链接|
+|`lstat()`|类似 `stat` 只针对链接|
+|`mkdir(...)`|创建文件夹|
+|`open(...)`|打开文件|
+|`owner()`|返回所属用户名|
+|`read_bytes()`|读取 bytes|
+|`read_text()`|读取文本|
+|`rename(target)`|重命名文件或文件夹|
+|`replace(target)`|相当于 `mv`|
+|`resolve(strict=False)`|返回绝对路径|
+|`rglob(pattern)`|相当于`glob`在 pattern 前加上 `**/`,递归遍历|
+|`rmdir()`|删除当前目录，目录必须为空|
+|`samefile()`|是否为同一个文件|
+|`symlink_to(target, target_is_directory=False)`|创建链接|
+|`touch(mode=0o666, exist_ok=True)`|类似 `touch`,创建文件|
+|`unlink(missing_ok=False)`|删除文件或链接|
+|`link_to(target)`|创建硬链接^^*^^|
+|`write_bytes(data)`|写入 bytes|
+|`write_text(data)`|写入 text|
+
+
+> 关于硬链接： [[硬链接与软链接]]
+
+!! OS Module 对照表
+
+|!os and os.path|!pathlib|
+|`os.path.abspath()`|`Path.resolve()`|
+|`os.chmod()`|`Path.chmod()`|
+|`os.mkdir()`|`Path.mkdir()`|
+|`os.rename()`|`Path.rename()`|
+|`os.replace()`|`Path.replace()`|
+|`os.rmdir()`|`Path.rmdir()`|
+|`os.remove(), os.unlink()`|`Path.unlink()`|
+|`os.getcwd()`|`Path.cwd()`|
+|`os.path.exists()`|`Path.exists()`|
+|`os.path.expanduser()`|`Path.expanduser()` and `Path.home()`|
+|`os.path.isdir()`|`Path.is_dir()`|
+|`os.path.isfile()`|`Path.is_file()`|
+|`os.path.islink()`|`Path.is_symlink()`|
+|`os.stat()`|`Path.stat(), Path.owner(), Path.group()`|
+|`os.path.isabs()`|`PurePath.is_absolute()`|
+|`os.path.join()`|`PurePath.joinpath()`|
+|`os.path.basename()`|`PurePath.name`|
+|`os.path.dirname()`|`PurePath.parent`|
+|`os.path.samefile()`|`Path.samefile()`|
+|`os.path.splittext()`|`PurePath.suffix()`|
+
+!! Reference
+---
+
+* [[官方文档|https://docs.python.org/3/library/pathlib.html]]

@@ -1,0 +1,10 @@
+created: 20200113074425666
+modified: 20200113074517958
+tags: Linter Python
+title: Python Lint Module
+type: text/vnd.tiddlywiki
+
+Python 的 Lint 工具：
+
+* [[pylint]]
+* [[flake8]]

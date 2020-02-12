@@ -1,0 +1,24 @@
+created: 20190919025908466
+modified: 20190919030147775
+tags: ZSH Vim
+title: Vim Tab 补全bug
+type: text/vnd.tiddlywiki
+
+!! 问题
+
+vi 命令使用 Tab 补全时报错：
+
+```bash
+_arguments:451: _vim_files: function definition file not found
+```
+
+!! 解决方案
+
+删除 `.zcompdump`
+
+> https://github.com/robbyrussell/oh-my-zsh/issues/6399
+
+```bash
+rm $HOME/.zcompdump
+exec zsh
+```

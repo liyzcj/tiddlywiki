@@ -1,0 +1,79 @@
+created: 20200127184548576
+modified: 20200127184612499
+tags: 
+title: Go Variable
+type: text/vnd.tiddlywiki
+
+!!! 定义
+
+变量可以使用 `var` 来定义：
+
+```go
+var foo [type], bar type [= value1, value2]
+```
+
+类似的：
+
+* ''变量类型在变量后面''，多个变量可以使用逗号分开，并且如果类型相同，可以省略类型。
+* 初始化变量可以指定也可以不指定，如果不指定，则变量的值为各个类型的[[零值|Go zero value]], ''如果指定了变量的初始值，称作 initializer, 则可以省略变量类型''。
+
+例如：
+
+```go
+var foo int, bar int
+// same with
+var foo, bar int
+
+// initializer
+var foo, bar = 1, "go"
+// same with
+var foo int, bar string = 1, "go"
+```
+
+变量也可以使用[[海象运算符]] `:=` 进行定义与初始化：
+
+```go
+foo := 1
+bar := "go"
+c, python, java := true, false, "no!"
+```
+
+> 变量类型会根据右侧的 Initializer 来决定。如果是数值类型，还会''根据数字的精确度来确定具体类型。''
+
+!!! 类型
+
+Go 包含的基础类型有：
+
+```go
+bool
+string
+int int8, int16, int32, int64
+uint uint8, uint16, uint32, uint64, uintptr
+byte // uint8 的别名
+rune // int32 的别名，代表一个 Unicode 符号
+float32, float64
+complex64, complex128
+```
+
+变量的类型可以通过语法 `T(var)` 进行类型转换：
+
+```go
+var i int
+var f float64 = float64(i)
+```
+
+> ''和 C 语言不同，Go 的类型转换必须是显式的，编译器不会自动转换。''
+
+!!! constant 常量
+
+Go 中常量的定义为：
+
+```go
+const Foo = "A Value"
+```
+
+> ''常量的定义无法使用[[海象运算符]]定义。''
+
+常量的类型可以是 `rune, string, bool` 或者数值类型。
+
+数值类型的常量是高精度类型，并且会''根据上下文的需求类型自动进行转换。''

@@ -1,0 +1,121 @@
+created: 20190803155706468
+creator: liyzcj
+modified: 20190828180137150
+modifier: liyzcj
+tags: Wikitext
+title: WikiText 列表
+type: text/vnd.tiddlywiki
+
+!! 无序列表
+
+可以使用 `*` 创建无序列表:
+
+```
+* 第一个列表项
+* 第二个列表项
+** 一个子项目
+* 第三个列表项
+```
+
+* 第一个列表项
+* 第二个列表项
+** 一个子项目
+* 第三个列表项
+
+!! 有序列表
+
+使用符号 `#` 创建有序列表:
+
+```
+# 第一项
+# 第二项
+# 第三型
+
+
+```
+
+# 第一项
+# 第二项
+# 第三型
+
+!! 定义列表
+
+```
+; 熵
+: 科学技术上泛指某些物质系统状态的一种量度，或者说明其可能出现的程度。
+```
+; 熵
+: 科学技术上泛指某些物质系统状态的一种量度，或者说明其可能出现的程度。
+
+!! 嵌套列表
+
+有序和无序列表可以相互嵌套:
+
+```
+* 项目
+*# 第一个子项目
+*# 第二个子项目
+```
+* 项目
+*# 第一个子项目
+*# 第二个子项目
+
+<<<
+
+💡 列表内分段可以使用 `<div>` :
+
+```
+* 这是一个列表 <div>
+分段
+</div>
+```
+
+或着在列表项内使用替换: `{{}}`
+<<<
+
+!! CSS 类
+
+项目列表可以添加 CSS 类:
+
+```
+*.MyClass 列表
+```
+
+底层的 html 代码是:
+
+```
+<ul><li>列表一</li>
+<li class="MyClass">列表二</li>
+<li>列表三</li></ul>
+```
+
+!! 列表插件
+
+按标签筛选列表:
+
+```
+<$list filter="[tag[WikiText]]"/>
+```
+或着
+
+```
+{{{ [tag[WikiText]!sort[title]] }}}
+```
+
+特殊的, 利用变量显示子列表:
+
+```
+<<list-links "[tag<currentTiddler>sort[title]]">>
+```
+
+列表为空时显示消息:
+
+```
+<$list filter="[tag[foo]limit[1]]" emptyMessage="No `foo` tagged tiddlers available.">
+`foo` tagged tiddlers exist
+</$list>
+```
+
+<$list filter="[tag[foo]limit[1]]" emptyMessage="No `foo` tagged tiddlers available.">
+`foo` tagged tiddlers exist
+</$list>

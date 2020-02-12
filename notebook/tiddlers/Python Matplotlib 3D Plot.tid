@@ -1,0 +1,50 @@
+created: 20190805181828563
+creator: liyzcj
+modified: 20190828183538325
+modifier: liyzcj
+tags: Matploblib
+title: Python Matplotlib 3D Plot
+type: text/vnd.tiddlywiki
+
+! Matplotlib 3D 绘图
+---
+
+# 使用 [[Numpy]] 的 `meshgrid` 命令将 x 和 y 轴映射到平面, 再用公式求出对应 z 值. <div>
+
+```python
+import numpy as np
+x = linespece(-5.12,5.12,50)
+y = x
+(xx,yy) = np.meshgrid(x,y)
+zz = function((xx,yy))
+```
+
+> 基本步骤与 [[Matlab 3D绘图]] 类似.
+
+</div>
+
+# 导入 3D 坐标轴并绘图 <div>
+
+```python
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+fig = plt.figure() # 建立2D图像
+ax = fig.add_subplot(111, projection='3d') # 生成3D坐标轴
+# 在 3D 坐标轴上绘图
+ax.plot_surface(xx,yy,zz, rstride=1, cstride=1, cmap='rainbow')
+"""
+rstride : 行跨
+cstride : 列跨
+cmap    : 颜色图
+"""
+# 增加底部等高线
+ax.contourf(xx,yy,zz, zdir='z', offset=-2, cmap='rainbow')
+"""
+zdir    : 投影方向
+offset  : 投影到哪个值的平面
+cmap    : 颜色地图
+"""
+```
+
+</div>

@@ -1,0 +1,17 @@
+created: 20191210120907470
+modified: 20191210121054033
+tags: Python [[PEP 8]]
+title: Python import order
+type: text/vnd.tiddlywiki
+
+! Python Import order
+---
+
+
+Imports should be grouped in the following order:
+
+# Standard library imports.
+# Related third party imports.
+# Local application/library specific imports.
+
+You should put a blank line between each group of imports.

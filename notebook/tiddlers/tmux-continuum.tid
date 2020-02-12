@@ -1,0 +1,9 @@
+created: 20190809192610239
+modified: 20190828174214421
+tags: 插件 Tmux
+title: tmux-continuum
+type: text/vnd.tiddlywiki
+
+基于 [[tmux-resurrect]], 可以使得 Tmux 自动恢复上次保存的 session
+
+https://github.com/tmux-plugins/tmux-continuum

@@ -1,0 +1,43 @@
+created: 20200128175600277
+modified: 20200128184517369
+title: Go Method
+type: text/vnd.tiddlywiki
+
+Go 中并没有类，但是可以定义某个[[数据类型|Go Types]]的方法。
+
+''某个类型 `T` 的方法意思是函数有一个 receiver 并且 receiver 的类型为 `T`。''
+
+> 方法指的是有一个特殊的 `receiver` 参数的函数。
+
+!! 定义
+
+Receiver 定义在关键字 `func` 和函数名之间：
+
+```go
+func (r type) SomeFunc(arg1 type) type {}
+```
+
+> Method 都是函数，仅仅是有一个特殊的参数而已，所以''所有的 Method 都可以转换为函数。''
+
+''注意 receiver 的类型必须是在当前 package 定义的类型。''所以，如果想要为内建类型编写方法，可以通过[[自定义数据类型|Go Types]]编写一个内建类型的别名：
+
+```go
+type MyFloat float64
+```
+
+> 即使是 Receiver Type 的指针类型也可以使用Receiver Type 的方法。编译器会自动修改为 `(*p).SomeMethod()`，''同样不会修改原值。''
+
+
+!! 指针 Receiver
+
+使用 Type `T` 的指针 `*T` 作为 Receiver 是比较常用的用法。因为：
+
+* 这样可以''修改 Receiver 内的值''，这又是很常见的情况。
+
+> ''如果不使用指针作为 Receiver 类型的话则收到的是 Receiver 的一个 Copy。''
+
+* 可以接收 `T` 或者指针 `*T` 作为 Receiver。 并且''即使接收 `T` 也可以修改原值。''
+
+> 这时候 Method 相较于[[函数|Go Function]]的好处就体现出来了，''如果是函数，那么定义指针类型的参数仅仅能接收指针，但是对于方法，指针类型的 Receiver 可以接收指针或者非指针。''
+
+而且使用指针 Receiver 可以避免每次调用方法的时候都拷贝一次，提高代码执行效率。

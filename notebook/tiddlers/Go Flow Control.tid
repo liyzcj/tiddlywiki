@@ -1,0 +1,109 @@
+created: 20200127184718652
+modified: 20200128170746495
+tags: 
+title: Go Flow Control
+type: text/vnd.tiddlywiki
+
+!! 循环
+
+''Go 只有一个循环语句 `for`''。
+
+```go
+for [init statement];condition expression;[post statement] {}
+```
+
+特性如下：
+
+* 不同于 C 语言等，Go 的 for 语句是''不需要括号''的。并且 ''`{}` 不能省略。''
+* 其中 `init statement` 和 `post statement` 是可以省略的。''如果同时省略的话，分号也可以省略。'' 这时候 for 就变成了 while 语句。
+* 如果需要无限循环，只需要将 condition 语句也省略。
+
+> 注意，init statement 中定义的变量只能在 for 语句的 scope 中使用。
+
+例如：
+
+```go
+// 不省略
+for i:=0;i<100;i++ {}
+// 省略部分
+for ;i<100;i++ {}
+// 前后都省略, (等同于 while)
+for i<100 {}
+// 无限循环
+for {}
+```
+
+''`for` 还经常和 `range` 配合使用，用来遍历[[数组|Go Array and Slice]]或者[[哈希表|Go Map]]。''
+
+```go
+for i[, v] := range SliceOrMap {}
+```
+* 当遍历 Slice 时：第一个变量 `i` 是元素的 index， 第二个变量 `v` 是元素的一个 Copy。并且第二个''变量`v`可以省略。''
+
+* 当遍历 Map 时： 第一个变量 `i` 代表 Key，而第二个变量 `v` 是对应 Value 的 Copy。第二个''变量 `v` 也可以省略。''
+
+
+!! 判断
+
+Go 中的 If 语句和 for 语句类似：
+
+```go
+if [init statement;] [condition expression] {}
+```
+
+其中：
+
+* 也不需要括号，并且 `{}` 无法省略。
+* init statement 可以省略。
+
+> 和 for 相同，init statement 中定义的变量只能在 if 的scope 中使用。
+
+Else 和 Else if
+
+```go
+if condition {} else {}
+// or
+if condition {} else if {}
+```
+
+!!! Switch
+
+Switch 语句从上到下执行，直到遇到一个符合的 case。
+
+```go
+switch [init statement;] [variable] {
+case var1:
+	...
+case var2:
+	...
+default:
+	...
+}
+```
+
+> 注意与 C 等 switch 语句不同，Go 中的 Switch 语句仅仅会执行满足条件的分支，而不像其他语言会继续执行，需要手动写 `break`.
+
+Switch 还可以忽略变量：
+
+```go
+switch {
+case condition1:
+	...
+case condition2:
+	...
+}
+```
+
+这样可以在 Case 中编写条件语句，大大简化 If Else 语句。
+
+!!! defer
+
+`defer` 是 Go 中一个特有的逻辑控制语句，它的功能是将 defer 修饰的语句''推迟到下一次函数调用后再执行。''
+
+```go
+defer ...
+```
+
+如果连续使用多个 `defer` 则会采用''后进先出''的顺序执行调用。
+
+> [[Defer panic and Recover|https://blog.golang.org/defer-panic-and-recover]]

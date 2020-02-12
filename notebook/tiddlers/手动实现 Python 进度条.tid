@@ -1,0 +1,21 @@
+created: 20190719222634818
+creator: liyzcj
+modified: 20190828182625801
+modifier: liyzcj
+title: 手动实现 Python 进度条
+type: text/vnd.tiddlywiki
+
+利用 `print()` 函数, 可以手动实现简单的进度条.
+
+例如将 `r` 传递给 `print()` 来刷新当前行的输出:
+
+```python
+print(i, end='\r')
+```
+
+或着将结束符设置为空字符, 不换行进行输出:
+
+```python
+>>> print('#', end='')
+##########
+```

@@ -1,0 +1,31 @@
+created: 20190910022435642
+modified: 20190910023124523
+tags: Shell编程
+title: 判断文件是否存在
+type: text/vnd.tiddlywiki
+
+```shell
+if [ ! -f /path/to/file ]; then
+	command
+fi
+```
+
+如果要写到一行：
+
+```shell
+if [ ! -f /path/to/file ]; then command; fi
+```
+
+判断文件夹则使用 `-d`：
+
+```shell
+if [ ! -d /path/to/file ]; then
+	command
+fi
+```
+
+如果要写到一行：
+
+```shell
+if [ ! -d /path/to/file ]; then command; fi
+```

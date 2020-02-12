@@ -1,0 +1,57 @@
+created: 20191221095138978
+modified: 20191221104007037
+tags: Go
+title: Go packages
+type: text/vnd.tiddlywiki
+
+! GO Packages
+---
+
+> Awesome Go: https://github.com/avelino/awesome-go
+
+!! Go Package commands
+
+List all packages in Workspace:
+
+```shell
+go list ./...
+```
+
+List all packages avaliable:
+
+```shell
+go list ...
+```
+
+
+!! Documentation
+
+`godoc` is not builtin since version 1.13.
+
+```bash
+go get golang.org/x/tools/cmd/godoc
+```
+
+Open documentation localhost.
+
+```bash
+godoc -http :8000
+```
+
+`gogetdoc`:
+
+```bash
+go get github.com/zmb3/gogetdoc
+```
+
+!! Go Debugger
+
+```shell
+go get -u github.com/go-delve/delve/cmd/dlv
+```
+
+!! Go Linting
+
+```shell
+go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+```

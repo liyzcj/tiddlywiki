@@ -1,0 +1,34 @@
+caption: 脚本参数传递
+created: 20190703232215389
+creator: liyzcj
+modified: 20191201153930591
+modifier: liyzcj
+tags: Python
+title: Python 脚本参数传递
+type: text/vnd.tiddlywiki
+
+!! 脚本参数传递
+---
+
+Python 脚本的命令行参数传递方法. 命令行参数传递通过 [[sys|python-sys]] 模组实现, 但通常会相关模组来实现参数解析.
+
+```bash
+python script [arg1, arg2, ...]
+```
+
+在 [[sys|python-sys]] 模组中, `sys.argv` 是一个保存了所有命令行参数的 `List`. 其中第一个参数 `sys.argv[0]` 是脚本的名字 `script`.
+
+在得到传递进来的参数以后, 参数解析通过内建模组或其他模组实现.
+
+!!! 内建模组
+
+* [[argparse]]
+* [[getopt]]
+* [[optparse]]
+
+!!! 其他模组
+
+* [[tf.app.flags]] (属于 [[TensorFlow]])
+* [[click]]
+* [[docopt]]
+* [[Python Fire]]

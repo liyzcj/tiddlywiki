@@ -1,0 +1,28 @@
+created: 20191122042447098
+modified: 20191122042949078
+tags: Linux SSH
+title: ssh login 欢迎信息
+type: text/vnd.tiddlywiki
+
+当使用 ssh 登陆远程服务器的时候，可能会看到这样的欢迎界面：
+
+```bash
+Welcome to Ubuntu 18.04.3 LTS (GNU/Linux 3.10.0-957.27.2.el7.x86_64 x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+Last login: Fri Nov 22 04:18:09 2019 from 10.32.0.1
+```
+
+这个页面的内容保存在 `/etc/update-motd.d` 这个目录中，当要显示一个界面时需要两个条件：
+
+* 文件在上述目录中
+* 这个文件有执行权限
+
+所以如果不需要显示可以去掉文件的执行权限：
+
+```bash
+sudo chmod -x /etc/update-motd.d/*
+```

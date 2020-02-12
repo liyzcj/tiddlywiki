@@ -1,0 +1,9 @@
+created: 20190809193645117
+modified: 20190828174227459
+tags: 插件 Tmux
+title: tmux-yank
+type: text/vnd.tiddlywiki
+
+从 tmux 复制到系统剪贴板.
+
+https://github.com/tmux-plugins/tmux-yank

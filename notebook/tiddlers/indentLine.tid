@@ -1,0 +1,9 @@
+created: 20190809201421505
+modified: 20190828174004743
+tags: 插件 Vim
+title: indentLine
+type: text/vnd.tiddlywiki
+
+显示和缩进的直线, 使得代码更直观.
+
+https://github.com/Yggdroot/indentLine

@@ -1,0 +1,86 @@
+created: 20190903150405634
+modified: 20190905033637454
+tags: Vscode Config Docker
+title: 配置 vscode 连接远程 Container
+type: text/vnd.tiddlywiki
+
+VSCODE 的远程开发套件让remote 编程进入了新的时代，试想能够在本地使用远程服务器上的容器环境是多么幸福的事情。
+
+配置 vscode 连接本地的 Docker Container 非常简单，连接远程的 Container 却费了我很大的劲。
+
+首先配置本地的 Container 环境就不提了，只要配置好 Dockerfile 和 devcontainer.json 就可以方便的使用容器开发环境。
+
+明确了 Docker 是服务端客户端的模式以后，配置远程 Container 开发环境有两种方式：
+
+* 通过 docker-machine 管理远程的 Docker 服务器。
+* 通过 ssh tunnel 将远程服务器的 sock 接口传到本地。
+
+其中，第一种方法需要远程用户有 sudo 无密码权限，要求较高，第二种则没有那么高的要求，只需要用户能够在服务器执行 Docker 就可以。
+
+> Docker 的服务端通过 `/var/run/docker.sock` 作为命令传输的 socket 接口， 所以可以通过 ssh -L 将远程主机的 socket 端口映射到本地，再通过本地的 Docker 客户端来连接 socket 端口进行控制远程的 Docker 服务器。
+
+由于远程开发服务器一般属于公司，很可能没有 sudo 权限，所以选用第二种方式（但是第二种方式有可能需要修改 SSHD 服务的配置文件，那么就也需要管理员权限了）
+
+⚠️ 其实配置起来非常简单，不过由于我在 终端使用了 [[socks5 端口转发|终端走socks5代理]]进行科学上网，导致 Docker 一直无法连接到映射过来的端口。😣
+
+---
+
+!! 配置步骤
+
+# 配置 `DOCKER_HOST` 环境变量，如果不想修改全局的环境变量，可以在 VSCODE 的 Docker 扩展插件的配置里对不同的项目设置该参数：<div>
+
+打开配置，搜索 `docker.host`:
+
+```bash
+tcp://localhost:23750
+```
+
+</div>
+
+# 运行端口映射命令： <div>
+
+```bash
+ssh -nNT -L localhost:23750:/var/run/docker.sock user@host_name
+```
+
+> 如果命令失败或者没有效果，则需要在远程的 [[ssh 配置文件]] 里增加配置项目：`AllowStreamLocalForwarding yes` 并重启服务。
+
+</div>
+
+
+# 设置 Mount 方式： <div>
+
+* 如果没有 login 权限，可以将本地目录映射到 Container 中：<div>
+
+修改 devcontainer.conf 文件：
+
+```json
+"workspaceFolder": "/workspace",
+"workspaceMount": "src=remote-workspace,dst=/workspace,type=volume,volume-driver=local"
+```
+
+</div>
+
+* 如果有 login 权限，则可以选择将使用远程主机的文件 Mount 到 Container 中：<div>
+
+```json
+"workspaceFolder": "/workspace",
+"workspaceMount": "src=/absolute/path/on/remote/machine,dst=/workspace,type=bind"
+```
+</div>
+
+</div>
+
+# 此时便可以像使用本地 Docker 一样配置远程容器环境。
+
+---
+
+!! Reference
+
+https://code.visualstudio.com/docs/remote/containers-advanced#_developing-inside-a-container-on-a-remote-docker-host
+
+---
+
+!! 补充
+
+通过 [[remote-ssh 直接连接到容器|配置 vscode ssh 连接远程环境]]内部获取是更方便的方式。就是丢失了容器管理功能。

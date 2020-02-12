@@ -1,0 +1,11 @@
+created: 20200211065245346
+modified: 20200211070346461
+tags: Definitions Python
+title: Pythonic
+type: text/vnd.tiddlywiki
+
+Pythonic 指的是能够充分利用 Python 语言特性的 Python 代码。
+
+因为 Python 语言有很多独特的特性和语法，虽然使用传统的语法也能实现同样的功能，但是充分利用 Python 的语法和特性，是更好的选择。
+
+注意的是 Pythonic 不仅仅意味着好看，还是 Python 的信条的实现：''简单，灵活，易读。''

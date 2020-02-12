@@ -1,0 +1,39 @@
+created: 20190805175756259
+creator: liyzcj
+modified: 20190828180328044
+modifier: liyzcj
+tags: Matlab
+title: 函数作为参数传递
+type: text/vnd.tiddlywiki
+
+! 函数传递
+
+---
+
+如果想将函数作为参数传递可以使用@符号。
+
+例如:
+
+```matlab
+function [y] = funcA(a,b)
+    y = a + b;
+end
+
+function [y] = funcB(f)
+    y = f(3, 2);
+end
+
+y = funcB(@funcA);
+%% y = 5
+```
+
+在使用函数作为参数时，还可以设置传递函数的默认参数。 举个栗子：
+
+```matlab
+function [y] = funcC(f)
+    y = f(1);
+end
+f = @(p1)funcA(p1,3);
+y = funcC(f);
+%% y = 1 + 3
+```

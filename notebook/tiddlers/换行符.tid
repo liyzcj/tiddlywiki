@@ -1,0 +1,119 @@
+created: 20190722194253513
+creator: liyzcj
+modified: 20190828184809225
+modifier: liyzcj
+tags: 操作系统 Concept
+title: 换行符
+type: text/vnd.tiddlywiki
+
+!! 换行符
+
+不同操作系统对应的换行符不同, 主要包括以下三种:
+
+* CR (~CarriageReturn) 回车
+* LF (~LineFeed) 换行
+* CRLF
+
+对应关系:
+
+|!操作系统|!换行符|
+|Dos与Windows|CRLF|
+|UNIX/Linux|LF|
+|MAC OS|CR|
+
+!! 主要区别
+
+CR 与 LF 的主要区别如下:
+
+* CR 用符号 r 表示, 十进制 ASCII 码是 13, 十六进制是 0x0D
+* LF 使用符号 n 表示, ASCII 代码是 10, 十六进制为  0x0A
+
+所以 Windows 平台上换行在文本文件中使用 0d0a 两个字节表示, 即 `\r\n`; 而 UNIX 与 MAC OS 平台上的换行则使用 0a 或 0d 一个字节表示, 即 `\r` 或 `\n`.
+
+> Windows 上的文本如果不经过转换, 在 Linux 上换行时会显示为 `^M`, 即 `\r`.
+
+!! 自动转换
+
+一般操作系统上的运行库会自动决定文本文件的换行格式。如一个程序在Windows上运行就生成CR/LF换行格式的文本文件，而在Linux上运行就生成LF格式换行的文本文件。 在一个平台上使用另一种换行符的文件文件可能会带来意想不到的问题，特别是在编辑程序代码时。 有时候代码在编辑器中显示正常，但在编辑时却会因为换行符问题而出错。 很多文本/代码编辑器带有换行符转换功能，使用这个功能可以将文本文件中的换行符在不同格式单互换。
+
+在不同平台间使用FTP软件传送文件时，在ASCII文本模式传输模式下，一些FTP客户端程序会自动对换行格式进行转换。 经过这种传输的文件字节数可能会发生变化。如果你不想FTP修改原文件，可以使用bin模式(二进制模式)传输文本。
+
+!! 手动转换
+
+!!! Windows
+
+在Windows环境下，用ultraedit或者notepad plus都有相应的选项可以将Windows下的文本格式文件转换成unix格式文件。 比如：notepad plus中“编辑”—>“档案格式转换”—>“转换为UNIX格式”。
+
+!!! Linux
+
+在Linux下面，一般有三种方式来转换文件：
+
+# 使用dos2unix工具, 该命令会去掉行尾的`^M` : <div>
+
+```bash
+$ dos2unix myfile.txt
+```
+</div>
+
+# 使用 vi 修改文件 <div>
+
+有两种情况:
+
+* 如果文件是在windows环境下创建并编辑的，文件中所有的换行符都是 `\r\n` ，vi 会在打开文件时识别出该文件是dos格式，此时不会显示 `^M` ，在命令行模式下输入: <div>
+
+```bash
+:set fileformat=unix
+```
+
+如果在 Mac 环境:
+
+```bash
+:set fileformat=mac
+```
+
+，然后保存即可。
+
+</div>
+
+* 如果文件中的换行符有些是为 `\r\n` ，有些是 `\n` ，在vi显示文件时，为 `\r\n` 将会显示为 `^M` 然后换行。这种情况可以直接用vi的替换命令。
+
+''替换命令'':
+
+* 替换所有 `^M` : <div>
+
+```bash
+:%s/^M//g
+```
+</div>
+
+* 替换行尾的 `^M`: <div>
+
+```bash
+:%s/^M$//g
+```
+</div>
+
+* 将 `^M` 替换为回车: <div>
+
+```bash
+:%s/^M/[ctrl-v]+[enter]/g
+```
+或着
+
+```bash
+:%s/^M/\r/g
+```
+
+> 在命令中， `^M` 的输入方式是 `Ctrl+v` + `Ctrl+m` ，是一个字符，不是两个字符。（ `^I` 制表符也是如此。）
+
+如果碰到有提示：`E486: Pattern not found: ^M`，单文件中实际存在 `^`M ，比如用 `cat -v` 或 `cat -A` 查看时， 这种情况应该是因为文本中每行都是 `\r\n` 结尾，vi自动用dos模式打开，这样就看不到 `^M` ，这时候直接用 `:set fileformat=unix` 就可以了
+</div>
+
+</div>
+
+# 使用 `sed` 命令修改 <div>
+
+```bash
+$ sed -e 's/^M/\n/g' myfile.txt
+```
+> 💡 `^M = Ctrl+v,Ctrl+m`

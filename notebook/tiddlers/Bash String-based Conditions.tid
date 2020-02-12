@@ -1,0 +1,14 @@
+created: 20200202094813328
+modified: 20200202095912233
+title: Bash String-based Conditions
+type: text/vnd.tiddlywiki
+
+|!Condition|!True if|
+|`[ FOO == BAR ]`|相等|
+|`[ FOO != BAR ]`|不相等|
+|`[ FOO > BAR ]`|在当前 locale 排序下的排在之后|
+|`[ FOO < BAR ]`|在当前 locale 排序下的排在之前|
+|`[ -n 非空字符串 ]`|非空字符串|
+|`[ -z 空字符串 ]`|空字符串|
+|`[[ FOO =~ Regex ]]`|字符串符合正则表达式|
+

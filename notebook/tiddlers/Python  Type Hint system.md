@@ -1,0 +1,845 @@
+# The state of type hints in Python
+
+
+
+> 翻译自 [The state of type hints in Python](https://www.bernat.tech/the-state-of-type-hints-in-python/)
+
+Python 一个主要的卖点是动态类型，也就是我们常说的鸭子类型。一个对象只要 "看起来像鸭子，走起路来像鸭子" 那它就可以被看做是鸭子。既然是卖点，那么这个特性是不会改变的。不过在2014 年九月的时候，Python 的 BDFL 提出了一个议案 ([PEP-484](https://www.python.org/dev/peps/pep-0484)) 来对参数进行类型提示。这个特性在一年之后，也就是 2015 年九月随着 Python 3.5.0 版本发布。整整 25年了，Python 代码终于有了标准的类型提示。这篇文章主要探索这个系统的成熟型，如何使用这个系统，以及类型提示的未来。
+
+## 为何需要类型提示？
+
+### 设计类型提示为了什么？
+
+首先，我们来看一下为什么我们需要类型提示。类型提示有很多的好处，让我们根据重要性一一罗列。
+
+#### 1. 可以更加容易的理解代码
+
+知道一个参数的类型可以使代码更加容易理解和维护。例如，假设你有一个函数。你可能在创建这个函数的时候知道它的参数和返回值是什么类型，但是几个月后就不是这种情况了。在代码中显示出参数与返回值的类型可以让你下次查看这个函数的时候能够更快的 get 到几个月前的想法。记住，你读代码的时候肯定比写代码的时候多。因此，你应该为了代码的可理解性进行一些优化。
+
+拥有类型提示的函数会提示你调用的时候传递什么参数。并且当你要修改或者扩展这个函数的时候，它会告诉你输入输出的类型。例如，下面这个发送 request 的函数：
+
+```python
+def send_request(request_data : Any,
+                 headers: Optional[Dict[str, str]],
+                 user_id: Optional[UserId] = None,
+                 as_json: bool = True):
+    ...
+```
+
+仅仅看 signature 这部分我就知道，request_data 可以是任何类型， headers 应该是一个键值对都是 str 的字典。用户的信息 user_id 也是一个可选参数，并且类型是 UserId，as_json 是一个布尔变量。
+
+事实上我们早就知道了类型信息是必须的，但是在之前我们并没有很好的办法来将类型信息展示出来，所以我们一般会把类型信息写到 docstring 中。类型提示系统提供了一个更好的办法来声明变量复杂的类型。并且一些 linters 也可以检查这些类型提示来保证整个程序的正常运转。
+
+#### 2. 更方便的重构代码
+
+类型提示可以让你更方便的重构代码。例如，当你想要重构一个类时，类型提示能够让你方便的找到哪些地方使用了这个类。虽然之前一些 IDE 已经在尝试着去做这件事，但是类型提示可以让它们更加准确的实现百分之百的检测。所以，类型提示提供了一个更加平滑和准确的方法来检测这些类是怎么在代码中运行的。
+
+但是类型提示毕竟仅仅是类型提示，你的变量在运行的时候仍然可能是任何类型的对象。所以还是要使用 `isinstance()` 方法来确定变量的类型。
+
+#### 3. 更加方便的使用库
+
+拥有类型提示意味着 IDE 可以有更加准确和聪明的的提示内容。现在，当你使用自动补全时，IDE 可以完全的解析出一个参数有哪些方法和属性，因为它知道这个参数是什么类型。此外，如果用户尝试着去调用一个不存在的东西或者传递了一个不对的类型，IDE 可以将它检测出来。
+
+![editor_suggest](https://www.bernat.tech/content/images/2018/05/editor_suggest.png)
+
+#### 4. Type linter
+
+![type_missmatch](https://www.bernat.tech/content/images/2018/05/type_missmatch.jpg)
+
+虽然 IDE 能够显示出错误的参数类型非常不错，一个更加好的扩展是有一个 linter 工具能够确保类型符合程序的逻辑。运行这个工具能够帮助你较早的发现 bug，例如下面这个例子，它的输入必须是一个 str，传递 None 这个函数会造成错误：
+
+```python
+def transform(arg):
+    return 'transformed value {}'.format(arg.upper())
+    
+transform(None) # if arg would be type hinted as str the type linter could warn that this is an invalid call
+```
+
+可能有些人会说这种简单的错误很容易发现，但是请记住，即使在很复杂的情况下，这种逻辑仍然可以工作。例如一些嵌套的函数调用：
+
+```python
+def construct(param=None):
+    return None if param is None else ''
+
+def append(arg):
+    return arg + ' appended'
+    
+transform( append( construct() ) )
+```
+
+尽管有许多许多的 linters，但是 Python 类型检查的典型是现实是 [mypy](http://mypy-lang.org/)。 mypy 是一个 Python 命令行工具，可以很方便的将它应用到一个持续集成的管道中。
+
+#### 5. 实时的数据验证
+
+类型提示可以被用来进行实时的数据验证。你不需要再写一长串的 asserts。取而代之的是使用一个框架，这个矿建可以根据类型提示在逻辑运行之前来检查是否符合要起。
+
+一个使用 [pydantic](https://github.com/samuelcolvin/pydantic) 框架的例子：
+
+```python
+from datetime import datetime
+from typing import List
+from pydantic import BaseModel, ValidationError
+
+class User(BaseModel):
+    id: int
+    name = 'John Doe'
+    signup_ts: datetime = None
+    friends: List[int] = []
+
+external_data = {'id': '123', 'signup_ts': '2017-06-01 12:22',
+                 'friends': [1, 2, 3]}
+user = User(**external_data)
+
+try:
+    User(signup_ts='broken', friends=[1, 2, 'not number'])
+except ValidationError as e:
+    print(e.json())
+```
+
+### 类型提示不是为了什么？
+
+> From the get-go : 从一开始
+
+从一开始，Guido 就明确了表示了类型提示不是为了以下这些情况设计的（但是这也并不意味着人们不会在这种情况下使用类型提示，开源万岁 😂）：
+
+#### 1. 不是为了实时类型推理
+
+Runtime 解释器 （CPython） 并不会尝试去推理类型信息，并且不会检测一个传递过来的变量是否符合指定类型。
+
+#### 2. 不是为了性能调优
+
+Runtime 解释器 （CPython）也不会使用类型信息对生成的二进制代码进行任何的优化。当执行代码的时候，仅仅将类型信息当作注释处理，也就是直接丢掉。
+
+这里的关键点是类型提示是设计来提升开发者的开发体验的，它并不会影响你的代码是如何运行的。**也就是说他可以让开发者写代码写的更开心，但是不会让他的代码跑的更快。**
+
+
+
+## 类型提示是一个什么样的系统
+
+Python 的类型提示是渐进的。意思如果你不添加类型提示，那么就默认可以是任何类型。这样的话你可以逐渐的修改你的代码，让它变成类型可知的。可以增加类型提示的有：
+
+* 函数参数
+* 函数返回值
+* 变量
+
+记住只有拥有类型提示的代码会被 linter 工具进行类型检测。当你使用类似于 mypy 这种 linter 工具的时候，它们可以检查出你的参数与指定的类型不匹配，并报错。
+
+```python
+# tests/test_magic_field.py
+f = MagicField(name=1, MagicType.DEFAULT)
+f.names()
+```
+
+上述代码会产生以下输出：
+
+```bash
+bernat@uvm ~/python-magic (master●)$ mypy --ignore-missing-imports tests/test_magic_field.py
+tests/test_magic_field.py:21: error: Argument 1 to "MagicField" has incompatible type "int";
+    expected "Union[str, bytes]"
+tests/test_magic_field.py:22: error: "MagicField" has no attribute "names"; maybe "name" or "_name"?
+```
+
+mypy 不仅可以检查出传入的参数类型是否匹配，还可以检查出一个对象包含哪些属性，并在你访问不存在的属性时报错。后者可以用来在你编写代码时进行属性提示，减少拼写错误。
+
+### 如何编写类型提示？
+
+当你决定为你的代码添加类型提示的时候，你将会意识到有很多种方法可以添加类型提示。让我们来看一下有哪些方法？
+
+
+
+#### 1. 类型注解
+
+```python
+from typing import List
+
+class A(object):
+    def __init__() -> None:
+         self.elements : List[int] = []
+
+   def add(element: int) -> None:
+         self.elements.append(element)
+```
+
+类型注解是添加类型提示的最直接的方式，也是你在 [typing 文档](https://docs.python.org/3/library/typing.html)中最常见的方式。类型注解的语法有两个提案提出：
+
+* 函数注解，由[PEP-3107](https://www.python.org/dev/peps/pep-3107/) 提出，在 Python 3.0 + 中可以使用
+* 变量注解：由 [PEP-526](https://www.python.org/dev/peps/pep-0526/) 提出，在 Python 3.6 + 中可以使用
+
+这两个类型注解的语法都是通过使用 `:` 语法来增加类型信息。 `->` 操作符可以用来标记函数的返回值。
+
+这种方式的优点是：
+
+* 这是增加类型信息的最典型的做法，也是在代码中最简答的做法。
+* 由于类型信息附加在代码后面，所以这些信息会随着代码一起打包。
+
+这种方法的缺点是：
+
+* 无法与低版本兼容。由于类型信息直接添加到代码中，导致低于 Python 3.6 版本无法运行代码。
+* 这种方法需要导入所有需要的类型，即使这些类型没有在其他代码中使用。
+* 在类型提示中，你可以使用复合类型，例如 `List[int]`。为了计算这些复合类型，解释器需要在加载的时候进行一些额外的运算。
+
+后两条缺点恰恰与类型提示的设计初衷相互冲突：在运行时，解释器应该将类型信息作为代码的注释而不需要运行它。为了解决这个问题，Python 3.7 介绍了[PEP-563 ~ postponed evaluation of annotations](https://www.python.org/dev/peps/pep-0563/)。 如果你在代码的最前面执行：
+
+```python
+from __future__ import annotations
+```
+
+那么解释器就不会去计算哪些复合类型。当解释器在解析语法树的时候，它会检查出类型提示信息，并且当作注释，不进行任何处理。
+
+这种机制允许类型提示用在它们该被使用的地方：linter 中。在 Python 4 中，这种方式应该会被作为默认方式。
+
+#### 2. 类型注释
+
+当注解语法无法使用的时候，我们可以使用类型注释：
+
+```python
+from typing import List
+
+class A(object):
+    def __init__():
+         # type: () -> None
+         self.elements = []  # type: List[int]
+
+   def add(element):
+         # type: (List[int]) -> None
+         self.elements.append(element)
+```
+
+当时使用这种方式的时候，会有以下好处：
+
+* 类型注释可以在任何 Python 版本中添加。尽管 typing 库在 Python 3.5 中才加入，但是其他版本的 Python 可以去 PyPI 中下载 typing module。而且，注释是任何一个 Python版本都可以使用的语法。但是这种方式有两点限制：一个是类型注释需要添加到当前行或者下一行；还有就是需要以 `type:` 开头。
+* 这种办法也是可以随着代码一起将类型信息打包的。将类型信息与源代码一起打包会让使用你代码的人能够更加容易的理解你的代码。
+
+但是这种方法同样也有缺点：
+
+* 尽管类型信息与变量或者参数里的非常近，但是仍然不如上面的类型注解直观。这样会使得代码变得有些混乱。而且这种办法要求你把注释只能写到同一行中，这样非常容易造成单行代码过长。
+* 另一个问题是这种方式可能会与其他也使用这种方式进行设置的工具产生冲突。例如 pylint
+* 这种方式出了需要你导入所有依赖的类型以外，还可能产生另一个问题。你导入的类型信息可能会被一些linter工具判断为没有使用。因为你是在注释中使用这些信息的。注意 `pylint` 已经修复了这个问题，它是通过将 AST 解析器更换为 [typed-ast parser](https://github.com/PyCQA/pylint/issues/1063) 来解决这个问题的。pylint version2 会随着Python3.7 发布。
+
+为了避免使得一行代码过长，这里有一个小技巧就是将函数的参数更改为一行一行的格式：
+
+```python
+def add(element # type: List[int]
+       ):
+    # type: (...) -> None
+    self.elements.append(element)
+```
+
+现在我们来看一下这种注释方式是如何让你的代码变得混乱的。
+
+现在假设你有下面一段代码：
+
+```python
+@contextmanager
+def swap_in_state(state, config, overrides):
+    old_config, old_overrides = state.config, state.overrides
+    state.config, state.overrides = config, overrides
+    yield old_config, old_overrides
+    state.config, state.overrides = old_config, old_overrides
+```
+
+首先，你需要为参数增加类型信息，你需要将参数一行一行的编写：
+
+```python
+@contextmanager
+def swap_in_state(state,  # type: State
+                  config,  # type: HasGetSetMutable
+                  overrides  # type: Optional[HasGetSetMutable]
+                 ):
+# type: (...) -> Generator[Tuple[HasGetSetMutable, Optional[HasGetSetMutable]], None, None]
+    old_config, old_overrides = state.config, state.overrides
+    state.config, state.overrides = config, overrides
+    yield old_config, old_overrides
+    state.config, state.overrides = old_config, old_overrides
+```
+
+但是，你要首先确保你正确导入了这些类型的依赖：
+
+```python
+from typing import Generator, Tuple, Optional, Dict, Union, List
+from magic import RunSate
+
+HasGetSetMutable = Union[Dict, List]
+
+@contextmanager
+def swap_in_state(state,  # type: State
+                  config,  # type: HasGetSetMutable
+                  overrides  # type: Optional[HasGetSetMutable]
+                  ):
+    # type: (...) -> Generator[Tuple[HasGetSetMutable, Optional[HasGetSetMutable]], None, None]
+    old_config, old_overrides = state.config, state.overrides
+    state.config, state.overrides = config, overrides
+    yield old_config, old_overrides
+    state.config, state.overrides = old_config, old_overrides
+```
+
+现在这些代码会在一些 linter工具中报错。所以你需要将一些 linter 的功能进行屏蔽：
+
+```python
+from typing import Generator, Tuple, Optional, Dict, List
+from magic import RunSate
+
+HasGetSetMutable = Union[Dict, List]  # pylint: disable=invalid-name
+
+@contextmanager
+def swap_in_state(state,  # type: State
+                   config,  # type: HasGetSetMutable
+                   overrides  # type: Optional[HasGetSetMutable]
+                   ):  # pylint: disable=bad-continuation
+    # type: (...) -> Generator[Tuple[HasGetSetMutable, Optional[HasGetSetMutable]], None, None]
+    old_config, old_overrides = state.config, state.overrides
+    state.config, state.overrides = config, overrides
+    yield old_config, old_overrides
+    state.config, state.overrides = old_config, old_overrides
+```
+
+ 终于完成了。在增加了类型提示以后，你的六行代码变成了16行。你现在需要维护更多的代码了！！
+
+
+
+#### 3. 接口文件
+
+这种方式允许你的代码保持原样不变，但是你要在相同文件夹下添加一个新的 `pyi` 文件：
+
+```python
+# a.pyi alongside a.py
+from typing import List
+
+class A(object):
+  elements = ... # type: List[int]
+  def __init__() -> None: ...
+  def add(element: int) -> None: ...
+```
+
+接口文件并不是一个新兴的东西，在 C/C++ 中已经用了几十年了。但是 Python 是解释性语言，所以它不需要接口文件这种东西。但是，就像任何计算机科学的问题都可以在中间添加一层缓冲层一样，我们可以增加这么一层来保存类型信息。
+
+这种方式的优点是：
+
+* 你不需要修改你的源代码，并且可以在任何 Python 版本中兼容，因为其他版本不会去解析这个新的文件。
+* 在接口文件中，你可以使用最新的语法。
+* 因为你不需要修改你的源代码，这样能够减少 bug 出现的可能性，而且这种方式也不会和 linter 工具冲突。
+* 这种设计已经被许多官方的库采用，所以已经通过许多测试。
+* 可以对你无法修改的源码添加类型提示。
+
+这种方式的缺点是：
+
+* 你需要将你的代码复制一份，现在所有的函数都有两个定义。
+* 现在你需要一些额外的文件一起打包进你的代码包中。
+* 这种方式无法声明变量的类型。
+* 并没有方法去检查你的接口文件中的定义是否和你的函数相同（在 IDE 中，总会使用你的接口文件进行提示）
+* 然而，最严重的缺点是你在编写代码的时候并没有对象的属性提示或者类型提示。因为类型信息在另一个文件中。设计接口文件是用来对一些库进行类型提示的定义的。而不是对你正在编写的代码进行类型提示。
+
+最后两个缺点导致根据接口文件进行类型提示的检查非常困难。所以接口文件是用来为你的用户提供类型提示的，而不是正在编写代码的你，并且这种方法会增加维护的负担，因为你要同时维护两个文件。为了解决这个问题，mypy 正在尝试着提供自动合并接口文件与源代码的功能。你可以在[python/mypy ~ issue 5208](https://github.com/python/mypy/issues/5028) 中关注这个功能的进展。
+
+#### 4. Docstring
+
+将类型提示信息增加到 Docstring 中也是可以的。尽管这并不是设计的一部分，但是这种方法被大多数的 IDE 支持。这也是进行类型提示的最传统的方法。
+
+优点是：
+
+* 任何 Python 版本都可以工作，在[PEP-257](https://www.python.org/dev/peps/pep-0257/) 中有对应的定义。
+* 不与其他的 linter 工具冲突，因为大多数linter 工具都不会检查docstring 的内容。
+
+同样也有缺点：
+
+* 没有一种标准的方法来增加复合类型（例如 oneof `int` or `bool`）。Pycharm 有一套自己的规则，而 Sphinx 有另一套规则。
+* 需要修改文档，并且修改起来非常困难，因为没有工具可以检查修改是否正确。
+* 这种方法与类型注解兼容的不是很好。如果同时编写了类型注解和 Docstring ，那么应该按照那个类型来呢。
+
+### 增加哪些内容作为类型提示
+
+让我们来深入查看一些细节。更加详细的内容请查看[官方文档](https://docs.python.org/3/library/typing.html)。这里仅仅做一个简单的介绍。
+
+#### 1. Nominal type
+
+
+
+Nominal type 指的是哪些在 Python 解释器中自带的参数类型：
+
+- int
+- bolean
+- float
+- type
+- object
+
+然后我们有了 generic type，通常以容器的形式展现：
+
+```python
+t : Tuple[int, float] = 0, 1.2
+d : Dict[str, int] = {"a": 1, "b": 2}
+d : MutableMapping[str, int] = {"a": 1, "b": 2}
+l : List[int] = [1, 2, 3]
+i : Iterable[Text] = [ u'1', u'2', u'3']
+```
+
+对于这些复合类型，在每次都要写一遍就很烦，所以也可以定义一个变量作为别名：
+
+```python
+OptFList = Optional[List[float]]
+```
+
+你甚至可以为内建的类型起一个新的别名，这对于区别两个相同类型的变量的顺序特别有用：
+
+```python
+UserId = NewType('UserId', int)
+user_id = UserId(524313)
+count = 1
+call_with_user_id_n_times(user_id, count)
+```
+
+对于 ` namedtuple` 你可以直接添加类型（和 ` 3.7+ ` 的 [data class](https://www.python.org/dev/peps/pep-0557/) 或者 [attrs library]() 非常相似）
+
+> [namedtuple()](https://docs.python.org/3/library/collections.html#collections.namedtuple) 是用来快速创建i 个 Tuple 类的工厂函数。来自内建 module collections。
+
+```python
+class Employee(NamedTuple):
+     name: str
+     id: int
+```
+
+可以使用 one of 或者 Optional 来修饰 type：
+
+```python
+Union[None, int, str] # one of
+Optional[float] # either None or float
+```
+
+你甚至可以对 callback 函数设置类型提示：
+
+```python
+# syntax is Callable[[Arg1Type, Arg2Type], ReturnType]
+def feeder(get_next_item: Callable[[], str]) -> None:
+```
+
+你也可以使用 ` TypeVar` 定义自己的 Containers：
+
+```python
+T = TypeVar('T')
+class Magic(Generic[T]):
+      def __init__(self, value: T) -> None:
+         self.value : T = value
+
+ def square_values(vars: Iterable[Magic[int]]) -> None:
+     v.value = v.value * v.value
+```
+
+最后，你可以使用 Any 来禁用 type hint
+
+```python
+def foo(item: Any) -> int:
+     item.bar()
+```
+
+#### 2. Duck types - protocols
+
+这是一种更加 Pythonic 的情况，也就是说的 鸭子类型。
+
+> 鸭子类型：如果一个东西叫起来像鸭子，跑起来也像鸭子，那么它就是鸭子。
+
+这种情况下，你不是去明确的指定一个类型而是指定你期望的 action：
+
+```python
+KEY = TypeVar('KEY', contravariant=true)
+
+# this is a protocol having a generic type as argument
+# it has a class variable of type var, and a getter with the same key type
+class MagicGetter(Protocol[KEY], Sized):
+    var : KEY
+    def __getitem__(self, item: KEY) -> int: ...
+
+def func_int(param: MagicGetter[int]) -> int:
+    return param['a'] * 2
+
+def func_str(param: MagicGetter[str]) -> str:
+    return '{}'.format(param['a'])
+```
+
+详情见  [PEP-544 ~ Protocols](https://www.python.org/dev/peps/pep-0544/).
+
+
+
+## 陷阱
+
+
+
+一旦你开始在代码中使用 type hint，你可能会遇到一些奇怪的事情。
+
+在这一部分，我会尝试着去展示一些你可能遇到的问题：
+
+
+
+#### 1. str difference between Python 2/3
+
+这里是一个 `repr` dunder 的快速实现：
+
+> dunder 和 magic method 是一个意思，指的是 Python 中由两边各两个下划线的方法。Dunder here means “Double Under (Underscores)”
+
+```python
+from __future__ import unicode_literals
+
+class A(object):
+    def __repr__(self) -> str:
+        return 'A({})'.format(self.full_name)
+```
+
+这个代码在 Python 2 中会有一个 bug（因为 Python 2 中 ` repr ` 方法返回的应该是 ` bytes` ，然而 ` unicode_literals ` 使得 Python 3 中返回的类型是   ` Unicode` ）而使用 ` from future import ` 的方法导致你无法同时 为 python2 与 Python3 添加 type hint。这时候你需要编写一定的逻辑处理这个事情：
+
+
+
+```python
+from __future__ import unicode_literals
+
+class A(object):
+    def __repr__(self) -> str:
+        res = 'A({})'.format(self.full_name)
+        if sys.version_info > (3, 0):
+            # noinspection PyTypeChecker
+            return res
+        # noinspection PyTypeChecker
+        return res.encode('utf-8')
+```
+
+
+
+而这时候你为了让 IDE 接受这种写法，你还要添加一些注释。现在这个代码的可读性变得非常的差，而且关键是你现在在运行时进行了类型检查。
+
+
+
+#### 2. Multiple return types
+
+假设你现在要编写一个函数可能返回 ` str` 或者 ` int ` 中的一个：
+
+```python
+def magic(i: Union[str, int]) -> Union[str, int]:
+    return i * 2
+```
+
+但是现在你想弹雨增加了两种可能，但是 Python 解释器并不知道哪个对应哪一个。这时候你可能要在调用这个函数的时候写一个 assert 语句：
+
+```python
+def other_func() -> int:
+    result = magic(2)
+    assert isinstance(result, int)
+    return result
+```
+
+这种不便可能会让一些人为了避免这些麻烦而将函数的返回类型设置为 Any。但是有一个更好的解决方案。 type hint system 支持你定义 overloads 函数。
+
+```python
+from typing import overload
+
+@overload
+def magic(i: int) -> int:
+    pass
+
+@overload
+def magic(i: str) -> str:
+    pass
+
+def magic(i: Union[int, str]) -> Union[int, str]:
+    return i * 2
+
+def other_func() -> int:
+    result = magic(2)
+    return result
+```
+
+这时候你的 lint 工具可能会报错没有这个函数，这时候你需要添加 ` # pylint: disable=function-redefined` 。
+
+#### 3. Type lookup
+
+假设你现在有一个类，这个类允许将包含的数据表现为多种类型，或者拥有多种类型的数据。你想让用户快速的定位到某一个需要的类型：
+
+```python
+class A(object):
+    def float(self):
+            # type: () -> float
+           return 1.0
+```
+
+现在你用 linter 工具的时候会发现：
+
+```
+test.py:3: error: Invalid type "test.A.float"
+```
+
+你这时候可能会疑问，这是什么玩意儿？？ 我将返回值定义为了 ` float` 而不是 ` test.A.float`。这是因为 type hint system 是向外一层一层的查找需要的类型的。上述例子中首先搜索 class A 中的 float。
+
+解决方法就是明确的指定 ` builtin` 的 ` float` 类型：
+
+```python
+if typing.TYPE_CHECKING:
+    import builtins
+
+class A(object):
+    def float(self):
+            # type: () -> builtins.float
+           return 1.0
+```
+
+这种情况下需要导入 builtins ，这可能会导致一些运行时错误。如果你不想在运行时导入 builtins，可以指定 `typing.TYPE_CHECKING` 变量，这样只有在 linter 测试代码时才会导入 builtins。
+
+#### 4. Contravariant argument
+
+以下面这个 case 为例子。你定义了一个包含基本操作的抽象类。然后你通过不同的类来控制不同的类型输入：
+
+```python
+from abc import ABCMeta, abstractmethod
+from typing import Union
+
+class A(metaclass=ABCMeta):
+    @abstractmethod
+    def func(self, key):  # type: (Union[int, str]) -> str
+        raise NotImplementedError
+
+class B(A):
+    def func(self, key):  # type: (int) -> str
+        return str(key)
+
+class C(A):
+    def func(self, key):  # type: (str) -> str
+        return key
+```
+
+这样看起来设计不错，但是当你运行 type linter 时，你会发现：
+
+```
+test.py:12: error: Argument 1 of "func" incompatible with supertype "A"
+test.py:17: error: Argument 1 of "func" incompatible with supertype "A"
+```
+
+出现这个问题的原因是，类的参数是逆变得。也就是说你的字类必须能够处理父类中指定的所有类型。即使在函数中，你也只能进行扩展而不能进行限制：
+
+```python
+from abc import ABCMeta, abstractmethod
+from typing import Union
+
+class A(metaclass=ABCMeta):
+    @abstractmethod
+    def func(self, key):  # type: (Union[int, str]) -> str
+        raise NotImplementedError
+
+class B(A):
+    def func(self, key):  # type: (Union[int, str, bool]) -> str
+        return str(key)
+
+class C(A):
+    def func(self, key):  # type: (Union[int, str, List]) -> str
+        return key
+```
+
+#### 5. 兼容性
+
+看看下面的代码看能否找出错误：
+
+```python
+class A:
+    @classmethod
+    def magic(cls, a: int) -> 'A':
+        return cls()
+
+class B(A):
+    @classmethod
+    def magic(cls, a: int, b: bool) -> 'B':
+        return cls()
+```
+
+如果没有找出来，那么想想运行以下代码的时候会发生什么：
+
+```python
+from typing import List, Type
+
+elements : List[Type[A]] = [A, B]
+print( [e.magic(1) for e in elements])
+```
+
+当你运行时会得到以下错误：
+
+```python
+    print( [e.magic(1) for e in elements])
+TypeError: magic() missing 1 required positional argument: 'b'
+```
+
+这是因为 B 继承了 A，B 应该在 A 的基础上扩展。而上面的代码使得 `B.magic()` 得接受两个参数，所以 B 没有 扩展 A 而是修改了 A。这时候类型检查就会报错：
+
+```
+test.py:9: error: Signature of "magic" incompatible with supertype "A"
+```
+
+一个简单的解决方法是让 B 的magic 方法也能只接受一个参数。
+
+```python
+class A:
+    def __init__(self, a: int) -> None:
+        pass
+
+class B(A):
+    def __init__(self, a: int, b: bool) -> None:
+        super().__init__(a)
+```
+
+你觉得上面的代码会发生什么？注意仅仅是将类方法变成了构造方法。这时候小脚本也需要稍微改一下：
+
+```python
+from typing import List, Type
+
+elements : List[Type[A]]= [A, B]
+print( [e(1) for e in elements])
+```
+
+现在报错基本是一样的，只是从 magic 方法变成了 `__init__()` 方法:
+
+```
+		print( [e(1) for e in elements])
+TypeError: __init__() missing 1 required positional argument: 'b'
+```
+
+但是像 mypy 这样的 linter 并不会报错，即使这个代码运行时会出错误。mypy 的创始人说这种不匹配的情况太常见，所以就不考虑 `__init__` 和 `__new__` 方法。
+
+## 当你碰壁时
+
+所以我们的结论是，当你使用 type hint 的时候需要小心，因为有很多诡异的问题。
+
+就像下面这个 tweet 的描述一样：
+
+![david](https://www.bernat.tech/content/images/2018/05/david.png)
+
+注意当你使用时有很多工具可以帮助你：
+
+* 使用 `reveal_type` 来查看推导出的类型：
+
+  ```python
+  a = [4]
+  reveal_type(a)         # -> error: Revealed type is 'builtins.list[builtins.int*]'
+  ```
+
+* 使用 `cast` 来强制转换类型
+
+  ```python
+  from typing import List, cast
+  a = [4]
+  b = cast(List[int], a) # passes fine
+  c = cast(List[str], a) # type: List[str] # passes fine (no runtime check)
+  reveal_type(c)         # -> error: Revealed type is 'builtins.list[builtins.str]'
+  ```
+
+
+* 使用 type ignore marker 来禁用 error
+  
+  ```python
+  x = confusing_function() # type: ignore # see mypy/issues/1167
+  ```
+  
+* 去[社区](https://gitter.im/python/typing)提问
+  
+
+
+
+## 工具
+
+这里是关于 type hint system 的详细工具列表。
+
+
+
+### type checkers
+
+
+
+使用这些工具来检查库或者应用程序内部的类型安全：
+
+
+
+1. [mypy - Python](http://mypy-lang.org/)
+
+2. [pyre - Facebook](https://github.com/facebook/pyre-check)，仅仅支持 python3 但是比 mypy 快。
+3. [pytype - Google](https://github.com/google/pytype)。
+
+
+
+### type annoation generators
+
+当你想要为已经存在的库或者程序添加类型注释，可以使用这些工具来自动添加。
+
+1. ` mypy stubgen ` 命令行工具。[参考这里](https://github.com/python/mypy/blob/master/mypy/stubgen.py)。
+
+2. [Pyannotate - Dropbox](https://github.com/dropbox/pyannotate) , 根据 tests 生成类型信息。
+3. [monkeytype - Instagram](https://github.com/Instagram/MonkeyType)
+
+### Runtime code evaluator
+
+使用这些工具来判断运行时传递的参数类型是否正确：
+
+1. [pydantic](https://github.com/samuelcolvin/pydantic)
+2. [enforce](https://github.com/RussBaz/enforce)
+3. [pytypes](https://github.com/Stewori/pytypes)
+
+### Documentation enrichment - 结合 docstrings 和 type hints
+
+在之前已经说到，在 type hint system 出来之前，已经有人在 docstring 中加入 类型信息。因为类型信息是这个库的一部分，所以人们当然想要在文档中体现出来。现在问题是如果你不选择将类型信息添加到 docstring 而是使用 类型注解的方式，那你怎么才能在文档中体现出来参数的类型呢？
+
+答案会因为你选择的文档生成工具的不同而不同。这里我们仅仅探讨一下最流行的文档工具：Sphinx 和 HTML。
+
+如果同时在使用类型注解和 docstring 添加类型信息，那么有可能会产生冲突。你可以让一个人去更新其中一种而不可能在更新代码的时候同时去更新这两种信息。所以，让我们将所有的类型信息都添加到类型注解中。现在我们只需要在构建文档的时候从类型注解中获取类型信息并且将类型信息添加到文档。
+
+
+
+在 Sphinx 中，你可以通过一个插件达到这个效果。[agronholm/sphinx-autodoc-typehints](https://github.com/agronholm/sphinx-autodoc-typehints)， 这个插件做了两件事情：
+
+* 首先，它会获取所有需要写入文档的 变量/函数的类型信息。
+* 然后，他将Python 类型信息转换到一个 docstring 的表现形式。
+* 最后，将这些信息添加到 docstring 并生成文档。
+
+例如，` Any ` 对应着  
+```
+py:data: `~typing.Any`
+```
+
+对于复合类型可能会稍微有点复杂。例如` Mapping[str, bool]` 应该转换为 `
+
+```
+:class:`~typing.Mapping`\\[:class:`str`, :class:`bool`]`
+```
+
+这里的正确转换是非常有必要的，因为这样转换了 `intershpinx` 插件才能正确的工作。
+
+要使用这个插件，就需要使用 pip 安装：
+
+```bash
+pip install sphinx-autodoc-types>=2.1.1
+```
+
+然后在 `conf.py` 中配置插件：
+
+```python
+# conf.py
+extensions = ['sphinx_autodoc_typehints']
+```
+
+## Conclusion
+
+在这篇超长的博文最后，你可能会问：到底是不是值得使用 type hint 或者说我们什么时候该用 type hint。我认为type hint 就像 unittest 一样，是一种检验代码的方式。
+
+因此，结论是，我们应该使用 type hint。无论是否要写 unittest。
+
+记住，就像 unittest 一样，这可能会让你的代码多增加几行。但是这样在所有的修改以后，这些代码会自动检查是否有错误。
+
+
+
+
+
+
+## 为何要使用 python Keyword arguments
+
+* 使用 keywords arguments 可以让我们设置 default 参数。
+* 使用 keywords arguments 可以让我们不在意参数的顺序。
+* 使用 keywords arguments 可以使代码更清晰
+
+
+
+
+
+## Reference
+
+* [PEP484](https://www.python.org/dev/peps/pep-0484/)
+
+* [The state of type hints in Python](https://www.bernat.tech/the-state-of-type-hints-in-python/)

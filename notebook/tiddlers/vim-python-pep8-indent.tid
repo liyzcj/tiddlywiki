@@ -1,0 +1,9 @@
+created: 20190809195930341
+modified: 20190828173928429
+tags: 插件 Vim
+title: vim-python-pep8-indent
+type: text/vnd.tiddlywiki
+
+控制 python 按照 pep8 进行缩进.
+
+https://github.com/Vimjas/vim-python-pep8-indent

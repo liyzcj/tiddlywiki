@@ -1,0 +1,12 @@
+created: 20190804193555755
+creator: liyzcj
+modified: 20190826161348699
+modifier: liyzcj
+tags: Linux
+title: 验证文件
+type: text/vnd.tiddlywiki
+
+验证文件常用方法:
+
+* md5sum
+* sha256sum

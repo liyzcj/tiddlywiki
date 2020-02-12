@@ -1,0 +1,239 @@
+created: 20190911093535150
+modified: 20190912061841634
+tags: 软件开发 Kubeflow
+title: 构建可复用的组件
+type: text/vnd.tiddlywiki
+
+! Summary
+
+# 编写一个包含组件逻辑的程序，程序必须有特定的方法能够与组件之间互相传递数据。
+# 将程序包装进容器
+# 编写一个 YAML 文件来描述组件
+# 使用 Kubeflow SDK 加载组件并构建一个 Pipeline。
+
+!! 程序与组件之间的数据传递
+
+> 在编写组件时，应该考虑组件如何与上下游的组件进行交互。
+
+对于小规模数据：（数据库）
+
+* 输入：通过命令行传递参数。
+* 输出：将输出写入到本地文件，使用命令行传递文件路径。
+
+对于大规模数据：
+
+* 输入：通过命令行传递文件路径，然后在文件内读取数据。
+* 输出：将输出上传到由命令行提供的路径中，再将路径写到本地文件，本地文件的路径由命令行提供。
+
+
+!!! 输入
+
+* 小规模输入，例如参数：<div>
+
+```bash
+program.py --param 100
+```
+
+</div>
+
+* 大规模数据，传递文件路径：<div>
+
+```bash
+program.py --train-data /path/to/training.file
+```
+
+</div>
+
+
+!!! 输出
+
+程序必须将数据输出到某个位置，然后告诉系统具体路径。你应该通过 command line 提供输出文件的路径，而不是编写到程序中。
+
+> 可以选择使用外部的文件系统来持久化文件，例如 hdfs。
+
+程序进行输出的步骤：
+
+# 将输出写入到通过 command line 提供的文件路径
+# 将文件路径写入到一个输出文件中，这个输出文件的路径也又命令行参数提供。
+
+<<<
+为什么需要将外部提供的文件地址，再进行输出？
+
+主要原因是外部提供的地址往往不是一个确定的 url 地址，一般提供的地址是一个模版，模版包含了一些 UID 以确定写入者的身份。
+
+例如：
+
+```bash
+hdfs://my-bucket/{{workflow.uid}}/{{pod.id}}/data
+```
+<<<
+
+TIP: 使用一个通用的文件系统接口，可以避免在进行不同文件系统的存储时修改代码。
+
+
+!! 编写程序代码
+
+一个实例：
+
+```python
+#!/usr/bin/env python3
+import argparse
+import os
+from pathlib import Path
+from tensorflow import gfile # Supports both local paths and Cloud Storage (GCS) or S3
+
+# Function doing the actual work
+def do_work(input1_file, output1_file, param1):
+  for x in range(param1):
+    line = next(input1_file)
+    if not line:
+      break
+    _ = output1_file.write(line)
+
+# Defining and parsing the command-line arguments
+parser = argparse.ArgumentParser(description='My program description')
+parser.add_argument('--input1-path', type=str, help='Path of the local file or GCS blob containing the Input 1 data.')
+parser.add_argument('--param1', type=int, default=100, help='Parameter 1.')
+parser.add_argument('--output1-path', type=str, help='Path of the local file or GCS blob where the Output 1 data should be written.')
+parser.add_argument('--output1-path-file', type=str, help='Path of the local file where the Output 1 URI data should be written.')
+args = parser.parse_args()
+
+gfile.MakeDirs(os.path.dirname(args.output1_path))
+# Opening the input/output files and performing the actual work
+with gfile.Open(args.input1_path, 'r') as input1_file, gfile.Open(args.output1_path, 'w') as output1_file:
+    do_work(input1_file, output1_file, args.param1)
+
+# Writing args.output1_path to a file so that it will be passed to downstream tasks
+Path(args.output1_path_file).parent.mkdir(parents=True, exist_ok=True)
+Path(args.output1_path_file).write_text(args.output1_path)
+```
+
+命令行命令如下：
+
+```bash
+python3 program.py --input1-path <URI to Input 1 data> \
+                   --param1 <value of Param1 input> --output1-path <URI for Output 1 data> \
+                   --output1-path-file <local file path for the Output 1 URI>
+```
+
+你需要提供输出的地址，以及保存输出地址文件的地址。
+
+!! 编写一个 Dockerfile
+
+Dockerfile 最好包含一个程序所有的依赖和所有的程序代码。
+
+Dockerfile 实例：
+
+```dockerfile
+ARG BASE_IMAGE_TAG=1.12.0-py3
+FROM tensorflow/tensorflow:$BASE_IMAGE_TAG
+RUN python3 -m pip install keras
+COPY ./src /pipelines/component/src
+```
+
+创建一个 `build_image.sh` 进行镜像的构建。
+
+```bash
+#!/bin/bash -e
+image_name=gcr.io/my-org/my-image # Specify the image name here
+image_tag=latest
+full_image_name=${image_name}:${image_tag}
+base_image_tag=1.12.0-py3
+
+cd "$(dirname "$0")" 
+docker build --build-arg BASE_IMAGE_TAG=${base_image_tag} -t "${full_image_name}" .
+docker push "$full_image_name"
+
+# Output the strict image name (which contains the sha256 image digest)
+docker inspect --format="{{index .RepoDigests 0}}" "${IMAGE_NAME}"
+```
+
+!! 编写 component YAML 定义文件
+
+```yaml
+name: Do dummy work
+description: Performs some dummy work.
+inputs:
+- {name: Input 1 URI, type: GCSPath, description='GCS path to Input 1'}
+- {name: Parameter 1, type: Integer, default='100', description='Parameter 1 description'} # The default values must be specified as YAML strings.
+- {name: Output 1 URI template, type: GCSPath, description='GCS path template for Output 1'}
+outputs:
+- {name: Output 1 URI, type: GCSPath, description='GCS path for Output 1'}
+implementation:
+  container:
+    image: gcr.io/my-org/my-image@sha256:a172..752f
+    command: [python3, /pipelines/component/src/program.py]
+		args: [
+      --input1-path,       {inputValue: Input 1 URI},
+      --param1,            {inputValue: Parameter 1},
+      --output1-path,      {inputValue: Output 1 URI template},
+      --output1-path-file, {outputPath: Output 1 URI},
+    ]
+```
+
+> command 会覆盖 Dockerfile ENTRYPOINT, args 会替换掉 Dockerfile CMD
+
+!! 通过 SDK 构建 pipeline
+
+```python
+import kfp
+# Load the component by calling load_component_from_file or load_component_from_url
+# To load the component, the pipeline author only needs to have access to the component.yaml file.
+# The Kubernetes cluster executing the pipeline needs access to the container image specified in the component.
+dummy_op = kfp.components.load_component_from_file(os.path.join(component_root, 'component.yaml')) 
+# dummy_op = kfp.components.load_component_from_url('http://....../component.yaml')
+
+# dummy_op is now a "factory function" that accepts the arguments for the component's inputs
+# and produces a task object (e.g. ContainerOp instance).
+# Inspect the dummy_op function in Jupyter Notebook by typing "dummy_op(" and pressing Shift+Tab
+# You can also get help by writing help(dummy_op) or dummy_op? or dummy_op??
+# The signature of the dummy_op function corresponds to the inputs section of the component.
+# Some tweaks are performed to make the signature valid and pythonic:
+# 1) All inputs with default values will come after the inputs without default values
+# 2) The input names are converted to pythonic names (spaces and symbols replaced
+#    with underscores and letters lowercased).
+
+# Define a pipeline and create a task from a component:
+@kfp.dsl.pipeline(name='My pipeline', description='')
+def my_pipeline():
+    dummy1_task = dummy_op(
+        # Input name "Input 1 URI" is converted to pythonic parameter name "input_1_uri"
+        input_1_uri='gs://my-bucket/datasets/train.tsv',
+        parameter_1='100',
+        # You must use Argo placeholders ("{{workflow.uid}}" and "{{pod.name}}")
+        # to guarantee that the outputs from different pipeline runs and tasks write
+        # to unique locations and do not overwrite each other.
+        output_1_uri='gs://my-bucket/{{workflow.uid}}/{{pod.name}}/output_1/data',
+    ).apply(kfp.gcp.use_gcp_secret('user-gcp-sa')) 
+    # To access GCS, you must configure the container to have access to a
+    # GCS secret that grants required access to the bucket.
+    # The outputs of the dummy1_task can be referenced using the
+    # dummy1_task.outputs dictionary.
+    # ! The output names are converted to lowercased dashed names.
+
+    # Pass the outputs of the dummy1_task to some other component
+    dummy2_task = dummy_op(
+        input_1_uri=dummy1_task.outputs['output-1-uri'],
+        parameter_1='200',
+        output_1_uri='gs://my-bucket/{{workflow.uid}}/{{pod.name}}/output_1/data',
+    ).apply(kfp.gcp.use_gcp_secret('user-gcp-sa')) 
+    # To access GCS, you must configure the container to have access to a
+    # GCS secret that grants required access to the bucket.
+# This pipeline can be compiled, uploaded and submitted for execution.
+```
+
+!! 典型项目结构
+
+```
+components/<component group>/<component name>/
+
+    src/*            #Component source code files
+    tests/*          #Unit tests
+    run_tests.sh     #Small script that runs the tests
+    README.md        #Documentation. Move to docs/ if multiple files needed
+
+    Dockerfile       #Dockerfile to build the component container image
+    build_image.sh   #Small script that runs docker build and docker push
+
+    component.yaml   #Component definition in YAML format
+```

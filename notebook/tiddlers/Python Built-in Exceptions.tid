@@ -1,0 +1,319 @@
+created: 20200207121619442
+modified: 20200212102511046
+tags: Survey Builtin Python
+title: Python Built-in Exceptions
+type: text/vnd.tiddlywiki
+
+! Python 内建异常
+---
+
+在 Python 中，所有的异常都得来自派生 [[BaseException|https://docs.python.org/zh-cn/3/library/exceptions.html#BaseException]] 的类的实例。如果在 `try...except` 中提到某个 Exception，那么 `except` 同样会处理任何派生自那个类的异常类，但是不会处理那个类的基类。''异常类的子类通常不会相关，即使他们名字相同''。
+
+[[内建异常|Python Built-in Exceptions]]可以被解释器或内建函数抛出。这些异常还会有一个''关联值''，代表引发这个异常的详细原因。可以是一个字符串或者多个值组成的 tuple。这个''关联值''通常作为参数传递给构造函数。
+
+''用户编写的代码也可以抛出[[内建异常|Python Built-in Exceptions]]。''但是要注意的是没有什么会防止或者警告用户使用不适当的错误。
+
+[[内建异常|Python Built-in Exceptions]]同样可以被继承；编程人员''建议继承 `Exception` 而不是 `BaseException`'' 。更多信息可以在教程[[Python User-defined Exceptions]]中查看。
+
+当在 `except` 和 `finally` 中抛出异常时，`__context__`  会自动设置为捕捉到的最后一个异常；如果没有处理新的异常，则最终显示的异常回溯会包含原始异常和最终异常。
+
+当引发新的异常时，而不是使用 `raise` 来重新抛出日常，可以使用 `raise...from...`:
+
+```python
+raise new_exc from original_exc
+```
+
+`from` 后面必须跟 Exception 或者 None。这个将会在raise 的异常中被设置为 `__cause__`. 设置 `__cause__` 同样会隐式的设置属性 `__suppress_context__` 为 `True`，所以使用 `raise new_exc from None` 会在显示时使用新的异常代替旧的异常。而为了 Debug, 旧的异常会留在 `__context__` 中。
+
+默认的回溯显示代码除了显示异常本身的回溯之外，还会显示一个链式的异常。''`__cause__` 中的显式异常链总是会被显示。`__context__` 中的隐式异常链仅仅当 `__cause__` 为 None 并且 `__suppress_context__` 为 false 时才会被显示。''
+
+无论那种情况，引发异常的异常本身总是会被显示，所以 traceback 中的最后一个总会是抛出的最后一个异常。
+
+!! 基类
+
+`BaseException` 通常作为其他异常的基类。
+
+;exception `BaseException`
+:所有异常的基类。但是这并''不意味着用户定义的类要直接继承这个异常。''如果使用 `str()` 方法来显示 `BaseException`，异常的参数 s 的字符串表示会被返回或者没有参数时返回空。<div>
+
+;args
+:参数的元组会传递给构造器。一些内建的异常(例如 OSError)的参数为一个确定的数值。其他大多数异常一般接收一个字符串参数作为错误信息。
+
+;with_traceback(tb)
+:这个方法将 tb 作为新的 traceback 并返回异常对象。经常会这样使用：<div>
+
+```python
+try:
+	...
+except `SomeException`:
+	tb = sys.exc_info()[2]
+	raise OtherException(...).with_traceback(tb)
+```
+
+</div>
+</div>
+
+;exception `Exception`
+:所有的内建、非系统异常的基类。所有用户定义的异常也应该派生于这个 Exception。
+
+;exception `ArithmeticError`
+:关于算术的内建异常的基类：[[OverflowError|https://docs.python.org/3/library/exceptions.html#OverflowError]], [[ZeroDivisionError|https://docs.python.org/3/library/exceptions.html#ZeroDivisionError]], [[FloatingPointError|https://docs.python.org/3/library/exceptions.html#FloatingPointError]]
+
+;exception `BufferError`
+:当与[[buffer|https://docs.python.org/3/c-api/buffer.html#bufferobjects]]相关的操作无法执行时被抛出。
+
+;exception `LookupError`
+:当一个 mapping 中的 key 或者 sequence 中的 index 出错时，所抛出异常的基类：[[IndexError|https://docs.python.org/3/library/exceptions.html#IndexError]] [[KeyError|https://docs.python.org/3/library/exceptions.html#KeyError]]。该异常也可以被 `codecs.lookup()` 直接抛出。
+
+!! 具体的异常
+
+;`AssertionError`
+:当 assert 语句出错时
+
+;`AttributeError`
+:当一个 attribute reference 或者 assignment 失败时。
+
+;`EOFError`
+:当 input() 函数遇到 EOF 但没有读取到任何数据时。
+
+;`FloatingPointError`
+:暂不使用
+
+;`GeneratorExit`
+:当一个 `generator` 或者 `coroutine` 已经关闭时。它直接从 `BaseException` 继承而不是 `Exception`，因为技术上这其实不是一个错误。
+
+;`ImportError`
+:当 import 失败时
+
+;`ModuleNotFoundError`
+:`ImportError` 的子类。当 Module 找不到时抛出。
+
+;`IndexError`
+:当一个 sequence 的索引超出范围是。当索引不是整数时，抛出的是 `TypeError`
+
+;`KeyError`
+:当一个 mapping 中找不到 key 时。
+
+;`KeyboardInterrupt`
+:在键盘上按下终止键时。
+
+;`MemoryError`
+:当一个操作超出内存时。
+
+;`NameError`
+:当一个local 或者 global 变量找不到时。
+
+;`NotImplementedError`
+:从 `RuntimeError` 派生出的异常。在抽象方法中应该抛出这个异常。
+
+;`OSError([arg])`, `OSError(errno, strerror[, filename[, winerror[, filename2]]])`
+:当一个系统函数返回一个系统相关的错误时，例如 “文件没找到” 等。 <div>
+
+第二个构造器的格式设置了相应的 attributes。这些 attributes 默认都为 None。
+
+构造器通常返回的是 `OSError` 的子类，在下面的 OS excetions 中描述。具体的异常根据 `errno` 的值决定。这个特点不会被继承。
+
+;errno
+:从 C 变量 `errno` 来的错误码。
+
+;winerror
+:在 Windows 中，这会给你原生的 Windows 错误码。
+
+;strerror
+:对应的错误信息，由操作系统提供。
+
+;filename, filename2
+:文件的系统路径，filename2 则为第二个文件的路径。像 `os.rename()` 这种函数。
+
+> Changed in version 3.3: `EnvironmentError`, `IOError`, `WindowsError`, `socket.error` `select.error` 以及 `mmap.error` 已经整合到 `OSError` 中。
+
+</div>
+
+;`OverflowError`
+:当算数运算的结果太大而无法表示时。
+
+;`RecursionError`
+:从 `RuntimeError` 中派生出来的异常。当解释器监测到最大递归次数时抛出异常。
+
+;`ReferenceError`
+:当使用由 `weakref.proxy()` 创建的 reference 在原变量被垃圾回收时抛出异常。
+
+;`RuntimeError`
+:当一个错误不属于其他异常类的错误发现时。
+
+;`StopIteration`
+:由 `next()` `__next__()` 方法抛出，当迭代器中没有新的值可以计算时。
+
+;`StopAsyncIteration`
+:由 `__anext__()` 方法抛出。[[asynchronous iterator|https://docs.python.org/3/glossary.html#term-asynchronous-iterator]] 异步迭代器停止迭代时。
+
+;`SyntaxError`
+:当解析器监测到语法错误时抛出。
+
+;`IndentationError`
+:当代码中出现缩进异常时。
+
+;`TabError`
+:当代码中出现 Tab 缩进时。
+
+;`SystemError`
+:当解释器出现内部错误时，但是这个情况不一定非常严重，出现这种错误应该向解释器开发者报告。
+
+;`SystemExit`
+:由函数 `sys.exit()` 抛出。继承了 `BaseException` 所以不会被 Catch Exception 的代码捕捉到。这会允许异常正确传递并导致解释器退出。<div>
+
+;code
+:退出状态或者错误信息。默认为 None。
+
+</div>
+
+;`TypeError`
+:当一个操作或者函数对不合适的 type 操作时。<div>
+
+这个异常可以被用户代码抛出意味着''type 对尝试的操作不支持。''
+
+例如，当函数需要一个 `list` 而给的是一个 `int` 时，应该抛出 `TypeError`. 当函数需要 `int` 而传递的也是 `int` 但是不再范围内的话应该抛出 `ValueError`。
+
+</div>
+
+;`UnboundLocalError`
+:当访问本地变量时，如果这个变量没有绑定值抛出。`NameError` 的子类。
+
+;`UnicodeError`
+:当一个 Unicode 相关的 encoding 或 decoding 错误出现时。是 `ValueError` 的子类。 <div>
+
+`UnicodeError` 包含一些 attributes 来描述异常。例如 `err.object[err.start:err.end]` 指定了发生异常的位置。
+
+;encoding
+:抛出异常的 encoding 的名称。
+
+;reason
+:描述具体错误的字符串。
+
+;object
+:尝试 encode 或 decode 的对象。
+
+;start
+:编码异常开始的位置
+
+;end
+:编码异常结束的位置
+
+</div>
+
+;`UnicodeEncodeError`
+:在 encoding 中发生的错误。
+
+;`UnicodeDecodeError`
+:decoding 时发生的错误。
+
+;`UnicodeTranslateError`
+:translating 时发生的异常。
+
+;`ValueError`
+:当函数接收的参数类型正确但是值不合适的时候。
+
+;`ZeroDivisionError`
+:当除于 0 的时候。
+
+;`EnvironmentError`
+:
+
+;`IOError`
+:
+
+;`WindowsError`
+:只有个在 Windows 系统中才可用。
+
+!! OS 异常
+
+这些异常都是 `OSError` 的子类，会根据系统返回的 Error code 抛出。
+
+;`BlockingIOError`
+:当一个没有 block 的操作去操作一个 block 的对象时（例如 socket）。相关的 errno 有：`EAGAIN`, `EALREADY`, `EWOULDBLOCK`, `EINPROGRESS`. <div>
+
+;characters_written
+:一个整数包含在 block 之前传入的字符数。
+
+</div>
+
+;`ChildProcessError`
+:当一个子进程失败时。对应的 error `ECHILD`.
+
+;`ConnectionError`
+:连接相关错误的基类，包含 `BrokenPipeError`, `ConnectionAbortedError`, `ConnectionRefusedError` 和 `ConnectionResetError`。
+
+;`BrokenPipeError`
+:当尝试向已经关闭的 pipe 中写入数据时。
+
+;`ConnectionAbortedError`
+:当连接尝试被连接点 Aboarted。
+
+;`ConnectionRefusedError`
+:当连接被拒绝。errno `ECONNREFUSED`.
+
+;`ConnectionResetError`
+:当连接被重置时。error `EEXIST`.
+
+;`FileExistsError`
+:当创建的文件或目录已经存在时。errno `EEXISY`
+
+;`FileNotFoundError`
+:文件找不到时抛出异常。errno `ENOENT`
+
+;`InterruptedError`
+:当一个系统调用被信号中断时。errno `EINTR`
+
+;`IsADirectoryError`
+:当对一个目录进行文件操作时。errno `EISDIR`
+
+;`NotADirectoryError`
+:当对一个非目录进行目录操作时。errno `ENOTDIR`
+
+;`PermissionError`
+:当权限不足时抛出 errno `EACCES` 和 `EPERM`
+
+;`ProcessLookupError`
+:当一个指定的进程不存在时抛出。`ESRCH`.
+
+;`TimeoutError`
+:当系统函数超时时。errno `ETIMEDOUT`
+
+!! 警告
+
+;`Warning`
+:Warning 的基类
+
+;`UserWarning`
+:用户定义的 Warning 的基类
+
+;`DeprecationWarning`
+:当某个 feature 弃用时，抛出警告的基类。
+
+;`PendingDeprecationWarning`
+:当一个 feature 即将被启用时，抛出警告的基类
+
+;`SyntaxWarning`
+:对于可疑的语法的警告的基类
+
+;`RuntimeWarning`
+:对于可疑地 Runtime 行为的警告的基类
+
+;`FutureWarning`
+:当这些警告的目的是终端用户时，警告的基类。
+
+;`ImportWarning`
+:模块导入可能存在的错误的警告的基类。
+
+;`UnicodeWarning`
+:Unicode 相关的警告的基类。
+
+;`BytesWarning`
+:bytes 与 bytearray 相关的警告的基类。
+
+;`ResourceWarning`
+:资源使用相关的警告的基类。会被默认的 warning filter 忽略掉。
+
+---
+
+[[内建异常继承关系|Python Built-in Exceptions Hierarchy]]

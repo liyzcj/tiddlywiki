@@ -1,0 +1,297 @@
+created: 20190920143949617
+modified: 20200208160156092
+tags: Survey Python
+title: Python regular expression
+type: text/vnd.tiddlywiki
+
+! Python 正则表达式
+---
+
+Python 的内建 Module re 提供了正则表达式的相关功能。Python re 提供了与 perl 类似的正则表达是匹配功能。
+
+
+
+''关于字符串类型''：''被搜索的字符串可以是 Unicode 字符串或者 bytes 字符串，但是 Unicode 和 Bytes 不能混用''，意思是你''不能使用 Unicode 的 pattern 去匹配 Bytes 字符''，反之亦然。类似的，替换的时候字符串也必须为相同类型。
+
+
+
+''关于Raw 字符串''：正则表达式（后文称 RE）使用''反斜杠''来表达特殊字符或者特殊格式。碰巧 Python 也是用反斜杠来转义特殊字符，所以当你用 Python 的字符串表示 RE Pattern 时，会产生冲突。当你想要在 RE Pattern 中匹配一个反斜杠 `\` 时，你需要写 `\\\\` 四个，首先在 Python中表达反斜杠需要两个，其次在 RE 中表达反斜杠也需要两个。这还不是最严重的，目前（python 版本小于 3.8）在 Python 字符串中转义无效字符会产生 `DeprecationWarning`，在未来这会变成 `SyntaxError`。这就麻烦了，因为有些转义字符在 Python 字符串中无效，但是在 RE 中是有效的。
+
+解决办法就是使用 Python 的 raw 字符串标注。在 Raw 字符串中，Python 不需要对任何字符串进行转义，`r"\n"` 就是代表两个字符，而不是代表换行。所以，使用 Raw 字符串作为 RE pattern 是最合适的。
+
+重要的是你需要注意，大多数正则表达式的操作都已经在 Python re 中由函数或者方法实现。这些快捷的方法和函数不需要你首先编译一个 RE pattern 对象。
+
+> 第三方的 Module regex 不仅完全兼容 re 的API 而且还提供了更多的功能并且更加全面的 Unicode 支持。
+
+!! RE 语法
+
+''一个 RE 代表了一部分字符串的集合。'' Module re 提供了函数来判断一个特定字符串是否匹配给定的 RE pattern。
+
+RE 可以拼接起来成为新的 RE。例如，如果 A 和 B 是 RE，那么 AB 也是 RE。
+
+通常，如果字符串 p 匹配 A，字符串 q 匹配 B，那么字符串 pq 也可以匹配 AB。除非 AB 包含：
+
+* 低优先级操作
+* A B 之间有边界条件
+* 带有编号的组引用
+
+因此，复杂的 RE 可以由简单的原始 RE 拼接而成。大概的 RE 规则如下。
+
+!!! RE Pattern 规则
+
+''RE 可以包含特殊和普通字符。''
+
+;普通字符
+：大部分普通字符 `A`, `a` 或着 `0`, 都是最简单的 RE，它们都只能匹配自己代表的字符。你可以随意拼接普通字符，例如拼接成一个单词，句子等。
+
+;特殊字符
+:有一些字符例如 `|` `(` 等属于特殊字符。''特殊字符可以代表某类普通字符，或者 RE 的解释方式。'' <div>
+
+还有一类特殊字符称为''重复指示符''。例如 `*`, `+`, `?`, `{m,n}` 等等，这些字符不能被直接嵌套。这样可以避免与非贪婪后缀 `?` 或其他修饰符混淆。要在一个重复指示符内嵌套其他重复指示符，需要使用括号。例如，`(?:a{6})*` 匹配 6 个 `'a'` 的任意倍数。
+
+</div>
+
+详细信息查看[[正则表达式.png]]
+
+!! Python re Module Contents
+
+re module 定义了许多函数，常量以及一个异常。一些函数是 RE 的简化版本。
+
+> Python 3.6: Flag 标志常量现在作为 `RegexFlag` 的实例，是 `enum.IntFlag` 的子类。
+
+;re.compile(pattern, flags=0)
+:将一个 RE Patthern 编译为一个 RE 对象，这个对象包含 `match()` `search()` 等方法。 <div>
+
+```python
+prog = re.compile(pattern)
+result = prog.match(string)
+```
+
+等价于
+
+```python
+result = re.match(pattern, string)
+```
+
+但是使用 `re.compile()` 编译以后，复用的时候会更加高效。但是如果你的程序在一次运行中不需要复用 pattern，可以直接进行 match。
+
+flags 可以为以下中的任何一个值：也可以使用 `|` 多个值取或。
+
+|!Flags|!Description|!inline flag|
+|`re.A`, `re.ASCII`|`\w`, `\W`, `\b`, `\B`, `\d`, `\D`, `\s`, `\S` 表现为 ASCII 匹配而不是 Unicode 匹配。仅仅对 Unicode 字符串有意义，对 Bytes 字符串无效。|`(?a)`|
+|`re.DEBUG`|显示 Debug 信息|无|
+|`re.I`, `re.IGNORECASE`|匹配时忽略大小写|`(?i)`|
+|`re.L`, `re.LOCALE`|让 `\w`, `\W`, `\b`, `\B` 根据当前的 locale 设置匹配|`(?L)`|
+|`re.M`, `re.MULTILINE`|打开多行模式，主要决定 `^` 和 `$` 的表现|`(?m)`|
+|`re.S`, `re.DOTALL`|决定 `.` 是否匹配换行符|`(?s)`|
+|`re.X`, `re.VERBOSE`|可以为 RE 添加注释。|`(?x)`|
+
+> re.VERBOSE: 这种模式下，空格默认会被忽略。 `#` 默认作为注释符号, ''除非在字符类中、用反斜杠转义或者在符号 `*?`, `(?:` 或 `(?P<...>`中''。以下两种 pattern 等价：<div>
+
+```python
+a = re.compile(r"""\d +  # the integral part
+                   \.    # the decimal point
+                   \d *  # some fractional digits""", re.X)
+b = re.compile(r"\d+\.\d*")
+```
+
+</div>
+</div>
+
+;re.search(pattern, string, flags=0)
+:扫描字符串，查找第一个匹配的位置，并返回一个 match 对象。如果没有匹配，则返回 None。
+
+;re.match(pattern, string, flags=0)
+:仅仅匹配字符串开头的一个或多个字符，如果不匹配返回 None
+
+;re.fullmatch(pattern, string, flags=0)
+:如果整个字符串能够 match 这个 pattern，则返回一个 match 对象，否则返回 None。
+
+;re.split(pattern, string, maxsplit=0, flags=0)
+:使用 pattern 匹配的字符来分割字符串。''如果 pattern 中包含括号，那么括号中匹配的字符串组也作为返回的list 的一部分。''如果 maxsplit 不等于0，则返回的 sequece 长度最多为 maxsplit。<div>
+
+```python
+>>> re.split(r'\W+', 'Words, words, words.')
+['Words', 'words', 'words', '']
+>>> re.split(r'(\W+)', 'Words, words, words.')
+['Words', ', ', 'words', ', ', 'words', '.', '']
+>>> re.split(r'\W+', 'Words, words, words.', 1)
+['Words', 'words, words.']
+>>> re.split('[a-f]+', '0a3B9', flags=re.IGNORECASE)
+['0', '3', '9']
+```
+
+如果，pattern 内的组在字符串的一开始就能匹配，结果的第一个会是一个空字符串：
+
+```python
+>>> re.split(r'(\W+)', '...words, words...')
+['', '...', 'words', ', ', 'words', '...', '']
+```
+
+</div>
+
+;re.findall(pattern, string, flags=0)
+:返回所有匹配字符串组成的列表。
+
+;re.finditer(pattern, string, flags=0)
+:返回一个迭代器，迭代器中是 match 对象。
+
+;re.sub(pattern, repl, string, count=0, flags=0)
+:返回一个替换后的字符串。使用 `repl` 参数中的 RE 替换 pattern 匹配的部分。 <div>
+
+''repl 可以是一个函数。''函数的参数为一个 match 对象，返回的是要替换的字符串。
+
+> pattern 可以是字符串或者 pattern 对象。
+
+</div>
+
+;re.subn(pattern, repl, string, count=0, flags=0)
+:与 re.sub() 一样，不过返回的是 tuple，里面是替换后的字符串与替换的次数。
+
+;re.escape(pattern)
+:将 pattern 中的特殊字符转义。这个函数在匹配一个特殊字符较多时的字符串时很有用。
+
+;re.purge()
+:清空 re 的cache。
+
+;re.error(msg, pattern=None, pos=None)
+:''这是 re 中唯一的一个异常。''当一个 pattern 不是有效的 RE 时会抛出这个异常。<div>
+
+;msg
+:错误信息
+
+;pattern
+:RE pattern
+
+;pos
+:错误时的索引
+
+;lineno
+:Pos 行数目
+
+;colno
+:pos 的列数目
+
+
+</div>
+
+!!! RE 对象 Pattern
+
+;Pattern.search(string[, pos[, endpos]])
+:扫描字符串，查找匹配的第一个位置，返回一个 match 对象。`pos` `endpos` 可以用来指定搜索开始与结束的位置。
+
+;Pattern.match(string[, pos[, endpos]])
+:如果字符串的开头匹配这个 pattern，返回一个 match 对象。None。
+
+;Pattern.fullmatch(string[, pos[, endpos]])
+:如果给定字符串能够完全匹配当前 pattern，则返回一个 match 对象。否则返回 None。
+
+;Pattern.split(string, maxsplit=0)
+:与 `re.split()` 类似
+
+;Pattern.findall(string[, pos[, endpos]])
+:与 `re.findall()` 类似。
+
+;Pattern.finditer(string[, pos[, endpos]])
+:与 `re.finditer()` 类似。
+
+;Pattern.sub(repl, string, count=0)
+:与 `re.sub()` 类似
+
+;Pattern.subn(repl, string, count=0)
+:与 `re.subn()` 类似
+
+;Pattern.flags
+:在 `compile()` 中给定的 flags。
+
+;Pattern.groups
+:pattern 中 group 数目
+
+;Pattern.groupindex
+:一个字典中保存的是 `(?P<id>)` 中的 id 与 对应的 group number 的 mapping。
+
+;Pattern.pattern
+:所编译的 pattern 字符串。
+
+!!! Match 对象
+
+match 对象有以下属性和方法：
+
+
+;Match.expand(template)
+:返回一个将 template 中的特殊转义字符替换后的字符串。
+
+;Match.group([group1, ...])
+:返回匹配的组。如果为参数 0 则范围整个匹配。<div>
+
+```python
+>>> m = re.match(r"(\w+) (\w+)", "Isaac Newton, physicist")
+>>> m.group(0)       # The entire match
+'Isaac Newton'
+>>> m.group(1)       # The first parenthesized subgroup.
+'Isaac'
+>>> m.group(2)       # The second parenthesized subgroup.
+'Newton'
+>>> m.group(1, 2)    # Multiple arguments give us a tuple.
+('Isaac', 'Newton')
+```
+
+如果 RE pattern 中使用 `(?P<name>...)` 对分组命名，也可以使用命名来返回匹配的组：
+
+> 即使分组命名了，也可以用索引进行访问。
+
+```python
+>>> m = re.match(r"(?P<first_name>\w+) (?P<last_name>\w+)", "Malcolm Reynolds")
+>>> m.group('first_name')
+'Malcolm'
+>>> m.group('last_name')
+'Reynolds'
+```
+
+</div>
+
+;Match.__getitem__(g)
+:与 `group()` 相同，只不过用字典的方式访问。
+
+;Match.groups(default=None)
+:返回所有匹配的组的元组。
+
+;Match.groupdict(default=None)
+:返回一个包含所有命名的子组的字典。
+
+;Match.start([group])
+:匹配的字符串的开始 index。可以针对不同的子组。
+
+;Match.end([group])
+:匹配的字符串的结束的 index。可以针对不同的子组。
+
+;Match.span([group])
+:返回一个元组包含上面的 start 与 end。
+
+;Match.pos
+:开始匹配 RE 的位置
+
+;Match.endpos
+:结束匹配 RE 的位置
+
+;Match.lastindex
+:匹配的最后一个组的索引。
+
+;Match.lastgroup
+:最后匹配的组的名称。如果没有命名组，返回None。
+
+;Match.re
+:当使用 `match()` 或 `search()` 方法返回 match 对象时，使用的 RE 对象。
+
+;Match.string
+:传递给 `match()` 或 `search()` 的字符串。
+
+---
+
+详细实例可以参考[[Python Regular Expression Examples]]
+
+---
+
+!! Reference
+
+* [[官方文档|https://docs.python.org/3/library/re.html]]

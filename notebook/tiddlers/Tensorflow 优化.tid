@@ -1,0 +1,105 @@
+created: 20190927165735154
+modified: 20190927170400865
+tags: Tensorflow
+title: Tensorflow 优化
+type: text/vnd.tiddlywiki
+
+!! 显存占用
+
+增加环境变量, 控制可见GPU
+
+```python
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+```
+
+随着进程逐渐增加显存占用, 而不是再初始化 Session 时一下占用所有空闲显存:
+
+```python
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+## tf.Session()
+tf.Session(config = config)
+```
+
+!! 日志控制
+
+!!! 运行日志
+
+运行日志是在初始化 Session 时的日志.
+
+运行日志级别：
+
+```
+0 = all messages are logged (default behavior)
+1 = INFO messages are not printed
+2 = INFO and WARNING messages are not printed
+3 = INFO, WARNING, and ERROR messages are not printed
+```
+
+可以通过环境变量调整 TensorFlow 运行日志级别:
+
+```python
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+```
+
+!!! Logging日志
+
+Logging 日志是在构建计算图时产生的日志。
+
+通过 set_verbosity() 来设置 Logging 的日志级别:
+
+```python
+# 只记录ERROR日志
+tf.logging.set_verbosity(tf.logging.ERROR)
+```
+
+所有日志级别：
+
+* DEBUG
+* INFO
+* WARNING
+* ERROR
+* FATAL
+
+!! 查看运行时间线 TimeLine
+
+使用 timeline 查看一个 step 的运行时间线, 并保存为 json 文件, 使用 chrome 查看时间线:
+
+```python
+from tensorflow.python.client import timeline
+```
+
+运行计算图之前定义 metadata 和 options:
+
+```python
+run_metadata = tf.RunMetadata()
+run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
+```
+
+运行计算图时, 加上 metadata 和 options:
+
+```python
+with tf.Session() as sess:
+  result = sess.run(fetch, feed, options=run_options, run_metadata=run_metadata)
+```
+
+运行后, 创建 Timeline 对象, 并将数据写入 json 文件:
+
+```python
+fetched_timeline = timeline.Timeline(run_metadata.step_stats)
+# Chrome Trace 格式
+chrome_trace = fetched_timeline.generate_chrome_trace_format()
+# 保存, step 是当前的步数.
+with open('timeline_%d.json' % step, 'w') as f:
+  f.write(chrome_trace)
+```
+
+保存后, 在 Chrome 输入:
+
+```
+chrome://tracing/
+```
+
+最后点击 load 加载 timeline 文件.

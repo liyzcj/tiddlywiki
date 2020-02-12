@@ -1,0 +1,17 @@
+caption: 全局与局部变量
+created: 20190805191653395
+creator: liyzcj
+modified: 20190828183755230
+modifier: liyzcj
+tags: Python Concept
+title: Python 变量
+type: text/vnd.tiddlywiki
+
+! 全局与局部变量
+---
+
+# 函数内不需要声明就可以直接使用外部的全局变量。
+
+# 如果在函数内声明与全局变量同名的内部变量，则新的内部变量与全局变量无关。
+
+# 如果想在函数内修改全局变量，修改前使用global 全局变量名 即可修改全局变量。

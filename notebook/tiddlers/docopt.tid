@@ -1,0 +1,13 @@
+created: 20190718211352961
+creator: liyzcj
+modified: 20190828182404621
+modifier: liyzcj
+title: docopt
+type: text/vnd.tiddlywiki
+
+!! docopt
+---
+
+与 `rgparse` 定义参数并自动生成帮助文本不同, `docopt` 是根据特定的格式从 `__doc__` 描述中自动生成参数解析.
+
+> 官方网站: [ext[docopt|http://docopt.org/]]

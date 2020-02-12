@@ -1,0 +1,25 @@
+created: 20191212173303510
+modified: 20191217052828477
+tags: Kubernetes
+title: K8S access services in other namespace
+type: text/vnd.tiddlywiki
+
+! K8S access services in other namespace
+
+we can use a [[service without selector|https://kubernetes.io/docs/concepts/services-networking/service/#services-without-selectors]] access a service in another namespace:
+
+```yaml
+kind: Service
+apiVersion: v1
+metadata:
+  name: service-y
+  namespace: namespace-a
+spec:
+  type: ExternalName
+  externalName: <servicename>.<namespace>.svc.cluster.local
+  ports:
+  - port: 80
+```
+
+`<servicename>.<namespace>.svc.cluster.local` 其实是一个服务在 k8s DNS 中的域名
+

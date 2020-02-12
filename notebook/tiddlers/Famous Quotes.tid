@@ -1,0 +1,24 @@
+created: 20191222162706997
+modified: 20191224050832480
+tags: 阅读
+title: Famous Quotes
+type: text/vnd.tiddlywiki
+
+! Famous Quotes
+---
+
+<<<.tc-big-quote
+Compile time errors are our friend because they help us write software that works, runtime errors are our enemies because they affect our users.
+<<<https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/arrays-and-slices
+
+!! TDD
+
+<<<.tc-big-quote
+The test speaks to us more clearly, as if it were an assertion of truth, not a sequence of operations
+<<<Kent Beck
+
+!! Learn language
+
+<<<.tc-big-quote
+A language isn't something you learn so much as something you join.
+<<<[[Arika Okrent|http://arikaokrent.com/]]

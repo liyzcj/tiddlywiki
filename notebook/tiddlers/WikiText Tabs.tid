@@ -1,0 +1,30 @@
+created: 20190803185401857
+creator: liyzcj
+modified: 20200131192658970
+modifier: liyzcj
+tags: Wikitext
+title: WikiText Tabs
+type: text/vnd.tiddlywiki
+
+! Tabs
+---
+
+!! 顶部的 Tabs
+
+```
+<<tabs "[tag[WikiText]]">>
+```
+
+<<tabs "[tag[WikiText]]">>
+
+
+
+---
+
+!! 纵向的 Tabs
+
+```
+<<tabs "[tag[WikiText]]" class:"tc-vertical">>
+```
+
+<<tabs "[tag[WikiText]]" class:"tc-vertical">>

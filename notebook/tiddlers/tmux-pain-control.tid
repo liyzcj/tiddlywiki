@@ -1,0 +1,49 @@
+created: 20190809190207786
+modified: 20190828174131391
+tags: 插件 Tmux
+title: tmux-pain-control
+type: text/vnd.tiddlywiki
+
+该插件增加了一些新的按键映射, 主要是和 panes 相关的快捷键.
+
+https://github.com/tmux-plugins/tmux-pain-control
+
+> ❗ 所有的快捷键前面都需要按下 `prefix`.
+
+!! 切分 panes
+
+* 纵向切分 : `|`
+* 横向切分 : `-`
+* 全宽度纵向切分: `\`
+* 全宽度横向切分: `_`
+
+!! 调整 panes 大小
+
+* 向左 `H`
+* 向右 `L`
+* 向上 `K`
+* 向下 `J`
+
+!! 切换 panes
+
+* 向左 `h` 或者 `C-h`
+* 向右 `l` 或者 `C-l`
+* 向上 `k` 或者 `C-k`
+* 向下 `j` 或者 `C-j`
+
+> `C-h` 指的是 `Ctrl+h`, 这样是为了按住 `prefix` 的时候可以不松开 `Ctrl`键, 就切换panes.
+
+!! 切换窗口 windows
+
+* 向左 `<` 
+* 向右 `>`
+
+---
+
+!! 配置项
+
+修改调整 panes 大小时的步幅, 默认为 5.
+
+```bash
+set-option -g @pane_resize "10"
+```

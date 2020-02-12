@@ -1,0 +1,42 @@
+created: 20190808205450197
+modified: 20190828173935833
+tags: 插件 Vim
+title: YouCompleteMe
+type: text/vnd.tiddlywiki
+
+YCM (YouCompleteMe) 是 vim 中著名的代码补全插件.
+
+!! 安装
+
+使用 [[Vundle]] 安装Youcompleteme 非常简单.
+
+但是安装后还需要根据需要的语言进行编译:
+
+<<<
+编译之前需要安装编译所需的依赖:
+
+```bash
+sudo apt install build-essential cmake python3-dev
+```
+<<<
+
+* 基础python补全编译: <div>
+
+```bash
+python3 ~/.vim/bundle/YouCompleteMe/install.py
+```
+
+</div>
+
+要使用补全还需要 vim 支持相应的语言.
+
+由于 Debian 9 中原生的 VIM 不支持 python 3, 可以安装 `vim-gnome` 或者 `vim-gtk`:
+
+```bash
+sudo apt install vim-gnome
+sudo apt install vim-gtk
+```
+
+---
+
+使用 `.zdot` 仓库暂时没有自动安装 YCM. 

@@ -1,0 +1,59 @@
+created: 20190701004430609
+creator: liyzcj
+modified: 20190828171835939
+modifier: liyzcj
+tags: 破解 Software Windows
+title: Office安装与激活
+type: text/vnd.tiddlywiki
+
+!! 安装:
+
+安装有多种不同的方式可以选择, 一种是通过 [[Office Tool Plus|https://otp.landian.vip/en-us/]], 另一种是手动配置.
+
+!!! OTP(office tool plus)
+
+比较推荐使用 OTP 来安装, 能够更直观, 更清晰的进行配置, 易于操作. 不仅提供了自定义下载安装, 还有许多实用小工具.
+
+> Github 仓库: https://github.com/YerongAI/Office-Tool
+
+# 在下载页面选择通道与架构下载安装包
+# 切换至安装界面, 选择下载好的版本并配置安装信息.
+# 点击开始安装.
+
+缺点: 下载安装包时只能下载完整安装包
+
+
+!!! 手动安装
+
+手动安装稍微较 OTP 稍微复杂一点, 不过配合官方配置工具也非常简单.
+
+> Office Customization Tool: https://config.office.com/
+> Office Deployment Tool: https://www.microsoft.com/en-us/download/details.aspx?id=49117
+
+# 下载 Office Deployment Tool, 解压缩得到 `setup.exe`
+# 通过 Office Customization Tool 选择好合适的配置并生成配置文件 `Configuration.xml`
+# 打开 `CMD` 或着 `PowerShell`, 并切换到 `setup.exe` 目录
+# 输入以下命令下载安装文件: <div>
+
+```bash
+setup.exe /download [path to configuration.xml]
+```
+</div>
+# 下载完成后, 输入以下命令安装 Office: <div>
+
+```bash
+setup.exe /configure [path to configuration.xml]
+```
+</div>
+
+
+
+!! 激活:
+
+# 通过 Office Tool Plus 安装对应版本许可证
+# 通过 KMS 服务器一键激活
+
+---
+可用 KMS 服务器: 
+
+* kms.library.hk

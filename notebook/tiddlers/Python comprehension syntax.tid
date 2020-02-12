@@ -1,0 +1,182 @@
+created: 20200211053945879
+modified: 20200211075841544
+tags: Survey Tutorial Python Syntax
+title: Python comprehension syntax
+type: text/vnd.tiddlywiki
+
+! Python Comprehension Syntax
+
+Comprehension 语法在 Pythonic 中起到了非常重要的作用，可以在一行代码中实现循环与条件控制，非常实用。Comprehension 包含''列表 Comprehension和字典 Comprehension''。
+
+!! Comprehension 的优点
+
+首先 Comprehension 是公认的比 Loops 以及 Map 对象更加 [[Pythonic]] 的方式。但是除了 Pythonic 以外，Comprehension 还有很多其他优点。
+
+* 最主要的优点是 Comprehension 是在很多情况下唯一能用的工具。
+* 简单又强大的实现方式，不像 `map()` 需要记住参数的顺序。这也是被称为 [[Pythonic]] 的原因。
+* 比 Loops 更加易读和理解。
+
+!! 列表 Comprehension
+
+列表 Comprehension 可以用来''快速的创建一个列表''。
+
+首先创建一个列表有三种方式：''Loops、`map()` 和 Comprehension。''
+
+!!! Loops 循环
+
+首先最简单的就是循环，使用循环需要三步：
+
+# 创建一个空列表
+# 对一个 iterable 的object 进行迭代
+# 将元素一个一个添加到 List 中
+
+```python
+squres = []
+for i in range(10):
+	squares.append(i * i)
+```
+
+!!! `map()` 对象
+
+`map()` 是一个基于Python [[python function programmming]]的函数。`map()` 的参数有一个函数与一个 iterable 的对象，	`map()` 会使用提供的函数对 iterable object 中的每一个元素进行操作，并返回一个包含所有操作结果的 Object。
+
+```python
+numbers = range(10)
+def square(x):
+	return x*x
+squares = list(map(square, numbers))
+```
+
+> 注意：`map()` 韩素返回的是一个 ''Map Object''，这个 Map object 就像一个迭代器一样，''Map 对象内的元素只能转换一次''。
+
+!!! List Comprehensions
+
+Comprehension 是生成一个 List 最优雅的办法，就是这个语法让 Python 可以一行代码做很多事情。
+
+基础的 Comprehension 语法：
+
+```python
+new_list = [expression for member in iterable]
+```
+
+其中：
+
+* ''expression'' 是生成单个元素的表达式。
+* ''member'' 是可迭代对象中的元素。
+* ''iterable'' 是一个可迭代的对象
+
+由于 ''expression'' 比 `map()` 中的函数更加灵活，所以非常实用。
+
+!! 高级的 Comprehension
+
+要说高级的 Comprehension 首先得说 Python 中非常好用的一个语法：
+
+```python
+foo = value1 if some_condition else value2
+```
+
+''带有判断的赋值语句''，逻辑是，如果满足条件 some_condition，`foo = value1` 否则 `foo = value2`.
+
+高级的的 Comprehension 就是融合了上面的带有判断的赋值语句：
+
+```python
+new_list = [expression (if conditional else expression2) for member in iterable]
+```
+
+其中，带有判断的语句也可以挪到 for 循环后面，但是在后面无法使用 `else`，仅仅能根据 condition 进行过滤：
+
+```python
+new_list = [expression for member in iterable (if conditional)]
+```
+
+!!! 嵌套 Comprehension
+
+Comprehension 是可以进行嵌套的：
+
+```python
+[[i for i in range(10)] for j in range(100)]
+```
+
+使用嵌套的 Comprehension可以方便的生成多维矩阵。
+
+
+!! Dict 和 Set 的 Comprehensions
+
+使用 Comprehension 同样可以创建 Dict 和 Set。
+
+其中 Set Comprehension 和 List Comprehension 基本一致，只不过产生的元素不会重复，并且使用大括号 `{}`。
+
+字典的 Comprehension 也是类似的，不过值需要为 key-value paire：
+
+```python
+squares = {i: i*i for i in range(10)}
+```
+
+字典的 Comprehensions 也可以使用条件进行判断，对于 For 循环之后的条件作为过滤条件是相同的语法：
+
+```python
+squares2 = {i: v for i, v in squares.items() if i > 4}
+
+对于 For 循环之前的有些稍微不同，key 和 value 需要分别进行判断。
+
+```python
+squares2 = {i if cond else i+1: v if cond else v+1 for i, v in squares.items()}
+```
+
+Python 会分别对 i 和 v 进行判断，再作为元素放入新的 Dict。
+
+!! 海象运算符
+
+在 Python 3.8 中加入的海象运算符，又让 Comprehension语法变得更加便捷。
+
+在这之前，有种情况很头疼，例如你使用''复杂的条件进行判断也作为元素的时候''，你需要将条件写两次：
+
+```python
+new_list = [complex_condition_expression for e in iterator if complex_condition_expression]
+```
+
+现在可以写成这样：
+
+```python
+new_list = [temp for e in iterator if temp:=complex_condition_expression]
+```
+
+!! 什么时候最好不要使用 Comprehension
+
+!!! 嵌套
+
+前面说到 Comprehension是可以嵌套的，所以不仅生成多维数组时有用，在对多维数组进行 flatten 操作时，也可以进行双循环嵌套实现：
+
+```python
+flat = [num for row in matrix for num in row]
+```
+
+但是这种写法的可读性非常差，所以不建议使用。
+
+!!! 追求性能时
+
+性能一个是指时间上的性能，一个是指空间上的性能。
+
+!!! 空间
+
+Comprehension 会把所有的元素都加载到内存中。所以显然没有 Map 对象这种迭代器节省内存。
+
+!!! 时间
+
+Comprehension 语法的速度介于 loop 和 map 对象之间。
+
+> 可以使用 [[timeit|Python timeit]] modules 测试时间。
+
+!! 总结
+
+Comprehension 语法非常优雅，也有自己的缺点和优点。
+
+Comprehension 语法可以实现 List Set Dict 并且可以相互嵌套，还可以加入判断语句。
+
+并不是所有时候都适合用 comprehension 语法。
+
+---
+
+!! Reference
+
+* [[When to Use a List Comprehension in Python|https://realpython.com/list-comprehension-python/]]

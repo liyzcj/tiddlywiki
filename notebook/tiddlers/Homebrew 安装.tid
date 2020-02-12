@@ -1,0 +1,104 @@
+created: 20190819172757231
+modified: 20190828174847980
+tags: Macos Command
+title: Homebrew 安装
+type: text/vnd.tiddlywiki
+
+通过官网安装 Homebrew：https://brew.sh
+
+---
+
+!! 安装
+
+```bash
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+
+---
+
+!! 卸载
+
+```bash
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"
+```
+
+---
+
+!! 使用
+
+查看版本
+
+```bash
+brew --version
+```
+
+列出可升级包：
+
+```bash
+brew outdated
+```
+
+更新所有包：
+
+```bash
+brew upgrade
+```
+
+查看可清理旧版本：
+
+```bash
+brew cleanup -n
+```
+
+清理旧版本：
+
+```bash
+brew cleanup
+```
+
+锁定不想更新的包：
+
+```bash
+# 锁定
+brew pin [formula]
+# 解锁
+brew unpin [formula]
+```
+
+卸载：
+
+```bash
+brew uninstall [formula]
+```
+!! 查询
+
+查看包信息：
+
+```bash
+brew info [formula]
+```
+
+查看已安装列表：
+
+```bash
+brew list -l
+```
+
+查询可用包：
+
+```bash
+brew search [formula]
+```
+
+---
+
+!! cask
+
+brew 与 brew cask 区别：
+
+* brew 是下载源码，然后编译安装。
+* brew cask 是直接下载编译好的文件。
+
+```bash
+brew cask install [casks]
+```

@@ -1,0 +1,40 @@
+created: 20190830060939364
+modified: 20190830064733195
+tags: Docker
+title: Nvidia Docker 使用
+type: text/vnd.tiddlywiki
+
+NVIDIA Container Toolkit 可以让你在容器内使用 GPU。
+
+!! 使用方法
+
+使用所有 GPU：
+
+```bash
+docker run --gpus all nvidia/cuda:9.0-base nvidia-smi
+```
+
+使用指定个数的 GPU：
+
+```bash
+docker run --gpus 2 nvidia/cuda:9.0-base nvidia-smi
+```
+
+使用特定的 GPU：
+
+```bash
+docker run --gpus '"device=1,2"' nvidia/cuda:9.0-base nvidia-smi
+docker run --gpus '"device=UUID-ABCDEF,1"' nvidia/cuda:9.0-base nvidia-smi
+```
+
+指定 capability：
+
+```bash
+docker run --gpus all,capabilities=utility nvidia/cuda:9.0-base nvidia-smi
+```
+
+capability 有三种：
+
+* compute
+* video
+* utility

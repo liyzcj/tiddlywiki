@@ -1,0 +1,9 @@
+created: 20191207212120656
+modified: 20191207212207878
+tags: Shell编程
+title: shell 获取当前目录
+type: text/vnd.tiddlywiki
+
+```bash
+BASEDIR=$(dirname "$0")
+```

@@ -1,0 +1,23 @@
+created: 20190805182107755
+creator: liyzcj
+modified: 20190828183500816
+modifier: liyzcj
+tags: Matploblib
+title: 不显示坐标轴
+type: text/vnd.tiddlywiki
+
+!! 方法一
+
+```python
+frame = plt.gca()
+# y 轴不可见
+frame.axes.get_yaxis().set_visible(False)
+# x 轴不可见
+frame.axes.get_xaxis().set_visible(False)
+```
+
+!! 方法二
+
+```python
+plt.axis('off')
+```

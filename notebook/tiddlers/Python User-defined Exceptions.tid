@@ -1,0 +1,49 @@
+created: 20200207091524289
+modified: 20200207172703872
+tags: Python
+title: Python User-defined Exceptions
+type: text/vnd.tiddlywiki
+
+! 用户自定义异常
+---
+
+每个程序都可以通过创建异常类定义自己的异常类型。自定义的异常类一般都从 `Exception` 类中派生。
+
+异常类可以和其他类一样做任何事，但是一般都会保持异常类的简单，通常仅仅提供一个数字，可以让 handlers 来提取错误信息。当你创建一个可能会抛出多种异常的 Module 时，通常会首先创建一个基类作为所有异常类型的基类。
+
+```python
+class Error(Exception):
+    """Base class for exceptions in this module."""
+    pass
+
+class InputError(Error):
+    """Exception raised for errors in the input.
+
+    Attributes:
+        expression -- input expression in which the error occurred
+        message -- explanation of the error
+    """
+
+    def __init__(self, expression, message):
+        self.expression = expression
+        self.message = message
+
+class TransitionError(Error):
+    """Raised when an operation attempts a state transition that's not
+    allowed.
+
+    Attributes:
+        previous -- state at beginning of transition
+        next -- attempted new state
+        message -- explanation of why the specific transition is not allowed
+    """
+
+    def __init__(self, previous, next, message):
+        self.previous = previous
+        self.next = next
+        self.message = message
+```
+
+与[[标准内建异常|Python Built-in Exceptions]]类似，大部分异常都以 `Error`结尾。
+
+大多数标准 Modules 都会定义自己的异常来报告发生在它们函数中的错误。

@@ -1,0 +1,13 @@
+created: 20191111075252983
+modified: 20191111080202127
+tags: Concept
+title: Swagger
+type: text/x-markdown
+
+## Swagger
+
+**Swagger** is a set of open-source tools built around the [OpenAPI](#OpenAPI) Specification that can help you design, build, document and consume REST APIs. The major Swagger tools include:
+
+- [Swagger Editor](http://editor.swagger.io/) – browser-based editor where you can write OpenAPI specs.
+- [Swagger UI](https://swagger.io/swagger-ui/) – renders OpenAPI specs as interactive API documentation.
+- [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) – generates server stubs and client libraries from an OpenAPI spec.

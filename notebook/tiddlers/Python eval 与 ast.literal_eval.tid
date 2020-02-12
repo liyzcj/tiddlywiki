@@ -1,0 +1,14 @@
+created: 20190919080445085
+modified: 20191022030652037
+tags: Python
+title: Python eval 与 ast.literal_eval
+type: text/vnd.tiddlywiki
+
+在 Python 中，`eval()` 是一个强大的函数，简而言之就是可以将你的字符串转换为 Python的代码。 可以用来方便的转换各种数据类型。
+
+但是，`eval()` 会执行任何经过字符串转换的命令，例如你传入字符串让 Python 去格式化硬盘，它也一样会照做。
+
+
+---
+
+处于安全考虑，在只需要进行 string 到Python内建类型转换的时候，使用 `ast.literal_eval()` 这个函数会判断你的字符串在转换后是否为 Python 的合法类型， 如果不是，程序就会报错，从而解决了安全问题。

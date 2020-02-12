@@ -1,0 +1,169 @@
+created: 20200128184536879
+modified: 20200131191322836
+title: Go Interface
+type: text/vnd.tiddlywiki
+
+! Go Interface
+---
+
+!! 定义
+
+> An interface type is defined as a set of method signatures.
+
+接口属于一种[[自定义数据类型|Go Types]]，由一个集合的 Method signature 组成。
+
+```go
+type SomeInterface interface {
+	SomeMethod(type) type
+}
+```
+
+''类型为接口类型的值可以存储任何实现了接口内定义的[[方法|Go Method]]的[[数据类型|Go Types]]。''
+
+> 需要注意的是，如果使用的是指针 Receiver 定义的[[方法|Go Method]]，那么对应的接口类型是无法存储非指针 Receiver 的。
+
+!!! 空接口
+
+空接口：
+
+```go
+var i interface{}
+```
+
+空接口可以保存任何类型的值。
+
+---
+
+!! 使用
+
+''一个[[数据类型|Go Types]]通过实现接口内的[[方法|Go Method]]来隐式的实现对应的接口。''
+
+这样可以将接口的定义与方法的实现解耦，这样在任何的 package 中都可以实现任何接口。
+
+假设 `SomeStruct` 实现了方法 `SomeMethod`:
+
+```go
+func (s SomeStruct) SomeMethod(type) type {}
+```
+
+那么就可以使用接口类型保存 `SomeStruct` 类型的值：
+
+```go
+var i SomeInterface = SomeStruct{}
+```
+
+!! 类型断言
+
+```go
+t := i.(T)
+```
+
+上面的表达式会验证接口类型的值 `i` 是否为类型 `T`，如果是，就会赋值给变量 `t` 。否则会引起一个 [[Go Panic]]。
+
+```go
+t, ok := i.(T)
+```
+
+如果获取两个返回值，则第二个返回值 `ok` 代表类型断言是否成功，就不会引起 [[Go Panic]]。这个语法和从 map 中获取值类似。
+
+!! 类型 Switches
+
+Type Switches 允许你编写一系列的类型断言。
+
+```go
+switch v := i.(type) {
+case T:
+    // here v has type T
+case S:
+    // here v has type S
+default:
+    // no match; here v has the same type as i
+}
+```
+
+> 注意这里的 `type` 就是关键字 `type` 而不是代表数据类型。
+
+---
+!! Dive in
+
+可以将接口类型的 value 想像成，一个 Value 和对应 Type 的元祖：
+
+```go
+(value, type)
+```
+
+这样当通过接口类型的 value 调用某个方法时，会使用''真正的 Type value 来执行名字相同的方法。''
+
+注意即使接口类型的值保存的是一个 `nil` 指针，它也会调用对应类型的方法，并将值 `nil` 作为 receiver 传递到方法内。
+
+```go
+var i SomeInterface
+var s SomeStruct
+i = s
+i.SomeMethod() // receiver as <nil>
+```
+
+因为在 Go 中，即使是空指针 `nil` 也是有类型的。有些语言会引起一个空指针异常。
+
+但是，如果不对接口类型进行任何赋值，直接调用方法的话还是会引起异常，因为这个值内没有保存任何具体的类型。
+
+```go
+var i SomeInterface
+i.SomeMethod() // raise an error
+```
+
+---
+
+!! 几个特殊的 Interface
+
+!!! Stringer
+
+```go
+type Stringer interface {
+    String() string
+}
+```
+
+为数据类型实现 `String()` 方法，`fmt` package 通过这个接口来打印一个数据类型。
+
+
+!!! Errors
+
+```go
+type error interface {
+    Error() string
+}
+```
+
+error 接口类似于 Stringer，也是返回一个字符串。''发生错误时，代表错误提示的字符串''。
+
+在 Go 中，通常定义一个函数不仅会返回函数的返回值，还会返回一个 error 接口类型的返回值。
+
+* 当函数执行成功是，返回的 error 即为 `nil`。
+* 当函数执行失败时，则会根据原因返回不同的 error value。
+
+''当失败时，也就是返回值 `err != nil`时，使用 `fmt` 打印 err value 就会调用 `Error()` 方法。''
+
+!!! Reader
+
+由 package `io` 提供的接口 Reader，有一个 `Read()` 方法：
+
+```go
+func (T) Read(b []byte) (n int, err error)
+```
+
+''Read 方法将数据存储到参数 `[]byte` 中并返回存储的 bytes 数目和 error 信息。''
+
+!!! Image
+
+Packge `image` 定义的接口 `Image` 抽象了一个图像，它包含三个方法。
+
+```go
+type Image interface {
+    ColorModel() color.Model // 颜色模型
+    Bounds() Rectangle // 图像范围
+    At(x, y int) color.Color //每个像素的颜色
+}
+```
+
+注意其中的 `color.Model` 和 `color.Color` 同样也是接口。

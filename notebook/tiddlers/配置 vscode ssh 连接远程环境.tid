@@ -1,0 +1,16 @@
+created: 20190905033605867
+modified: 20190905033924520
+tags: Config Docker Vscode
+title: 配置 vscode ssh 连接远程环境
+type: text/vnd.tiddlywiki
+
+# 安装 remote-ssh 插件。
+# 通过 ssh 连接远程主机。
+
+默认 vscode 会读取 ssh 的config 文件，方便的连接到已经配置好的ssh 主机。
+
+ssh config 文件的配置方法详见：[[ssh 配置 config 文件]]
+
+---
+
+如果需要连接到容器内，则需要[[配置容器内的 ssh 服务]]。

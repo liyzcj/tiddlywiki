@@ -1,0 +1,18 @@
+created: 20190704003411180
+creator: liyzcj
+modified: 20191201153846424
+modifier: liyzcj
+tags: Python
+title: optparse
+type: text/vnd.tiddlywiki
+
+!! optparse
+---
+
+> optparse 在 python 2.7 以后已经弃用, 而且在将来很可能会删除.
+
+> 💡 推荐使用升级版本 [[argparse]].
+
+详情见 [ext[PEP 389|https://www.python.org/dev/peps/pep-0389/]]
+
+参考: [ext[Why use argparse rather than optparse?|https://stackoverflow.com/questions/3217673/why-use-argparse-rather-than-optparse]]

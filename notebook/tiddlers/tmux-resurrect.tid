@@ -1,0 +1,14 @@
+created: 20190809192405452
+modified: 20190828174206943
+tags: 插件 Tmux
+title: tmux-resurrect
+type: text/vnd.tiddlywiki
+
+tmux-resurrect 插件用来保存和恢复 Tmux session 的状态
+
+https://github.com/tmux-plugins/tmux-resurrect
+
+!! 使用:
+
+* `prefix` + `Ctrl-s`  : 保存
+* `prefix` + `Ctrl-r`  : 恢复

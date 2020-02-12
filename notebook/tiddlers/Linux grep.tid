@@ -1,0 +1,109 @@
+created: 20200204111325886
+modified: 20200206044053348
+tags: Command Linux
+title: Linux grep
+type: text/vnd.tiddlywiki
+
+! grep
+---
+
+!! 概要
+
+```bash
+grep [OPTION...] PATTERNS [FILE...]
+grep [OPTION...] -e PATTERNS ... [FILE...]
+grep [OPTION...] -f PATTERN_FILE ... [FILE...]
+```
+
+!! Options
+
+!!! 基本信息
+
+* `--help`: 帮助信息
+* `-V, --version`: 版本信息
+
+!!! 匹配器选择
+
+* `-F, --fixed-strings`: 将 Patterns 作为固定字符串解释，不使用正则。
+* `-E, --extended-regexp`: 将 Patterns 作为扩展正则表达式(EREs)解释。
+* `-G, --basic-regexp`: 将 Patterns 作为基础正则表达式(BREs)解释。
+* `-P, --perl-regexp`: 将 Patterns 作为 Perl 兼容的正则表达式(PCREs)解释。
+
+!!! 匹配控制
+
+|!Options|!Description|
+|`-e PATTERNS, --regexp=PATTERNS`|使用 PATTERNS 作为 patterns，可以指定多个，会匹配每一个|
+|`-f FILE, --file=FILE`|从文件中获取 PATTERN，与 `-e` 配个，搜索所有 patterns|
+|`-i, --ignore-case`|忽略大小写|
+|`--no-ignore-case`|默认行为，不忽略大小写|
+|`-v, --invert-match`|反转匹配，输出不匹配的结果|
+|`-w, --word-regexp`|全字匹配，在全行匹配打开时无效|
+|`-x, --line-regexp`|全行匹配|
+
+!!! 基本输出控制
+
+|!Options|!Description|
+|`-c, --count`|输出所匹配结果的行数|
+|`--color[=WHEN], --colour[=WHEN]`|`WHEN = [`never` `always` `auto`]`，显示颜色。通过 `GREP_COLOR`, `GREP_COLORS` 设置颜色|
+|`-L, --files-without-match`|列出不匹配的文件名称|
+|`-l, --files-with-matches`|列出匹配的文件名称|
+|`-m NUM, --max-count=NUM`|匹配的最多行数|
+|`-o, --only-matching`|仅仅打印匹配的部分|
+|`-q, --quiet, --silent`|不打印任何输出|
+|`-s, --no-messages`|不显示错误信息|
+
+!!! 输出前缀控制
+
+|!Options|!Description|
+|`-b, --byte-offset`|在每行输出之前打印当前行在文件中的 offset|
+|`-u, --unix-byte-offsets`|与 `-b` 配合使用，打印 Unix 风格的 offset|
+|`-H, --with-filename`|多文件时默认打开，每行之前打印匹配的文件名称|
+|`-h, --no-filename`|关闭输出文件名称|
+|`--label=LABEL`|为标准输入打 label，配合 `-H` 打印 label 名称|
+|`-n, --line-number`|显示匹配行的行号|
+|`-T, --initial-tab`|前缀之间添加 Tab，输出整齐|
+|`-Z, --null`|文件名后的字符改为 ASCII NUL|
+
+!!! 上下文行控制
+
+|!Options|!Description|
+|`-A NUM, --after-context=NUM`|打印匹配行以及行后的 NUM 行|
+|`-B NUM, --before-context=NUM`|打印匹配行以及行前 NUM 行|
+|`-C NUM, -NUM, --context=NUM`|打印匹配行以及前后的 NUM 行|
+
+!!! 文件目录控制
+
+|!Options|!Description|
+|`-a, --text`|将二进制文件作为 Text 处理，等价于 `--binary-files=text`|
+|`-I`|忽略匹配二进制文件|
+|`-D ACTION, --devices=ACTION`|如果一个输入文件为设备，FIFO 或 socket，使用 ACTION 来处理，ACTION 默认为 `read`，可以修改为 `skip`|
+|`-d ACTION, --directories=ACTION`|如果输入为文件夹，则采用 ACTION。ACTION 默认为 `read` 仅读取目录内普通文件。可以修改为 `skip` 和 `recurse`|
+|`--exclude=GLOB`|根据 GLOB 排除文件|
+|`--exclude-from=FILE`|根据文件内的 GLOB 排除文件|
+|`--include=GLOB`|仅仅搜索 GLOB 匹配的文件|
+|`-r, --recursive`|递归搜索所有目录，等价于 `-d recurse`, 但''忽略符号链接''|
+|`-R, --dereference-recursive`|递归搜索所有目录文件，''包括符号链接''|
+
+> `--binary-files=TYPE`: <div>
+
+如果文件为二进制文件，将文件类型作为 `TYPE` 处理：
+
+* 默认 TYPE 为 `binary`，并且二进制文件输出会被忽略。
+* 如果 TYPE 等于 `without-match`, 当 grep 监测到 null input binary data，它假设输出不同。`-I` 等价。
+* 如果 TYPE 等于 `text` grep 将二进制文件作为 Text 处理。与 `-a` 等价。
+
+</div>
+
+!!! 其他选项
+
+|!Options|!Description|
+|`--line-buffered`|使用行 buffer。可能会出现性能问题|
+|`-U, --binary`|将文件作为二进制文件处理。|
+|`-z, --null-data`|换行符变为 NULL|
+
+
+!! Reference
+---
+
+* [[man pange|http://man7.org/linux/man-pages/man1/grep.1.html]]
+* [[菜鸟教程|https://www.runoob.com/linux/linux-comm-grep.html]]

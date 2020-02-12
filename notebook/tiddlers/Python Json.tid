@@ -1,0 +1,220 @@
+created: 20191209145422976
+modified: 20191210044714873
+tags: Python
+title: Python Json
+type: text/vnd.tiddlywiki
+
+! Python Json
+
+Json (JavaScript Object Notation) 由 [[RFC 7159|https://tools.ietf.org/html/rfc7159.html]] 指定。是一种轻量的数据交换格式。
+
+!! Basic Usage
+
+Python 中的 json module exposes familiar API to users of the standard library [[pickle]].
+
+* `dumps(obj)` serialize to string
+* `loads(obj)` deserialize from string
+* `dump(obj, fp)` serialize to string and ouputs to file
+* `load(obj, fp)` deserialize from file
+
+!!! Encoding
+
+```python
+>>> import json
+>>> json.dumps(['foo', {'bar': ('baz', None, 1.0, 2)}])
+'["foo", {"bar": ["baz", null, 1.0, 2]}]'
+>>> print(json.dumps("\"foo\bar"))
+"\"foo\bar"
+>>> print(json.dumps('\u1234'))
+"\u1234"
+>>> print(json.dumps('\\'))
+"\\"
+>>> print(json.dumps({"c": 0, "b": 0, "a": 0}, sort_keys=True))
+{"a": 0, "b": 0, "c": 0}
+>>> from io import StringIO
+>>> io = StringIO()
+>>> json.dump(['streaming API'], io)
+>>> io.getvalue()
+'["streaming API"]'
+```
+
+Compact encoding: (紧凑编码)
+
+```python
+>>> import json
+>>> json.dumps([1, 2, 3, {'4': 5, '6': 7}], separators=(',', ':'))
+'[1,2,3,{"4":5,"6":7}]'
+```
+
+Pretty Printing: (易读编码)
+
+```python
+>>> import json
+>>> print(json.dumps({'4': 5, '6': 7}, sort_keys=True, indent=4))
+{
+    "4": 5,
+    "6": 7
+}
+```
+
+!!! Decoding
+
+```python
+>>> import json
+>>> json.loads('["foo", {"bar":["baz", null, 1.0, 2]}]')
+['foo', {'bar': ['baz', None, 1.0, 2]}]
+>>> json.loads('"\\"foo\\bar"')
+'"foo\x08ar'
+>>> from io import StringIO
+>>> io = StringIO('["streaming API"]')
+>>> json.load(io)
+['streaming API']
+```
+
+Specializing Json object decoding
+
+```python
+>>> import json
+>>> def as_complex(dct):
+...     if '__complex__' in dct:
+...         return complex(dct['real'], dct['imag'])
+...     return dct
+...
+>>> json.loads('{"__complex__": true, "real": 1, "imag": 2}',
+...     object_hook=as_complex)
+(1+2j)
+>>> import decimal
+>>> json.loads('1.1', parse_float=decimal.Decimal)
+Decimal('1.1')
+```
+
+
+!! Basic Python object
+
+Json module supports to serialize basic Python builtin object type.
+
+!!! Baisc Python object decode
+
+|!JSON|!Python|
+|object|dict |
+|array|list |
+|string|str |
+|number(int)|int |
+|number(float)|float |
+|true|True |
+|false|False |
+|null|None |
+|~NaN|corresponding float|
+|Infinity|corresponding float|
+|-Infinity|corresponding float|
+
+!!! Basic Python Object encode
+
+|!Python|!JSON|
+|dict|object|
+|list, tuple|array|
+|str|string|
+|int, float|number|
+|True|true|
+|False|false|
+|None|null|
+
+!! Extend for specified Object type
+
+!!! Encoder
+
+Inherit `json.JSONEncoder` and implement these method:
+
+* `default(obj)`: <div>
+
+Returns a serializable object for obj.
+
+```python
+def default(self, o):
+   try:
+       iterable = iter(o)
+   except TypeError:
+       pass
+   else:
+       return list(iterable)
+   # Let the base class default method raise the TypeError
+   return json.JSONEncoder.default(self, o)
+```
+
+</div>
+
+* `encode(obj)`: <div>
+
+Returns a JSON string representation of a  Python data structure.
+
+```python
+>>> json.JSONEncoder().encode({"foo": ["bar", "baz"]})
+'{"foo": ["bar", "baz"]}'
+```
+
+</div>
+
+* `iterencode(obj)`: <div>
+
+Yield each string representation as avaliable.
+
+```python
+for chunk in json.JSONEncoder().iterencode(bigobject):
+    mysocket.write(chunk)
+```
+
+</div>
+
+Then, call `json.dumps()` method and specify argument `cls`:
+
+```python
+json.dumps(obj, cls=MyEncoder)
+```
+
+
+!!! Decoder
+
+Inherit `json.JSONDecoder` and implement these method:
+
+* `decode(str)`: <div>
+
+Return a Python object representation of str (where str is a JSON document)
+
+</div>
+
+''上面这种方法会导致无法递归的 decode，Dict 内嵌套的无法decode。''
+
+A suitable way to customize json Decoder is specify `object_hook` or `parse_float` argument in loads(method).
+
+```python
+>>> import json
+>>> def as_complex(dct):
+...     if '__complex__' in dct:
+...         return complex(dct['real'], dct['imag'])
+...     return dct
+...
+>>> json.loads('{"__complex__": true, "real": 1, "imag": 2}',
+...     object_hook=as_complex)
+(1+2j)
+>>> import decimal
+>>> json.loads('1.1', parse_float=decimal.Decimal)
+Decimal('1.1')
+```
+
+But you can implement this by Inheriting and  override `__init__()`:
+
+```python
+>>> class MyDecoder(json.JSONDecoder):
+    
+...     def __init__(self, *args, **kwargs):
+...         super(MyDecoder, self).__init__(
+...         object_hook=self.as_complex, *args, **kwargs)
+    
+    
+...     def as_complex(self, dct):
+...         if '__complex__' in dct:
+...             return complex(dct['real'], dct['imag'])
+...         return dct
+>>> json.loads('{"complex": {"__complex__": true, "real": 10, "imag": 3}}', cls=MyDecoder)
+{'complex': (10+3j)}
+```

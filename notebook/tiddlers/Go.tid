@@ -1,0 +1,43 @@
+created: 20200126074820430
+modified: 20200131192215035
+tags: Go Language Summary
+title: Go
+type: text/vnd.tiddlywiki
+
+! Go
+---
+
+!! 基础
+---
+[[A Tour of Go]]
+主要记录 Go 语言的文法。
+
+* [[代码组织与导入|Go Code Orgnization and Import]]
+* [[函数 Function|Go Function]]
+* [[变量 Variable|Go Variable]]
+* [[流程控制 Flow Control|Go Flow Control]]
+* [[指针 Pointer|Go Pointer]]
+* [[数组 Array|Go Array and Slice]]
+* [[哈希表 Map|Go Map]]
+* [[结构体 Struct|Go Struct]]
+* [[接口 Interface|Go Interface]]
+* [[方法 Method|Go Method]]
+* [[并发 Goroutines|Go Goroutines]]
+
+!! 代码和技巧
+---
+* [[等待 Goroutines|Go Wait Goroutines]]
+* [[go 安装包超时]]
+
+!! 概念
+---
+* [[Modules|Go modules]]
+* [[Packages|Go packages]]
+* [[Slice 讲解|Go slices]]
+* [[目录结构|Go Workspace structure (new)]]
+* [[Zero Value|Go zero value]]
+* [[安装 Go|Install Go]]
+
+!! 总结
+---
+* [[数据类型 Type|Go Types]]

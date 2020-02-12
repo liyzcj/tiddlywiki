@@ -1,0 +1,42 @@
+created: 20190803181958634
+creator: liyzcj
+modified: 20190828180138943
+modifier: liyzcj
+tags: Wikitext
+title: WikiText 变量
+type: text/vnd.tiddlywiki
+
+\define animal1() lion
+
+!! 定义
+
+定义一个变量:
+
+* 有范围: <div>
+
+```
+<$set name=animal value=zebra>
+<<animal>>
+</$set>
+```
+<<<
+<$set name=animal value=zebra>
+<<animal>>
+</$set>
+<<<
+
+</div>
+
+* 无范围: <div>
+
+```
+\define animal1() lion
+```
+
+> <<animal1>>
+
+</div>
+
+[[宏|WikiText 宏]] 是一种特殊的变量形式，其值可以包含占位符，每当调用宏时，该占位符都用参数填充。
+
+> 💡 变量是无参数的宏, 宏是有参数的变量.

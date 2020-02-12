@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- 由 Microsoft Visio, SVG Export 生成 filesystem.svg filesystem -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="9.77975in" height="4.98328in"
+		viewBox="0 0 704.142 358.796" xml:space="preserve" color-interpolation-filters="sRGB" class="st11">
+	<v:documentProperties v:langID="2052" v:metric="true" v:viewMarkup="false">
+		<v:userDefs>
+			<v:ud v:nameU="msvSubprocessMaster" v:prompt="" v:val="VT4(Rectangle)"/>
+			<v:ud v:nameU="msvNoAutoConnect" v:val="VT0(1):26"/>
+		</v:userDefs>
+	</v:documentProperties>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:#ea700d;fill-opacity:0.54;stroke:#a5a5a5;stroke-linecap:round;stroke-linejoin:round;stroke-width:2}
+		.st2 {fill:#595959;font-family:Microsoft YaHei Mono;font-size:1.5em}
+		.st3 {fill:#31859b;fill-opacity:0.54;stroke:#a5a5a5;stroke-linecap:round;stroke-linejoin:round;stroke-width:2}
+		.st4 {fill:#c4d6a0;fill-opacity:0.54;stroke:#a5a5a5;stroke-linecap:round;stroke-linejoin:round;stroke-width:2}
+		.st5 {marker-end:url(#mrkr4-15);stroke:#7f7f7f;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.5}
+		.st6 {fill:#7f7f7f;fill-opacity:1;stroke:#7f7f7f;stroke-opacity:1;stroke-width:0.49800796812749}
+		.st7 {stroke:#000000;stroke-dasharray:14,10;stroke-width:2}
+		.st8 {fill:none;stroke:none;stroke-width:0.25}
+		.st9 {fill:#595959;font-family:Calibri;font-size:1.33333em}
+		.st10 {fill:#595959;font-family:Calibri;font-size:1.16666em}
+		.st11 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<defs id="Markers">
+		<g id="lend4">
+			<path d="M 2 1 L 0 0 L 2 -1 L 2 1 " style="stroke:none"/>
+		</g>
+		<marker id="mrkr4-15" class="st6" v:arrowType="4" v:arrowSize="2" v:setback="4.016" refX="-4.016" orient="auto"
+				markerUnits="strokeWidth" overflow="visible">
+			<use xlink:href="#lend4" transform="scale(-2.008,-2.008) "/>
+		</marker>
+	</defs>
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<v:userDefs>
+			<v:ud v:nameU="msvThemeOrder" v:val="VT0(0):26"/>
+		</v:userDefs>
+		<title>filesystem</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
+				v:shadowOffsetY="-8.50394"/>
+		<v:layer v:name="连接线" v:index="0"/>
+		<g id="shape2-1" v:mID="2" v:groupContext="shape" transform="translate(19,-134.79)">
+			<title>矩形</title>
+			<desc>File name</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="95.1631" cy="314.189" width="190.33" height="89.2154"/>
+			<rect x="0" y="269.581" width="190.326" height="89.2154" rx="8.50394" ry="8.50394" class="st1"/>
+			<text x="50.63" y="319.59" class="st2" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>File name</text>		</g>
+		<g id="shape3-4" v:mID="3" v:groupContext="shape" transform="translate(304.489,-134.79)">
+			<title>矩形.3</title>
+			<desc>Inode</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="59.4769" cy="314.189" width="118.96" height="89.2154"/>
+			<rect x="0" y="269.581" width="118.954" height="89.2154" rx="8.50394" ry="8.50394" class="st3"/>
+			<text x="34.74" y="319.59" class="st2" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>Inode</text>		</g>
+		<g id="shape4-7" v:mID="4" v:groupContext="shape" transform="translate(494.816,-134.79)">
+			<title>矩形.4</title>
+			<desc>Data block</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="95.1631" cy="314.189" width="190.33" height="89.2154"/>
+			<rect x="0" y="269.581" width="190.326" height="89.2154" rx="8.50394" ry="8.50394" class="st4"/>
+			<text x="45.68" y="319.59" class="st2" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>Data block</text>		</g>
+		<g id="shape6-10" v:mID="6" v:groupContext="shape" v:layerMember="0" transform="translate(209.326,-172.312)">
+			<title>动态连接线</title>
+			<path d="M0 351.71 L85.12 351.71" class="st5"/>
+		</g>
+		<g id="shape7-16" v:mID="7" v:groupContext="shape" v:layerMember="0" transform="translate(423.443,-172.312)">
+			<title>动态连接线.7</title>
+			<path d="M0 351.71 L61.33 351.71" class="st5"/>
+		</g>
+		<g id="shape9-21" v:mID="9" v:groupContext="shape" transform="translate(459.129,-20)">
+			<title>工作表.9</title>
+			<path d="M0 40 L0 239.84 L0 358.8" class="st7"/>
+		</g>
+		<g id="shape11-24" v:mID="11" v:groupContext="shape" transform="translate(114.163,-67.2667)">
+			<title>工作表.11</title>
+			<desc>Meta Data</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="127.571" cy="342.011" width="255.15" height="33.5714"/>
+			<rect x="0" y="325.225" width="255.143" height="33.5714" class="st8"/>
+			<text x="93.17" y="346.81" class="st9" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>Meta Data</text>		</g>
+		<g id="shape12-27" v:mID="12" v:groupContext="shape" transform="translate(494.816,-65.5329)">
+			<title>工作表.12</title>
+			<desc>User data</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="95.1631" cy="342.011" width="190.33" height="33.5714"/>
+			<rect x="0" y="325.225" width="190.326" height="33.5714" class="st8"/>
+			<text x="67.7" y="346.21" class="st10" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>User data</text>		</g>
+	</g>
+</svg>

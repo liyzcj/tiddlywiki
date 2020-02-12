@@ -1,0 +1,38 @@
+created: 20190806174827487
+creator: liyzcj
+modified: 20190826155031121
+modifier: liyzcj
+tags: Macos Linux Command
+title: nohup 挂起命令
+type: text/vnd.tiddlywiki
+
+! nohup
+---
+
+> No hang up!
+
+持续运行命令, 即使退出用户, 任务也不中断.
+
+!! 后台任务
+
+当需要后台执行某个任务时, 通常使用 `&` 符号将命令后台执行.
+
+<<<
+❗ 注意使用 `&` 执行后台命令时, 如果没有重定向输出, 则结果仍然会返回到屏幕. 影响使用, 所以通常做法是将结果重定向到一个文件.
+
+```bash
+command  >  out.file  2>&1  &
+```
+
+这样所有的标准输出与错误输出都重定向到文件中.
+<<<
+
+使用 `&` 符号执行的后台任务在用户推出 logout 时就会推出, 如果想要任务一直执行, 则需要 ''nohup'' 命令.
+
+!! nohup
+
+使用 `nohup` 命令执行任务, 如果没有在命令中重定向输出, 所有输出结果都将重定向到当前目录下的 `nohup.out` 文件.
+
+```bash
+nohup command > myout.file 2>&1 &
+```

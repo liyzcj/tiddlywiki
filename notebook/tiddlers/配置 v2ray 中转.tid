@@ -1,0 +1,80 @@
+created: 20200203162524725
+modified: 20200203174843021
+tags: Software 翻墙
+title: 配置 v2ray 中转
+type: text/vnd.tiddlywiki
+
+! 配置 v2ray 中转
+
+配置国内中转的一个优点是可以在国内这台 VPS 上判断目标地址是国内还是国外的，只需把国外的流量向国外 VPS 转发，而国内的流量使用直连。这样不用为每一个用户设置白名单，只需要全局模式连接国内的服务器即可。
+
+首先需要一个已经提供了 v2ray 服务的外网服务器，并且获取到了 vmess 链接。然后需要一个中转服务器。
+
+中转服务器可以采用两种方式，一种是[[任意门dokodemo-door|https://www.v2ray.com/chapter_02/protocols/dokodemo.html#dokodemo-door]]，将所有的请求直接转发给 v2ray 服务器
+
+另一种是起另一个 v2ray 服务，将通过中转的 v2ray 的请求，再[[通过 outbounds|https://toutyrater.github.io/advanced/vps_relay.html#%E5%9B%BD%E5%86%85-vps-%E4%B8%AD%E8%BD%AC]] 转发给国外服务器。
+
+!! 安装 v2ray
+
+首先按照[[官网的安装教程|https://www.v2ray.com/chapter_00/install.html]]来安装 v2ray，由于国内的服务器使用 github 源会非常的慢，所幸 v2ray 还提供了另外一个 jsdelivr 源。
+
+使用 [[curl 命令|Linux curl]]下载安装脚本并安装：
+
+```bash
+curl -o go.sh https://install.direct/go.sh && chmod +x go.sh
+sudo ./go.sh --source jsdelivr
+```
+
+安装完毕会出现以下信息：
+
+```shell
+PORT:14324
+UUID:57b9b81f-c2ef-474c-9ea0-63a99d60daa3
+Created symlink /etc/systemd/system/multi-user.target.wants/v2ray.service → /etc/systemd/system/v2ray.service.
+V2Ray v4.22.1 is installed.
+```
+
+!! 修改中转配置
+
+安装完毕以后，v2ray 的默认配置文件位置在: `/etc/v2ray/config.json`
+
+> 可以使用[[配置生成工具|https://www.v2ray.com/awesome/tools.html#online]]来生成配置。
+
+!!! 任意门配置
+
+通过[[任意门dokodemo-door|https://www.v2ray.com/chapter_02/protocols/dokodemo.html#dokodemo-door]]，将所有的请求直接转发给 v2ray 服务器：
+
+```json
+{
+  "inbounds": [{
+    "port": 14324,
+    "listen": "0.0.0.0",
+    "protocol": "dokodemo-door",
+    "settings": {
+	"address": "34.84.125.31",
+	"port":2083,
+	"network": "tcp,udp"
+    },
+    "tag": "baidu",
+    "sniffing": {
+	"enabled": true,
+	"destOverride": [
+	  "http",
+	  "tls"
+	]
+    }
+  }]
+```
+
+只需要修改 `inbounds`，并在settings 中配置国外服务器的 ip 和端口，这样客户端连接时输入中转服务器的 ip 和端口，但是''仍然使用国外服务器的 UUID''，因为是直接把所有请求都转发给国外服务器。
+
+!!! 通过 outbounds 配置
+
+[[通过 outbounds|https://toutyrater.github.io/advanced/vps_relay.html#%E5%9B%BD%E5%86%85-vps-%E4%B8%AD%E8%BD%AC]] 配置中转服务器：
+
+> 按照网址内的配置没成功。暂留
+
+
+!! Reference
+
+* https://tstrs.me/1462.html

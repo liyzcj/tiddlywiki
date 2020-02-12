@@ -1,0 +1,18 @@
+created: 20190719224858780
+creator: liyzcj
+modified: 20190828183702656
+modifier: liyzcj
+tags: 语法 Python
+title: Python Assertion
+type: text/vnd.tiddlywiki
+
+! Python 断言
+---
+
+断言可以用来确保程序的正确运行, 例如保证矩阵乘法中矩阵的 size.
+
+断言一个对象是否为二维列表:
+
+```python
+assert isinstance(input_data[0], list)
+```

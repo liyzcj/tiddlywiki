@@ -1,0 +1,53 @@
+created: 20190805164800708
+creator: liyzcj
+modified: 20190828180336907
+modifier: liyzcj
+tags: Matlab
+title: Matlab随机数生成
+type: text/vnd.tiddlywiki
+
+! 随机数生成
+---
+
+!! rand
+
+生成 0-1 之间的均匀分布随机数. 格式:
+
+```matlab
+a = rand        % 生成一个随机数
+R = rand(N)     % 生成 NxN 的矩阵
+R = rand(M,N,P, ...) % 生成MxNxPx...的矩阵
+```
+
+!! randi(max)
+
+随机生成1-max之间均匀分布的整数。 使用格式：
+
+```matlab
+n = randi(max)  % 生成一个随机整数
+R = randi(max,m,n) % 生成 m x n 的随机数矩阵
+R = randi([min,max],m,n) % 生成min到max之间的随机矩阵
+```
+
+!! randn
+
+生成正态分布的随机数。 使用格式：
+
+```matlab
+R = randn(N) % 生成 N x N 的正态分布矩阵
+R = randn(M, N) % 生成 M x N 的正态分布矩阵
+```
+
+!! randperm(n)
+
+生成1-n的随机置换。（打乱排序）:
+
+```matlab
+P = randperm(n)
+```
+
+随机生成k个1-n之间的不重复数：
+
+```matlab
+P = randperm(n,k)
+```

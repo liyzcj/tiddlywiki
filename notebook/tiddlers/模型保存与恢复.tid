@@ -1,0 +1,71 @@
+created: 20190927171124369
+modified: 20190927171613258
+tags: Tensorflow
+title: 模型保存与恢复
+type: text/vnd.tiddlywiki
+
+!!! 变量
+
+变量的保存与恢复使用 Saver 类.
+
+> ''保存间隔'' : 可以选择每一个 step 保存一次变量, 一般是每一个 epoch 保存一次变量.
+
+首先实例化一个 Saver 类:
+
+```python
+saver = tf.train.Saver(vars)
+# vars 为要保存的变量, 默认保存所有全局变量
+```
+
+* max_to_keep: 最大保存的存储点个数，默认为 5 个
+
+!!! 保存变量
+
+保存通过 saver.save():
+
+```python
+path = os.path.join(save_path, 'after-epoch')
+saver.save(sess, path, global_step=i+1)
+```
+
+* path 保存的文件名称
+* global_step 保存时的文件后缀
+
+> 可以使用当前的 epoch 作为文件的后缀, 如上.
+
+保存后, 在保存目录下会出现四个文件, 其中:
+
+
+* data:	变量数据
+* index:	变量索引
+* meta:	模型数据
+* checkpoint:	最新检查点
+
+!!! 恢复变量
+
+恢复变量通过:
+
+```python
+saver.restore(sess, restore_path)
+```
+
+* restore_path 保存点文件
+
+如果 restore_path 是目录, 则需要首先使用 tf.train.latest_checkpoint(restore_path) 获取最新的检查点文件.
+
+可以在开始训练前恢复上一次训练的变量, 继续训练
+
+```python
+# Reload weights if exits
+if os.path.exists(restore_path):
+  print("Restoring parameters from {}".format(restore_path))
+  if os.path.isdir(restore_path):
+    restore_path = tf.train.latest_checkpoint(restore_path)
+  # Begin at epoch
+  bae = int(restore_path.split('-')[-1])
+  saver.restore(sess, restore_path)
+```
+
+* bae: Begin of epoch
+
+>  使用这段代码时, 循环 epoch 应该使用 range(bae, bae+num_epoch).

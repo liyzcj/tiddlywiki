@@ -1,0 +1,11 @@
+created: 20190804193037082
+creator: liyzcj
+modified: 20190826160949980
+modifier: liyzcj
+tags: Linux Command
+title: 设置默认编辑器
+type: text/vnd.tiddlywiki
+
+```bash
+update-alternatives --config editor
+```

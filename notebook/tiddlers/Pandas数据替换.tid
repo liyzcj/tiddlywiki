@@ -1,0 +1,55 @@
+created: 20190801161801300
+creator: liyzcj
+modified: 20190906153526065
+modifier: liyzcj
+tags: Pandas
+title: Pandas数据替换
+type: text/vnd.tiddlywiki
+
+* 对整个 DF 的值进行替换, `inplace` 代表是否改变源数据: <div>
+
+```python
+df.replace(to_replace, value, inplace = True)
+```
+
+</div>
+
+* 对某一列的值进行替换: <div>
+
+
+```python
+df["foo"].replace(to_replace, value, inplace = True)
+```
+
+</div>
+
+* 多个值替换, 可以使用''列表''或着''字典''替换: <div>
+
+```python
+# 列表替换
+df.replace(['a',1], ['b',2], inplace = True)
+# 字典替换
+df.replace({'a':'b', 1:2}, inplace = True)
+```
+
+> 使用列表替换时, 也可以将多个值替换为一个值.
+
+</div>
+
+* 正则表达式替换, 可以同时替换多个值: <div>
+
+```python
+df.replace('[a-z]', 'aphabet', regex = True)
+```
+
+</div>
+
+* 部分替换, 当有时候不想全部替换, 例如将 `go up` 替换为 `go down`: <div>
+
+```python
+df['col'] = df['col'].str.replace('up', 'down')
+```
+
+> 部分替换没有 inplace 参数, 所以想要替换源数据需要赋值操作. ''注意赋值时选择为某一列赋值''
+
+</div>

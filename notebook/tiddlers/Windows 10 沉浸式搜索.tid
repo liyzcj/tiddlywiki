@@ -1,0 +1,24 @@
+created: 20190627191432490
+creator: liyzcj
+list: 
+modified: 20190828172024896
+modifier: liyzcj
+tags: 美化 Windows
+title: Windows 10 沉浸式搜索
+type: text/vnd.tiddlywiki
+
+<<<.tc-big-quote
+设置使Windows 搜索栏浮动在屏幕中央.
+<<<
+
+---
+
+早在Windows 10四月更新（Version 1803）的预览版中微软就已经创建沉浸式搜索栏，但是由于种种原因至今仍未出现在正式版本中。
+
+在Windows 10 May 2019（Version 1903）功能更新中，除了分离搜索和Cortana两项功能之外，微软还对隐藏的沉浸式搜索栏进行了诸多优化。这些优化包括用户界面上的调整、热门应用清单、近期活动等等并改善了性能表现。值得注意的是，沉浸式搜索栏已经启用了圆角矩形设计。
+
+---
+
+!! 配置
+
+可以通过修改注册表的方法启动: https://www.cnbeta.com/articles/tech/861081.htm

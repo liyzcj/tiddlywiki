@@ -1,0 +1,37 @@
+created: 20190804194259526
+creator: liyzcj
+modified: 20200130031029519
+modifier: liyzcj
+tags: Git
+title: Git config
+type: text/vnd.tiddlywiki
+
+! Git config
+
+
+---
+
+Git 配置相关命令.
+
+列出当前配置:
+
+```bash
+git config --list
+```
+
+列出全局配置:
+
+```bash
+git config --global --list
+```
+
+!! bash
+
+```shell
+# 设置
+git config --global http.proxy socks5://127.0.0.1:1086
+git config --global https.proxy socks5://127.0.0.1:1086
+# 删除
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+```

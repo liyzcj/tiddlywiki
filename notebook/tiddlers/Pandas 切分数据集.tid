@@ -1,0 +1,33 @@
+created: 20200109110743687
+modified: 20200109112841234
+tags: Pandas
+title: Pandas 切分数据集
+type: text/vnd.tiddlywiki
+
+使用 Pandas 切分数据集：
+
+!! 方法一
+
+使用 `sample()` 以及 `drop()` 方法：
+
+```python
+people_copy = people.copy()
+train_set = people_copy.sample(frac=0.75, random_state=0)
+test_set = people_copy.drop(train_set.index)
+```
+
+> 使用时要注意 DataFrame 的 index 的唯一性。
+
+!! 方法二
+
+使用 numpy 的 random 来生成 mask，再使用 mask 进行过滤训练集：
+
+```python
+In [11]: df = pd.DataFrame(np.random.randn(100, 2))
+
+In [12]: msk = np.random.rand(len(df)) < 0.8
+
+In [13]: train = df[msk]
+
+In [14]: test = df[~msk]
+```

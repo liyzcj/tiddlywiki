@@ -1,0 +1,35 @@
+caption: importvariables--导入变量部件
+created: 20140612142500000
+creator: liyzcj
+modified: 20190828185105003
+modifier: liyzcj
+tags: Wikitext
+title: Wikitext 导入变量部件
+type: text/vnd.tiddlywiki
+
+!! 导入变量部件
+
+导入变量部件 [[Wikitext 导入变量部件]] 从其他条目列表中导入宏和变量定义，并使其可用于它的子项。 例如：
+
+```
+<$importvariables filter="[tag[mySpecialMacros]]">
+所有带有“mySpecialMacros”标签的条目中的宏定义在这里都有效
+</$importvariables>
+```
+
+!! 属性和内容
+
+导入变量部件的内容，是导入变量定义可用的范围。
+
+|!属性 |!描述 |
+|filter |[[条目过滤器|WikiText 过滤器]]定义将从其导入宏定义的条目 |
+
+!! 全局宏
+
+所谓的全局宏是在主页面模板（[[$:/core/ui/PageTemplate]]）中实现的，是通过将页面内容包装在以下导入变量部件中：
+
+```
+<$importvariables filter="[[$:/core/ui/PageMacros]] [all[shadows+tiddlers]tag[$:/tags/Macro]!has[draft.of]]">
+...
+</$importvariables>
+```

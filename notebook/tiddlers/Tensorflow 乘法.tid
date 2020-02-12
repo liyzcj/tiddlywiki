@@ -1,0 +1,13 @@
+created: 20190908161248277
+modified: 20190908161440110
+tags: Tensorflow
+title: Tensorflow 乘法
+type: text/vnd.tiddlywiki
+
+
+# tf.matmul(dense_a, dense_b, a_is_sparse=False, b_is_sparse=False)
+# tf.sparse_matmul(dense_a, dense_b)
+# tf.sparse_tensor_dense_matmul(sparse_a, dense_b, a_is_sparse=False, b_is_sparse)
+
+* 1/2 都是针对dense-matrix Tensor的计算，不过在指定矩阵是稀疏的时，会做计算优化 ##
+* 3 才是对~SparseTensor的计算，但是对b要求是dense的才可以。

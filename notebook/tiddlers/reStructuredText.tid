@@ -1,0 +1,13 @@
+created: 20190801154727935
+creator: liyzcj
+modified: 20190828175819194
+modifier: liyzcj
+title: reStructuredText
+type: text/vnd.tiddlywiki
+
+!! reStructuredText
+---
+
+reStructuredText 是 Python 的文档语言.
+
+语法: https://znote.readthedocs.io/zh/latest/program/markup/restructuredtext.html

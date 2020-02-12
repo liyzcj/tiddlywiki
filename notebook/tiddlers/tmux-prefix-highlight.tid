@@ -1,0 +1,15 @@
+created: 20190809191440062
+modified: 20190828174140259
+tags: 插件 Tmux
+title: tmux-prefix-highlight
+type: text/vnd.tiddlywiki
+
+众所周知, Tmux 的所有快捷键都需要先按下前置键 `prefix`, 但是有时候不知道自己有没有按到前置键, tmux-prefix-highlight 就是用来解决这个问题的.
+
+tmux-prefix-highlight 可以让你在状态栏添加一个函数来显示是否按下了前置键.
+
+!! 使用 
+
+将 `#{prefix_highlight}` 加入到状态栏中. 可以显示前置键与复制模式是否打开.
+
+https://github.com/tmux-plugins/tmux-prefix-highlight

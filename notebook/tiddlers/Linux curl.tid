@@ -1,0 +1,179 @@
+created: 20200203175533106
+modified: 20200204050253845
+tags: Linux Command
+title: Linux curl
+type: text/vnd.tiddlywiki
+
+! curl
+---
+
+```bash
+curl [option] url
+```
+
+!! 常用参数
+
+|!参数|!解释|
+|`-A/--user-agent <string>`|设置用户代理发送给服务器|
+|`-b/--cookie <name=string/file>`|cookie字符串或文件读取位置|
+|`-c/--cookie-jar <file>`|操作结束后把cookie写入到这个文件中|
+|`-C/--continue-at <offset>`|断点续转|
+|`-D/--dump-header <file>`|把header信息写入到该文件中|
+|`-e/--referer`|来源网址|
+|`-f/--fail`|连接失败时不显示http错误|
+|`-o/--output`|把输出写到该文件中|
+|`-O/--remote-name`|把输出写到该文件中，保留远程文件的文件名|
+|`-r/--range <range>`|检索来自HTTP/1.1或FTP服务器字节范围|
+|`-s/--silent`|静音模式。不输出任何东西|
+|`-T/--upload-file <file>`|上传文件|
+|`-u/--user <user[:password]>`|设置服务器的用户和密码|
+|`-w/--write-out [format]`|什么输出完成后90|
+|`-x/--proxy <host[:port]>`|在给定的端口上使用HTTP代理|
+|`-#/--progress-bar`|进度条显示当前的传送状态|
+
+> 更多参数查看官方 [[manpage|https://curl.haxx.se/docs/manpage.html]]
+
+
+!! 常用用法
+
+* 读取网页内容并打印或重定向 <div>
+
+```bash
+curl www.linux.com
+curl www.linux.com > linux.html
+```
+</div>
+
+
+* 脚本中查看网页返回值 <div>
+
+```bash
+curl -o /dev/null -s -w %{http_code} www.linux.com
+```
+</div>
+
+* 使用proxy 或 cookie <div>
+
+```bash
+curl -x 192.168.100.100:1080 http://www.linux.com # proxy
+curl -b cookiec.txt http://www.linux.com # 使用 cookie
+```
+</div>
+
+* 保存http的response里面的header 或 cookie 信息。 <div>
+
+```bash
+curl -D header.txt http://www.linux.com # 保存 header
+curl -c cookiec.txt  http://www.linux.com # 保存 cookie
+```
+</div>
+
+* `-A` 使用指定浏览器访问 <div>
+
+```bash
+curl -A "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.0)" http://www.linux.com # IE
+```
+</div>
+
+* 伪造 referer <div>
+
+```bash
+curl -e "www.linux.com" http://mail.linux.com
+```
+
+> 这样服务器会知道你是从 `www.linux.com` 跳转过来的。
+
+</div>
+
+
+!! 下载文件
+
+* `-o` 或 `-O` 保存网页为文件 <div>
+
+保存网页内容为本地文件，和重定向等价。
+
+```bash
+curl -o linux.html www.linux.com
+```
+
+直接将远程文件保存到本地：
+
+```bash
+curl -O www.linux.com/hello.sh
+```
+
+> 访问的远程必须是一个文件。
+
+</div>
+
+* 下载多个文件 <div>
+
+```bash
+curl -O http://www.linux.com/dodo[1-5].JPG
+```
+
+这样就会把dodo1，dodo2，dodo3，dodo4，dodo5全部保存下来
+
+```bash
+curl -O http://www.linux.com/{hello,bb}/dodo[1-5].JPG
+```
+
+这样会下载 `hello` 和 `bb` 下的文件，但是这样会重名并覆盖，那么就需要''重命名''：
+
+```bash
+curl -o #1_#2.JPG http://www.linux.com/{hello,bb}/dodo[1-5].JPG
+```
+
+</div>
+
+* 分块下载 <div>
+
+有时候下载的东西会比较大，这个时候我们可以分段下载。使用内置option：`-r`
+
+```bash
+curl -r 0-100 -o dodo1_part1.JPG http://www.linux.com/dodo1.JPG
+curl -r 100-200 -o dodo1_part2.JPG http://www.linux.com/dodo1.JPG
+curl -r 200- -o dodo1_part3.JPG http://www.linux.com/dodo1.JPG
+cat dodo1_part* > dodo1.JPG
+```
+</div>
+
+* 通过 ftp 下载文件 <div>
+
+curl可以通过ftp下载文件，curl提供两种从ftp中下载的语法
+
+```bash
+curl -O -u 用户名:密码 ftp://www.linux.com/dodo1.JPG
+curl -O ftp://用户名:密码@www.linux.com/dodo1.JPG
+```
+
+>  选项 `-#` 查看进度信息，`-s` 安静模式下载。
+
+</div>
+
+* 断点续传 <div>
+
+下载过程中断线可以使用 `-C` 参数继续下载：
+
+```bash
+curl -C -O http://www.linux.com/dodo1.JPG
+```
+</div>
+
+!! 其他
+
+* 上传文件 <div>
+
+curl不仅仅可以下载文件，还可以上传文件。通过内置option: `-T` 来实现
+
+```bash
+curl -T dodo1.JPG -u 用户名:密码 ftp://www.linux.com/img/
+```
+</div>
+
+* 显示抓取错误 <div>
+
+```bash
+curl -f http://www.linux.com/error
+```
+</div>

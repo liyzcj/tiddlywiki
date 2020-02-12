@@ -1,0 +1,184 @@
+created: 20200115073445791
+modified: 20200201134407971
+tags: Linux Shell编程 Command
+title: awk 命令
+type: text/vnd.tiddlywiki
+
+! AWK
+
+AWK 是一种处理文本的语言，是强大的文本分析工具。
+
+之所以叫 AWK 是取了三位创始人的首字母：''A''lfred Aho，Peter ''W''einberger, 和 Brian ''K''ernighan
+
+语法：
+
+```shell
+awk [选项参数] 'script' var=value file(s)
+```
+
+或者
+
+```shell
+awk [选项参数] -f scriptfile var=value file(s)
+```
+
+
+> script 或者 scriptfile 代表 AWK 代码。注意，脚本使用''单引号包裹''，不能使用双引号。
+
+
+!! 命令用法
+
+分隔后，`$n` 代表第 n 个分隔后的字符串。
+
+```bash
+awk '{print $1,$4}' test.txt
+```
+
+''默认对原字符串使用空格或者 tab 分割''，然后打印第一个和第四个字符串，结''果的中间默认是空格分割。'' 也可以使用 `printf` 格式化输出字符串：
+
+```bash
+awk '{printf "%-8s %-10s\n",$1,$4}' test.txt
+```
+
+!!! 自定义分隔符
+
+如果不使用默认分隔符，可以使用 `-F` 指定自定义分隔符，相当于赋值内置变量 `FS`。
+
+```bash
+awk -F, '{print $1,$2}' test.txt
+# 或者直接对内置变量赋值
+awk 'BEGIN{FS=","} {print $1,$2}' test.txt
+```
+
+上面的例子使用 `,` 分割原字符串，并打印第一二个字符串。如果需要，也可以使用多个分隔符，多个分隔符会依次分割：
+
+```bash
+awk -F '[ ,]'  '{print $1,$2,$5}' test.txt
+```
+
+例如上面的例子，先使用空格分割，再使用逗号分割，最后打印出第 1，2，5 个字符串。
+
+!!! 设置变量
+
+使用 `-v` 可以设置自定义变量，自定义变量可以在脚本中使用。
+
+```bash
+awk -va=1 '{print $1,$1+a}' test.txt
+# 多个变量
+awk -va=1 -vb=s '{print $1,$1+a,$1b}' test.txt
+```
+
+!!! 使用脚本文件
+
+如果脚本很长，可以使用脚本文件来进行文件处理：
+
+```bash
+awk -f {脚本文件} test.txt
+```
+
+!! 脚本编写
+
+AWK 脚本可以灵活并且方便的进行字符串处理，下面介绍一些''常用的运算符''以及''内建变量''。
+
+!!! 运算符
+
+|!Operator|!Description|
+|`=` `[+, -, *, /, %, ^, **]=`|赋值|
+|`?:`|C 条件表达式|
+|`||` `&&`|或，与|
+|`~` `!~` |匹配正则和不匹配正则|
+|`<` `<=` `>` `>=` `!=` `==`|比较运算符|
+|空格|连接|
+|`+` `-` `*` `/` `%` `^` `**`|加减乘除，求余，求幂|
+|`++` `--`|递加，递减|
+|`$`|字段引用|
+|in|数组成员|
+
+例如：
+
+过滤第一列大于 2 的行：
+
+```bash
+awk '$1>2' log.txt
+```
+
+过滤并打印第一二三个字符串：
+
+```bash
+awk '$1>2 && $2=="Are" {print $1,$2,$3}' log.txt
+```
+
+!!! 内建变量
+
+|!Variable|!Description|
+|`$n`|第 n 个字段|
+|`$0`|原字符串|
+|`ARGC`|命令行参数数目|
+|`ARGIND`|命令行中当前文件位置|
+|`ARGV`|包含命令行参数的数组|
+|`CONVFMT`|数字转换格式，默认`%.6g`|
+|`ENVIRON`|环境变量数组|
+|`ERRNO`|最后一个系统错误描述|
+|`FIELDWIDTHS`|字段宽度列表|
+|`FILENAME`|文件名|
+|`FNR`|行号|
+|`FS`|字段分隔符|
+|`IGNORECASE`|是否忽略大小写|
+|`NF`|一条记录的字段数目|
+|`NR`|已经读出的记录数目，单个文件就是行号，从 1 开始|
+|`OFMT`|数字的输出格式，默认`%.6g`|
+|`OFS`|输出字段之间分隔符，输出时用指定的符号代替空格|
+|`ORS`|输出记录分隔符(默认值是一个换行符)|
+|`RLENGTH`|由match函数所匹配的字符串的长度|
+|`RS`|记录分隔符(默认是一个换行符)|
+|`RSTART`|由match函数所匹配的字符串的第一个位置|
+|`SUBSEP`|数组下标分隔符(默认值是/034)|
+
+!!! 脚本格式
+
+脚本包含三段：
+
+* `BEGIN{处理之前的命令}`
+* `END{处理之后的命令}`
+* `{处理命令}`
+
+```bash
+$ cat cal.awk
+#!/bin/awk -f
+#运行前
+BEGIN {
+    math = 0
+    english = 0
+    computer = 0
+ 
+    printf "NAME    NO.   MATH  ENGLISH  COMPUTER   TOTAL\n"
+    printf "---------------------------------------------\n"
+}
+#运行中
+{
+    math+=$3
+    english+=$4
+    computer+=$5
+    printf "%-6s %-6s %4d %8d %8d %8d\n", $1, $2, $3,$4,$5, $3+$4+$5
+}
+#运行后
+END {
+    printf "---------------------------------------------\n"
+    printf "  TOTAL:%10d %8d %8d \n", math, english, computer
+    printf "AVERAGE:%10.2f %8.2f %8.2f\n", math/NR, english/NR, computer/NR
+}
+```
+
+---
+
+''打印九九乘法表：''
+
+```bash
+seq 9 | sed 'H;g' | awk -v RS='' '{for(i=1;i<=NF;i++)printf("%dx%d=%d%s", i, NR, i*NR, i==NR?"\n":"\t")}'
+```
+
+!! 参数参考
+
+* `-F fs or --field-separator fs` : 指定输入字符串的分隔符，`fs` 是一个字符串或者正则表达式。
+* `-v var=value or --asign var=value`: 赋值一个用户自定义变量。
+* `-f scripfile or --file scriptfile`: 从脚本中读取 AWK 命令。

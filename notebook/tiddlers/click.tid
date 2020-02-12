@@ -1,0 +1,42 @@
+created: 20190718212138106
+creator: liyzcj
+modified: 20191201153821266
+modifier: liyzcj
+tags: Python
+title: click
+type: text/vnd.tiddlywiki
+
+!! click
+---
+
+`click` 是可交互式的参数传递模块, 可以实时的将参数交互式的传递给程序.
+
+> 官方网站: [ext[click|https://palletsprojects.com/p/click/]]
+
+click 是基于 [[argparse]] 的扩展, 简化了 argparse 的操作:
+
+```python
+import click
+
+@click.command()
+@click.option("--count", default=1, help="Number of greetings.")
+@click.option("--name", prompt="Your name",
+              help="The person to greet.")
+def hello(count, name):
+    """Simple program that greets NAME for a total of COUNT times."""
+    for _ in range(count):
+        click.echo("Hello, %s!" % name)
+
+if __name__ == '__main__':
+    hello()
+```
+
+click 包含三个主要装饰器：
+
+1. `click.command()`: 将修饰的函数作为命令行接口。
+
+2. `click.argument()`: 增加必选参数
+
+3. `click.option()`: 增加可选参数。
+
+> 注意这些参数需要和函数参数名称对应。

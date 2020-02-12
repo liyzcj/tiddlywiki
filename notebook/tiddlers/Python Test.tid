@@ -1,0 +1,372 @@
+created: 20191205025244694
+modified: 20200201145432273
+tags: Survey Python
+title: Python Test
+type: text/vnd.tiddlywiki
+
+! Python Test
+---
+
+> https://realpython.com/python-testing/
+
+!! Testing you Code
+
+* manual testing
+* automated testing
+
+手动主要是指探索性的测试，自动测试就是用工具去测试应用的每一个特性。
+
+* unittest：单独的测试系统中的每一个 Component
+* integration test： 测试系统中各个组件的交互以及系统的整体运行情况。
+
+!! Test Runner
+
+Test Runner 有多个可以选择。Python 内建的叫做 [[unittest|Python unittest]]. 最流行的三个：
+
+* unittest
+* nose or nose2
+* pytest
+
+三种 runner 对代码的要求：
+
+!!! unittest
+
+* 将测试用例写成类的方法
+* 使用一系列 unittest 提供的 assert 方法来断言。
+
+
+编写步骤：
+
+# import unittest
+# create class and inherits from `unittest.TestCase`
+# write test functions
+# use `self.assert**` to assert the result.
+
+> 如果要直接执行，需要调用 `unittest.main()`
+
+!!! nose
+
+使用 nose 可以兼容 unittest 的所有代码。
+
+> nose 作为开源项目已经停止维护，推荐使用 nose2
+
+使用 nose2 的步骤：
+
+```bash
+pip install nose2
+
+python -m nose2
+```
+
+> [[nose2 文档|https://nose2.readthedocs.io/]]
+
+!!! pytest
+
+
+pytest 也同样支持执行 unittest 的测试用例。但是pytest 最大的优势是 pytest 风格的 test。
+
+pytest 的风格指的是以 `test_` 开头的测试函数。
+
+pytest 的特性：
+
+* 支持内建的 assert 方法，而不是得使用 `self.assert**`
+* 支持过滤选择测试用例
+* 支持失败重跑
+* 数百个插件的生态
+
+> [[pytest 文档|https://docs.pytest.org/en/latest/]]
+
+!! Writing Your First Test
+
+测试用例应该在包的外部并且最好与包的结构对应：
+
+```bash
+project/
+├── sample
+│   ├── __init__.py
+│   ├── core.py
+│   └── submodule
+│       ├── __init__.py
+│       └── sample.py
+└── tests
+    ├── __init__.py
+    ├── submodule
+    │   ├── __init__.py
+    │   └── test_sample.py
+    └── test_core.py
+```
+
+!!! 如何组织一个简单的测试用例
+
+首先决策：
+
+# What do you want to test?
+# Are you writing a unit test or an integration test?
+
+然后根据大概流程：
+
+# Create your inputs.
+# Execute the code being tested, capturing the output
+# Compare the output with an expected result (assertion)
+
+
+!!! 如何编写 assertion
+
+unittest 提供了许多实用的  assertion 方法。
+
+
+|!Method|!Equivalent to|
+|.assertEqual(a, b)	|a == b|
+|.assertTrue(x)	|bool(x) is True|
+|.assertFalse(x)	|bool(x) is False|
+|.assertIs(a, b)	|a is b|
+|.assertIsNone(x)	|x is None|
+|.assertIn(a, b)	|a in b|
+|.assertIsInstance(a, b)	|isinstance(a, b)|
+
+> 完整列表： https://docs.python.org/3/library/unittest.html#assert-methods
+
+!!! 副作用 side effect
+
+测试的时候，一般不仅仅会产生结果，还有可能会产生一些“副作用”， 例如修改了系统文件，或者修改的数据库文件等等。
+
+如果你发现你在测试时发现许多的副作用，你的一个 unittest 影响到了系统中很多其他的组件，那么代码可能违反了 [[Single Responsibility Principle|https://en.wikipedia.org/wiki/Single_responsibility_principle]]. 有可能需要重构代码。
+
+!! 执行测试用例
+
+参考 [[Python unittest]] 了解如何使用 unittest。
+
+!!! 测试的输出：
+
+```bash
+$ python -m unittest test
+F.
+======================================================================
+FAIL: test_list_fraction (test.TestSum)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test.py", line 21, in test_list_fraction
+    self.assertEqual(result, 1)
+AssertionError: Fraction(9, 10) != 1
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (failures=1)
+```
+
+# 第一行指的是所有用例的运行情况，`F` 代表失败 `.` 代表成功
+# 失败后会显示失败的信息： <div>
+
+* 测试方法名称
+* 测试所在的 module 和 TestCase
+* traceback
+* assertion 的详细信息。
+
+</div>
+
+!!! 在 IDE 中测试
+
+* Pycharm
+* Vscode
+
+!! Web 框架的测试
+
+例如 Django 和 Flask
+
+!!! 为何不同
+
+这些框架比较复杂，所以提供了相应的测试框架以简化测试的复杂性。
+
+!!! Django
+
+```python
+from django.test import TestCase
+
+class MyTestCase(TestCase):
+    # Your test methods
+```
+
+主要是要从 `django.test.TestCase` inherit rather than `unittest.TestCase`.
+
+> [[documentation|https://docs.djangoproject.com/en/2.1/topics/testing/overview/]]
+
+!!! Flask
+
+```python
+import my_app
+import unittest
+
+
+class MyTestCase(unittest.TestCase):
+
+    def setUp(self):
+        my_app.app.testing = True
+        self.app = my_app.app.test_client()
+
+    def test_home(self):
+        result = self.app.get('/')
+        # Make your assertions
+```
+
+> [[documentation|http://flask.pocoo.org/docs/0.12/testing/]]
+
+!! More Advanced Testing Scenarios
+
+在编写测试过程中可能会遇到很多特殊的情况，并不是所有的测试都有输出。
+
+详情见 [[Python unittest]]  的高级用法。
+
+!! 多种运行环境下的测试
+
+有时候可能需要测试不同的 Python 版本下的运行情况。可以使用 Tox
+
+```bash
+pip install tox
+```
+
+使用 Tox 之前需要首先进行配置 包括：
+
+* 运行测试的命令。
+* 需要依赖的额外的包
+* 需要测试的 Python 版本。
+
+```ini
+[tox]
+envlist = py27, py36
+
+[testenv]
+deps =
+
+commands =
+    python -m unittest discover
+```
+
+quick start:
+
+```bash
+tox-quickstart
+```
+
+> [[Tox doc|https://tox.readthedocs.io/en/latest/]].
+
+!! 自动执行 test
+
+自动测试也是常说的 [[CI/CD]] 。
+
+Travis CI 是一个常用的 CI 工具。可以在Gitlab 以及 Github 上使用。
+
+使用 Travis CI 需要创建一个 `.travis.yml` 配置文件：
+
+```yaml
+language: python
+python:
+  - "2.7"
+  - "3.7"
+install:
+  - pip install -r requirements.txt
+script:
+  - python -m unittest discover
+```
+
+其中包含：
+
+# 测试的 Python 版本
+# 安装依赖包
+# 运行 Test命令。
+
+!! What's Next? 
+
+!!! Introducing Linters Into Your Application
+
+上面说到的 Tox 以及 Travis CI 不仅仅可以用来做自动的 Test，还可以用来执行 Linter 工具来标准化代码。
+
+> 更多的linter 信息查看：[[Python Code Quality tutorial]]
+
+!!! Passive Linting with flake8
+
+查看 [[flake8]]
+
+!!! Aggressive Linting With a Code Formatter
+
+查看 [[black]]
+
+!! Keeping Your Test Code Clean
+
+Try to follow the ''DRY'' principle when writing tests: ''D''on’t ''R''epeat ''Y''ourself.
+
+!! Testing Performance
+
+There are many ways to benchmark code in Python. The standard library provides the `timeit` module.
+
+例如这段代码执行 `test()` 函数 100次：
+
+```python
+def test():
+    # ... your code
+
+if __name__ == '__main__':
+    import timeit
+    print(timeit.timeit("test()", setup="from __main__ import test", number=100))
+```
+
+另一个选择是 `pytest-benchmark` 插件：
+
+```bash
+pip install pytest-benchmark
+```
+
+Then, you can add a test that uses the fixture and passes the callable to be executed:
+
+```python
+def test_my_function(benchmark):
+    result = benchmark(test)
+```
+
+!! 测试代码安全性
+
+可以使用 `bandit` 测试代码安全性：
+
+```bash
+pip install bandit
+```
+
+```bash
+$ bandit -r my_sum
+[main]  INFO    profile include tests: None
+[main]  INFO    profile exclude tests: None
+[main]  INFO    cli include tests: None
+[main]  INFO    cli exclude tests: None
+[main]  INFO    running on Python 3.5.2
+Run started:2018-10-08 00:35:02.669550
+
+Test results:
+        No issues identified.
+
+Code scanned:
+        Total lines of code: 5
+        Total lines skipped (#nosec): 0
+
+Run metrics:
+        Total issues (by severity):
+                Undefined: 0.0
+                Low: 0.0
+                Medium: 0.0
+                High: 0.0
+        Total issues (by confidence):
+                Undefined: 0.0
+                Low: 0.0
+                Medium: 0.0
+                High: 0.0
+Files skipped (0):
+```
+
+和 flake8 意思一样，bandit 也可以配置忽略一些文件和规则，只需要将配置文件写在 `setup.cfg` 文件中:
+
+```ini
+[bandit]
+exclude: /test
+tests: B101,B102,B301
+```
+
+[[详细信息|https://github.com/PyCQA/bandit]]

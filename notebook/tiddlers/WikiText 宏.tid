@@ -1,0 +1,61 @@
+created: 20190803180151087
+creator: liyzcj
+modified: 20190828184940904
+modifier: liyzcj
+tags: Wikitext
+title: WikiText 宏
+type: text/vnd.tiddlywiki
+
+\define sayhi(name:"兔八哥") 嗨，我是$name$.
+
+!! 宏定义
+
+一个宏是用一个 `\define` 编译指令定义的。''像所有编译指令一样，这只能出现在条目的开始.''
+
+定义的第一行指定宏名称和任何参数。每个参数都有一个名称，并且可选地使用一个默认值. 下面的行包含宏的文本（即宏名称表示的代码段），直到 `\end` 出现在一行上：
+
+```
+\define sayhi(name:"兔八哥" address:"兔洞山")
+嗨，我是$name$，我住在$address$。
+\end
+```
+
+或者，整个定义可以在一行中显示，而不用 `\end` 标记：
+
+\define sayhi(name:"兔八哥") 嗨，我是$name$.
+
+> <<sayhi liyzcj>>
+
+!! 占位符
+
+代码段可以使用参数, 将参数放在两个 `$` 符号之间即可.
+
+```
+\define sayhi(name:"兔八哥" address:"兔洞山")
+嗨，我是$name$，我住在$address$。
+\end
+```
+
+也可以在代码段使用 [[变量|WikiText 变量]], 语法:
+
+```
+$(variable)$
+```
+
+!! 宏调用
+
+宏调用语法:
+
+```
+<<宏名称 参数>>
+```
+
+其中, 参数可以使用单引号, 双引号, 三重双引号或者 `[[ ]]` 括起来.
+
+!! 范围
+
+* 宏定义可以在当前定义的 Tiddler 使用.
+* [[嵌入|WikiText 嵌入]] 宏定义 Tiddler 的 Tiddler.
+* 给定义宏的 Tiddler 添加 `$:/tags/Macro` 标签, 则可以在所有Tiddler 使用.
+* 将宏写成 Javascript模块, 可以在所有 Tiddler 内使用.
+* 一个条目可以使用 [[Wikitext 导入变量部件]] 其他条目手动导入宏定义。

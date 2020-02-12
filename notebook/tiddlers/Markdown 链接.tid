@@ -1,0 +1,10 @@
+created: 20190803152252536
+creator: liyzcj
+modified: 20190828175753281
+modifier: liyzcj
+tags: Markdown
+title: Markdown 链接
+type: text/vnd.tiddlywiki
+
+* 正常链接 `[name](url)`
+* 页内跳转 `[name](#url)` 在 Tiddlywiki 内用于跳转到其他 tiddler

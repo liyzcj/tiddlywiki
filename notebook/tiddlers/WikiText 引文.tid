@@ -1,0 +1,78 @@
+created: 20190803154632436
+creator: liyzcj
+modified: 20190828180136249
+modifier: liyzcj
+tags: Wikitext
+title: WikiText 引文
+type: text/vnd.tiddlywiki
+
+引文包括两种:
+
+* 单行引文
+* 引文块
+
+
+!! 单行引文
+
+单行引文是 [[WikiText 列表]] 的扩展. 例如:
+
+```
+> 引文
+> 第二行引文
+```
+
+效果:
+
+> 引文
+> 第二行引文
+
+!! 多行引文
+
+语法:
+
+```
+<<<
+Stay Hungry, Stay Foolish.
+<<<
+```
+
+效果:
+
+<<<
+Stay Hungry, Stay Foolish.
+<<<
+
+---
+
+还可以添加引文来源:
+
+```
+<<<
+Stay Hungry, Stay Foolish.
+<<< 乔布斯
+```
+
+效果:
+
+<<<
+Stay Hungry, Stay Foolish.
+<<< 乔布斯
+
+
+!! CSS 类
+
+CSS类可以添加到引述块中.
+
+内核中包括有用大写双引号表示引述块引号的 `tc-big-quote` 样式类：
+
+```
+<<<.tc-big-quote
+一个引人注目的引述
+<<< 重要人物
+```
+
+效果:
+
+<<<.tc-big-quote
+一个引人注目的引述
+<<< 重要人物

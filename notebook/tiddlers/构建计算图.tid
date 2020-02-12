@@ -1,0 +1,102 @@
+created: 20190926171305919
+modified: 20190926172515648
+tags: Tensorflow
+title: 构建计算图
+type: text/vnd.tiddlywiki
+
+! 构建计算图
+---
+
+!! OPS
+
+!!! 切片
+
+Tensorflow 对 Tensor 切片：
+
+```python
+tf.strided_slice(
+  input_,
+  begin,
+  end,
+  strides=None,
+  begin_mask=0,
+  end_mask=0,
+  ellipsis_mask=0,
+  new_axis_mask=0,
+  shrink_axis_mask=0,
+  var=None,
+  name=None
+)
+```
+
+其中，`start` 与 `end` 的长度与 Tensor 的维度相同，分别代表每个维度的开始与结束。
+
+!!! 扩展维度
+
+扩展一个新的维度：
+
+```python
+tf.expand_dims(tensor, axis, name=None)
+```
+
+在 Tensor 的第 axis 位置添加一个新的维度。
+
+!!! reshape
+
+修改 tensor 的shape：
+
+```pythobn
+tf.reshape(tensor, shape, name=None)
+```
+
+!!! 乘法
+
+与 Numpy 相同，Tensorflow 包括普通乘法与矩阵乘法。
+
+* 普通乘法
+
+```python
+tf.multiply(a, b, name=None)
+```
+
+普通乘法与 Numpy 的普通乘法一样, element-wise 乘法, 也有广播机制, 只不过是对 Tensor 操作.
+
+```python
+>>> a = tf.constant(np.arange(12), dtype=np.int32, shape=[3,4])
+>>> b = tf.constant(np.arange(4), dtype=np.int32, shape=[1,4])
+>>> a * b
+<tf.Tensor 'mul:0' shape=(3, 4) dtype=int32>
+```
+
+* 矩阵乘法
+
+```python
+tf.matmul(a, b, name=None)
+```
+
+矩阵乘法与 `np.dot()` 相同，包括二维矩阵乘法与三维矩阵乘法。
+
+其中，''二维矩阵乘法'' 就是普通的矩阵乘法。 [m, n] * [n, p] = [m, p]
+
+''三维矩阵乘法''要求第 0 维度大小相同，相当于在第 0 维度进行 element-wise 的矩阵乘法。
+
+```python
+>>> a = tf.constant(np.ones([2,3,4]))
+>>> b = tf.constant(np.ones([2,4,5]))
+>>> a @ b
+<tf.Tensor 'matmul:0' shape=(2, 3, 5) dtype=float64>
+```
+
+> Tensorflow 将 `*` 重载为普通乘法，`@` 重载为矩阵乘法。
+
+!!! 条件判断
+
+```python
+tf.cond(cond, f1,f2)
+```
+
+cond == True 返回 f1, 否则返回 f2。 注意 `f1` `f2` 都是函数，如果想返回变量或者常量，可以采用 lambda 技巧。
+
+```python
+tf.cond(cond, lambda: vars1, lambda: vars2)
+```

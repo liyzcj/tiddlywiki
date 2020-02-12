@@ -1,0 +1,94 @@
+created: 20200127184450910
+modified: 20200128173647595
+tags: 
+title: Go Function
+type: text/vnd.tiddlywiki
+
+函数的定义一般为：
+
+```go
+func SomeFunc(var1 [type], var2 type) ([return_var] type) {}
+```
+
+其中，比较特别的点是：
+
+* ''参数的类型在参数名称后面''，并且如果多个变量为同一个类型，可以将前面的类型省略。
+* ''返回值在函数名称与变量定义的后面''，并且返回值不仅可以指定类型还可以指定名称。''如果指定了名称，`return` 语句中就可以省略返回的变量名。如果仅仅指定类型，并且返回值只有一个，则可以省略返回值的括号。''//相当于返回的变量也在函数定义中声明了。//
+
+例如，如果返回多个值：
+
+```go
+func SomeFunc(var1, var2 int) (string, int) {
+	x := ...
+	y := ...
+	return x, y
+}
+```
+
+或者
+
+```go
+func SomeFunc(var1, var2 int) (x, y int) {
+	return
+}
+```
+
+!! 特殊参数
+
+''Go 的函数既不支持可选参数，也不支持重载。''
+
+> ''注意 `main()` 并不属于普通的函数，因为它支持可选参数。''
+
+
+> 同一个函数名却有多个 signature 经常会产生疑惑并且非常脆弱。Go 采用简单的不支持来避免这些问题。[[Stackeflow|https://stackoverflow.com/questions/2032149/optional-parameters-in-go]]
+
+但是 Go 可以通过 `...` 来接收任意数量的参数，并作为 Slice 使用：
+
+```go
+func SomeFunc(numbers ...int) {}
+```
+
+上面这个函数可以接收任意多个 	`int` 类型的参数，并作为 Slice `numbers` 的元素。
+
+> 既然可以传入多个参数作为 slice，那么也可以通过在后面添加 `...` 将 slice unpack 并作为参数：<div>
+
+```go
+var numbers = []int{1,2,3,4}
+Sum(numbers...)
+```
+
+</div>
+
+!! 匿名函数
+
+Go 中的函数可以作为值赋给变量，称为匿名函数。
+
+```go
+var Afunc = func(var1, var2 int) (string, int) {
+	return x, y
+}
+```
+
+''匿名函数可以作为参数传递给其他函数''，参数的类型是一种[[组合类型|Go Types]]：
+
+```go
+func(type, type) type
+```
+
+```go
+func(type, type) (type, type)
+```
+
+!! 闭包 Closure
+
+由于 Go 的函数也可以作为参数进行传递，所以也可以实现[[闭包|Function Closure]]：
+
+```go
+func adder() func(int) int {
+	sum := 0
+	return func(x int) int {
+		sum += x
+		return sum
+	}
+}
+```

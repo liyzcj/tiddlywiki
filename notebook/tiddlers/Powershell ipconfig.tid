@@ -1,0 +1,33 @@
+created: 20190805163653650
+creator: liyzcj
+modified: 20190828171235259
+modifier: liyzcj
+tags: Windows Command Powershell
+title: Powershell ipconfig
+type: text/vnd.tiddlywiki
+
+! ipconfig
+---
+
+查看网卡等信息.
+
+
+!! DNS 相关
+
+显示 DNS 缓存:
+
+```bash
+ipconfig /displaydns
+```
+
+刷新 DNS 记录:
+
+```bash
+ipconfig /flushdns
+```
+
+从 DHCP 服务器重新申请 IP:
+
+```bash
+ipconfig /renew
+```

@@ -1,0 +1,26 @@
+created: 20200128173706934
+modified: 20200128174417809
+tags: Concept Basic
+title: Function Closure
+type: text/vnd.tiddlywiki
+
+! 闭包 Closure
+---
+
+对于能够''将函数作为参数来操作''的高级编程语言，就可以实现闭包。
+
+例如 Python 或者 [[Go|Go Basic]]。
+
+;闭包 Closure
+:在一个函数 A 中定义另一个函数 B，并在 B 中使用外层函数 A 中的变量，最后返回函数 B。
+
+例如 Python：
+
+```python
+def adder():
+	sum = 0
+	def add(x):
+		sum += x
+		return sum
+	return add
+```

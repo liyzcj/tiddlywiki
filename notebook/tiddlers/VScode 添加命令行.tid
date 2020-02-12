@@ -1,0 +1,9 @@
+created: 20190819182818404
+modified: 20190828175004201
+tags: Macos Command
+title: VScode 添加命令行
+type: text/vnd.tiddlywiki
+
+添加命令行命令 `code` 使得 vscode 可以在命令行使用。
+
+只需要按快捷键 `⇧⌘P` 打开命令窗口， 输入 `shell command` 选择安装或者删除命令。

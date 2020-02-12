@@ -1,0 +1,220 @@
+created: 20191215142910639
+modified: 20200207084703913
+tags: Survey Python
+title: Python Code Quality tutorial
+type: text/vnd.tiddlywiki
+
+! Python 代码质量：工具与最佳实践
+
+这篇文章主要介绍了''什么是高质量的 Python 代码''以及''如何提高 Python 代码的质量''，并对常用的代码工具进行比较与分析。
+
+!! 什么是代码质量
+
+要想提高代码质量，我们首先得对代码质量有一个明确的定义。
+
+如果你去 Google 搜索一下，会得到许多关于''代码质量''的定义，这个词汇可以又很多不同的含义。
+
+尝试定义代码质量的一种方法是尝试去查看并理解高质量的代码。大部分人应该都同意，高质量的代码应该具有以下特点：
+
+* 做了应该做的事
+* 代码没有问题或缺陷
+* 易于阅读、维护和扩展
+
+这三个简明扼要的特点应该是所有代码的目标，那么为什么我们要这样做呢？
+
+!! 为什么要追求代码质量
+
+要确定为什么代码质量非常重要，我们根据上面的特点一条一条来看。
+
+!!! 如果它没有做它应该做的事
+
+''满足需求''是任何产品、软件或其他东西存在的意义。我们实现代码是为了满足需求，如果实现的代码都无法满足需求，那它当然不能称为高质量的代码。甚至，我们都不能叫它低质量的代码 😅。
+
+!!! 如果代码有问题或缺陷
+
+如果你使用的一个东西会经常出现问题或者会引起问题，你肯定不会认为这个东西的质量很好。实际上，这说明质量已经非常差了，可能差的你都不想用它。
+
+假如你有一个吸尘器，它平时非常好用，但是现在发生了一个意外情况，你的猫把一盆植物打翻了，里面的土撒的到处都是。这时候你拿来吸尘吸想收拾的时候，吸尘器处理不了那么多土，坏了。那你可能不觉的这个吸尘器是一个高质量的吸尘器。
+
+这个例子可能不好，但是主要的意思就是当你的代码遇到额外的情况或者额外的负载的时候，如果你的代码无法处理这种情况而崩溃了，那么这肯定不是一个高质量的代码。
+
+!!! 代码很难理解、维护或者扩展
+
+想象一下这种情况：一个客户提交了一个新的需求。而一开始编写这个代码的人已经离职了。现在替换了的人必须理解已经编写好的代码，并在代码的基础上扩展。
+
+如果这个代码非常容易理解，那么你就可以去分析问题并且快速的实现这个需求。如果这个代码非常的复杂并且杂乱无章，你可能会花很长时间理解并且会遇到很多奇奇怪怪的错误。
+
+如果你可以轻松的添加新的功能而不对之前的功能造成影响，那么也是非常好的。如果之前的代码耦合严重，并且很难去扩展，你新增加的功能可能会导致之前的功能不可用。
+
+没有人想去读，去维护或者去扩展质量很低的代码，因为那让人非常头疼并且会浪费很多时间。
+
+如果你没有办法已经处于这种尴尬的位置，为了不让你后面的人也那么痛苦，你应该提高自己编写的代码质量。
+
+如果你在一个团队工作，那么你应该采用适当的方法来确保更好的整体代码质量。假设大家都支持高质量的话。如果有人不支持你可以给他看这篇文章😃。
+
+!! 如何提高代码质量
+
+在提高代码质量的旅程中，有很多事情需要考虑。首先，这趟旅程并不是完全客观的，其实存在了许多的主观成分。
+
+尽管每个人都同意高质量的代码应该具有上面几个特点，但是每个人实现的方式又不尽相同。当谈到代码的可读性、可维护性以及可扩展性的时候，许多不同的观点都会蹦出来。
+
+所以，尽管这篇文章在尽量以客观的想法来描述，在实际的编写情况中也会又各种各样不同的主观看法。
+
+因此，我们先来看最主观的一个部分：代码风格。
+
+!!! 代码风格
+
+上来就是最古老的一个问题：Tab 还是空格？
+
+无论是你支持用哪种字符来表示空白字符，保证它们的一致性肯定是大家都同意的观点。
+
+一个''风格指南''可以保证编写的代码在多个方面具有一致性。这里面涉及的通常都是化妆品(cosmetic)，意思是无论怎么样都不会影响代码的逻辑。并且有些风格还是为了让你避免一些常见的逻辑错误。
+
+遵循''代码风格指南''是为了提高代码的可读性，易维护以及易扩展服务的。
+
+对于 Python 来说，有一个接受度非常高的标准。并且是 Python 作者自己编写的一部分。[[PEP 8|http://pep8.org/]] 提供了Python 代码的编写约定。一般的 Python 代码都会遵循这种形式。
+
+另一个姐妹提案 [[PEP 257|https://www.python.org/dev/peps/pep-0257/]] 描述了 Python docstring 的相关约定。如果 docstring 能够按照规范编写的话，就可以方便的使用相关工具自动生成一个 Python 文档。
+
+所有的这些指南都是为了定义一种代码风格。但是你如何来强制大家遵循它呢？这就需要 {{Linter||$:/core/ui/TagTemplate}} 工具来完成了。
+
+!!! Linters
+
+!!!! 什么是 Linter
+
+首先，我们先来讲一下 lint。 它的意思是线头，这些讨厌的小线头遍布你的衣服。如果没有这些小线头，你的衣服会看起来舒服很多。代码也是一样，小的错误以及风格的不一致以及危险的逻辑会让你的代码看起来很难受。
+
+但是所有人都会犯错。你没法期望你每次都能即使发现错误。不小心打错的变量名，忘记了一个括号，错误的使用 Tab，调用函数时给错了参数的个数，还有很多很多。Linter 工具就是帮助你来及时的发现这些错误。
+
+并且，大多数编辑器或者 IDE‘s 都会提供后台运行 linter 工具的能力。运行的结果会使用高亮、下划线等文字格式标记出来。就像是文字处理工具中的拼写检查的高级版。
+
+Linter 们一般会检查多种类型的“线头”。这些分类基本上都像这样：
+
+# Logical Lint
+#* Code Errors
+#* Code with potentially unintended results
+#* Dangerous code patterns
+# Stylistic Lint
+#* Code not conforming to defined conventions
+
+还有一些工具会关注你代码的其他方面。这些工具通常会和 linter 一起配合使用。它们的目标都是为了提高代码的质量。
+
+最后，还有一些工具会自动的格式化你的代码。这些自动化工具会降低我们这些经常犯错的人类的错误率。😄
+
+
+!!! Python 中 Linter 的选择
+
+在开始之前，首先要明确有些 “linter” 仅仅是其他的集合。一些非常流行的 Linter 如下：
+
+* [[flake8]]：能够检测逻辑错误和风格错误。它将负责风格检查的 `pycodestyle` 添加到负责逻辑检查的 `PyFlakes` 中。它融合了以下这些 Linter 工具：
+** PyFlakes
+** pycodestyle (符合 PEP 8)
+** Mccabe
+
+* Pylama: 一个代码审核工具，由大量 Linter 和其他用于分析代码的工具组成。它融合了：
+** pycodestyle (PEP 8)
+** pydocstyle (PEP 257 docstring)
+** PyFlakes
+** Mccabe
+** Pylint
+** Radon
+** gjslint
+
+一些独立的 Linter 如下：
+
+|!Linter|!Category|!Description|
+|[[Pylint|https://www.pylint.org/]]|逻辑&风格|检测错误，强制一种代码标准。|
+|[[PyFlakes|https://github.com/PyCQA/pyflakes]]|逻辑|分析程序并且检测出多种错误|
+|[[pycodestyle|https://github.com/PyCQA/pycodestyle]]|风格|检测是否符合 PEP 8|
+|[[pydocstyle|https://github.com/PyCQA/pydocstyle]]|风格|检测 docstring 是否符合 PEP 257|
+|[[Bandit|https://github.com/PyCQA/bandit]]|逻辑|分析代码的安全问题。|
+|[[MyPy|http://mypy-lang.org/]]|逻辑|检测代码数据类型匹配|
+
+一些自动代码格式化工具如下：
+
+|!Tool|!Category|!Description|
+|[[Mccabe|https://github.com/PyCQA/mccabe]]|分析型|查看 [[McCabe complexity|https://en.wikipedia.org/wiki/Cyclomatic_complexity]]|
+|[[Radon|http://radon.readthedocs.io/en/latest/]]|分析型|分析代码的各种指标（函数，复杂度）|
+|[[Black|https://github.com/ambv/black]]|格式化|强制格式化 Python 代码|
+|[[Isort|https://github.com/timothycrosley/isort]]|格式化|通过字母对 Import 排序|
+
+!!!! Python Linter 的对比
+
+|!Linter|!Command|!Time|
+|Pylint|`pylint code_with_lint.py`|1.16s|
+|PyFlakes|`pyflakes code_with_lint.py`|0.15s|
+|pycodestyle|`pycodestyle code_with_lint.py`|0.14s|
+|pydocstyle|`pydocstyle code_with_lint.py`|0.21s|
+
+;Pylint
+:Pylint 是 Python 中最早的 Linter(2006) 并且一直在维护中。经常被戏称为经历过战争的软件。关于 Pytlint 最常见的抱怨是它太慢了，它需要经过许多配置才能达到预期的结果，其他的抱怨大都是双刃剑。更多的配置也意味着更好的适应性。<div>
+
+Pylint 将所有的 lint 分为以下几种：
+
+* ''R''efactor：重构代码以符合最佳实践
+* ''C''onvention：违反了编码标准的约定
+* ''W''arning：代码风格相关的警告
+* ''E''rror：重要的编程错误，很可能是一个 bug
+* ''F''atal：严重错误导致无法进一步处理
+
+</div>
+
+;PyFlakes
+:PyFlakes 做了一个简单的承诺：它不会处理风格，并且会非常非常努力的避免产生误报。这意味着 Pyflake 永远不会告诉你缺少 docstring 或者变量名不符合风格。它只关注代码的逻辑问题和潜在错误。 <div>
+
+''Pyflake 的优势在于速度''。
+
+</div>
+
+;pycodestyle(PEP8)
+:pycodestyle 用来检查代码是否符合 PEP 8 风格。名称约定以及 docstring 。检查出的错误和警告类型在这个[[表格|https://pycodestyle.readthedocs.io/en/latest/intro.html#error-codes]]中有解释。
+
+;pydocstyle(PEP257)
+:和 pycodestyle 非常类似，区别是检查 docstring。
+
+!! 什么时候检查代码质量
+
+你可以检查代码的质量：
+
+* 当你编写的时候
+* 当 checkin 的时候
+* 当运行 Tests 时
+
+越频繁的使用 lint 对于代码的编写来说是越好的。
+
+!!! 编写时检查
+
+你可以在编写时一直运行着 linter，大多数编辑器都提供这个功能。例如：
+
+* Sublime
+* VS Code
+* Atom
+* Vim
+* Emacs
+
+
+!!! 在 checkin 代码之前
+
+如果你使用 Git，可以使用 Git hooks 来自动的进行 linter 检查。其他的版本控制系统也有类似的功能。
+
+尽管这样做会显得很严格，但是这是持续保证代码质量的最佳方法。
+
+!!! 在运行 Test 的时候
+
+你也可以将 Linter 这个步骤作为 CI test 的一部分。并设置好如果出现错误就返回测试不通过。
+
+同样的这种做法也显得很严格，有些 CI 系统会支持在返回某些错误 code 的时候才会报错。
+
+!! 结论
+
+高质量的代码能够满足需求并不会出错误，易于阅读，易于维护并且易于扩展。为了让下一个编写代码的人更好的继续工作。
+
+Linter 工具以及其他许多方便的工具可以让你无痛的提高代码的质量。
+
+提高代码质量是一个过程。你可以一步一步来。但是意识是伟大的第一步，你首先需要意识到高质量代码的重要性，才会有接下来的过程。
+
+---
+
+!! Reference
+
+> https://realpython.com/python-code-quality/

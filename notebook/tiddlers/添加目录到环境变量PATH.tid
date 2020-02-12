@@ -1,0 +1,25 @@
+created: 20190722200357019
+creator: liyzcj
+modified: 20190828171007875
+modifier: liyzcj
+tags: Windows Command Powershell
+title: 添加目录到环境变量PATH
+type: text/vnd.tiddlywiki
+
+```powershell
+$Env:path=$Env:Path+";new_path"
+```
+
+---
+
+💡 如果想要添加的环境变量永久生效, 可以将语句写到 $PROFILE 配置文件中.增加路径到 PATH 变量中!
+
+---
+
+!! 常用环境变量
+
+NVIDIA-SMI
+
+```powershell
+$Env:path=$Env:Path+";C:\Program Files\NVIDIA Corporation\NVSMI"
+```

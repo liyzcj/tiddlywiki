@@ -1,0 +1,60 @@
+created: 20200127190328531
+modified: 20200127192248256
+title: Go Struct
+type: text/vnd.tiddlywiki
+
+Struct 代表字段的集合，Struct 是一种自定义类型。
+
+!! 定义
+
+```go
+type SomeStruct struct {
+	Foo int
+	Bar string
+}
+```
+
+!! 初始化
+
+可以像内建的类型一样初始化：
+
+```go
+var v SomeStruct
+```
+
+可以使用 `new` statement 进行初始化，返回的是 type 的[[指针|Go Pointer]]，即 `*T`：
+
+```go
+var pv *SomeStruct = new(SomeStruct)
+pv.Foo = 2
+```
+
+使用结构文法进行赋值：
+
+```go
+var (
+	v1 = SomeStruct{1, "go"}
+	v2 = SomeStruct{Foo: 1}  // Bar: "" 未指定的为零值
+	v3 = SomeStruct{}      // 同上
+	p  = &SomeStruct{1, "go"} // 赋值为指针。
+)
+```
+
+!! 访问变量
+
+Struct 中的变量通过 `.` 访问。
+
+```go
+v := SomeStruct{1, "go"}
+v.Foo = 2
+v.Bar = "golang"
+```
+
+注意，与 C 不同，即使是''某个 Struct 的指针，也是用 `.` 访问，而不是 `->`''：
+
+```go
+var pv *SomeStruct = new(SomeStruct)
+pv.Foo = 2
+```
+
+> 这是因为编译器自动将 `pv.Foo` 转换为 `(*pv).Foo`。方便编写。

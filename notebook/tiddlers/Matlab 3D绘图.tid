@@ -1,0 +1,60 @@
+created: 20190805180100894
+creator: liyzcj
+modified: 20190828180516310
+modifier: liyzcj
+tags: Matlab
+title: Matlab 3D绘图
+type: text/vnd.tiddlywiki
+
+! 3D 绘图
+---
+
+# 首先用 `meshgrid(x,y)` 方法将 x，y 转换为矩阵。 <div>
+
+```matlab
+[xx,yy] = meshgrid(x,y);
+```
+</div>
+
+# 使用函数计算 zz 的值。 <div>
+
+```matlab
+zz = func(xx,yy);
+```
+
+</div>
+
+# 绘制 3D 图形 <div>
+
+```matlab
+sulf(xx,yy,zz);
+```
+
+</div>
+
+
+!! 图形设置:
+
+平滑图形:
+
+```matlab
+shading interp
+```
+
+网格图形:
+
+```matlab
+shading faceted
+```
+
+无边框网格:
+
+```matlab
+shading flat
+```
+
+增加颜色条:
+
+```matlab
+colorbar
+```

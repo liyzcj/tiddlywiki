@@ -1,0 +1,15 @@
+created: 20190812194720250
+modified: 20190901150959245
+tags: Definitions
+title: 支撑集
+type: text/vnd.tiddlywiki
+
+support
+
+---
+
+指函数的非零部分子集. 
+
+* 例如 Relu 的子集是: $$ (0, + \infty) $$
+
+* 一个概率分布的支撑集就是所有概率密度非零部分的集合

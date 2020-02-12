@@ -1,0 +1,122 @@
+created: 20190805161554034
+creator: liyzcj
+modified: 20191219030758327
+modifier: liyzcj
+tags: Linux Command
+title: sed 文本处理
+type: text/vnd.tiddlywiki
+
+!sed 命令
+
+sed 是一种流编辑器, 可以用来自动编辑一个或多个文件, 简化对文件的反复操作.
+---
+
+
+> [[Official Documentation|https://www.gnu.org/software/sed/manual/sed.html]]
+
+!! Usage
+
+
+```bash
+s/regexp/replacement/flags
+```
+
+```bash
+sed -i "s/to_be_replace/new_value/g"
+```
+
+或者使用 `#` 作为分隔符
+
+```bash
+sed -i "s#to_be_replace#new_value#g"
+```
+
+!! flags
+
+`g`: replace all matches, not just first
+
+
+
+!! 常用操作
+
+---
+
+自动修改配置文件:
+
+```bash
+sed -i "s/\(配置项=\)\S*/\1值/" 配置文件
+
+# "-i" 是直接修改文件
+# "s/1/2"    s是替换，用2 替换1
+# \( \)  使用转义括号包含不变项， 然后在替换值里用 \1 调用
+# "\S*" 用来匹配非空格字符
+```
+
+如果需要替换的文本中包含 `/` ,就不能使用 `/` 分隔字段。应使用 `#`。
+
+```bash
+sed -i "s#\(配置项=\)\S*#\1替换值#g" file
+# 如果替换值或配置项里有引号，应该在外面加一个引号，引号里面再使用反斜杠转义引号。
+sed -i "s#\(配置项=\)\S*#"\1\"test\""#g" file 
+```
+
+!!! 删除某行
+
+> 注意，一定要使用 `'` 而不是双引号 `"`.
+
+删除第 N 行：
+
+```bash
+sed -i 'Nd' file
+```
+
+删除最后一行：
+
+```bash
+sed -i '$d' file
+```
+
+删除 5-9 行：
+
+```bash
+sed -i '5,9d' file
+```
+
+删除多行：
+
+```bash
+sed -i '1d;5d;$d;' file
+```
+
+删除 3-4 之外的行：
+
+```bash
+sed -i '3,4!d' file
+```
+
+删除空行, `//`之间加上 regex：
+
+```bash
+# sed '/^$/d' sed-demo.txt
+```
+
+
+---
+
+替换 ssh 默认监听地址：
+
+```bash
+sed -i "s#\\#\(Port\) 22\S*#\1 8922#g" /etc/ssh/sshd_config
+```
+
+> 注意文本内的 `#` 需要转义 `\\#`.
+
+---
+
+Macos 上的 sed 和 linux 上的表现不一致，`-i`参数后面需要跟两个参数，第一个是备份文件的后缀，第二个才是上面的字串。
+
+```bash
+sed -i "备份后缀" "s#\(配置项=\)\S*#"\1\"test\""#g" file 
+```
+
+> 如果不需要备份，可以留空。 💡\S 转义貌似也不可用。

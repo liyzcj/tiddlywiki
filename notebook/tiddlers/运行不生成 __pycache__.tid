@@ -1,0 +1,24 @@
+created: 20190927065148424
+modified: 20190927065334923
+tags: Python
+title: 运行不生成 __pycache__
+type: text/vnd.tiddlywiki
+
+!! 使用 -B 参数
+
+```bash
+python -B test.py
+```
+
+!! 使用环境变量
+
+```bash
+export PYTHONDONTWRITEBYTECODE=1
+```
+
+!! 在Python代码内设置
+
+```python
+import sys
+sys.dont_write_bytecode = True
+```

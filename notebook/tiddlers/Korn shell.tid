@@ -1,0 +1,9 @@
+created: 20200202112511247
+modified: 20200202112708197
+title: Korn shell
+type: text/vnd.tiddlywiki
+
+! Korn Shell
+---
+
+KSH 是由大卫科恩1983年在贝尔实验室开发的 Unix shell，基于 Bourne shell 的源码开发，并兼容 Bourne shell。

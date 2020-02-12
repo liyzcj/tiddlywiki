@@ -1,0 +1,42 @@
+created: 20191022030043043
+modified: 20200208053752192
+tags: Python Vscode
+title: VScode pytlint protobuf 报错
+type: text/vnd.tiddlywiki
+
+!! 问题：
+
+vscode 中 pylint 老是对 protobuf 生成的类报错：no-member。但是实际上是有的，也就是 pylint 无法识别 protobuf 自动生成的类属性。
+
+!! 解决：
+
+> [[Stack overflow|https://stackoverflow.com/questions/43674028/how-do-you-tell-pylint-what-the-members-of-a-protobuf-generated-object-are]]
+
+# 利用 pylint 的一个插件 `pylint-protobuf`，首先安装： <div>
+
+```bash
+pip install pylint-protobuf
+```
+
+</div>
+
+# 在 Vscode 的配置文件中将 插件添加到 pylint： <div>
+
+```json
+"python.linting.pylintArgs": ["--load-plugin","pylint_protobuf"],
+```
+
+</div>
+
+!! 补充
+
+不行，上面的方法把所有的属性检查都禁用了，再找其他的方法把。
+
+!! Update2020-02-08
+----
+
+暂时使用 flake8 了。
+
+根据[[Python Code Quality tutorial]]，Flake8 作为几个工具的整合还可以。''Flake8 不会检查类属性。''
+
+> Pylint 的 [[相关 issue|https://github.com/PyCQA/pylint/issues/1864]]  好像也 block了。

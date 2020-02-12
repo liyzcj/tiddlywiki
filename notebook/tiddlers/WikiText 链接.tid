@@ -1,0 +1,39 @@
+created: 20190803170753150
+creator: liyzcj
+modified: 20190828180137329
+modifier: liyzcj
+tags: Wikitext
+title: WikiText 链接
+type: text/vnd.tiddlywiki
+
+WikiText 的关键功能是能够链接到其他条目或外部网站。
+
+!! 手动链接
+
+```
+[[条目]]
+[[描述|条目]]
+```
+
+!! 驼峰链接
+
+驼峰文本会自动识别为链接: WikiText
+
+如果不想显示为链接, 可以使用 `~WikiText`
+
+!! 外部链接
+
+可以直接使用完整的链接:
+
+```
+http://tiddlywiki.com/
+[[TW5|http://tiddlywiki.com/]]
+[[我的邮件|mailto:me@where.net]]
+```
+
+使用 `ext` 扩展语法强制标记为外部链接:
+
+```
+[ext[http://tiddlywiki.com]]
+[ext[TW5|http://tiddlywiki.com]]
+```

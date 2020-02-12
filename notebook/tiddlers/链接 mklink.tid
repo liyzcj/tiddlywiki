@@ -1,0 +1,113 @@
+created: 20190728153928416
+creator: liyzcj
+modified: 20190828170956108
+modifier: liyzcj
+tags: Windows Command Powershell
+title: 链接 mklink
+type: text/vnd.tiddlywiki
+
+`mklink` 是 CMD 里的命令, 可以在 powershell 里通过 `cmd` 执行:
+
+```bash
+cmd /c cmd命令
+```
+
+Windows 链接共有三种方式, 也可以分为软链接与硬链接, 与 Linux 的[[硬链接与软链接]]类似. 可以使用 `cmd` 里的 `mklink` 命令创建:
+
+```bash
+D:\>mklink
+创建符号链接。
+
+MKLINK [[/D] | [/H] | [/J]] Link Target
+
+        /D      创建目录符号链接。默认为文件
+                符号链接。
+        /H      创建硬链接而非符号链接。
+        /J      创建目录联接。
+        Link    指定新的符号链接名称。
+        Target  指定新链接引用的路径
+                (相对或绝对)。
+```
+
+!! 硬链接
+
+从 Windows NT4 开始, NTFS 文件系统引入了 ~HardLink 的概念, 使得一个文件拥有多个访问路径. ''硬链接''是 Windows 上最早的的链接方式, 它类似于 Linux 的硬链接.
+
+命令:
+
+```
+mklink /h hardlink file
+```
+
+优点:
+
+* 兼容性好;
+* 盘符更改也不受影响;
+* 无需管理员权限.
+
+缺点:
+
+* 必须同一个分区
+* 仅支持本地驱动器
+* 不支持文件夹
+
+!! Junction 链接
+
+到了 Windows 2000, 引入了 Junction 链接方式, 又叫初级软链接, 属于''软链接''类型.
+
+Junction 链接类似于快捷方式, 当访问链接文件时, 系统重定向到源文件夹.
+
+> 💡 Junction 链接只能对文件夹使用.
+
+命令:
+
+```bash
+mklink /j junction_link folder
+```
+
+优点:
+
+* 兼容性好
+* 支持跨分区
+* 无需管理员权限
+
+缺点:
+
+* 不支持相对路径
+* 盘符更改会受影响
+* 无法指向远程文件
+
+
+!! 符号链接
+
+Symbolic Link 又叫''软链接(Softlink)''. 是在 Vista 之后才有的功能, 是 Junction 的升级版.
+
+> 💡 符号链接支持文件与文件夹.
+
+创建符号链接:
+
+* 对于文件: <div>
+
+```bash
+mklink symbolic file
+```
+
+</div>
+
+* 对于文件夹: <div>
+
+```bash
+mklink /d symboliclink folder
+```
+
+</div>
+
+优点:
+
+* 支持任何路径
+* 支持相对路径
+* 支持跨文件系统
+
+---
+
+!!! 关于硬链接与软链接的概念可以查看: [[硬链接与软链接]]

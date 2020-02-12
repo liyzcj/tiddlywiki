@@ -1,0 +1,15 @@
+created: 20190901154950395
+modified: 20190901155219953
+tags: 软件开发
+title: argo-cd
+type: text/vnd.tiddlywiki
+
+!! 什么是argo-cd
+
+<<<.tc-big-quote
+Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes.
+<<<
+
+Argo CD 是一个基于 GitOps 模型的声明式 K8S 持续交付工具。
+
+Git 仓库：https://github.com/argoproj/argo-cd

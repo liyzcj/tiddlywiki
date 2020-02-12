@@ -1,0 +1,12 @@
+created: 20190627183224532
+creator: liyzcj
+list: 
+modified: 20190828172039299
+modifier: liyzcj
+tags: Windows 常用文件
+title: Windows hosts文件
+type: text/vnd.tiddlywiki
+
+```bash
+c:\windows\system32\drivers\etc\hosts
+```

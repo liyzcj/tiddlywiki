@@ -1,0 +1,9 @@
+created: 20190809201818530
+modified: 20190828174054577
+tags: 插件 Git Vim
+title: vim-gitgutter
+type: text/vnd.tiddlywiki
+
+在文件内显示 git 的代码改动提示标志.
+
+https://github.com/airblade/vim-gitgutter

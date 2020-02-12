@@ -1,0 +1,24 @@
+created: 20190803162611561
+creator: liyzcj
+modified: 20190828180136067
+modifier: liyzcj
+tags: Wikitext
+title: WikiText 硬换行
+type: text/vnd.tiddlywiki
+
+在 WikiText 中, 换行要换两次才算换行, 如果需要单行换行, 可以使用:
+
+```
+"""
+一行
+两行
+三行
+"""
+```
+---
+
+"""
+一行
+两行
+三行
+"""

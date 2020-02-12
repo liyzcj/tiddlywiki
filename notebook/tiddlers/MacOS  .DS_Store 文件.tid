@@ -1,0 +1,27 @@
+created: 20191122090231912
+modified: 20191125030225232
+tags: Macos 操作系统
+title: MacOS  .DS_Store 文件
+type: text/vnd.tiddlywiki
+
+.DS_Store是Mac OS保存文件夹的自定义属性的隐藏文件，如文件的图标位置或背景色，相当于Windows的desktop.ini。
+
+!! Prohibit generation
+
+```bash
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
+```
+
+!! Restore the setting
+
+```bash
+defaults delete com.apple.desktopservices DSDontWriteNetworkStores
+```
+
+!! Delete Generated .DS_Store files
+
+Use [[find 查找命令]] to Delete All file in a Path
+
+```bash
+find . -name ".DS_Store" -depth -exec rm {} \;
+```

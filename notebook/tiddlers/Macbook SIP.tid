@@ -1,0 +1,30 @@
+created: 20191206152520587
+modified: 20191206152907015
+tags: Macos
+title: Macbook SIP
+type: text/vnd.tiddlywiki
+
+SIP 是 Macos 的系统完整保护机制，可以防止意外篡改系统文件，但是有时候想要修改一些系统配置，需要关闭 SIP。
+
+
+!! 关闭或者打开 SIP
+
+重启电脑，按住Command+R(直到出现苹果标志)进入Recovery Mode(恢复模式)。
+
+左上角菜单里找到实用工具 -> 终端， 输入
+
+```bash
+$ csrutil disable
+```
+
+重启即可，如果想要重新打开 SIP，重复以上步骤并输入：
+
+```bash
+$ csrutil enable
+```
+
+!! 查看 SIP 状态
+
+```bash
+$ csrutil status
+```

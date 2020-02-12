@@ -1,0 +1,39 @@
+created: 20200120072646973
+modified: 20200120074426703
+tags: Python
+title: Python mock doc
+type: text/vnd.tiddlywiki
+
+
+!! patcher
+
+`unittest.mock.patch()` 不仅仅可以作为装饰器或者上下文使用，如果需要还可以直接当作函数使用。
+
+```python
+patcher = patch("Myclass")
+mock_class = patcher.start()
+patcher.stop()
+```
+
+在 Python unittest 中使用 Mock patch，可以在 `setUp()` 方法中启用 pather。
+
+> 注意，可以将 `patcher.stop()` 写到 `tearDown()` 方法中，但是有个小技巧是，如果 `setUp()` 方法中出现异常，那么 unittest 不会执行 `tearDown()` 方法。所以''将需要执行的清理函数通过 `addCleanup()` 函数来添加更好。''
+
+```python
+class MyTest(unittest.TestCase):
+    def setUp(self):
+        patcher = patch('package.module.Class')
+        self.MockClass = patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def test_something(self):
+        assert package.module.Class is self.MockClass
+```
+
+!!! 将某个 Object 替换为其他 对象
+
+```python
+patch('__main__.something', 100).start()
+```
+
+这会将变量 `something` 替换为整数 `100`。

@@ -1,0 +1,169 @@
+created: 20191210084021407
+modified: 20191210093357167
+tags: Tensorflow
+title: TFX Json utils
+type: text/vnd.tiddlywiki
+
+! TFX json_utils.py
+
+TFX 仓库的 master 分支 `json_utils.py` 文件里有一段让人很疑惑的代码：
+
+First in class `_DefaultEncoder()`， it process class `RuntimeParameter` independently:
+
+```python
+class _DefaultEncoder(json.JSONEncoder):
+  """Default JSON Encoder which encodes Jsonable object to JSON."""
+
+  def encode(self, obj: Any) -> Text:
+    """Override encode to prevent redundant dumping."""
+    if obj.__class__.__name__ == 'RuntimeParameter' and obj.ptype == Text:
+      return self.default(obj)
+
+    return super(_DefaultEncoder, self).encode(obj)
+
+  def default(self, obj: Any) -> Any:
+    # If obj is a str-typed RuntimeParameter, serialize it in place.
+    if obj.__class__.__name__ == 'RuntimeParameter' and obj.ptype == Text:
+      dict_data = {
+          _TFX_OBJECT_TYPE_KEY: _ObjectType.JSONABLE,
+          _MODULE_KEY: obj.__class__.__module__,
+          _CLASS_KEY: obj.__class__.__name__,
+      }
+      dict_data.update(obj.to_json_dict())
+			# 这里直接 dumps 成字符串
+      return dumps(dict_data)
+
+    if isinstance(obj, Jsonable):
+      dict_data = {
+          _TFX_OBJECT_TYPE_KEY: _ObjectType.JSONABLE,
+          _MODULE_KEY: obj.__class__.__module__,
+          _CLASS_KEY: obj.__class__.__name__,
+      }
+      # Need to first check the existence of str-typed runtime parameter.
+      data_patch = obj.to_json_dict()
+      for k, v in data_patch.items():
+        if v.__class__.__name__ == 'RuntimeParameter' and v.ptype == Text:
+          data_patch[k] = dumps(v)
+      dict_data.update(data_patch)
+      return dict_data
+
+    if inspect.isclass(obj):
+      return {
+          _TFX_OBJECT_TYPE_KEY: _ObjectType.CLASS,
+          _MODULE_KEY: obj.__module__,
+          _CLASS_KEY: obj.__name__,
+      }
+
+    if isinstance(obj, message.Message):
+      return {
+          _TFX_OBJECT_TYPE_KEY: _ObjectType.PROTO,
+          _MODULE_KEY: obj.__class__.__module__,
+          _CLASS_KEY: obj.__class__.__name__,
+          _PROTO_VALUE_KEY: json_format.MessageToJson(obj, sort_keys=True)
+      }
+
+    return super(_DefaultEncoder, self).default(obj)
+		
+def dumps(obj: Any) -> Text:
+  """Dumps an object to JSON with Jsonable encoding."""
+  return json.dumps(obj, cls=_DefaultEncoder, sort_keys=True)
+```
+
+对 RuntimeParameter 并且属性 `ptype` 为 `Text` 的 object 进行单独的处理，将其中的 `RuntimeParameter` 通过在 `defaults()` 方法中直接调用 `dumps()`转换为了字符串，而后对字符串进行序列化。并且还防止重复序列化，又在 `encode()` 方法单独判断。
+
+
+
+> Json 在 dumping 的时候会首先调用 `defaut()` 方法转换为 Python 的 builtin type，然后传递给 `encode()` 方法进行序列化为字符串。
+
+`RuntimeParameter` 类：
+
+```python
+class RuntimeParameter(json_utils.Jsonable):
+  """Runtime parameter.
+
+  Attributes:
+    name: The name of the runtime parameter.
+    default: Default value for runtime params when it's not explicitly
+      specified.
+    ptype: The type of the runtime parameter.
+    description: Description of the usage of the parameter.
+  """
+
+  def __init__(
+      self,
+      name: Text,
+      ptype: Type = None,  # pylint: disable=g-bare-generic
+      default: Optional[Union[int, float, bool, Text]] = None,
+      description: Optional[Text] = None):
+    if ptype and ptype not in [int, float, bool, Text]:
+      raise RuntimeError('Only str and scalar runtime parameters are supported')
+    if (default and ptype) and not isinstance(default, ptype):
+      raise TypeError('Default value must be consistent with specified ptype')
+    self.name = name
+    self.default = default
+    self.ptype = ptype
+    self.description = description
+
+  def __repr__(self):
+    """Easily convert RuntimeParameter to str.
+
+    This provides a unified way to call str(x) when x can be either str or
+    RuntimeParameter. Note: if ptype == Text or None, the serialization will be
+    wrapped in double quotes.
+
+    Returns:
+      The json serialized version of RuntimeParameter.
+    """
+    return json_utils.dumps(self)
+
+  def __eq__(self, other):
+    return (isinstance(other.__class__, self.__class__) and
+            self.name == other.name and self.default == other.default and
+            self.ptype == other.ptype and self.description == other.description)
+
+  def __hash__(self):
+    """RuntimeParameter is uniquely identified by its name."""
+    return self.name.__hash__()
+```
+
+
+!! 解惑
+
+之所以这么做是为了将每个 component 的参数自动转换成 Kubeflow pipeline 的参数，从而实现在 Kubeflow 的 Web UI 上进行参数调节。
+
+首先将 `RuntimeParameter` dump为字符串，再将字符串经过 json dump，会将每个 `"` 转换为 `\\"`, 然后根据正则：
+
+```python
+RUNTIME_PARAMETER_PATTERN = (r'({\\*"__class__\\*": \\*"RuntimeParameter\\*", '
+                             r'.*?})')
+```
+
+匹配转换后的字符串，然后再解析为 placeholder， 在 `KubeflowDagRunner` 中转换为 pipline Parameters：
+
+```python
+  def _parse_parameter_from_component(
+      self, component: base_component.BaseComponent) -> None:
+    """Extract embedded RuntimeParameter placeholders from a component.
+
+    Extract embedded RuntimeParameter placeholders from a component, then append
+    the corresponding dsl.PipelineParam to KubeflowDagRunner.
+
+    Args:
+      component: a TFX component.
+    """
+
+    serialized_component = json_utils.dumps(component)
+    placeholders = re.findall(data_types.RUNTIME_PARAMETER_PATTERN,
+                              serialized_component)
+    for placeholder in placeholders:
+      placeholder = placeholder.replace('\\', '')  # Clean escapes.
+      placeholder = utils.fix_brackets(placeholder)  # Fix brackets if needed.
+      parameter = json_utils.loads(placeholder)
+      if parameter.name not in self._deduped_parameter_names:
+        self._deduped_parameter_names.add(parameter.name)
+        dsl_parameter = dsl.PipelineParam(
+            name=parameter.name, value=parameter.default)
+        self._params.append(dsl_parameter)
+```
+
+> 但是这种做法只能将 Text 类型的 Parameter 自动转换，就很傻

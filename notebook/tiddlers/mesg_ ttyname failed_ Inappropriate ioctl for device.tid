@@ -1,0 +1,26 @@
+created: 20191219024634180
+modified: 20191219025100287
+tags: Issue Linux
+title: mesg: ttyname failed: Inappropriate ioctl for device
+type: text/vnd.tiddlywiki
+
+!! Error
+
+```bash
+mesg: ttyname failed: Inappropriate ioctl for device
+```
+
+!! Fix
+
+Modify `root/.profile`:
+
+```bash
+mesg n || true
+```
+
+to
+
+```bash
+tty -s && mesg n || true
+```
+

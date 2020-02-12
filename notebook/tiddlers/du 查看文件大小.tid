@@ -1,0 +1,24 @@
+created: 20190804192711701
+creator: liyzcj
+modified: 20190826154410619
+modifier: liyzcj
+tags: Macos Linux Command
+title: du 查看文件大小
+type: text/vnd.tiddlywiki
+
+```bash
+du [option] [file]
+```
+
+显示文件和目录的磁盘使用空间.
+
+
+!! 常用case
+
+查看当前目录所有文件大小并排序:
+
+```bash
+du -sm * | sort -rn ## 正序
+du -sm * | sort -n  ## 倒序
+
+```

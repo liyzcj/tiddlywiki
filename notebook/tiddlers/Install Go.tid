@@ -1,0 +1,59 @@
+created: 20191221100034446
+modified: 20191221101053678
+tags: Go
+title: Install Go
+type: text/vnd.tiddlywiki
+
+! Go Installation
+---
+
+> Official Document https://golang.org/doc/install
+
+!! Macos
+
+```bash
+brew install go
+```
+
+!! Linux
+
+```bash
+apt installl go
+```
+
+!! Manual Download
+
+Download the package in https://golang.org/dl/
+
+unzip and add PATH env, for example:
+
+```bash
+tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+```
+
+!! Initial Go Environment
+
+By convention, all Go code lives within a single workspace (folder). This folder could be everywhere and specified by `GOPATH`, for example:
+
+```bash
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+```
+
+Go assumes that your workspace contains a specific directory structure.
+
+Go places its files in three directories: All source code lives in src, package objects lives in pkg, and the compiled programs live in bin. You can create these directories as follows.
+
+```bash
+mkdir -p $GOPATH/src $GOPATH/pkg $GOPATH/bin
+```
+
+---
+
+Now youcan install some [[Go packages]].
+
+---
+
+Reference: 
+
+https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/install-go#go-editor

@@ -1,0 +1,31 @@
+created: 20200127184214559
+modified: 20200127184439741
+title: Go Code Orgnization and Import
+type: text/vnd.tiddlywiki
+
+!!! 代码组织
+
+Go 的代码是以 Packages 的形式组织的，在每个源代码文件的开头，都需要使用 `package` statement 来指定当前代码文件属于哪个包，关于 package 的相关操作 [[Go packages]].
+
+> Go 在 1.11 版本推出了一个新的特性 [[Go modules]], 通过 Modules 来组织 packages 与项目代码。 一个 Module 中可以有多个 Package，每个 Package 的导入路径是 Module 的导入路径加上 package 在 Module 中的相对路径。
+
+''注意：'' `package main` 是一个 Module 的入口，如果你编写的是一个可执行的程序，那么编译后 `package main` 就会生成一个 二进制文件。如果是编写的 `library` 那么可以没有 `main` package。
+
+!!! 代码导入
+
+Go 通过 `import` statement 来导入代码，导入的代码需要是一个 package，同属于一个 package
+ 的代码是可以直接使用的，即使是不同的文件中。也就是说 ''Go 的代码的最小组织单位是 package，而不是文件。''
+ 
+即使导入多个 packages，也最好使用单个 `import` 语句：
+
+```go
+import (
+	"fmt"
+	"math"
+)
+```
+
+!!! 导入范围
+
+在 Go 中，并不是导入代码中的所有的定义都是可用的，仅仅是以''大写字母开头''的变量或者函数才能够被使用。
+> Go 中的变量或者函数一般采用 ''驼峰命名法''，对于不需要 export 的函数或者变量可以使用小些字母开头。

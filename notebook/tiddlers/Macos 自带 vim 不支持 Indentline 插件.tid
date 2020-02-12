@@ -1,0 +1,28 @@
+created: 20190825095506074
+modified: 20190828174814644
+tags: Issue Vim Macos
+title: Macos 自带 vim 不支持 Indentline 插件
+type: text/vnd.tiddlywiki
+
+由于 Mac 自带的 vim 不支持 conceal 与 python3。
+
+> [[indentLine]] 插件需要 conceal 才能显示。
+
+所以安装了支持 conceal 与 python3 并且带有 gui 的 macvim：
+
+```bash
+brew install macvim
+```
+
+其是不安装只安装 Homebrew 里的 vim 应该也是可以的， 问题出在使用 Howebrew 是安装，而不是升级系统自带的 vim， 所以安装了以后，使用 `vim` 命令仍然指向系统自带的 `vim`。
+
+
+!! 解决办法
+
+在 `PATH` 变量中将安装的 vim 优先级提高到系统 vim 的前面。
+
+在 `.zshrc` 或者 `.bashrc` 中修改 `PATH`：
+
+```bash
+export PATH=/usr/local/bin:$PATH
+```

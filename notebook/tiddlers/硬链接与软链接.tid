@@ -1,0 +1,101 @@
+created: 20190722200624337
+creator: liyzcj
+modified: 20190826161706565
+modifier: liyzcj
+tags: Linux Concept
+title: 硬链接与软链接
+type: text/vnd.tiddlywiki
+
+Linux 上所有的文件被分为两部分 -- ''用户数据(user data)'' 与''元数据(metadata)''. 其中, 用户数据即文件数据块 (data block), 文件数据块是记录文件真实内容的地方; 元数据是文件在操作系统中的附加属性, 例如文件大小, 文件所属者, 文件创建时间等. 在 Linux 中, 文件的唯一标识是 ''inode'' 号, 而不是文件名, 程序通过 inode 来查找文件的数据块. 
+
+<<image-center "filesystem.svg" caption:"Linux File System" width:"60%">>
+
+在 Linux 中查看 inode 号可以使用命令 `stat` 或着 `ls -i`:
+
+```bash
+liyz@tiddly:~$ stat tiddlyserver190718.tar.gz                                                                             File: tiddlyserver190718.tar.gz
+  Size: 13229144        Blocks: 25840      IO Block: 4096   regular file
+Device: 801h/2049d      Inode: 140773      Links: 1
+Access: (0644/-rw-r--r--)  Uid: ( 1001/    liyz)   Gid: ( 1002/    liyz)
+Access: 2019-07-17 20:11:24.837501579 +0000
+Modify: 2019-07-17 20:05:58.444114629 +0000
+Change: 2019-07-17 20:05:58.444114629 +0000
+ Birth: -
+```
+ 
+```bash
+liyz@tiddly:~$ ls -i tiddlyserver190718.tar.gz
+140773 tiddlyserver190718.tar.gz
+```
+
+为了解决文件共享, Linux 引入了两种链接: ''硬链接 (hard link)'' 与 ''软链接 (soft link)'', 软链接又称为''符号链接 (symbolic link)''.
+
+!! 硬链接
+
+;硬链接
+: 如果一个 inode 对应多个文件名, 则称这些文件为硬链接.
+
+为一个文件创建硬链接:
+
+```bash
+link file newfile
+ln file newfile
+```
+
+硬链接有以下特性:
+
+* 文件的 inode 以及 data block 相同;
+* 只能对已经存在的文件创建;
+* 无法交叉文件系统创建硬链接;
+* 不能对目录进行创建, 只可对文件创建;
+* 删除一个硬链接文件并不影响其他有相同 inode 号的文件;
+* 所有的硬链接删除才算作删除文件.
+
+<<<
+对于''第三条'', Linux 的 inode 号仅仅在相同的文件系统下是唯一的, 对于不同的文件系统, inode 号有重复的可能性, 所以无法跨文件系统创建硬链接.
+
+列出所有挂载的文件系统以及 inode 使用情况:
+
+```bash
+df -i --print-type
+```
+
+查找相同 inode 的文件:
+
+```bash
+find / -inum 12345
+```
+
+对于''第四条'', 不能对目录创建硬链接是文件系统设计的限制, 如果创建硬链接则会产生目录环. 但是系统内有两个特殊的目录
+即, 当前目录 `.` 与上一级目录 `..`, 分别是当前目录与上一级目录的硬链接.
+
+<<<
+
+!! 软链接
+
+;软链接
+: 如果文件的 data block 即用户数据中存储的内容是指向另一个文件的路径, 则这个文件是软链接.
+
+创建软链接:
+
+```bash
+ln -s file soft_link
+```
+
+> 软链接是一个单独的文件, 有着自己的 inode 号以及元数据.
+
+由于软链接是一个单独的文件, 就非常的灵活:
+
+* 有自己的文件属性以及独立的权限等;
+* 可以对不存在的文件或目录创建软链接;
+* 软链接可以对文件或着目录创建;
+* 可以交叉文件系统;
+* 创建软链接, 统计数 i_nlink 不会增加.
+* 删除软链接并不会影响源文件.
+
+> 关于跨文件系统, [[Linux VFS]] 实现了文件系统的抽象, 并使得用户空间的程序可以跨文件系统操作.
+
+<<image-center "softlink.svg" caption:"Linux Soft Link" width:"60%">>
+---
+
+!! 查找链接相关命令 : [[find 查找命令]]

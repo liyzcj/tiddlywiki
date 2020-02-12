@@ -1,0 +1,81 @@
+caption: progressbar
+created: 20190719222401736
+creator: liyzcj
+modified: 20190828184508179
+modifier: liyzcj
+title: progressbar
+type: text/vnd.tiddlywiki
+
+!! 简单使用方法
+progressbar 的用法和 [[tqdm|tqdm 实现python进度条]] 类似, 也是使用一个类接受可迭代对象作为参数.
+
+例如:
+
+```python
+import time
+from progressbar import ProgressBar
+
+total = 1000
+
+def dosomework():
+  time.sleep(0.01)
+
+progress = ProgressBar()
+for i in progress(range(100)):
+  dosomework()
+```
+
+也可以使用 `update()` 方法来更新进度条:
+
+```python
+import sys, time
+from progressbar import ProgressBar
+
+total = 100
+
+def dosomework():
+  time.sleep(0.01)
+
+pbar = ProgressBar().start()
+for i in range(100):
+  pbar.update(int((i / (total - 1)) * 100))
+  dosomework()
+pbar.finish()
+```
+
+!! 自定义进度条外观
+
+```python
+import  time
+from progressbar import *
+
+total = 100
+
+def dosomework():
+  time.sleep(0.01)
+
+widgets = ['Progress: ',Percentage(), ' ', Bar('#'),' ', Timer(),
+          ' ', ETA(), ' ', FileTransferSpeed()]
+pbar = ProgressBar(widgets=widgets, maxval=10*total).start()
+for i in range(total):
+  # do something
+  pbar.update(10 * i + 1)
+  dosomework()
+```
+
+输出:
+
+```bash
+PS D:\znote> ######### | Elapsed Time: 0:00:01 ETA:  0:00:00 904.70  B/s
+```
+
+参数:
+
+* `Progress` : 进度条前的文字
+* `Percentage` : 显示百分比
+* `Bar('#')` : 进度条形状
+* `ETA()` : 预计剩余时间
+* `Timer()` : 显示已用时间
+
+---
+官方文档: [ext[progressbar|https://progressbar-2.readthedocs.io/en/latest/]]

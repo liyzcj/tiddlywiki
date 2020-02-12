@@ -1,0 +1,17 @@
+created: 20191126084216590
+modified: 20191126084637172
+tags: Python Linter
+title: pylint
+type: text/vnd.tiddlywiki
+
+Pylint disable warning or errors:
+
+```python
+# pylint: disable=C0321
+```
+
+Or use Error name:
+
+```python
+train()  # pylint: disable=no-value-for-parameter
+```

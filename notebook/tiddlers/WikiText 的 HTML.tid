@@ -1,0 +1,70 @@
+created: 20190803164335894
+creator: liyzcj
+modified: 20190828184646212
+modifier: liyzcj
+tags: Wikitext
+title: WikiText 的 HTML
+type: text/vnd.tiddlywiki
+
+HTML 语句可以直接插入 WikiText 文本中:
+
+```
+<article class="hello">
+这是我的简单友好的文本块。你好！
+<!-- 这是注释，不会出现于维基输出 -->
+</article>
+```
+<article class="hello">
+这是我的简单友好的文本块。你好！
+<!-- 这是注释，不会出现于维基输出 -->
+</article>
+
+!! 属性传递
+
+在常规HTML语法的扩展中，可以通过几种不同的方式给元素/小部件的属性赋值：
+
+* 文本字符串
+* [[嵌入|WikiText 嵌入]]
+* [[宏|WikiText 宏]] 或着 [[变量|WikiText 变量]]
+
+
+!!! 文本字符串
+
+文本字符串可以使用以下几种:
+
+* 单引号: `attr='value'`
+* 双引号: `attr="value"`
+* 三重双引号: `attr="""value"""`
+* 如果字符串没有空格也可以不使用引号: `attr=value`
+
+> 三重引号可以嵌套双引号, 双引号可以嵌套单引号
+
+!!! 嵌入
+
+嵌入可以使用 ''文本嵌入'' 或者 ''过滤器嵌入''.
+
+文本嵌入:
+
+```
+attr={{tiddler}}
+attr={{!!field}}
+attr={{tiddler!!field}}
+```
+
+过滤器嵌入:
+
+过滤器属性值用一个由三重花括号括起来的 [[过滤表达式|WikiText 过滤器]] 表示。 其值应是生成的列表中的第一项，如果列表为空，则为空字符串。
+
+```
+<$text text={{{ [<currentTiddler>]addPrefix[$:/myprefix/] }}}>
+```
+
+!!! 传入变量
+
+变量属性值用一个由双尖括号括起来的 [[宏调用|WikiText 宏]] 或者 [[变量|WikiText 变量]] 表示。例如：
+
+```
+<div title=<<MyMacro "Brian">>>
+...
+</div>
+```

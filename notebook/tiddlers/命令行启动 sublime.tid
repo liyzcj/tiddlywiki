@@ -1,0 +1,11 @@
+created: 20191014113154160
+modified: 20191014113247348
+tags: Software Macos
+title: 命令行启动 sublime
+type: text/vnd.tiddlywiki
+
+> 注意是 sublime3
+
+```bash
+ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/sublime
+```

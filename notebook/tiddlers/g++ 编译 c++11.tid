@@ -1,0 +1,24 @@
+created: 20190722192816084
+creator: liyzcj
+modified: 20190828162700114
+modifier: liyzcj
+tags: Command C++
+title: g++ 编译 c++11
+type: text/vnd.tiddlywiki
+
+使用 `g++` 编译 c++ 11:
+
+```bash
+g++ -g Wall -std=c++11 filename -o output_name
+```
+
+可以直接将命令写入 Makefile:
+
+```bash
+all:
+    g++ -g -std=c++11 filename -o output_name
+```
+
+`-g` 代表编译时显示调试信息.
+
+> 💡 注意 Makefile 中缩进为 Tab , 否则会报错.

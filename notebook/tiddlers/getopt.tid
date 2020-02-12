@@ -1,0 +1,63 @@
+created: 20190704001750108
+creator: liyzcj
+modified: 20190828182420713
+modifier: liyzcj
+title: getopt
+type: text/vnd.tiddlywiki
+
+!! getopt
+---
+
+Python 中的 getopt 与 C 语言中的 `getopt()` 函数相同. getopt 模组主要提供两个函数以及一个异常判断.
+
+> 💡 推荐使用新的参数解析模组 [[argparse]]
+
+!!! getopt 函数
+
+```python
+getopt.getopt(args, options[, long_options])
+```
+
+* `args` : 需要解析的参数列表, 一般是 `sys.argv[1:]`
+* `options` : 字符串, 短选项. 如果某一个选项需要参数, 在后面增加 `:`
+* `long_options` : 长选项. 如果需要参数, 在后面添加 `=`
+* return : 返回两部分, 第一部分是由 `(options, value)` 组成的列表; 第二部分是未解析的参数.
+
+示例代码:
+
+```python
+import sys
+from getopt import getopt
+from getopt import GetoptError
+
+print(f"sys.argv : {sys.argv}")
+long_option = ['opt1', 'opt2=']
+result = getopt(sys.argv[1:], 'opt:', long_option)
+print(f"result: {result}")
+```
+
+运行结果: 
+
+```bash
+PS D:\znote> python.exe test.py -p -t tt --opt1 --opt2 oo2 other1 -o
+sys.argv : ['test.py', '-p', '-t', 'tt', '--opt1', '--opt2', 'oo2', 'other1', '-o']
+result: ([('-p', ''), ('-t', 'tt'), ('--opt1', ''), ('--opt2', 'oo2')], ['other1', '-o'])
+```
+
+> ❗ 注意: 需要解析的选项不能在其他选项后面, 否则会抛出异常.
+
+!!! gnu_getopt 函数
+
+```python
+getopt.gnu_getopt(args, options[, long_options])
+```
+
+gnu_getopt 可以解决参数解析顺序的问题, 使得参数的顺序可以随意. 带来的缺点就是其他参数不能有短选项, 例如上述示例中的 -s 在 gnu_getopt 中就会抛出异常.
+
+!!! 异常
+
+```python
+getopt.GetoptError
+```
+
+当一个必要的参数未传入或着一个选项无法识别时抛出此异常.

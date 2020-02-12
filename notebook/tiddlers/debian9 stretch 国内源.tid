@@ -1,0 +1,33 @@
+created: 20191031112058248
+modified: 20191031112425765
+tags: Linux
+title: debian9 stretch 国内源
+type: text/vnd.tiddlywiki
+
+/etc/apt/sources.list
+
+!! 清华源
+
+```bash
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch main non-free contrib
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-updates main non-free contrib
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-backports main non-free contrib
+deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch main non-free contrib
+deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-updates main non-free contrib
+deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-backports main non-free contrib
+deb https://mirrors.tuna.tsinghua.edu.cn/debian-security/ stretch/updates main non-free contrib
+deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security/ stretch/updates main non-free contrib
+```
+
+!!  科大源
+
+```bash
+deb http://mirrors.ustc.edu.cn/debian/ stretch main non-free contrib
+deb http://mirrors.ustc.edu.cn/debian/ stretch-updates main non-free contrib
+deb http://mirrors.ustc.edu.cn/debian/ stretch-backports main non-free contrib
+deb-src http://mirrors.ustc.edu.cn/debian/ stretch main non-free contrib
+deb-src http://mirrors.ustc.edu.cn/debian/ stretch-updates main non-free contrib
+deb-src http://mirrors.ustc.edu.cn/debian/ stretch-backports main non-free contrib
+deb http://mirrors.ustc.edu.cn/debian-security/ stretch/updates main non-free contrib
+deb-src http://mirrors.ustc.edu.cn/debian-security/ stretch/updates main non-free contrib
+```

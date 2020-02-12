@@ -1,0 +1,251 @@
+created: 20190925124338594
+modified: 20200202115000405
+tags: Survey Shell编程
+title: Bash 条件判断
+type: text/vnd.tiddlywiki
+
+!! 实例
+
+* [[判断命令是否执行成功]]
+* [[判断文件是否存在]]
+
+!! 简介
+
+Bash 提供了许多方便的内建比较参数。你可能看到过
+
+```bash
+if [ $foo -ge 3 ]; then
+```
+
+这里的条件是一个命令，''使用方括号包住和使用 `test` 命令是等价的：''，对于 bash 命令来说，返回值为 0 代表 true，返回值不为零则代表 false，与大多数编程语言都相反。
+
+一个方便的测试条件的办法是：
+
+```bash
+[ $foo -ge 3 ] && echo true
+```
+
+''`&&` 只有在前面的命令返回 0 才会执行后面的命令。''
+
+```bash
+if test $foo -ge 3; then
+```
+
+> 偏向使用参数 `-ge` 而不是逻辑 `>=` 符号来判断是因为这本来就是命令，而不是编写程序。并且这就是 `if` 的作用，它会根据这个命令的退出状态来控制逻辑。
+
+同样有一些其他的特殊参数来进行判断，例如 `-f` 判断 regular 文件是否存在：
+
+```bash
+if [ -f regularfile ]; then
+```
+
+> Regularfile 意思是常规文件，而不是块或者字符设备或者目录。
+
+你也可以查看一个文件是否可读：
+
+```bash
+if [ -r regularfile ]; then
+```
+
+!! if 语法
+
+```bash
+if <condition>; then
+	<commands>
+fi
+```
+
+或者 
+
+```bash
+if <condition>; then
+	<command>
+elif <condition>; then
+	<command>
+else
+	<command>
+fi
+```
+
+!! Condition 的基本规则
+
+# ''一定要注意方括号和条件之间的空格''如果没有会报错。
+# ''关键词之间一定要换行或者使用分号。'' `if, then, else, elif, fi` 之间要么换行，要么使用 `;`。
+# ''将字符串用双引号引起来是一个好习惯''。如果字符串含有空格，不实用双引号将会出错。
+
+有两个编写技巧可能也非常有用：
+
+# 你可以''使用感叹号来取反''： <div>
+
+```bash
+if [ ! -f regularfile ]; then
+```
+
+</div>
+
+# 使用逻辑符号可以结合多个条件，通常是 `-a` 与 `-o`: <div>
+
+```bash
+if [ $foo -ge 3 -a $foo -lt 10 ]; then
+```
+
+</div>
+
+> Condition 也可以用于其他的语句，例如 [[While 或 until|Bash 循环]].
+
+所有的 Conditions 概括为以下几种：
+
+* [[文件相关条件|Bash File-based Conditions]]
+* [[字符串相关条件|Bash String-based Conditions]]
+* [[数字相关条件|Bash Number-based Conditions]]
+* 其他条件：`[ -o shelloption ]`: shell 选项是否打开。
+
+!! 不同的 Condition 语法
+
+!!! 单个方括号
+
+单个括号的语法在上面已经介绍过，这是最早支持的语法，它支持三种条件语句：
+
+* ''文件相关的条件 File-based'': <div>
+
+各种与文件相关的判断条件，例如：
+
+```bash
+if [ -L symboliclink ]; then
+```
+
+> 更多关于文件的判断可以查看[[文件相关条件|Bash File-based Conditions]]。
+
+<div>
+
+* ''字符串相关条件 String-based'': <div>
+
+允许检查字符串相关的条件：
+
+```bash
+if [ -z "$emptystring" ]; then
+```
+
+如果变量 `$emptystring` 为空或者不存在，则为真。
+
+```bash
+if [ "$stringvar1" == "cheese" ]; then
+```
+
+如果变量 `$stringvar1` 等于 `cheese` 则为真。
+
+> 更多关于字符串的条件可以查看[[字符串相关条件|Bash String-based Conditions]]
+
+</div>
+
+* ''算术相关条件 Number-based'': <div>
+
+整数之间的比较：
+
+```bash
+if [ $num -lt 1 ]; then
+```
+
+> 更多关于算术的比较可以查看[[数字相关条件|Bash Number-based Conditions]]
+
+</div>
+
+!!! 双方括号语法
+
+你可能会经常看到使用双括号的条件：
+
+```bash
+if [[ "$stringvar" == *string* ]]; then
+```
+
+''双引号语法是单引号语法的增强版本。''它和单引号语法有几个重要的不同点：
+
+* ''双括号支持字符串的 Globbing。'' <div>
+
+上面的例子中已经展示了，星号（asterisk）可以迭代的匹配任何字符。
+
+```bash
+if [[ "$stringvar" == *[sS]tring* ]]; then
+```
+
+上面这个列子则可以匹配任何包含 `string` 或 `String` 的字符串。
+
+> ''注意：Globbing 一定不能使用双引号。''
+
+</div>
+
+* 第二点是，''字符串变量不会被分割。''所以，你可以省略字符串变量的引号：<div>
+
+```bash
+if [[ $stringvarwithspaces != foo ]]; then
+```
+
+不过，''使用双引号依然是个好习惯，最好不要去掉。''
+
+</div>
+
+* 第三个差异是''不扩展文件名。''对比两个不同的例子：<div>
+
+```bash
+if [ -a *.sh ]; then
+```
+
+上面的条件中，如果当前目录有一个 `.sh` 结尾的文件，就会返回 true，如果没有则代表 false。如果有多个，则会报错，因为 `*.sh` 扩展到了当前文件夹的多个文件。
+
+```bash
+if [[ -a *.sh ]]; then
+```
+
+上面的例子中，只要当前目录中包含 `.sh` 结尾的文件，无论多少个都返回 true。因为双括号中，不会进行文件扩展，所以 `*.sh` ''仅仅匹配一个文件''。
+
+</div>
+
+* 多个条件的连接可以使用逻辑符号 `&&` 和 `||` : <div>
+
+```bash
+if [[ $num -eq 3 && "$stringvar" == foo ]]; then
+```
+
+> 单括号中的 `-o` `-a` 在双括号中也能用。
+
+</div>
+
+* 最后一点，双括号允许使用 `=~` 进行正则表达式匹配。 <div>
+
+可以查看[[字符串相关条件|Bash String-based Conditions]]获取更多信息。
+
+</div>
+
+!!! 双圆括号语法
+
+对于[[数字相关条件|Bash Number-based Conditions]]，还有另一种语法，大多数适用于 [[Korn shell]]：
+
+```bash
+if (( $num <= 5 )); then
+```
+
+这中语法仅仅支持使用逻辑符号 `==` `<` `>=` `&&` `||` 等等来进行判断。和内建''命令 `let` 等价。''
+
+
+!! case
+
+```bash
+case $1 in
+	one)
+			do something
+			;;
+	two)
+			do something
+			;;
+	*)
+			do something
+			;;
+esac
+```
+
+---
+
+!! Reference
+
+* https://linuxacademy.com/blog/linux/conditions-in-bash-scripting-if-statements/
+* http://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Conditional-Constructs

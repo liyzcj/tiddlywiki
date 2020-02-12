@@ -1,0 +1,87 @@
+created: 20191122075052303
+modified: 20200203113305424
+tags: Git
+title: git submodule and subtree
+type: text/vnd.tiddlywiki
+
+! Git Submodule and Subtree
+
+Submodule 和 Subtree 是在 Git repo 中包含子 repo 的两种方式。也是进阶大项目的必经之路。
+
+!! Usage
+
+!!! Submodule
+
+''增加 submodule''
+
+```bash
+git submodule [--quiet] add [-b <branch>] [-f|--force] [--name <name>] [--reference <repository>] [--] <repository> [<path>]
+```
+
+增加一个 submodule 以后，会生成一个 .gitmodules 文件。这个文件描述了所有 submodule 的信息，包含submodule 的名字，url，本地的 path 以及位于的 commit 信息等等。
+
+> 如果没有指定分支或 commit 则默认是最新的 commit。注意 submodule 是靠 `.gitmodule` 文件维护依赖的 submodule 的信息的，如果你在子项目中执行了 git pull 这种操作，从而改变了 submodule 当前的状态，但是你没有使用 `git submodule update` 去更新 `.gitmodules` 文件的花，下次你再 clone 你的项目，这个 submodule 仍然会处于之前的版本。也就是说 ''Submodule 完全是由 .gitmodules 这个文件控制的，所以更新需要更新这个文件。'' 
+> [[这篇博客|https://blog.devtang.com/2013/05/08/git-submodule-issues/]]中就提到了一些坑。
+
+```yaml
+[submodule "module_a"]
+	path = god
+	url = https://github.com/liyzcj/god.git
+```
+
+
+''查看 submodule 信息''
+
+```bash
+git submodule [--quiet] status [--cached] [--recursive] [--] [<path>...]
+```
+
+
+当 clone 下来一个包含 submodule 的仓库时，你首先需要初始化 submodule，也就是将 submodule 从 `.gitmodules` 文件添加到 git 的 config 中：
+
+```bash
+git submodule init
+```
+
+> 这样可以让你在项目中拥有多个 submodules 但是你只想更新你想要的那几个。那么你就可以仅仅 init 需要的 submodules。
+
+''当 init 以后，你就可以使用 update 或者 `foreach` 命令将 submodules 真正的 pull 到本地。''
+
+```bash
+git submodule [--quiet] update [--init] [--remote] [-N|--no-fetch] [-f|--force] [--checkout|--merge|--rebase] [--[no-]recommend-shallow] [--reference <repository>] [--recursive] [--] [<path>...]
+```
+
+```bash
+git submodule foreach git pull
+```
+
+如果想要修改子项目的代码，只需要切换到子项目的目录就可以像使用正常的 git 仓库一样使用了。而且如果在子项目中进行了修改，在主项目中也会进行提示，但是 git add 或者 commit 不会影响子项目的代码。
+
+
+
+!!! subtree
+
+Subtree 是将一个子项目复制到当前的项目中，并且将这个子项目的所有 commit  merge 到当前项目中。
+
+增加一个 subtree module:
+
+```bash
+git subtree --prefix=path/to/submodule <repository> <ref> [--squash]
+```
+
+> `--squash` 会将子项目所有的 commit 合并成一个作为当前的一个 commit。
+
+这时候如果修改了这个子项目的代码并且想 push 到子项目的仓库中，那么就需要使用 push 命令：
+
+```bash
+git subtree push --prefix=path/to/submodule <repository> <ref>
+```
+
+> 如果不想每次都写远程仓库的 url 使用可以添加 remote到本地：<div>
+
+```bash
+git remote add [<options>] <name> <url>
+```
+
+
+增加到本地以后，就可以使用 <name> 代替 <url> 进行提交或者拉取。

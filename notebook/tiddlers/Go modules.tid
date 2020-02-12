@@ -1,0 +1,408 @@
+created: 20191221110130803
+modified: 20191221173629269
+tags: Survey Go
+title: Go modules
+type: text/vnd.tiddlywiki
+
+! Go modules
+---
+
+> https://blog.golang.org/using-go-modules
+
+Go 在 1.11 版本退出了一个新的功能来解决包依赖问题， 那就是 modules。
+
+环境变量 `GO111MODULE` 用来控制这个功能，`GO111MODULE` 有三个值：
+
+* on： 完全使用 Module 功能，放弃以前的 GOPATH
+* auto： 根据当前目录判断是否使用 Module 功能。如果当前目录内没有 `go.mod` 文件，则不使用 Module 功能。
+* off：关闭 Module 功能，使用 GOPATH。
+
+!! Use modules
+
+The operations to develop with modules:
+
+* creating a new modules.
+* Add a dependency.
+* Upgrading dependencies.
+* Adding a dependency on a new major version.
+* Upgrading a dependency to a new major version.
+* Removing unused dependedcies.
+
+!! Create New Module
+
+首先随便创建一个空的文件夹：`/home/gopher/hello`
+
+> Module 功能的一个作用就是可以在 `$GOPATH/src` 之外创建包文件夹。
+
+在文件夹内创建两个文件：`hello.go` `hello_test.go`
+
+```go
+package hello
+
+func Hello() string {
+    return "Hello, world."
+}
+```
+
+```go
+package hello
+
+import "testing"
+
+func TestHello(t *testing.T) {
+    want := "Hello, world."
+    if got := Hello(); got != want {
+        t.Errorf("Hello() = %q, want %q", got, want)
+    }
+}
+```
+这时候文件夹内并没有 `go.mod` 文件，并且文件夹在 `GOPATH` 之外，当你运行 test 时，Go 会知道当前这个文件夹并没有 import path, 并且 GO 会根据当前的文件夹名称创建一个假的 import path `_/home/gopher/hello`。
+
+```bash
+$ go test
+PASS
+ok      _/home/gopher/hello    0.020s
+```
+
+现在我们使用 `go mod init` 命令将当前的目录初始化为 module 的根目录, 再运行 test，go就会当成一个 module 来运行：
+
+```bash
+$ go mod init example.com/hello
+go: creating new go.mod: module example.com/hello
+$ go test
+PASS
+ok      example.com/hello    0.020s
+```
+
+并且在当前目录生成了一个 `go.mod` 文：
+
+```bash
+$ cat go.mod
+module example.com/hello
+
+go 1.12
+```
+这个 `go.mod` 文件只会存在于 module 的根目录，而在子目录中的包的 import path 则由 module 的目录加上module 中子目录的 path。
+
+例如我们现在在上面的 hello 文件夹内创建一个子文件夹 world，那么我们不需要再次 init，这个新的 package 会自动的被识别为 `example.com/hello` module 的一部分，并且 import path 为： `example.com/hello/world`
+
+!! 增加一个 dependency
+
+Go module 的主要动机是为了改善开发人员的体验，即复用一些 dependency 时的体验。
+
+现在我们在 `hello.go` 中 import `rsc.io/quote` 并使用它来实现 Hello 函数：
+
+```go
+package hello
+
+import "rsc.io/quote"
+
+func Hello() string {
+    return quote.Hello()
+}
+```
+
+现在我们再来进行 test：
+
+```go
+$ go test
+$ go test
+go: finding rsc.io/quote v1.5.2
+go: downloading rsc.io/quote v1.5.2
+go: extracting rsc.io/quote v1.5.2
+go: finding rsc.io/sampler v1.3.0
+go: finding golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c
+go: downloading rsc.io/sampler v1.3.0
+go: extracting rsc.io/sampler v1.3.0
+go: downloading golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c
+go: extracting golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c
+PASS
+ok      example.com/hello    0.023s
+```
+
+go 命令会解析 import 并根据 `go.mod` 文件中指定的 dependency 来安装依赖。 如果 `go.mod` 中没有指定，则go 会自动解析找到包含这个 package 的 module 并使用最新版本，并且将这个 module 添加到 `go.mod`:
+
+```bash
+$ cat go.mod
+module example.com/hello
+
+go 1.12
+
+require rsc.io/quote v1.5.2
+```
+
+当再次执行 test 命令时，上次命令中下载的 module 现在已经保存到本地 的 `$GOPATH/pkg/mod` 目录中，并不会再次下载：
+
+```bash
+$ go test
+PASS
+ok      example.com/hello    0.020s
+```
+注意当你增加一个依赖项时，那个依赖的依赖也会作为间接依赖添加进来，可以使用 `list`  命令来查看当前的依赖:
+
+```bash
+$ go list -m all
+example.com/hello
+golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c
+rsc.io/quote v1.5.2
+rsc.io/sampler v1.3.0
+```
+输出中，当前的 module 始终都是第一行，后面的 module 根据依赖关系排序。
+
+其中 `golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c` 是一个 [[pseudo-version|https://golang.org/cmd/go/#hdr-Pseudo_versions]] 的 example。
+
+此外，go 命令还会生成一个 `go.sum` 文件，包含特定版本 module 的[[加密哈希结果|https://golang.org/cmd/go/#hdr-Module_downloading_and_verification]]。
+
+```bash
+$ cat go.sum
+golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c h1:qgOY6WgZO...
+golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/go.mod h1:Nq...
+rsc.io/quote v1.5.2 h1:w5fcysjrx7yqtD/aO+QwRjYZOKnaM9Uh2b40tElTs3...
+rsc.io/quote v1.5.2/go.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPX...
+rsc.io/sampler v1.3.0 h1:7uVkIFmeBqHfdjD+gZwtXXI+RODJ2Wc4O7MPEh/Q...
+rsc.io/sampler v1.3.0/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9...
+```
+
+go 根据这个文件来确定依赖环境的一致性。
+
+!! Upgrading dependencies
+
+在 Go modules 中，版本是使用语意版本标记进行引用的。一个语意化版本包含三个部分：major, minor and patch.  详情见 [[Semantic Version]].
+
+在上面的 `go list -m all` 中，我们看到 `golang.org/x/text` 使用了一个 没有打 tag 的版本。我们将它更新到最新的 tag 版本并测试是否通过：
+
+```bash
+$ go get golang.org/x/text
+go: finding golang.org/x/text v0.3.0
+go: downloading golang.org/x/text v0.3.0
+go: extracting golang.org/x/text v0.3.0
+$ go test
+PASS
+ok      example.com/hello    0.013s
+```
+
+看起来没有什么问题。现在我们再来看一下 `go list -m all` 以及 `go.mod` 文件：
+
+```bash
+$ go list -m all
+example.com/hello
+golang.org/x/text v0.3.0
+rsc.io/quote v1.5.2
+rsc.io/sampler v1.3.0
+$ cat go.mod
+module example.com/hello
+
+go 1.12
+
+require (
+    golang.org/x/text v0.3.0 // indirect
+    rsc.io/quote v1.5.2
+)
+```
+
+`golang.org/x/text` 已经更新到了最新版本，`go.mod` 中也已经更新到了最新版本。 `indirect` 注释代表这个依赖是间接依赖。
+
+现在我们来更新 `rsc.io/sampler` 的 minor 版本：
+
+```bash
+$ go get rsc.io/sampler
+go: finding rsc.io/sampler v1.99.99
+go: downloading rsc.io/sampler v1.99.99
+go: extracting rsc.io/sampler v1.99.99
+$ go test
+--- FAIL: TestHello (0.00s)
+    hello_test.go:8: Hello() = "99 bottles of beer on the wall, 99 bottles of beer, ...", want "Hello, world."
+FAIL
+exit status 1
+FAIL    example.com/hello    0.014s
+```
+
+现在我们发现使用最新版本的 `rsc.io/sampler` 导致测试无法通过了。让我们查看一下所有的可用版本：
+
+```bash
+$ go list -m -versions rsc.io/sampler
+rsc.io/sampler v1.0.0 v1.2.0 v1.2.1 v1.3.0 v1.3.1 v1.99.99
+```
+
+现在我们发现 v1.99.99 是肯定不靠谱的，我们可以尝试下 v1.3.1
+
+```bash
+$ go get rsc.io/sampler@v1.3.1
+go: finding rsc.io/sampler v1.3.1
+go: downloading rsc.io/sampler v1.3.1
+go: extracting rsc.io/sampler v1.3.1
+$ go test
+PASS
+ok      example.com/hello    0.022s
+```
+
+测试通过没有问题。
+
+!! Adding a dependency on a new major version
+
+让我们来添加一个新的函数到我们的 package:
+
+```go
+package hello
+
+import (
+    "rsc.io/quote"
+    quoteV3 "rsc.io/quote/v3"
+)
+
+func Hello() string {
+    return quote.Hello()
+}
+
+func Proverb() string {
+    return quoteV3.Concurrency()
+}
+```
+
+然后我们增加一个新的 test 到 `hello_test.go`:
+
+```go
+func TestProverb(t *testing.T) {
+    want := "Concurrency is not parallelism."
+    if got := Proverb(); got != want {
+        t.Errorf("Proverb() = %q, want %q", got, want)
+    }
+}
+```
+
+然后我们测试代码：
+
+```bash
+$ go test
+go: finding rsc.io/quote/v3 v3.1.0
+go: downloading rsc.io/quote/v3 v3.1.0
+go: extracting rsc.io/quote/v3 v3.1.0
+PASS
+ok      example.com/hello    0.024s
+```
+
+现在我们的 module 同时依赖 `rsc.io/quote` 与 `rsc.io/quote/v3`.
+
+```bash
+$ go list -m rsc.io/q...
+rsc.io/quote v1.5.2
+rsc.io/quote/v3 v3.1.0
+```
+
+对于 Module 的每一个大版本， v1, v2 等等，Go module 使用一个不同的 module path。例如上面的例子， v3 版本的 quote 使用 `rsc.io/quote/v3`, 这叫做 语意导入版本 [[semantic import versioning|https://research.swtch.com/vgo-import]], 因为大版本之间是不兼容的。这种做法的好处是让开发者可以同时使用一个 Module 的多个 major 版本，从而实现升级的连续性。
+
+!! Upgrading a dependency to a new major version
+
+让我们继续完成我们从 `rsc.io/quote` 到 `rsc.io/quote/v3` 的升级。 因为大版本的修改，一些接口可能会修改或者删除。通过阅读文档我们发现，`Hello` 函数已经升级为了 `HelloV3`:
+
+```bash
+$ go doc rsc.io/quote/v3
+package quote // import "rsc.io/quote"
+
+Package quote collects pithy sayings.
+
+func Concurrency() string
+func GlassV3() string
+func GoV3() string
+func HelloV3() string
+func OptV3() string
+```
+
+我们可以将我们的 `Hello()` 更新到 `HelloV3()`:
+
+```go
+package hello
+
+import quoteV3 "rsc.io/quote/v3"
+
+func Hello() string {
+    return quoteV3.HelloV3()
+}
+
+func Proverb() string {
+    return quoteV3.Concurrency()
+}
+```
+
+现在我们不需要 `Hello()` 函数了，所以我们也就不需要给 quote Module 起一个别名了：
+
+```go
+package hello
+
+import "rsc.io/quote/v3"
+
+func Hello() string {
+    return quote.HelloV3()
+}
+
+func Proverb() string {
+    return quote.Concurrency()
+}
+```
+
+运行 test：
+
+```bash
+$ go test
+PASS
+ok      example.com/hello       0.014s
+```
+
+!! Removing unused dependencies
+
+我们已经在代码中移除对 `rsc.io/quote` 的依赖，但是 `rsc.io/quote` 仍然显示在 `go list -m all` 中：
+
+```bash
+$ go list -m all
+example.com/hello
+golang.org/x/text v0.3.0
+rsc.io/quote v1.5.2
+rsc.io/quote/v3 v3.1.0
+rsc.io/sampler v1.3.1
+$ cat go.mod
+module example.com/hello
+
+go 1.12
+
+require (
+    golang.org/x/text v0.3.0 // indirect
+    rsc.io/quote v1.5.2
+    rsc.io/quote/v3 v3.0.0
+    rsc.io/sampler v1.3.1 // indirect
+)
+```
+
+因为 go 可以很容易的通过你的代码知道那些 module 缺少了，但是却不容易看出来那些依赖多余了。但是我们可以使用命令 `tidy` 轻松的删除不需要的依赖。
+
+```bash
+$ go mod tidy
+$ go list -m all
+example.com/hello
+golang.org/x/text v0.3.0
+rsc.io/quote/v3 v3.1.0
+rsc.io/sampler v1.3.1
+$ cat go.mod
+module example.com/hello
+
+go 1.12
+
+require (
+    golang.org/x/text v0.3.0 // indirect
+    rsc.io/quote/v3 v3.1.0
+    rsc.io/sampler v1.3.1 // indirect
+)
+
+$ go test
+PASS
+ok      example.com/hello    0.020s
+```
+
+!! Conclusion
+
+Go modules 是 GO 在管理依赖上进行的大胆尝试，也是未来 Go 管理依赖的主要方式。Module 的相关功能已经在 version  v1.11 中发布。 上面涉及到的命令：
+
+* `go mod init` : 初始化一个 moudle
+* `go build, go test` 所有的 package building 相关命令现在都会更新  `go.mod` 文件。
+* `go list -m all` 打印当前所有的依赖。
+* `go get` 会修改当前依赖的版本。或者增加一个新的依赖。
+* `go mod tidy` 会删除不再需要的依赖。

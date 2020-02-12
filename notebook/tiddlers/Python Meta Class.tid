@@ -1,0 +1,65 @@
+caption: 元类
+created: 20190720174549643
+creator: liyzcj
+modified: 20190828184758429
+modifier: liyzcj
+title: Python Meta Class
+type: text/vnd.tiddlywiki
+
+! 元类
+
+''动态语言'' 与 ''静态语言'' 最大的不同就是, 函数和类的定义不是编译时定义的, 而是在运行时动态创建的.
+
+比如说, 我们要定义一个 Hello 的 class, 就写一个 hello.py 模组:
+
+```python
+class Hello(object):
+  def hello(self, name='world'):
+      print('Hello, %s.' % name)
+```
+
+当 Python 解释器载入 hello 模组的时候, 就会依次执行该模组的所有语句, 执行的结果就是动态创建出一个 Hello 的 class 实例.
+
+特殊的, `type()` 方法不仅可以返回实例的类型, 还可以创建新的类. 例如, 通过 `type()` 创建 Hello 类实例:
+
+```python
+def fn(self, name='world'): # 先定义函数
+  print('Hello, %s.' % name)
+
+Hello = type('Hello', (object,), dict(hello=fn)) # 创建Hello class
+h = Hello()
+h.hello()
+```
+
+除了使用 `type()` 动态创建类以外, 要控制类的创建行为, 还可以使用 `metaclass`.
+
+---
+
+;~MetaClass 元类
+:类相当于元类的实例, 首先创建元类, 再根据元类实例化类.
+
+> 💡 按照默认习惯, `metaclass` 的类名总是以 `Metaclass` 结尾, 以便清楚的表达这是一个元类.
+
+例如:
+
+```python
+# metaclass是类的模板，所以必须从`type`类型派生：
+class ListMetaclass(type):
+  def __new__(cls, name, bases, attrs):
+    attrs['add'] = lambda self, value: self.append(value)
+    return type.__new__(cls, name, bases, attrs)
+```
+
+有了以上 `ListMetaclass` 以后, 我们在定义类的时候要指定继承 ~ListMetaclass 来定制类, 传入关键字参数 `metaclass`:
+
+```python
+class MyList(list, metaclass=ListMetaclass):
+  pass
+```
+
+`__new__()` 方法接收到的参数依次为:
+
+* 当前准备创建的类的实例;
+* 类的名称;
+* 类继承的父类集合;
+* 类的方法集合.

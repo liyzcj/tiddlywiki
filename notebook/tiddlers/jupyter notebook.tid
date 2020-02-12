@@ -1,0 +1,21 @@
+created: 20190928091853834
+modified: 20191129033238217
+tags: Python
+title: jupyter notebook
+type: text/vnd.tiddlywiki
+
+Jupyter notebook 是非常方便的用来验证或展示 Python 代码的工具。
+
+!! 启动 jupyter
+
+```bash
+jupyter notebook --ip 0.0.0.0 --port 38888 --allow-root
+```
+
+!! 其他
+
+jupyter notebook create a shell according `$SHELL` by defaut, so if you want use bash:
+
+```bash
+export SHELL=/bin/bash
+```

@@ -1,0 +1,29 @@
+created: 20190803163444666
+creator: liyzcj
+modified: 20190828180136791
+modifier: liyzcj
+tags: Wikitext
+title: WikiText 特殊符号
+type: text/vnd.tiddlywiki
+
+! 特殊符号:
+---
+
+!! 破折号
+
+* `--` : --
+* `---` : ---
+
+---
+
+!! 数学符号
+
+```
+2 &times; 5&thinsp;m = 10&thinsp;m
+
+&aelig; – &aring; – &oelig; – &oslash; –  &AElig; – &Aring; – &OElig; – &Oslash;
+```
+
+2 &times; 5&thinsp;m = 10&thinsp;m
+
+&aelig; – &aring; – &oelig; – &oslash; –  &AElig; – &Aring; – &OElig; – &Oslash;

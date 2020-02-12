@@ -1,0 +1,71 @@
+created: 20190629213437388
+creator: liyzcj
+modified: 20190828183101964
+modifier: liyzcj
+tags: Python
+title: pickle
+type: text/vnd.tiddlywiki
+
+!! Pickle 
+
+<<<.tc-big-quote
+Python 对象序列化模组, 用来将对象保存为文件, 方便复用
+<<<
+
+> 注意在 Python2 中 pickle 为 cPickle 模块.
+
+!!! 保存
+
+保存对象:
+
+```python
+pickle.dump(obj, file, protocol=None, *, fix_imports=True)
+```
+* `fix_imports` : 是否与Python2兼容
+* `protocol` : 存储协议 `[0,4]` 共五种
+
+> `protocol` 代表保存协议, 只有当 `protocol < 3`, Python3 保存的 `pickle` 对象才能在 Python2 中读取.
+
+在 Python2 中, 对象以字符串保存, 可以使用 `w` 或着 `wb` 打开文件:
+
+```python
+with open(filename, 'wb') as f:
+  cPickle.dump(obj, f)
+```
+或着:
+
+```python
+with open(filename, 'w') as f:
+  cPickle.dump(obj, f)
+```
+
+在 Python3 中, 对象以二进制保存, 必须以 `wb` 打开文件:
+
+```python
+with open(filename, 'wb') as f:
+  cPickle.dump(obj, f, protocol=2)
+```
+
+!!! 读取
+
+读取对象:
+
+```python
+pickle.load(file, *, fix_imports=True, encoding="ASCII",errors="strict")
+```
+
+> 参数与保存函数 `dump` 相同.
+
+类似的, 在 Python2 中读取对象可以使用 `rb` 或着 `r` 打开文件.
+
+```python
+with open(filename, 'r') as f:
+  obj = cPickle.load(f)
+```
+
+在 Python3 中, 读取对象只能使用 `rb` 打开文件, 即使是使用 Python2 保存的字符串文件.
+
+```python
+with open(filename, 'rb') as f:
+  obj = pickle.load(f)
+```

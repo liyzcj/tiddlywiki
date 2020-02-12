@@ -1,0 +1,141 @@
+created: 20190919110836853
+modified: 20190919124222828
+tags: Tensorflow
+title: Tensorflow 特征列
+type: text/vnd.tiddlywiki
+
+
+> https://www.tensorflow.org/guide/feature_columns
+
+!! 数值特征列
+
+```python
+tf.feature_column.numeric_column(
+    key,
+    shape=(1,),
+    default_value=None,
+    dtype=tf.dtypes.float32,
+    normalizer_fn=None
+)
+```
+
+> https://www.tensorflow.org/api_docs/python/tf/feature_column/numeric_column
+
+!! 分桶列
+
+```python
+tf.feature_column.bucketized_column(
+    source_column,
+    boundaries
+)
+```
+
+* source_column: 一个数值特征列
+* boundaries: 包含多个边界的 list 或者 tuple， n 个边界分出 n+1 个桶。
+
+!! 分类标示列
+
+```python
+tf.feature_column.categorical_column_with_identity(
+    key,
+    num_buckets,
+    default_value=None
+)
+```
+
+这一列的数据应该是 Integer，如果这个数字在 [0, num_buckets) 之间，则数字不变，如果数字超出范围，则等于 default_value。
+
+注意如果没有指定 default_value，超出的数会报错。
+
+> https://www.tensorflow.org/api_docs/python/tf/feature_column/categorical_column_with_identity
+
+!! 分类词汇列
+
+Tensorflow 提供了两种方法来构建分类词汇列：
+
+```python
+tf.feature_column.categorical_column_with_vocabulary_list(
+    key,
+    vocabulary_list,
+    dtype=None,
+    default_value=-1,
+    num_oov_buckets=0
+)
+```
+
+如果 oov 个数为0，oov 单词为 default_value，如果 oov 设置为正数，则无法使用 default_value, 超出的单词会依次哈希到 [num_vocab, num_vocab + num_oov]
+
+```python
+tf.feature_column.categorical_column_with_vocabulary_file(
+    key,
+    vocabulary_file,
+    vocabulary_size=None,
+    num_oov_buckets=0,
+    default_value=None,
+    dtype=tf.dtypes.string
+)
+```
+
+和上面的函数类似，只不过输入是文件，并可以指定词汇表大小。 输入文件应该是一个单词占一行。
+
+!! 哈希列
+
+```python
+tf.feature_column.categorical_column_with_hash_bucket(
+    key,
+    hash_bucket_size,
+    dtype=tf.dtypes.string
+)
+```
+
+相当于 Categorical 特征的分桶列，根据哈希函数自动分桶。
+
+!! 组合列
+
+将两个特征列组合处理，例如地图的横坐标和纵坐标
+
+```python
+tf.feature_column.crossed_column(
+    keys,
+    hash_bucket_size,
+    hash_key=None
+)
+```
+
+根据 hash_bucket_size 取模，并分桶。
+
+!! 指标列
+
+对上面的 Categorical 特征做 one-hot 处理。
+
+```python
+tf.feature_column.indicator_column(categorical_column)
+```
+
+* 对于 Linear 模型，也就是 Wide 模型，模型会默认对所有 Categorical 列做 indicator_column 处理，也就是 one-hot 处理。
+* 对于 DNN 既深度模型，需要手动将 Categorical 列做 indicator_column 处理。对于特别大的类别数目，可以考虑嵌入列。
+
+
+> https://www.tensorflow.org/api_docs/python/tf/feature_column/indicator_column
+
+!! 嵌入列
+
+对 Categorical 特征列做嵌入处理：
+
+```python
+tf.feature_column.embedding_column(
+    categorical_column,
+    dimension,
+    combiner='mean',
+    initializer=None,
+    ckpt_to_load_from=None,
+    tensor_name_in_ckpt=None,
+    max_norm=None,
+    trainable=True
+)
+```
+
+* combiner 当有多个数值时的合并策略，默认是均值，还可以用 `sqrtn` 和 `sum`
+* initializer 默认[[tf.compat.v1.truncated_normal_initializer|https://www.tensorflow.org/api_docs/python/tf/initializers/truncated_normal]]
+* max_norm 如果指定，则做 L2 Norm。
+

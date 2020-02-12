@@ -1,0 +1,145 @@
+created: 20200127192852470
+modified: 20200129163712676
+title: Go Array and Slice
+type: text/vnd.tiddlywiki
+
+> [[Go slices]]
+
+!! Array
+
+数组的定义和平常的也是反过来的：
+
+```go
+var SomeArray [n]type
+```
+
+> 注意：数组的长度 `n` 也是数组类型的一部分。`[1]int` 与 `[2]int` 是不同的数组类型。
+
+''如果不进行任何初始化，数组和Slice的默认值都是 `nil`.''
+
+
+!!! 初始化
+
+如果不指定数组中的值，则所有的值默认都是各个类型的[[零值|Go zero value]]。
+
+''初始化文法''
+
+* 可以直接在类型后使用''大括号''进行初始化：<div>
+
+```go
+var SomeArray = [n]type{elem1, elem2, ...}
+```
+
+</div>
+
+* 还可以''省略长度让编译器推理出数组的长度''：<div>
+
+```go
+var SomeArray = [...]type{elem1, elem2, ...}
+```
+
+</div>
+
+* 可以使用索引的方法来选择初始化部分元素： <div>
+
+```go
+// 初始化第 0 个和第 5 个元素。
+SomeArray := [6]type{0: elem0, 5: elem5}
+```
+
+</div>
+
+!! Slice
+
+> Slices are like references to arrays.
+
+''Slice 相当于是数组元素的动态灵活的一种视图，可以理解为数组上的一个大小可变的窗口。''
+
+Slice 的定义只需要将数组中的长度去掉：
+
+```go
+var SomeSlice []type
+```
+
+还可以使用 `make()` 函数创建 slice 变量：
+
+```go
+someSlice := make([]type, len, cap)
+```
+> len 和 cap 为可选项。
+
+特殊的，对于多维 slice，需要使用循环一层一层的定义长度，例如二维：
+
+```go
+s = make([][]type, len)
+for i := range twodim {
+	s[i] = make([]type, len)
+}
+```
+
+!!! 初始化
+
+* 从数组中初始化 <div>
+
+Slice 可以从一个现有的数组中初始化：
+
+```go
+var SomeSlice []type = SomeArray[low:high]
+```
+
+> 索引 low 和 high 可以省略，''省略 low 代表 `0` high 代表最大长度。''
+
+</div>
+
+* Slice literal 文法 <div>
+
+```go
+var SomeSlice = []type{elem1, elem2, ...}
+```
+
+也可以使用索引进行初始化部分值，其他值默认为[[零值|Go zero value]]。
+
+```go
+SomeSlice := []type{elem1, 8: elem8}
+```
+
+> ''编译器会创建一个长度为指定的最大索引的数组。''
+
+</div>
+
+!!! Append to Slice
+
+`append()` 方法可以用来在 slice 中添加元素。
+
+```go
+func append(s []T, vs ...T) []T
+```
+
+
+!!! Length 和 Capacity
+
+''Slice 不仅仅有长度 length， 还有一个 capacity。'' 这两个值可以分别通过函数 `len()` 和 `cap()` 来获取。
+
+Capacity 一般是指这个 slice 的原数组的长度，长度为 slice 中已有元素的长度。Capacity 在从数组中创建 slice 时比较重要，为''当前 slice 的第一个元素在原数组中的索引到原数组的长度。''
+
+
+详细的关于长度和 capacity，可以查看 [[Go slices]].
+
+!! 高维数组
+
+像数组 `[n]type` 和 Slice `[]type` 都是一种自定义类型，而根据类型概念的定义，''所有类型都可以组成数组''，所以 `[]type` 也可以作为一种元素类型组成高维数组。
+
+例如：
+
+* `[][n]T`: 元素类型为 `[n]T` 的 Slice。
+* `[n][]T`: 元素类型为 `[]T` 的数组，长度为 n。
+
+例如，元素类型为 `[]int` 的 slice：
+
+```go
+TwoDimSlice := [][]int{
+	[]int{1, 2, 3},
+	[]int{1, 2},
+	[]int{1},
+}
+```

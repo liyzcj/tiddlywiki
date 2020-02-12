@@ -1,0 +1,32 @@
+created: 20190722193028744
+creator: liyzcj
+modified: 20190826153841068
+modifier: liyzcj
+tags: Macos Command Linux
+title: pstree 查看进程树
+type: text/vnd.tiddlywiki
+
+```bash
+pstree [options]
+```
+
+|!选项|!描述|
+|-a|显示每个程序的完整指令，包含路径，参数或是常驻服务的标示|
+|-c|不使用精简标示法|
+|-G|使用VT100终端机的列绘图字符|
+|-h|列出树状图时，特别标明现在执行的程序|
+|-H<进程号>|此参数的效果和指定"-h"参数类似，但特别标明指定的程序|
+|-l|采用长列格式显示树状图|
+|-n|用程序识别码排序。预设是以程序名称来排序|
+|-p|显示程序进程号|
+|-u|显示用户名|
+|-U|使用 UTF-8 绘图字符|
+|-V|显示版本信息|
+
+---
+
+在 Macos 上, 可以用 `brew` 安装:
+
+```bash
+brew install pstree
+```

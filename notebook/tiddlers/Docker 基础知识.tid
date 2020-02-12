@@ -1,0 +1,20 @@
+created: 20190903155315017
+modified: 20190903160036248
+tags: Docker
+title: Docker 基础知识
+type: text/vnd.tiddlywiki
+
+!! Container 内创建文件的归属问题
+
+当 Mount 本地目录到 Container 内时，在 Container 内的 Mount 目录内创建的文件的归属就出现分歧：
+
+* ''Docker Desktop for Mac''，Container 内任何用户创建的文件都属于 Mac os 运行 docker 的当前用户。
+* ''Docker Desktop for Windows''，即使 root 用户创建，也所有用户可读写，可执行。
+* ''Docker For Linux''，根据 UID 与 GID，所有在 Container 内创建的文件在宿主机中会有相同的权限与 UID GID。
+
+
+---
+
+!! Reference
+
+https://code.visualstudio.com/docs/remote/containers-advanced#_adding-a-nonroot-user-to-your-dev-container

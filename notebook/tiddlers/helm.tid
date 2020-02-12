@@ -1,0 +1,53 @@
+created: 20191217051452363
+modified: 20200202125420450
+tags: Kubernetes
+title: helm
+type: text/x-markdown
+
+# Helm
+
+## Helm 基本思路
+
+* 思路一： 将一个应用相关的 K8S 资源声明文件组织到一起，作为一组 **templates** ，你可以通过 Helm 轻松的从这些 templates 里创建 K8S应用。
+* 思路二：通过 Go template 将 **templates**里的配置项单独抽取出来，放到 **values.yaml** 中。
+* 思路三：将 **templates** 以及 **values.yaml** 一起称为 **Chart**。在 Helm 中，每一个 Chart 都是一个应用。
+* 思路四：Chart 的开发人员可以在 **Templates** 中实现简单的条件判断等逻辑。
+* 思路五：将大量 Charts 管理起来作为一个 Charts repository。
+* 思路六：Helm 不仅管理 Charts，它还可以管理使用 Helm 创建的 k8S 应用，称作 **Release**，这也是超越Kustomize 的重要一点。
+
+## THE PURPOSE OF HELM
+
+Helm is a tool for managing Kubernetes packages called *charts*. Helm can do the following:
+
+- Create new charts from scratch
+- Package charts into chart archive (tgz) files
+- Interact with chart repositories where charts are stored
+- Install and uninstall charts into an existing Kubernetes cluster
+- Manage the release cycle of charts that have been installed with Helm
+
+For Helm, there are three important concepts:
+
+1. The *chart* is a bundle of information necessary to create an instance of a Kubernetes application.
+2. The *config* contains configuration information that can be merged into a packaged chart to create a releasable object.
+3. A *release* is a running instance of a *chart*, combined with a specific *config*.
+
+
+
+
+
+## Develop
+
+
+
+Debug :
+
+
+
+```bash
+helm install --debug --dry-run test ./mychart
+```
+
+ 
+## Reference
+
+[官方文档](https://helm.sh/docs/)

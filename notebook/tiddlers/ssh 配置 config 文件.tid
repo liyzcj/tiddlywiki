@@ -1,0 +1,17 @@
+created: 20190905033949876
+modified: 20190905034504577
+tags: Config SSH
+title: ssh 配置 config 文件
+type: text/vnd.tiddlywiki
+
+```bash
+Host ml
+	HostName 192.168.10.10
+	User liyanzhe
+	Port 53122
+	IdentityFile ~/.ssh/id_rsa
+```
+
+---
+
+官方文档： https://www.ssh.com/ssh/config/

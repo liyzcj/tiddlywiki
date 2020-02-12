@@ -1,0 +1,47 @@
+created: 20190728171931602
+creator: liyzcj
+modified: 20191125025937650
+modifier: liyzcj
+tags: Macos Command Linux
+title: find 查找命令
+type: text/vnd.tiddlywiki
+
+Linux 中的 `find` 命令是一个非常方便的用来查找文件的命令.
+
+---
+
+!! 根据文件名查找
+
+
+```bash
+find /path/to/find -name "file name"
+```
+
+> ''Note: The option is  `-name`, Not `--name`''
+
+
+!! 查找链接相关命令
+
+在路径 /path 下查找文件 data.txt 的软链接:
+
+```bash
+find /path -lname data.txt
+```
+
+在路径 /path 下查找某文件的所有硬链接:
+
+```bash
+find /path -samefile data.txt
+```
+
+使用 inode 查找所有硬链接:
+
+```bash
+find /path -inum 1234
+```
+
+列出某路径 /path 下所有软链接:
+
+```bash
+find /path -type l -ls
+```

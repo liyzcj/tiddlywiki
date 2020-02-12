@@ -1,0 +1,56 @@
+created: 20190812173453587
+modified: 20190927041605189
+tags: Macos Linux Command
+title: netstat 查看网络信息
+type: text/vnd.tiddlywiki
+
+! netstat
+
+查看网络状态
+
+```bash
+netstat -[option]
+```
+
+|!选项|!功能|
+|`-r, --route`|显示路由表|
+|`-i, --interfaces`|显示物理Interfaces|
+|`-g, --groups`|Interface 组成员|
+|`-s, --statistics`|显示统计信息|
+|`-p, --programs`|显示程序与程序ID|
+|`-l, --listening`|只列出监听中的连接|
+|`-a, --all`|列出所有端口连接|
+|`-t`|列出 TCP 连接|
+|`-u`|列出 UDP 连接|
+|`-n, --numeric`|禁用反向域名解析，加快查询速度|
+|`-e, --extend`|显示详细信息|
+|`-c, --continuous`|持续显示信息|
+
+---
+
+查看 TCP 端口号与程序占用:
+
+```bash
+netstat -lnpt
+```
+
+---
+详细 Interface 信息:
+
+```bash
+netstat -ie
+```
+
+!! Mac OS
+
+mac os 的 netstat 有些不同：
+
+```bash
+netstat -an
+```
+
+也可以使用 lsof 来显示端口：
+
+```bash
+lsof -i:8888
+```

@@ -1,0 +1,78 @@
+created: 20190910164301130
+modified: 20190911022439761
+tags: 软件开发 Kubeflow
+title: kubeflow 组件设计法则
+type: text/vnd.tiddlywiki
+
+!! General 组件设计法则
+
+* 设计组件时考虑组合性，思考组件上流与下流的组件。使用什么样的格式从上流组件得到输入，使用什么格式输出数据给下流组件。
+* 组件代码必须使用本地文件来 输入输出数据。（除非不可能）
+* 组件必须足够纯净，不能使用除了 input 以外的其他任何数据。所用的东西必须来自容器内或者输入。强烈建议不要使用网络访问所需数据。
+
+!! 编写组件代码
+
+* 代码必须能够在本地和容器内部运行。
+* 编程语言：
+** 通常使用最 make sense 的语言。
+** 当不需要考虑性能时，最好使用 Python， 尽量使用 Python3
+** 如果一个组件 wraps 一个现有的程序，最好直接在组件的命令行中调用。
+** 如果程序需要一些 wrapper， 可以使用 shell 脚本来完成。 例如 文件重命名等。
+** 遵从所选语言的最佳实践。
+* 应该将每个输出的数据块写入单独的文件（参见下一条)
+* 输入输出文件必须通过命令行传递，而不是写在代码内部： <div>
+
+使用命令行传递：
+
+```bash
+program.py --input-data <input path> --output-data <output path> --other
+```
+
+而不要将路径写入代码内部：
+
+```python
+open("/output.txt", "x")
+```
+
+</div>
+
+* 对于临时文件，应该使用''库函数''来创建临时文件。 <div>
+
+例如对于 Python ：
+
+> tempfile: https://docs.python.org/3/library/tempfile.html
+
+不要直接写入 root 否则测试会非常困难。
+
+</div>
+
+* 设计好代码以方便测试。
+
+!! 写测试
+
+* Follow 上面的 rule 以方便测试
+* 使用 unit testing 库来做标准测试。
+* 尽量将代码设计成可以做 unit 测试。除非必须尽量不要使用网络。
+* 准备一个小的数据集以方便测试。
+* 使用测试最佳实践：
+** 测试代码预期的行为与结果，而不是仅仅验证有无语法错误。
+*** 对于训练代码，可以查看最后一个 iteration 的loss
+*** 对于预测代码，可以测试结果的 metrics
+*** 对于数据处理，可以检查一些处理后的固定量
+* 如果这个组件不能够在本地测试或者不能分离测试，那就创建一个小的验证pipeline来测试这个组件。
+*> 可以使用条件来验证特定任务的输出值。
+
+!! 写 Dockerfile
+
+* Follow Dockerfile 最佳实践：https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
+* Structure Dockerfile，第一部分安装需要的包，第二部分传递组件的代码。这样可以更快的迭代与构建镜像。
+
+!! 写一个组件的 YAML 文件
+
+> 组件 YAML 的完整定义 https://www.kubeflow.org/docs/pipelines/reference/component-spec/
+
+> 组件 YAML 实例：https://github.com/kubeflow/pipelines/search?q=filename%3Acomponent.yaml&unscoped_q=filename%3Acomponent.yaml
+
+* 对于直接传递给命令行的小的值，使用 `{inputValue: Input name}`
+* 对于输出文件的位置， 使用 `{outputPath: Output name}`
+* 使用 Command 指定完整的命令，而不是 ENTRYPOINT。

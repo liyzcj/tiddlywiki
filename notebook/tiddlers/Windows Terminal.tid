@@ -1,0 +1,20 @@
+created: 20190815150622746
+modified: 20190828171711147
+tags: Software Windows
+title: Windows Terminal
+type: text/vnd.tiddlywiki
+
+! Windows Terminal
+---
+
+微软官方的终端软件.
+
+Windows Terminal 采用 json 文件的方式管理配置. 
+
+!! 主题
+
+配置文件的 `schemes` 字段可以保存多个配色方案. 
+
+!! 配置
+
+`profile` 字段保存多个终端配置. 每个终端配置有一个 `guid` 字段代表配置的唯一识别码. 可以在 `global` 里设置唯一识别码来设置默认打开的终端配置.

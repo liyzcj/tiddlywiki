@@ -1,0 +1,9 @@
+created: 20190808210255671
+modified: 20190828173902354
+tags: 插件 Vim
+title: Vundle
+type: text/vnd.tiddlywiki
+
+Vundle 是非常好用的 Vim 插件管理器. 简单易用.
+
+https://github.com/VundleVim/Vundle.vim

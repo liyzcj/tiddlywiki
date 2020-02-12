@@ -1,0 +1,76 @@
+created: 20191213084606503
+modified: 20191213090025504
+tags: Linux Network
+title: 测试端口是否连通
+type: text/vnd.tiddlywiki
+
+几种测试端口是否能够连通的方法。
+
+> https://blog.csdn.net/swazer_z/article/details/64442730
+
+
+!! telnet
+
+```bash
+telnet ip port
+```
+
+如果显示 `Connected to ip` 则代表连接成功。
+
+!! ssh
+
+可以使用 ssh 测试是否能连通端口：
+
+```bash
+ssh -v -p port name@ip
+```
+
+其中 `-v` 指打印日志，`name` 可以随便写一个，或者不写。
+
+如果能够连通：
+
+```bash
+OpenSSH_7.9p1, LibreSSL 2.7.3
+debug1: Reading configuration data /Users/liyzcj/.ssh/config
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 48: Applying options for *
+debug1: Connecting to ml-master port 30021.
+debug1: Connection established.
+debug1: identity file /Users/liyzcj/.ssh/id_rsa type 0
+debug1: identity file /Users/liyzcj/.ssh/id_rsa-cert type -1
+debug1: identity file /Users/liyzcj/.ssh/id_dsa type -1
+debug1: identity file /Users/liyzcj/.ssh/id_dsa-cert type -1
+debug1: identity file /Users/liyzcj/.ssh/id_ecdsa type -1
+debug1: identity file /Users/liyzcj/.ssh/id_ecdsa-cert type -1
+debug1: identity file /Users/liyzcj/.ssh/id_ed25519 type -1
+debug1: identity file /Users/liyzcj/.ssh/id_ed25519-cert type -1
+debug1: identity file /Users/liyzcj/.ssh/id_xmss type -1
+debug1: identity file /Users/liyzcj/.ssh/id_xmss-cert type -1
+debug1: Local version string SSH-2.0-OpenSSH_7.9
+```
+
+如果不能连通，会直接显示 `connection refused`
+
+!! wget
+
+```bash
+wget ip:port
+```
+
+能够连通, 会下载 `index.html`。 连接失败则会显示 `Connection refused`
+
+!! curl
+
+类似于 wget 
+
+```bash
+curl ip:port
+```
+
+连接失败会显示：
+
+```bash
+curl: (7) Failed to connect to ml-master port 231: Connection refused
+```
+
+否则连接成功。

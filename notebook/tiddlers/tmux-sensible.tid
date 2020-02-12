@@ -1,0 +1,57 @@
+created: 20190809192708754
+modified: 20190828174221298
+tags: 插件 Tmux
+title: tmux-sensible
+type: text/vnd.tiddlywiki
+
+一些 Tmux 常用的配置.
+
+https://github.com/tmux-plugins/tmux-sensible
+
+!! 选项
+
+
+```bash
+# utf8 is on
+set -g utf8 on
+set -g status-utf8 on
+
+# address vim mode switching delay (http://superuser.com/a/252717/65504)
+set -s escape-time 0
+
+# increase scrollback buffer size
+set -g history-limit 50000
+
+# tmux messages are displayed for 4 seconds
+set -g display-time 4000
+
+# refresh 'status-left' and 'status-right' more often
+set -g status-interval 5
+
+# set only on OS X where it's required
+set -g default-command "reattach-to-user-namespace -l $SHELL"
+
+# upgrade $TERM
+set -g default-terminal "screen-256color"
+
+# emacs key bindings in tmux command prompt (prefix + :) are better than
+# vi keys, even for vim users
+set -g status-keys emacs
+
+# focus events enabled for terminals that support them
+set -g focus-events on
+
+# super useful when using "grouped sessions" and multi-monitor setup
+setw -g aggressive-resize on
+```
+
+!! 快捷键绑定
+
+快速切换窗口:
+
+```bash
+# easier and faster switching between next/prev window
+bind C-p previous-window
+bind C-n next-window
+```
+

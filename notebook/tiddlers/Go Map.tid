@@ -1,0 +1,70 @@
+created: 20200128170850719
+modified: 20200128172839304
+title: Go Map
+type: text/vnd.tiddlywiki
+
+! 哈希表 Map
+---
+
+Map 的[[数据类型|Go Types]]为：
+
+```go
+map[type]type
+```
+
+!! 初始化
+
+!!! Make 初始化
+
+Map 可以使用 `make()` 初始化，返回指定类型的 map：
+
+```go
+var m = make(map[type]type)
+```
+
+!!! Map 文法
+
+使用 Map 文法：
+
+```go
+var m = map[type]type{
+	key1: value1,
+	key2: value2,
+}
+```
+
+> 注意，和其他文法类似，如果最后一个 `}` 换行了，则必须在之前添加 `,`。
+
+!! 操作
+
+''插入''一个健值队只需要进行赋值：
+
+```go
+m[key] = value
+```
+
+''删除''一个 key 可以使用 `delete()` 函数：
+
+```go
+func delete(m map, key T)
+```
+
+''读取''一个值：
+
+```go
+value[, ok] = m[key]
+```
+
+第二个返回值 `ok` 表示 key 是否存在，可以省略。如果不存在，返回的值为值类型的[[零值|Go zero value]]。
+
+!! Key Types
+
+Map 中的 Key 并不能是所有[[数据类型|Go Types]]，有一些类型是无法使用的。
+
+Map 的 Key type 不能包含以下类型，以及他们组成的数组类型：
+
+* Slice
+* Map
+* function
+
+> Key类型只要能支持 `==` 和 `!=` 操作符，即可以做为Key，当两个值 `==` 时，则认为是同一个Key。

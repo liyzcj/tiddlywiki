@@ -1,0 +1,50 @@
+created: 20191126062443584
+modified: 20191126070544013
+tags: Python Spark
+title: findspark
+type: text/vnd.tiddlywiki
+
+! Find spark
+
+findspark is a python package to find pyspark in python.
+
+You may be curious why we need a module to find pyspark module.
+
+By default, Pyspark is installed with spark, you don't have to install pyspark with PIP additionally. But the problem is Pyspark inside spark isn't on `sys.path` by default.
+
+There are several ways to address this problem, for example:
+
+* symlinking pyspark into your site-packages
+* adding pyspark path to `sys.path` at runtime.
+
+!! init
+
+
+findspark does the latter. You can just call `init()` before import pyspark on python:
+
+```python
+import findspark
+findspark.init()
+
+import pyspark
+sc = pyspark.SparkContext(appName="myAppName")
+```
+
+or you can init with a customized spark home path:
+
+```python
+findspark.init('/path/to/spark_home')
+```
+
+!! add packages
+
+findspark can add spark packages by setting a ENV `PYSPARK_SUBMIT_ARGS`.
+
+```python
+findspark.add_packages('package_name')
+```
+
+> ''Note:'' if you don't have ENV `PYSPARK_SUBMIT_ARGS` before, this will raise KeyError. In findspark repo master branch, find spark will set `PYSPARK_SUBMIT_ARGS=''` if you don't have `PYSPARK_SUBMIT_ARGS`.
+
+
+''IF you install pyspark through PIP, you don't have to use findspark, but if you want use spark packages, you have to set `PYSPARK_SUBMIT_ARGS` manually''

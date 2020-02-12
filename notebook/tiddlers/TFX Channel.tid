@@ -1,0 +1,40 @@
+created: 20191209081613148
+modified: 20191211092910744
+tags: Tensorflow
+title: TFX Channel
+type: text/vnd.tiddlywiki
+
+! TFX Channel
+
+TFX defines `Channel` as this:
+
+>  TFX Channel is an abstract concept that connects data producers and data consumers. It contains restriction of the artifact type that should be fed into or read from it.
+	
+!! Attributes
+
+`channel` only has two attributes:
+
+* `type_name`: name of Artifact Type
+* `_artifacts`: Iterable of type Artifact
+
+In the Constructor of `Channel`, you can specify `type_name` or `type` where `type` is a subclass instance of `Artifact`.
+
+!! Methods
+
+`Channel` only has one method `get()` which return `_artifacts`.
+
+!! Usage
+
+TFX doesn't use Channle too much now, The only place to resovle a `channel` is Driver, In `BaseDriver` the method `resolve_input_artifacts()` only take the ''first artifact'' in Artifact list returned by `Channel.get()`.
+
+''TFX want implement a real dynamic channel concept, where all node up together and drived with channel.''
+
+Another place is Driver for Component `ExampleGen`, who overrides the method `resolve_input_artifacts()`, And In this driver, it just take out the artifacts in channel by method `unwrap_channel_dict()` from ''channel_util.py''.
+
+!! should we use the concept of channel?
+
+Currently, Channel Concept seems not to much useful for us, but TFX design this concept has its reason. We can use it now, But for easy modification in future, the best way is define some method in a `channel_utils.py`. like:
+
+* `as_channel()`: which wrap a artifact as a channel.
+
+* `unwrap_channel_dict()`: unwrap the artifact, return the first one.

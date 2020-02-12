@@ -1,0 +1,34 @@
+created: 20200209134110402
+modified: 20200209142427642
+tags: Tip Python
+title: Python Type Hint Type Check
+type: text/vnd.tiddlywiki
+
+[[Python  Type Hint system]] 可以非常方便的标记变量或者参数的类型。但是它的设计仅仅是为了作为类型的参考，而不会在运行时进行类型检查。所以''类型检查相关的代码还是得我们自己实现''。
+
+在使用[[类型检查系统|Python  Type Hint system]]时，我们经常会用到 Union、List、Dict 等类型，这些类型都可以和其他类型组成复合类型：
+
+```python
+NewType = Union[int, dict]
+```
+
+这时候如果你想要使用 `NewType` 进行真正的类型检查，可以使用 Type 的特殊属性`__args__`。
+
+> 注意，`__args__` and `__parameters__` 在 Python 3.6 版本加入。
+
+!! `__args__`
+
+
+`__args__` 用来访问组成复合类型的参数，也就是方括号中的类型，作为元组返回。
+
+> Python 3.8 以后，也可以使用 `typing.get_args()` 函数来获取。
+
+```python
+>>> NewType = Union[int, dict]
+>>> NewType.__args__
+(int, dict)
+>>> typing.get_args(NewType)
+(int, dict)
+```
+
+

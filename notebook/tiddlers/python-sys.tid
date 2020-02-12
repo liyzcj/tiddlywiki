@@ -1,0 +1,19 @@
+caption: sys
+created: 20190703011247615
+creator: liyzcj
+modified: 20200211080016463
+modifier: liyzcj
+priority: 2
+tags: Builtin Python Module
+title: python-sys
+type: text/vnd.tiddlywiki
+
+!! sys 模组
+---
+
+!!! 增加目录到 `PATH` 环境变量
+
+```python
+import sys
+sys.path.append(path)
+```

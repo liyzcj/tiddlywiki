@@ -1,0 +1,19 @@
+created: 20191207182112134
+modified: 20191207182325196
+tags: Git
+title: Git remote
+type: text/vnd.tiddlywiki
+
+remote 命令用来增加远程的仓库。相当于给远程仓库在本地起一个别名，并且可以从默认的远程仓库进行拉取和推送。
+
+!! 增加 remote 仓库
+
+```bash
+git remote add [<options>] <name> <url>
+```
+
+!! 查看所有远程仓库
+
+```bash
+git remote -v
+```

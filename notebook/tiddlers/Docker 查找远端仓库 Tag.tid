@@ -1,0 +1,62 @@
+created: 20190830082959597
+modified: 20190830084544739
+tags: Docker
+title: Docker 查找远端仓库 Tag
+type: text/vnd.tiddlywiki
+
+Docker 的 search 命令可以查找 Docker Hub 的镜像，但是不能够显示出 Tag。 
+
+!! 通过网站查看
+
+要想查找镜像的具体 Tag，可以登陆 [[Docker Hub|https://hub.docker.com]] 查找镜像看 Tag。
+
+!! 通过 Kitematic 查看
+
+在 [[Kitematic|https://kitematic.com/]] 上可以查看镜像的 Tag。
+
+!! 通过 Docker API 在命令行查看
+
+> https://juejin.im/post/5c39a6846fb9a049a57120d1
+
+代码如下：
+
+```bash
+#!/bin/bash
+function usage() {
+cat << HELP
+
+dockertags  --  list all tags for a Docker image on a remote registry.
+
+EXAMPLE: 
+    - list all tags for ubuntu:
+       dockertags ubuntu
+
+    - list all php tags containing apache:
+       dockertags php apache
+
+HELP
+}
+
+
+
+if [ $# -lt 1 ]; then
+	usage
+	exit
+fi
+
+image="$1"
+tags=`wget -q https://registry.hub.docker.com/v1/repositories/${image}/tags -O -  | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}'`
+
+if [ -n "$2" ]; then
+	tags=` echo "${tags}" | grep "$2" `
+fi
+echo "${tags}"
+```
+
+!! 使用方法
+
+```bash
+./get_tag.sh <Repo/Image> [Tag filter]
+```
+
+第二个参数是通过 `grep` 过滤 Tag。

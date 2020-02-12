@@ -1,0 +1,44 @@
+created: 20190825160621837
+modified: 20190828174112543
+tags: Vim
+title: vim缩进设置
+type: text/vnd.tiddlywiki
+
+最常用的缩进设置是：
+
+```bash
+:filetype indent on
+```
+
+用来打开针对不同文件类型的缩进设置。
+
+缩进变量分为两类，与自动缩进相关的变量有：
+
+|!名称|!缩写|!含义|
+|[no]autoindent|ai|换行是否自动缩进|
+|[no]cindent|ci|类似c语言的缩进|
+|[no]smartindent|si|基于 ai 的一些改进|
+
+与 tab 相关的变量有：
+
+|!名称|!缩写|!含义|
+|tabstop|ts|一个 tab 占多少个空格的位置|
+|shiftwidth|sw|换行时缩进的列数|
+|[no]expandtab|et|是否将 tab 转为空格|
+|softtabstop|sts|方便在 tab转为空格后，一次删除多个空格|
+|[no]smarttab|sta|开启时，加入 sw 个空格， 否则加入 ts 个空格|
+
+
+例如常用的配置如下：
+
+```bash
+" python configuration
+au BufNewFile,BufRead *.py
+        \ set tabstop=4 |
+        \ set softtabstop=4 |
+        \ set shiftwidth=4 |
+        \ set textwidth=79 |
+        \ set expandtab |
+        \ set autoindent |
+        \ set fileformat=unix
+```

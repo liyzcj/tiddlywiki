@@ -1,0 +1,25 @@
+created: 20200127101128996
+modified: 20200127101654198
+tags: 小知识
+title: 海象运算符
+type: text/vnd.tiddlywiki
+
+`:=` 由于长得像海象，所以被称为海象运算法。
+
+> The Walrus Operator
+
+在许多编程语言中都有使用，大都是赋值的意思。
+
+!! go
+
+Go 中作为变量的初始化与赋值符号。
+
+!! Python
+
+Python 3.8 中也加入了海象运算符，用来在''函数参数以及条件控制语句''中进行初始化与赋值。
+
+```python
+my_list = [1,2,3,4,5]
+if (n := len(my_list)) > 3:
+   print(n) # 5 
+```
