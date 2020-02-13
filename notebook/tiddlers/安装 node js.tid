@@ -1,0 +1,61 @@
+created: 20200213124858307
+modified: 20200213131537688
+tags: Nodejs
+title: 安装 node js
+type: text/vnd.tiddlywiki
+
+! Nodejs 安装
+---
+
+!! 安装 NVM
+
+[[NVM Github 仓库|https://github.com/creationix/nvm]]
+
+如果无法翻墙可以通过 [[NVM 码云仓库|https://gitee.com/mirrors/nvm]] 加速。
+
+# 克隆仓库到用户目录：<div>
+
+```bash
+cd ~
+git clone https://gitee.com/mirrors/nvm.git .nvm
+```
+
+</div>
+
+# 将以下命令添加到 `.zshrc` 或者 `.bashrc`： <div>
+
+```bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh"  ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion"  ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+```
+
+</div>
+
+!! 使用 NVM 安装 node
+
+* 列出所有已经下载的版本，并标记正在使用的版本：<div>
+
+```bash
+nvm ls
+```
+
+</div>
+
+* 列出所有可下载的版本：<div>
+
+```bash
+nvm ls-remote
+```
+
+</div>
+
+* 下载最新版本的 node： <div>
+
+```bash
+nvm install node
+```
+
+> `node` 是最新版本的别名。
+
+</div>
