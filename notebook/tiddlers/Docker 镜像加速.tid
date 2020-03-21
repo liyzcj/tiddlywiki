@@ -1,0 +1,83 @@
+created: 20200216175627611
+modified: 20200216185407123
+tags: Docker
+title: Docker 镜像加速
+type: text/vnd.tiddlywiki
+
+Docker hub 在国内访问速度非常慢，这时候就可以使用国内的镜像进行加速。
+
+!! 镜像
+
+* 官方中国镜像 <div>
+
+```bash
+https://registry.docker-cn.com
+```
+
+</div>
+
+* Azure 中国镜像 <div>
+
+```bash
+https://dockerhub.azk8s.cn
+```
+
+</div>
+
+* 网易云镜像 <div>
+
+```bash
+https://hub-mirror.c.163.com
+```
+
+</div>
+
+* UTSC 镜像 <div>
+
+```bash
+https://docker.mirrors.ustc.edu.cn
+```
+
+</div>
+
+* 阿里云 镜像 <div>
+
+阿里云镜像需要通过阿里云账户获取自己的专属加速地址。
+
+```bash
+https://x435a1xi.mirror.aliyuncs.com
+```
+</div>
+
+
+!! 配置
+
+对于 Windows 或者 Macos，在 ''GUI ''的设置中添加如下字段。
+
+对于 Linux 中使用 systemd 的发行版，修改文件 ''`/etc/docker/daemon.json`'' 添加如下字段：
+
+```json
+{
+  "registry-mirrors": [
+    "https://x435a1xi.mirror.aliyuncs.com",
+    "https://registry.docker-cn.com",
+    "https://dockerhub.azk8s.cn",
+    "https://docker.mirrors.ustc.edu.cn",
+    "https://hub-mirror.c.163.com"
+  ]
+}
+```
+
+!! 其他镜像仓库
+
+对于非 Docker hub 的镜像仓库，要使用单独的加速地址。
+
+!!! gcr.io / k8s.gcr.io
+
+gcr.io 是 Google 的 Docker Registry。可以使用 Azure 提供的镜像代理服务。
+
+对于非官方的 Docker Registry，不能省略前面的地址字段。''所以需要 Pull 下来之后再重命名为原仓库的地址使用。'' 这个 [[docker-wrapper|Docker-Wrapper-gcr.io.py]] 可以用来自动修改代理拉取再重命名回来。
+
+---
+
+[[Azure中国提供了gcr.io/k8s.gcr.io镜像代理服务|https://ieevee.com/tech/2019/03/02/azure-gcr-proxy.html]]

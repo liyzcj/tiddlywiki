@@ -1,0 +1,12 @@
+created: 20200315054604183
+modified: 20200315054816960
+tags: Programming Pattern
+title: Factory Pattern
+type: text/vnd.tiddlywiki
+
+工厂模式是指创建一个工厂类，这个工厂类内的方法包含如何创建另一个类（也就是 Product）并返回实例。
+
+
+!! Python 实现
+
+* [[Python Factory Pattern]]

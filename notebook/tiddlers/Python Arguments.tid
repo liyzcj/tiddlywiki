@@ -1,0 +1,54 @@
+created: 20200316111225085
+modified: 20200317015000645
+tags: Python
+title: Python Arguments
+type: text/vnd.tiddlywiki
+
+本条目介绍 Python 的 arguments。
+
+> 有时候会把 Arguments 与 Parameter 搞混。根据 [[Python inspect]] 中的定义：<div>
+
+* ''Arguments'': 指的是函数 Caller 的角度，由调用者决定，传递给函数的参数。''就像公式变量具体的值''。''实参''
+* ''Parameters'': 指的是函数的角度，由函数定义，需要调用者传递进来的参数。''就像公式中的变量''。''形参''
+
+</div>
+
+
+Python 的参数分为物种：
+
+|!名称|!含义|!语法|
+|POSITIONAL_ONLY|只能作为位置参数提供的参数（Python 3.8）|出现在符号 `/` 之前的参数|
+|POSITIONAL_OR_KEYWORD|可以作为位置或关键字参数的参数，这是参数传递时的''标准行为''|标准写法的都是|
+|VAR_POSITIONAL|位置参数变量，是一个不确定长度的 tuple|通常写作 `*arg`|
+|KEYWORD_ONLY|只能作为关键字参数提供的参数|在 `*` 或者 `*args` 之后出现的参数|
+|VAR_KEYWORD|关键字参数变量，是一个不确定大小的 K-V 字典|通常写作 `**kwargs`|
+
+
+!! Cheat Sheet
+
+```python
+def func(仅位置, / , 位置或关键字, *位置变量, 仅关键字, **关键字变量): pass
+```
+
+确定可以通过位置传递的参数个数：
+
+```python
+def func(a, /, b, c=1, *, d, e=2, **kwargs): pass
+```
+
+不确定可以通过位置传递的参数个数：
+
+```python
+def func(a, /, b, c=1, *args, d, e=2, **kwargs): pass
+```
+
+* ''a'': 只能通过位置给定，不能够有默认值
+* ''b'': 能够通过位置或关键字参数给定，可以有默认值
+* ''args'': 位置变量参数，元祖
+* ''d'': 只能通过关键字给定，可以有默认值
+* ''kwargs'': 关键字变量参数，字典
+
+
+---
+
+''TIP''：参数的类型以及函数的信息可以通过 [[Inspect 模块|Python inspect]]获取。

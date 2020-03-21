@@ -1,0 +1,171 @@
+created: 20200321103639617
+modified: 20200321111441625
+title: JS Data types
+type: text/vnd.tiddlywiki
+
+JS 中的变量与 Python 相同，可以保存''任何类型''的数据。
+
+!! 基础数据类型
+
+!!! Number
+
+`number` 即表示整数类型，也表示 float 类型。
+
+`number` 有几个特殊值：
+
+* `Infinity` 表示数学上的无限。
+
+* `NaN` 表示计算错误，例如用字符串除以 `number` 就会得到 `NaN`
+
+!!! `BigInt`
+
+在 Javascript 中，`number` 类型不能表示大于 $$2^{53}$$ 的整数（或者小于 $$-2^{53}$$）。
+
+如果要表示更大的数字 可以使用 `BigInt` 类型，`BigInt` 类型可以采用一个后缀 `n` 指定。
+
+```javascript
+// the "n" at the end means it's a BigInt
+const bigInt = 1234567890123456789012345678901234567890n;
+```
+
+<<attention "现在只有 Chrome/Safari 支持 `BigInt`">>
+
+
+!!! String
+
+String 可以由三种符号指定：
+
+* 双引号：`"Hello"`
+* 单引号：`'Hello'`
+* 反引号：<code>&#96;Hello&#96;</code>
+
+其中，单引号与双引号意义相同。反引号是具有''扩展功能''的引号，它允许在字符串中嵌入变量。
+
+```javascript
+let name = "liyanzhe"
+alert(`Hello, ${name}`);
+```
+
+!!! Boolean
+
+布尔变量可以是 `true` 或者 `false`
+
+!!! `null` value
+
+`null`  代表不是任何一种数据类型。代表 nothing 或 empty。
+
+!!! `undefined` value
+
+`undefined` 的含义是没有被赋值，那么被声明但是没有赋值的变量内就是 `undefined`
+
+```javascript
+let x;
+alert(x); // shows "undefined"
+```
+
+<<info "通常使用 `null` 代表空值，使用 `undefined` 检查一个变量是否被赋值。">>
+
+!!! Object 和 Symbols
+ 
+`object` 是一个特殊的类型。
+
+上面提到的类型都是 primitve 类型，即它们各自不同且不是由其他类型组成的。object 则可是由不同的类型组合而成。
+
+`symbol` 类型用来创建一个对于 `object` 的唯一识别符。
+
+!! `typeof` 操作
+
+`typeof` 会返回一个变量的数据类型，它支持两种语法：
+
+* 作为一个操作： `typeof x`
+* 作为一个函数： `typeof(x)`
+
+```javascript
+typeof undefined // "undefined"
+
+typeof 0 // "number"
+
+typeof 10n // "bigint"
+
+typeof true // "boolean"
+
+typeof "foo" // "string"
+
+typeof Symbol("id") // "symbol"
+
+typeof Math // "object"  (1)
+
+typeof null // "object"  (2)
+
+typeof alert // "function"  (3)
+```
+
+这里有三个新的类型：
+
+* `Math` 是一个内建的 `object` 提供了一些数学计算的操作。
+* `null` 属于 `object` 类型。这是''错误的。'' 这是一个 `typeof` 的官方错误，只是因为兼容性才没有修复。
+* `function` 表示函数变量。
+
+
+----
+
+!! 类型转换
+
+
+在大多数情况下，操作符和函数都会自动对变量的值进行转换。
+
+例如 `alert` 函数会自动将参数转换为字符串，并且打印出来。数学操作会自动将变量转换为数字。
+
+但是也有需要手动进行转换的情况。
+
+!!! 字符串转换
+
+我们可以通过 `String()` 手动的将一个变量转换为字符串。
+
+```javascript
+let value = true;
+alert(typeof value); // boolean
+
+value = String(value); // now value is a string "true"
+alert(typeof value); // string
+```
+
+
+!!! 数字转换
+
+数字会自动在数学表达式中转换：
+
+```javascript
+alert( "6" / "2" ); // 3, 字符串自动转换为数字
+```
+
+你也可以手动的通过 `Number()` 将变量转换为 `number` 类型。
+
+```javascript
+let str = "123";
+alert(typeof str); // string
+
+let num = Number(str); // becomes a number 123
+
+alert(typeof num); // number
+```
+
+<<attention "如果字符串不是一个有效的数字，则会被转换为 `NaN`">>
+
+|!值|!转换为|
+|`undefined`|`NaN`|
+|`null`|`0`|
+|`true`|`1`|
+|`false`|`0`|
+|`string`|如果字符串为空，转换为 `0`；如果不是有效数字，转为 `NaN`|
+
+<<note "注意 `null` 和 `undefined` 的区别">>
+
+!!! 布尔值转换
+
+使用 `Boolean()` 转换为布尔变量
+
+* 含义为 `0` 的值都会转换为 `false`，例如 `0` `""` `null` `undefined` `NaN`
+* 其他值都为  `1`
+
+<<attention "字符串 `'0'` 或者空格 `' '` 会被转换为 `1`">>

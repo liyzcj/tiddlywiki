@@ -1,0 +1,83 @@
+created: 20200225170606711
+modified: 20200315055534278
+tags: Explore Python
+title: Python __new__
+type: text/vnd.tiddlywiki
+
+在 Python 中 `__new__()` 方法很容易和 `__init__()` 方法混淆。
+
+!! 含义
+
+* `__new__()` 是 Constructor，职责是构造一个实例并返回这个实例。
+* `__init__()` 是 Initializer，职责是初始化这个实例内变量的值。没有返回值。
+
+
+所以，它们的适用范围应该是：
+
+* 当你想要控制一个实例的创建时，使用 `__new__()`.
+* 当你想要控制一个实例的初始化时，使用 `__init__()`.
+
+其实在其他语言例如 java 中，虽然一个类用户仅仅需要编写一个构造器，但是在编译器编译时会在构造器之前调用一个类似于 `new` 的函数，用来创建 `this` 这个实例，它返回已经创建好的指针。
+
+可以将 `__new__()` 方法想象为 C 语言中为一个结构体分配内存（其实结构体就是数据类型，只不过没有继承封装这些功能而已），这会返回一个该结构体实例的指针。而 `__init__()` 方法则是为这个已经分配好内存的结构体初始化内部的变量。
+
+
+!! 运行规则
+
+关于 `__new__()` 方法，有这些规则：
+
+* `__new__()` 是一个 classmethod，它的第一个参数是当前的类，通常写为 `cls`
+* `__new__()` 总是在 `__init__()` 之前运行，并且 `__new__()` 的返回值会作为第一个参数传递给 `__init__()`，通常写为 `self`
+* `__new__()` 方法除了第一个参数 `cls` 还需要能够接收可能被传递进来的参数。 <div>
+
+默认 `__new__()` 的signature 是：
+
+```python
+def __new__(cls, *args, **kwargs):
+	pass
+```
+
+参数 `*args, **kwargs` 之后会和 `__new__()` 的返回值一起传递给 `__init__()` 方法。
+
+</div>
+
+* 如果 `__new__()` 返回的''不是当前 class 的实例''，则''不会调用''该实例的 `__init__()` 方法。
+
+* `__new__()` 方法内可以使用 `object.__new__(cls)` 创建一个实例。 <div>
+
+使用 `object.__new__(cls)` 创建出的实例可以进行任何的 attribute 设置，就像 `__init__()` 函数中一样。
+
+> 可以通过 `__slots__` 来控制那些 attribute 可以使用。
+
+</div>
+
+* ''`__new__()` 可以返回一个已经创建过的实例''，规则和上面一样。如果是当前类的实例，即使已经存在的实例，也会''接着调用 `__init__()` 方法''。这可以用来方便的实现 [[Singleton Pattern]]。
+
+旧式类没有 `__new__()` 方法，新式类才有，查看 [[Python 旧式类与新式类|Python2与Python3的不同]] 
+
+
+!! 应用
+
+
+!!! Singleton pattern
+
+实现 [[Singleton Pattern]]。
+
+!!! 控制实例的创建
+
+你可以在 `__new__()` 中通过一些规则来决定''是否创建实例或者创建哪个实例''。
+
+对于创建哪个实例，例如 [[Python 根据参数创建不同子类]]
+
+!!! 控制创建好的object
+
+你还可以对创建的 Object 进行初始化。但是初始化的过程最好交给 `__init__()` 来进行。
+
+---
+
+!! Reference
+
+* [[Why is __init__() always called after __new__()?|https://stackoverflow.com/a/674369/12572033]]
+* [[__new__ in Python|https://www.geeksforgeeks.org/__new__-in-python/]]
+* [[Python Classes|https://docs.python.org/3/tutorial/classes.html]]
+* [[Python: __new__ magic method explained|https://howto.lintel.in/python-__new__-magic-method-explained/]]

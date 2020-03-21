@@ -1,5 +1,5 @@
 created: 20200203175533106
-modified: 20200204050253845
+modified: 20200314054918065
 tags: Linux Command
 title: Linux curl
 type: text/vnd.tiddlywiki
@@ -30,6 +30,7 @@ curl [option] url
 |`-w/--write-out [format]`|什么输出完成后90|
 |`-x/--proxy <host[:port]>`|在给定的端口上使用HTTP代理|
 |`-#/--progress-bar`|进度条显示当前的传送状态|
+|`-X/--request`|指定 HTTP 请求的方法，默认 `GET`|
 
 > 更多参数查看官方 [[manpage|https://curl.haxx.se/docs/manpage.html]]
 

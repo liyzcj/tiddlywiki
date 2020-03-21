@@ -1,0 +1,80 @@
+created: 20200316114246267
+modified: 20200316122405650
+tags: Builtin Python
+title: Python inspect
+type: text/vnd.tiddlywiki
+
+Python inspect 模块主要提供四种服务：
+
+* 类型检查
+* 获取源码
+* 获取类或函数的相关信息
+* 访问解释器堆栈
+
+
+!! 通过 Signature introspecting 可调用对象
+
+[[Check concept for introspection|Introspection]]
+
+Inspect 在 Python 3.3 版本引入 Signature 对象，可以用来方便的去 introspecting 一个可调用的对象。
+
+```python
+from inspect import signature
+def foo(a, *, b: int, **kwargs): pass
+sig_foo = signature(foo)
+```
+
+通过 `signature(callable)` 函数可以创建一个 Signature 对象。
+
+!!! Signature
+
+Signature 对象包含以下属性和方法：
+
+* ''empty'': 一个特殊的标记，表示没有返回值的 [[type hint|Python  Type Hint system]]。
+* ''parameters'': 一个有序的 mapping，key 为参数名，value 为 Parameter object。
+* ''return_annotation'': 返回值的 Type Annotation，如果没有则为 `Signature.empty`。
+* ''bind''(*args, **kwargs): 返回一个 ~BoundArguments，将参数名与传递进来的参数绑定。要求给定的参数 signature 必须符合当前的 signature。
+* ''bind_partial''(*args, **kwargs): 与 bind 类似，但是可以省略一些参数。
+* ''replace''(*[, parameters][, return_annotation]): 创建一个新的 Signature 对象，其中的 paramters 或者 return_annotation 可以用新的代替。
+* classmethod ''from_callable''(obj, *, follow_wrapped=True): 从 callable 对象创建一个 Signature，方便子类调用。
+
+!!! Parameter
+
+Parameter 对象是 immutable 的。如果要修改某些属性，可以通过 `Parameter.replace()` 创建新的 Parameter 对象。
+
+Parameter 对象包含以下属性和方法：
+
+> Python 3.5: Parameter objects are picklable and hashable.
+
+* ''empty'': 与 Signature 相同, 一个用来表示空值的标记。
+* ''name'': 参数名称
+* ''default'': 参数默认值，如果没有则为 `Parameter.empty`
+* ''annotation'': 参数的 annotation，如果没有则为 `Parameter.empty`
+* ''kind'': 表示参数的类型，可以是以下类型之一： <div>
+
+* POSITIONAL_ONLY
+* POSITIONAL_OR_KEYWORD
+* VAR_POSITIONAL
+* KEYWORD_ONLY
+* VAR_KEYWORD
+
+> 可以通过 `Parameter.POSITIONAL_ONLY` 进行判断。
+
+关于参数类型，查看[[Python Arguments]]
+
+</div>
+* ''description'': New in version 3.8. 描述的字符串
+* ''replace''(*[, name][, kind][, default][, annotation]): 创建新的 Parameter object
+
+!!! ~BoundArguments
+
+~BoundArguments 对象是 `Signature.bind()` 或 `Signature.bind_partial()` 的返回值。
+
+* ''arguments'': 一个有序的，可修改的 mapping。Key 为 Parameter 名称， Value 为给定的 Arguments。
+* ''args'': 所有位置参数的 tuple，从 arguments 中动态获取计算。可以用来调用函数。
+* ''kwargs'': 所有关键字参数的字典，从 arguments 中动态获取计算。可以用来调用函数。
+* ''signature'': 指向父 Signature 的引用。
+* ''apply_defaults''(): 将默认值连接到未指定的 Arguments。 Python 3.5 added。
+
+
+

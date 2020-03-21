@@ -1,0 +1,27 @@
+created: 20200321045653123
+modified: 20200321045827165
+tags: $:/tags/Macro
+title: $:/custom/macros/doc
+type: text/vnd.tiddlywiki
+
+\define note(text)
+<div class="tc-doc-note">
+<p>
+$text$
+</p>
+</div>
+\end
+\define info(text)
+<div class="tc-doc-info">
+<p>
+$text$
+</p>
+</div>
+\end
+\define attention(text)
+<div class="tc-doc-attention">
+<p>
+$text$
+</p>
+</div>
+\end

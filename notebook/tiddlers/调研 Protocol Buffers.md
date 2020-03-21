@@ -174,7 +174,7 @@ syntax = "proto3";
 > 至于为什么没有 proto1， 是因为 google 在开源的时候已经是第二个版本了。
 
 >  [release notes](https://github.com/protocolbuffers/protobuf/releases)  可以查看具体的区别。
->
+> 
 >  [Proto3 Language Guide](https://developers.google.com/protocol-buffers/docs/proto3) 详细介绍了 proto3。
 
 

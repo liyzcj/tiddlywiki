@@ -1,0 +1,104 @@
+created: 20200219043139851
+modified: 20200219085150920
+tags: Docker Explore
+title: Docker Registry
+type: text/vnd.tiddlywiki
+
+! Docker Registry
+---
+
+<<<.tc-big-quote
+The Registry is a stateless, highly scalable server side application that stores and lets you distribute Docker images.
+
+Docker Registry 是一个无状态、高可用的服务端应用，可以用来保存或分发 Docker 镜像。
+<<<
+
+
+Docker Registry 相当于一个用来保存镜像的大仓库。目前这个项目属于 Apache license，开源。
+
+使用 Registry 有以下优点：
+
+* 严格控制镜像的存储位置；
+* 拥有私有的镜像分发通道；
+* 将镜像存储和分发继承到内部的开发流程中。
+
+
+!! Docker Hub
+
+Docker 官方维护一个公开、免费的 Docker Registry 称为 ''Docker Hub''，Docker Hub 在 Registry 的基础功能之外还提供了多种特性（组织账户、自动构建等）。
+
+Docker Hub 对镜像的 tag 命名规则有限制，详见[[Docker image naming]]
+
+!! 私有 Registry
+
+创建一个私有的 Registry 非常简单，只需要通过 Docker官方的 `registry` 镜像就可以轻松的部署。
+
+* 启动和停止 Registry：<div>
+
+```bash
+docker run -d -p 5000:5000 --name registry registry:2.7.1
+```
+
+> The default port of registry is `5000`。
+
+停止 Registry：
+
+```bash
+docker container stop registry && docker container rm -v registry
+```
+
+</div>
+
+* 推送镜像到私有 Regsitry：<div>
+
+只需要将 Image tag 的 Root name 改为 `localhost:5000` 也就是私有 Registry 的地址，就可以通过 `docker push` 将镜像推送到对应的 Registry 中：
+
+```bash
+docker image tag ubuntu localhost:5000/myfirstimage
+docker push localhost:5000/myfirstimage
+```
+
+</div>
+
+* 查看 Registry 镜像信息： <div>
+
+列出所有镜像 Repository：
+
+```bash
+curl localhost:5000/v2/_catalog
+```
+
+列出 Registry 中某个 Repository 的tags：
+
+```bash
+curl localhost:5000/v2/<repo_name>/tags/list
+```
+
+</div>
+
+
+!! 配置 Registry
+
+[[Docker Registry 所有配置项|Docker Registry configuration options]]
+
+要配置 Registry 可以选择在 Dockerfile 中通过 `ENV` 设置对应的环境变量来修改配置。
+
+环境变量的名称和配置项的路径相同，并使用 `_` 相连，例如：
+
+```yaml
+storage:
+  filesystem:
+    rootdirectory: /var/lib/registry
+```
+
+对应的环境变量为：
+
+```bash
+REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/somewhere
+```
+
+---
+
+* [[Docker Registry|https://docs.docker.com/registry/]]
+* [[Docker Registry HTTP API V2|https://docs.docker.com/registry/spec/api/]]
+* [[Docker Registry Configuration|https://docs.docker.com/registry/configuration/]]

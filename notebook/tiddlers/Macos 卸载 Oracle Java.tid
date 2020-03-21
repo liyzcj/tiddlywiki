@@ -1,0 +1,25 @@
+created: 20200221103904898
+modified: 20200221104146033
+tags: Case Macos
+title: Macos 卸载 Oracle Java
+type: text/vnd.tiddlywiki
+
+在 Mac 上安装了 Oracle jre，但是发现 jre 无法在命令行中使用。只能卸载：
+
+
+```bash
+sudo rm -fr /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin
+sudo rm -fr /Library/PreferencePanes/JavaControlPanel.prefPane
+sudo rm -fr ~/Library/Application\ Support/Oracle/Java
+```
+
+删除 Java 部署高速缓存：
+
+```bash
+rm -r ~/"Library/Application Support/Oracle/Java"
+```
+
+---
+
+* [[删除 Oracle Java|https://www.java.com/zh_CN/download/help/mac_uninstall_java.xml]]
+* [[删除高速缓存|https://www.java.com/zh_CN/download/help/deployment_cache.xml]]

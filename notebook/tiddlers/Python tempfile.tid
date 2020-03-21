@@ -1,6 +1,6 @@
 created: 20191205084228188
-modified: 20200114052816479
-tags: Python
+modified: 20200220162613128
+tags: Explore Python
 title: Python tempfile
 type: text/vnd.tiddlywiki
 
@@ -15,9 +15,12 @@ type: text/vnd.tiddlywiki
 <TemporaryDirectory '/tmp/tmpccz_9lf2'>
 ```
 
-这个对象有一个 attribute `name` and a method `cleanup()`, `name` is the path of this temporary directory and `cleanup()` is used to cleanup.
+这个对象有提供一个属性 `name` 和一个方法 `cleanup()`
 
-This is another common use of `TemporaryDirector()`, That is use `with` context. 
+* `name`：代表创建的临时目录的绝对路径
+* `cleanup()` 用来删除创建的临时目录
+
+另一个常用的用法是配合上下文语法 `with` 使用：
 
 ```python
 >>> with tempfile.TemporaryDirectory() as tempdir:
@@ -25,30 +28,38 @@ This is another common use of `TemporaryDirector()`, That is use `with` context.
 /tmp/tmpm1ar4gal
 ```
 
-Note that in context mode, variable `tempdir` is `name` attribute above. And this Temporary directory will automate cleanup when the context over.
+> 注意在上下文语法中，`tempdir` 为上面提到的 `name` 属性，也就是临时目录的路径，是一个''字符串''。
 
-注意如果在一个函数中使用 `tempfile.TemporaryDirectory()` 创建一个临时文件夹，当函数结束时，这个临时文件夹也会自动清除。
+!!! 自动删除
 
-```python
-def foo():
-    tmpdir = tempfile.TemporaryDirectory()
-    tmpfile = os.path.join(tmpdir.name, 'test.txt')
-    Path(tmpfile).write_text("12345")
-    return tmpfile
-```
+通过 `TemporaryDirectory` 创建的临时目录会在下面两种情况下自动删除：
 
-代码中 `foo()` 函数返回的路径是已经被清除了的。
+* ''在上下文语法中退出上下文时。''
+* ''在 `TemporaryDirectory` 的实例被销毁时。''
+
+> 关于对象何时会被销毁查看：[[Destructors in Python]]
 
 !! mkdtemp
 
-如果不想在函数结束时让临时文件夹清除，应该使用 `tempfile.mkdtemp()` 来创建文件夹。
+`tempfile.mkdtemp()` 可以创建一个临时文件夹。tempfile 中所有创建临时文件夹的方法都是使用的这个函数。
+
+该函数返回值为创建的临时目录的路径，为一个''字符串''。
 
 ```python
-def foo():
-    tmpdir = tempfile.mkdtemp()
-    tmpfile = os.path.join(tmpdir, 'test.txt')
-    Path(tmpfile).write_text("12345")
-    return tmpfile
+d = mkdtemp()
+print(d)
+
+# outputs
+/tmp/tmp6a4_efen
 ```
 
-> [[官方文档|https://docs.python.org/3/library/tempfile.html#tempfile.mkdtemp]]清楚的写到 The user of `mkdtemp()` is responsible for deleting the temporary directory and its contents when done with it.
+> 使用 `mkdtemp()` 创建的临时文件夹不会自动删除，''需要创建者负责删除该文件夹。'' 可以使用 [[python-shutil]] 的 `rmtree()` 方法删除。
+
+!! 注意事项
+
+
+在 Macos 中，返回的临时路径是相对与软连接 `/var` 的临时路径，并不是真实的路径，详见 [[Macos Temporary File]]
+
+---
+
+[[官方文档|https://docs.python.org/3/library/tempfile.html]]

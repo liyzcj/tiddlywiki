@@ -1,0 +1,17 @@
+created: 20200309053310731
+modified: 20200309054310101
+title: UML 类图
+type: text/vnd.tiddlywiki
+
+Class Digram 是 [[UML]] 中的一种静态结构图。''该图描述了系统的类集合，类的属性和类之间的关系''。
+
+!! 图形参考
+
+[[UML Class Diagrams Reference|https://www.uml-diagrams.org/class-reference.html]]
+
+
+---
+
+!! References
+
+* [[UML Class Diagrams Reference|https://www.uml-diagrams.org/class-reference.html]]

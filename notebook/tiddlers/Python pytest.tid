@@ -1,0 +1,21 @@
+created: 20200316030247459
+modified: 20200316030508788
+tags: Test Python
+title: Python pytest
+type: text/vnd.tiddlywiki
+
+! Pytest
+---
+
+pytest 也同样支持执行 unittest 的测试用例。但是pytest 最大的优势是 pytest 风格的 test。
+
+pytest 的风格指的是''以 `test_` 开头''的测试函数。
+
+pytest 的特性：
+
+* 支持内建的 assert 方法，而不是得使用 `self.assert**`
+* 支持过滤选择测试用例
+* 支持失败重跑
+* 数百个插件的生态
+
+> [[pytest 文档|https://docs.pytest.org/en/latest/]]

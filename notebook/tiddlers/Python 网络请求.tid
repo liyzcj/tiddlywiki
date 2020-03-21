@@ -1,0 +1,33 @@
+created: 20200222101900623
+modified: 20200314065251938
+tags: Network Summary Python TODO
+title: Python 网络请求
+type: text/vnd.tiddlywiki
+
+! Python 网络请求
+---
+
+Python 提供了一些包用来处理网络请求和处理 url 等函数。由于 Python 2 到 Python 3 的一些改动，导致可能在看到这些包名称和用法的时候很容易产生疑惑。
+
+!! Python 2
+
+首先，在 Python 2 中，内建的 packages 包括：
+
+* urllib：Python 最开始提供的关于 url 的包，提供了一些基础函数
+* urllib2：作为 urllib 的补充，对于 HTTP 请求提供了更多功能
+* httplib：HTTP 协议的客户端实现，是 urllib 的基础。
+
+!! Python 3
+
+在 Python3 中，这些 Package 被整理为两个主要的 package：[[urllib|Python urllib]] 与 [[http|Python http]]。其中 urllib 又包含几个模块：
+
+* `urllib.request`: 用于请求 URL 地址
+* `urllib.error`: 用于处理 request 抛出的异常
+* `urllib.parse`: 用于解析 URL
+* `urllib.robotparser`: 用于解析 `robots.txt` 文件
+
+除了 urllib 和 http 两个内置的 package 以外，还有一些方便的第三方 package：
+
+* [[urllib3|Python urllib3]]：提供了更多 urllib 没有的功能。
+* [[requests|Python Requests]]：在 Python 社区中关于网络请求评价最好的 package，基于 urllib3 实现。
+* [[HTTPie|Python HTTPie]]：提供一个方便的命令行工具用来进行网络请求。

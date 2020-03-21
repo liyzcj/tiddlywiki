@@ -1,0 +1,65 @@
+created: 20200315092329812
+modified: 20200315092522578
+tags: RST
+title: RST 正文元素
+type: text/vnd.tiddlywiki
+
+!! 正文元素
+
+!!! 话题 topic
+
+话题可以将正文分割为多个话题，
+
+```markdown
+.. topic:: Topic Title
+
+    之后的所缩进行包含话题的正文
+    并不解释为正文元素
+```
+
+!!! 侧边栏 sidebar
+
+展示为侧边栏：
+
+```markdown
+.. sidebar:: Sidebar Title
+    :subtitle: Optional Sidebar Subtitle
+
+    Subsequent indented lines comprise
+    the body of the sidebar, and are
+    interpreted as body elements.
+```
+
+`subtitle`：侧边栏标题
+
+!!! 代码 code
+
+```markdown
+.. code:: python
+
+    def my_function():
+        "just a test"
+        print 8/2
+```
+
+!!! 数学公式 math
+
+数学公式使用 MathJax：
+
+```markdown
+.. math::
+
+  α_t(i) = P(O_1, O_2, … O_t, q_t = S_i λ)
+```
+
+!!! 引言 epigraph
+
+引言通常在文章的开头：
+
+```markdown
+.. epigraph::
+
+   No matter where you go, there you are.
+
+   -- Buckaroo Banzai
+```

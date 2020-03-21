@@ -1,0 +1,52 @@
+created: 20200314080543764
+modified: 20200314081601727
+tags: Python Builtin
+title: Python urllib
+type: text/vnd.tiddlywiki
+
+! urllib
+
+> 本文基于 Python 3 版本的 urllib。
+
+Urllib package 分为四个 subpackage：
+
+* `urllib.request`: 用于请求 URL 地址
+* `urllib.error`: 用于处理 request 抛出的异常
+* `urllib.parse`: 用于解析 URL
+* `urllib.robotparser`: 用于解析 `robots.txt` 文件
+
+!! urllib.request
+
+''urllib.request'' 是一个用于获取 URL （统一资源定位地址）的 Python 模块。它以 urlopen 函数的形式提供了一个非常简单的接口。该接口能够使用不同的协议获取 URL。同时它也提供了一个略微复杂的接口来处理常见情形——如：基本验证、cookies、代理等等。这些功能是通过叫做 handlers 和 opener 的对象来提供的。
+
+!!! Usage
+
+最简单的使用方式是直接打开一个 URL：
+
+```python
+import urllib.request
+with urllib.request.urlopen('http://python.org/') as response:
+   html = response.read()
+```
+
+如果简单的 URL 请求无法满足要求，可以使用 Request 类创建一个复杂的请求：
+
+```python
+import urllib.request
+request = urllib.request.Request('http://python.org/')
+```
+
+例如你可以为 request 添加一个头信息：
+
+```python
+request.add_header(key="Accept", value="application/vnd.docker.distribution.manifest.v2+json")
+```
+
+Request 对象可以直接通过 `urlopen` 请求：
+
+```python
+with urllib.request.urlopen(request) as stream:
+	stream.read()
+```
+
+> 注意 `read()` 方法读取的数据为 ''bytes类型''

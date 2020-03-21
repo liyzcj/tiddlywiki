@@ -1,5 +1,5 @@
 created: 20190820040507403
-modified: 20200115074649375
+modified: 20200216190658128
 tags: Command Docker
 title: Docker常用命令
 type: text/vnd.tiddlywiki
@@ -11,14 +11,11 @@ type: text/vnd.tiddlywiki
 
 !! 镜像相关
 
-搜索镜像：
 
-镜像的全名：`Registry/Repository/Image:tag`
 
-* Registry: Docker Registry 地址
-* Repository: 镜像仓库名称
-* Image: 具体的镜像名称
-* tag: 镜像的标签
+[[镜像命名规则|Docker image naming]]
+
+''搜索镜像：''
 
 ```bash
 docker search image_name

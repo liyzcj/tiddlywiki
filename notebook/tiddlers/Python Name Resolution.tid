@@ -1,0 +1,44 @@
+created: 20200220115824220
+modified: 20200220122552813
+tags: Python
+title: Python Name Resolution
+type: text/vnd.tiddlywiki
+
+! Python Name Resolution
+---
+
+Python Scope Resolution 符合 LEGB 原则。
+
+* ''L''ocal: 在一个函数（使用 `def` 或 `lambda`定义）内声明的任何名称。并且没有被 `global` 声明。
+* ''E''nclosing-function: 所谓的闭包。nearest enclosing scope 中的名称。
+* ''G''lobal(module): 一个 Module 中的所有 global 变量。
+* ''B''uilt-in (Python): Python 的内建名称，包含内建函数与 statement 等。
+
+> Python 会从上到下依次查找名称，直到找到对应名称。
+
+例如一个 module 如下：
+
+```python
+code1
+class A:
+  attrs
+    def foo():
+      code2
+      def bar():
+        code3
+        x()
+```
+
+其中，对于 `x`:
+
+* ''L'': local scope, `code3`
+* ''E'': Enclosure scope, `code2`
+* ''G'': Global scope, `code1`
+* ''B'': Python Built-in `x`
+
+> 注意：在 `x` 处无法访问定义在 `attrs` 中的变量。
+
+---
+
+* [[stack overflow|https://stackoverflow.com/questions/291978/short-description-of-the-scoping-rules/292502#292502]]
+* [[Resolution of names|https://docs.python.org/3/reference/executionmodel.html#resolution-of-names]]

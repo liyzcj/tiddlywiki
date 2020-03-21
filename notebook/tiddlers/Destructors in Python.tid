@@ -1,0 +1,135 @@
+created: 20200220102926918
+modified: 20200220114137920
+tags: Python Explore
+title: Destructors in Python
+type: text/vnd.tiddlywiki
+
+! Python Destructors
+---
+
+Destructors 会在一个 Object 被销毁的时候被调用。在 Python 中，不像 C++ 一样需要大量的代码来编写并进行处理，因为 Python 有''垃圾回收机制（Garbage Collector）''。它会自动进行内存管理。
+
+> 下面称'' 垃圾回收机制（Garbage Collector）''为 GC
+
+`__del__()` 是一个 Destructor 方法，它会在对象被销毁时自动调用。
+
+那么 Python 什么时候会销毁一个对象呢？答案是：
+
+* ''在所有关于对象的 Reference 被删除时，GC 会自动销毁对象。''
+* ''在程序退出后，会自动销毁所有对象。''
+
+Local 变量在退出 scope 时会自动被销毁，因为退出 scope 就相当于 Reference 被删除了。
+
+!! 实例一: del statement
+
+`del` statement 可以用来删除一个 Reference。
+
+```python
+class A:
+
+    def __del__(self):
+        print("Destruction A")
+
+a = A()
+del a
+# Output
+Destruction A
+```
+
+当对象 `a` 的''唯一''一个 reference `a` 被删除后，对象被自动回收并调用 `del` 方法。
+
+> 注意：如果这时候存在另一个 Reference `b` 同样指向对象 `a`，那么仅仅 `del a` 对象不会被销毁。
+
+!! 实例二: 程序退出
+
+''如果不去手动删除对象的引用，则所有对象会在程序执行__后__被自动销毁。''
+
+```python
+class A:
+
+    def __del__(self):
+        print("Destruction A")
+
+a = A()
+print("Program Done")
+
+# Output
+Program Done
+Destruction A
+```
+
+!! 实例三：Local 变量
+
+Local 变量在退出 scope 的时候因为 Reference 会被自动删除，所以对象也会被销毁：
+
+```python
+class A:
+        
+    def __del__(self):
+        print("Destruction A")
+
+def func():
+    a = A()
+		
+func()
+print("Program Done")
+
+# Output
+Destruction A
+Program Done
+```
+
+!! 实例四：连续引用
+
+如果一个对象 A 中引用了另一个对象 B，则销毁对象 A，对象 B 也会销毁。（当且仅当 B 仅仅有 A 中一个引用）
+
+```python
+class A:
+        
+    def __del__(self):
+        print("Destruction A")
+
+class B:
+    
+    def __init__(self):
+        self.a = A()
+        
+    def __del__(self):
+        print("Destruction B")
+
+B()
+
+# Output
+Destruction B
+Destruction A
+```
+
+!! 实例五：循环引用
+
+''circular reference'' 指的是两个对象互相引用，通常情况下，GC 会检测这种情况。
+
+但是如果你重写 `__del__()` 方法，那么 GC 就只能将这两个对象标记为 `uncollectable`。因为 GC 也不知道正确的销毁顺序。这样的话即使你删除所有的引用，这些对象也会在程序执行完毕后才会销毁。
+
+```python
+class A: 
+    def __init__(self, bb): 
+        self.b = bb 
+  	def __def__(self):
+		print("Destruction A")
+
+class B: 
+    def __init__(self): 
+        self.a = A(self) 
+    def __del__(self): 
+        print("Destruction B") 
+  
+b = B()
+del b
+print("Done")
+
+# Output
+Done
+Destruction B
+Destruction A
+```
+

@@ -1,0 +1,34 @@
+created: 20200218103404122
+modified: 20200218122218731
+tags: Kubernetes Case
+title: Kubernetes delete completed pod
+type: text/vnd.tiddlywiki
+
+''删除 Kubernetes 中已经完成或者出错的 Pod。''
+
+!! 方案
+
+使用 `kubectl delete` 配合 `--field-selector` 参数可以完成。
+
+`field-selector` 是 Kubernetes 的[[字段选择器|https://kubernetes.io/zh/docs/concepts/overview/working-with-objects/field-selectors/]]
+
+通过字段选择器对 pod 的 phase 字段进行过滤，再删除选择出的 pod。
+
+查看并删除 Succeeded 的 pod：
+
+```bash
+kubectl get pod --field-selector=status.phase==Succeeded
+kubectl delete pod --field-selector=status.phase==Succeeded
+```
+
+查看并删除 Failed 的 pod：
+
+```bash
+kubectl get pod --field-selector=status.phase==Failed
+kubectl delete pod --field-selector=status.phase==Failed
+```
+
+---
+
+* [[字段选择器|https://kubernetes.io/zh/docs/concepts/overview/working-with-objects/field-selectors/]]
+* [[Pod生命周期|https://kubernetes.io/zh/docs/concepts/workloads/pods/pod-lifecycle/]]

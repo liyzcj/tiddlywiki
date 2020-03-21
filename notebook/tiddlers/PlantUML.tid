@@ -1,0 +1,20 @@
+created: 20200221104315685
+modified: 20200221111805435
+tags: Software Macos
+title: PlantUML
+type: text/vnd.tiddlywiki
+
+想要在 VSCODE 中编写 UML 图，可以使用 plantuml 插件。
+
+该插件有两个依赖：`java` 和 `graphviz`:
+
+```bash
+brew install openjdk
+brew install graphviz
+```
+
+安装 Openjdk 后需要将其添加到 PATH 变量中：
+
+```bash
+echo 'export PATH="/usr/local/opt/openjdk/bin:$PATH"' >> ~/.zshrc
+```

@@ -1,0 +1,25 @@
+created: 20200220163046452
+modified: 20200220163426669
+tags: Python
+title: pip config
+type: text/vnd.tiddlywiki
+
+! Pip Config
+---
+
+!! 配置文件
+
+pip 的配置文件在 `~/.pip/pip.conf`
+
+!! 配置项
+
+* 国内镜像源： [[pip 常用国内镜像源]]
+
+* 超时 <div>
+
+```ini
+[global]
+timeout = 60
+```
+
+</div>

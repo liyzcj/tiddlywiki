@@ -1,5 +1,5 @@
 created: 20190927065148424
-modified: 20190927065334923
+modified: 20200320140718334
 tags: Python
 title: 运行不生成 __pycache__
 type: text/vnd.tiddlywiki
@@ -21,4 +21,13 @@ export PYTHONDONTWRITEBYTECODE=1
 ```python
 import sys
 sys.dont_write_bytecode = True
+```
+
+!! 删除所有 pycache
+
+```bash
+find . -name '*.pyo' -delete
+find . -name '*.pyc' -delete
+find . -name __pycache__ -delete
+find . -name '*~' -delete
 ```

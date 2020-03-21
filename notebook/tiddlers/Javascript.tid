@@ -1,0 +1,31 @@
+created: 20200321082301989
+modified: 20200321103629710
+tags: Language Summary Javascript
+title: Javascript
+type: text/vnd.tiddlywiki
+
+* [[JavaScript 简单介绍|JS Introduce]]
+
+* [[开发环境配置|Javascript 开发环境]]
+
+!! 参考文档
+---
+
+* [[ECMA-262 JavaScript 规范|https://www.ecma-international.org/publications/standards/Ecma-262.htm]]
+* [[最新版 ECMA 规范|https://tc39.es/ecma262/]]
+* [[MDN 手册|https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference]]
+
+!! 基础
+
+---
+
+基础内容包含 JS 的语法，数据结构以及代码组织等。
+
+* [[代码组织|JS code orgnization]]
+* [[函数 Function|JS Function]]
+* [[变量 Variable|JS Variable]]
+* [[数据类型 Data types|JS Data types]]
+
+---
+
+[[JavaScript 教程|https://javascript.info/]]

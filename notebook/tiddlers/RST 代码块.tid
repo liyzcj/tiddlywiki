@@ -1,0 +1,61 @@
+created: 20200315092229061
+modified: 20200315092446509
+tags: RST
+title: RST 代码块
+type: text/vnd.tiddlywiki
+
+!! 代码块
+
+!!! 基本代码块
+
+一段文字跟在 `::` 之后的下一行，再多一个缩进，就可以作为代码块。块内的文字一定要全部比块外多一个缩进。要想推出代码块，减少一个缩进与之前的文字并齐即可。
+
+```markdown
+::
+
+	for i in range(100):
+		print(i)
+```
+
+> `::` 也可以直接跟在一行文字后面，这样下一行依然可以作为代码块。并且文字后会显示一个 `:` <div>
+
+```markdown
+下面是一段代码::
+
+	for i in range(100):
+		print(i)
+```
+
+</div>
+
+''块会直到缩进和块外的文件相同时才会推出。'' 如果不想缩进，也可以使用 `>` 代表缩进。
+
+!!! 文字引用
+
+通过 `|` 来引用文字：
+
+```markdown
+| Line blocks are useful for addresses,
+| verse, and adornment-free lists.
+```
+
+!!! 缩进块
+
+直接进行缩进就可以进行缩进，没有代码高亮，属于引用：
+
+```markdown
+一段文字
+
+	另一段缩进的文字
+```
+
+!!! Python 测试代码块
+
+测试代码块由 `>>>` 开始，直到一个空行结束：
+
+```markdown
+>>> print("hello")
+hello
+```
+
+[[官方文档：代码块|http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#literal-blocks]]

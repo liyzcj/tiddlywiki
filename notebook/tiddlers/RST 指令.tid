@@ -1,0 +1,35 @@
+created: 20200315092304588
+modified: 20200315092502408
+tags: RST
+title: RST 指令
+type: text/vnd.tiddlywiki
+
+!! 指令
+
+指令是reStructuredText的扩展机制，一种添加支持新结构而不用添加新的 语法（指令支持额外的本地语法）的方法。
+
+语法树：
+
+```markdown
++-------+-------------------------------+
+| ".. " | directive type "::" directive |
++-------+ block                         |
+        |                               |
+        +-------------------------------+
+```
+
+[[官方文档：指令|http://docutils.sourceforge.net/docs/ref/rst/directives.html#id28]]
+
+!!! 警告
+
+警告包含：
+
+* attention
+* caution
+* danger
+* error
+* hint
+* important
+* note
+* tip
+* warning

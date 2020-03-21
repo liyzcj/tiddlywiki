@@ -1,0 +1,27 @@
+created: 20200316175306075
+modified: 20200316175927196
+tags: Snippet Programming Python
+title: Python Snippet
+type: text/vnd.tiddlywiki
+
+! Useful Snippet of Python
+---
+
+```python
+if bool(var1) == bool(var2):
+    raise ValueError("Exactly one of vars must be passed!")
+```
+
+判断 `OneOf` 两个变量。
+
+---
+
+```python
+res = va1 or var2
+```
+
+如果 var1 为 None，就取 var2 的值。
+
+---
+
+

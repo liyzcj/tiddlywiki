@@ -1,0 +1,55 @@
+created: 20200314081640121
+modified: 20200314082419718
+tags: Python Case
+title: python argparse group argument
+type: text/vnd.tiddlywiki
+
+! Argparse Group Argument
+
+在使用 Argparse 解析命令行参数的时候，使用 argument group 可以将参数分组，分组的信息会显示在''帮助信息''中。
+
+!! 参数组
+
+```python
+import argparse
+parser = parser = argparse.ArgumentParser(prog='PROG')
+group1 = parser.add_argument_group('group1', 'group1 description')
+group1.add_argument('foo', help='foo help')
+group2 = parser.add_argument_group('group2', 'group2 description')
+group2.add_argument('--bar', help='bar help')
+```
+
+使用 Help 的时候就会显示：
+
+```bash
+usage: PROG [--bar BAR] foo
+
+group1:
+  group1 description
+
+  foo    foo help
+
+group2:
+  group2 description
+
+  --bar BAR  bar help
+```
+
+!! 互斥组 Mutual exclusion
+
+''互斥组会保证这一个组中只有一个参数可用。''
+
+```python
+parser = argparse.ArgumentParser(prog='PROG
+group = parser.add_mutually_exclusive_group()
+group.add_argument('--foo', action='store_true')
+group.add_argument('--bar', action='store_false')
+```
+
+在栗子中，参数 `--foo` 与 `--bar` 仅仅能指定一个。
+
+互斥组也支持 `required` 参数，表示这组的参数不能忽略：
+
+```python
+group = parser.add_mutually_exclusive_group(required=True)
+```

@@ -1,0 +1,34 @@
+created: 20200216182446487
+modified: 20200216183535126
+tags: Docker
+title: Docker Container restart policy
+type: text/vnd.tiddlywiki
+
+docker reboot 后容器的行为通过参数 `restart` 控制，有时候需要在 Docker Daemon 重启时自动开始容器，就需要配置这个字段。
+
+!! 创建容器时
+
+可以使用参数 `--restart` 指定重启时容器的行为。
+
+```bash
+docker run --restart=always ...
+```
+
+可以指定的字段如下：
+
+* `no`: 不自动重启容器，''默认行为。''
+* `on-failure`: 当容器的 exit code 不为 0 时重启。
+* `always`: 总是重启容器。''如果手动 stop 容器，容器不会重启。''仅仅会在 Docker daemon 重启时重启。
+* `unless-stopped`: 与 always 类似，但是如果手动 stop 容器，''即使重启 Docker daemon，容器也不会重启。''
+
+!! 容器已经创建
+
+如果容器已经创建，可以通过 CLi 的 ''update'' 命令更新 policy。
+
+```bash
+docker update --restart=always <Container ID>
+```
+
+---
+
+> [[Docker restart Policy|https://docs.docker.com/config/containers/start-containers-automatically/]]

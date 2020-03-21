@@ -1,0 +1,18 @@
+created: 20200321112045196
+modified: 20200321112402855
+title: AJAX
+type: text/vnd.tiddlywiki
+
+AJAX 即 “Asynchronous ~JavaScript and XML”（异步的 [[Javascript]] 与XML技术）指的是一套综合了多项技术的浏览器端网页开发技术。
+
+传统的Web应用允许用户端填写表单（form），当提交表单时就向网页服务器发送一个请求。服务器接收并处理传来的表单，然后送回一个新的网页，但这个做法浪费了许多带宽，因为在前后两个页面中的大部分HTML码往往是相同的.
+
+与此不同，AJAX应用可以仅向服务器发送并取回必须的数据，并在客户端采用 [[Javascript]] 处理来自服务器的回应。因为在服务器和浏览器之间交换的数据大量减少，服务器回应更快了。同时，很多的处理工作可以在发出请求的客户端机器上完成，因此Web服务器的负荷也减少了。
+
+
+!!! 应用
+
+* 运用XHTML+CSS来表达信息；
+* 运用 [[Javascript]] 操作DOM（Document Object Model）来运行动态效果；
+* 运用XML和XSLT操作数据
+* 运用 ~XMLHttpRequest 或新的 Fetch API 与网页服务器进行异步数据交换；

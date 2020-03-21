@@ -1,5 +1,5 @@
 created: 20191210120907470
-modified: 20191210121054033
+modified: 20200221062943380
 tags: Python [[PEP 8]]
 title: Python import order
 type: text/vnd.tiddlywiki
@@ -7,11 +7,14 @@ type: text/vnd.tiddlywiki
 ! Python Import order
 ---
 
+Python 风格要求中有以下几点：
 
-Imports should be grouped in the following order:
+* Import 语句应该在一个文件的最顶端。在 module 的 docstring 之下。
+* Import 语句应该分组，并且每个组之间留一个空行
+
+通常 Import 语句分为三组，并且按以下顺序排序：
+
 
 # Standard library imports.
 # Related third party imports.
 # Local application/library specific imports.
-
-You should put a blank line between each group of imports.

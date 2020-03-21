@@ -1,0 +1,99 @@
+created: 20200305155023033
+modified: 20200305181025969
+tags: Network Survey
+title: RESTful API
+type: text/vnd.tiddlywiki
+
+! REST API
+---
+
+REST 指的是 ''Re''presentational ''S''tate ''T''ransfer 表现层状态转换。REST 是Roy Thomas Fielding 博士于2000年在他的博士论文中提出来的一种''万维网软件架构风格''。
+
+''所有符合这个风格的网络服务设计被称为 REST 或 RESTful 的。''
+
+!! 理念
+
+REST 之所以晦涩是因为将主语去掉了，它的全称是 Resource Representational State Transfer。通俗来讲就是''资源在网络中以某种表现形式进行状态转义。''
+
+* Resource 资源：资源是 REST 中对信息的关键抽象。所有的信息都可以作为一个资源看待。REST 通过一个''资源标识符''来定位多个组件交互中涉及的特定资源。
+* Representation 表示：资''源在任何特定时间戳下的状态被称为 Resource Representation 资源表示''。一个表示由''数据、元数据、以及超链接''组成。
+* State Transfer 状态转移：资源的状态转移由 ''Resource Method 资源方法''实现，通常由 HTTP 动词实现，重要的是需要保证统一接口。
+
+!! 限制
+
+符合以下限制条件的才能称为 REST 风格的架构：
+
+!!! Client-Server CS架构
+
+客户端服务端结构限制的目的是将客户端和服务器端的关注点分离。将用户界面所关注的逻辑和数据存储所关注的逻辑分离开来有助于提高用户界面的跨平台的可移植性。通过简化服务器模块也有助于服务器模块的可扩展性。
+
+!!! Stateless 无状态
+
+服务器不能保存客户端的信息, 每一次从客户端发送的请求中, 要包含所有的必须的状态信息, 会话信息由客户端保存, 服务器端根据这些状态信息来处理请求. 
+
+!!! Cacheability 缓存
+
+如同万维网一样, 客户端和中间的通讯传递者可以将回复缓存起来. 回复必须明确的或者间接的表明本身是否可以进行缓存, 这可以预防客户端在将来进行请求的时候得到陈旧的或者不恰当的数据. 管理良好的缓存机制可以''减少客户端-服务器之间的交互'', 甚至完全避免客户端-服务器交互, 这进一步提了高性能和可扩展性。
+
+!!! Uniform Interface 统一接口
+
+这是 RESTful 系统设计的基本出发点. 它简化了系统架构, 减少了耦合性, 可以让所有模块各自独立的进行改进. 包括下列四个限制:
+
+* 请求中包含资源的 ID (Resource identification in requests) <div>
+
+请求中包含了各种独立资源的标识, 例如, 在 Web 服务中的 URIs. 资源本身和发送给客户端的标识是独立. 例如, 服务器可以将自身的数据库信息以 HTML XML 或者 JSON 的方式发送给客户端, 但是这些可能都不是服务器的内部记录方式.
+
+</div>
+
+* 资源通过标识来操作 (Resource manipulation through representations) <div>
+
+当客户端拥有一个资源的标识, 包括附带的元数据, 则它就有足够的信息来删除这个资源.
+
+</div>
+
+* 消息的自我描述性 (Self-descriptive messages) <div>
+
+每一个消息都包含足够的信息来描述如何来处理这个信息. 例如, 媒体类型 (midia-type) 就可以确定需要什么样的分析器来分析媒体数据.
+
+</div>
+
+* 用超媒体驱动应用状态 (Hypermedia as the engine of application state (HATEOAS)) <div>
+
+同用户访问 Web 服务器的 Home 页面相似,当一个 REST 客户端访问了最初的 REST 应用的 URI 之后, REST 客户端应该可以使用服务器端提供的链接,动态的发现所有的可用的资源和可执行的操作.随着访问的进行, 服务器在响应中提供文字超链接, 以便客户端可以得到当前可用的操作. 客户端无需用确定的编码的方式记录下服务器端所提供的动态应用的结构信息.
+
+</div>
+
+!!! Layered System 分层系统
+
+客户端一般不知道是否直接连接到了最终的服务器, 或者是路径上的中间服务器. 中间服务器可以通过负载均衡和共享缓存的机制提高系统的可扩展性,这样可也便于安全策略的部署.
+
+!!! Code-On—Demand 按需执行代码 （Optional）
+
+服务器可以通过发送可执行代码给客户端的方式临时性的扩展功能或者定制功能.例如Java Applet、Flash或JavaScript。
+
+
+!! Web 服务中的应用
+
+符合 REST 设计风格的 Web API 称为 RESTful API。它从以下三个方面对资源进行定义。
+
+* 直观简短的资源地址：URI，比如：`http://example.com/resources`
+* 传输的资源：Web服务接受与返回的互联网媒体类型，比如：JSON，XML，YAML等。
+* 对资源的操作：Web服务在该资源上所支持的一系列请求方法（比如：POST，GET，PUT或DELETE）
+
+下表列出在实现 RESTful API 时 HTTP 请求的典型用途：
+
+|!资源|!GET|!PUT|!POST|!DELETE|
+|一组资源的 URI，例如：`https://example.com/resources`|''列出URI''，以及该资源组中每个资源的详细信息（后者可选）。|使用给定的一组资源''替换''当前整组资源。|在本组资源中''创建/追加''一个新的资源。该操作往往返回新资源的URL。|''删除''整组资源。|
+|单个资源的 URI，例如：`https://example.com/resources/142`|''获取''指定的资源的详细信息，格式可以自选一个合适的网络媒体类型（比如：XML、JSON等）|''替换/创建''指定的资源。并将其追加到相应的资源组中。|把指定的资源当做一个''资源组''，并在其下''创建/追加''一个新的元素，使其隶属于当前资源。|''删除''指定的元素。|
+
+> 其中比较容易混淆的是 `PUT` 和 `POST`。由上表可以看出，''`PUT` 用来对指定资源进行更新，`POST` 将指定的资源作为一个资源组，对指定资源内的元素进行创建/追加。''
+
+PUT 和 DELETE 都是[[幂等方法]], 多次请求不会造成额外的副作用。GET 属于安全方法，它不会对服务器的资源进行修改，所以也肯定是[[幂等方法]]。 
+
+---
+
+!! References
+
+* [[Wiki 表现层状态转换|https://zh.wikipedia.org/wiki/%E8%A1%A8%E7%8E%B0%E5%B1%82%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2]]
+* [[知乎-通俗语言解释 REST|https://www.zhihu.com/question/28557115]]
+* [[REST API Tutorial|https://restfulapi.net/]]

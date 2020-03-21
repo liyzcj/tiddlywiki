@@ -1,0 +1,43 @@
+created: 20200305093815089
+modified: 20200310151130365
+tags: Python Jupyter
+title: Jupyter autoreload 插件
+type: text/vnd.tiddlywiki
+
+! jupyter autoreload
+---
+
+autoreload 是一个非常方便的插件，它可以让你在 Jupyter Notebook 或者 Ipython 中测试代码时不需要重启 kernel，即可应用代码的改动。
+
+!! 使用
+
+autoreload 使用也是非常简单。
+
+首先需要加载 autoreload 插件：
+
+```python
+%load_ext autoreload
+```
+
+然后打开对应的模式:
+
+```python
+%autoreload 0  # 关闭autoreload
+%autoreload 1  # 自动 reload 通过 %aimport 选定的 modules
+%%autoreload 2 # 自动reload 所有 modules 除了在 %aimport 中排除的
+```
+
+使用 `%aimport` 可以增加或排除需要 autoreload 的modules：
+
+```python
+%aimport  # 列出所有 aimport 指定的 module
+%aimport foo  # 添加 foo
+%aimport foo, bar  # 添加 foo, bar
+%aimport -foo  # 排除 foo
+```
+
+---
+
+!! References
+
+* [[官方文档|https://ipython.readthedocs.io/en/stable/config/extensions/autoreload.html]]

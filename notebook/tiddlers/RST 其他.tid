@@ -1,0 +1,27 @@
+created: 20200315092402023
+modified: 20200315092544235
+tags: RST
+title: RST 其他
+type: text/vnd.tiddlywiki
+
+!! 其他
+
+!!! 文档内锚点
+
+章节的标题会自动生成一个锚点，可以通过手动创建一个锚点：
+
+```markdown
+.. _锚点:
+```
+
+跳转到锚点：
+
+```markdown
+:ref: `跳转 <锚点>`
+```
+
+或者
+
+```markdown
+`锚点`_
+```

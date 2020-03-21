@@ -1,0 +1,45 @@
+created: 20200220155452329
+modified: 20200220162500532
+tags: Macos Python Bug
+title: Macos Temporary File
+type: text/vnd.tiddlywiki
+
+!! 问题
+
+今天通过 Python 在 Mac 使用 `TmporaryDirectory()` 创建临时文件夹。
+
+创建完毕以后，返回的临时文件夹地址在 `/var/folders/` 目录下：
+
+```python
+with TemporaryDirectory() as d:
+    print(d)
+
+# output
+/var/folders/38/hh_gtxgn6dd48gg0z86mszzc0000gn/T/tmpezq_pwci
+```
+
+这时候问题来了，当我使用 `os.chdir()` 将当前目录切换到这个临时目录后，再通过 `cwd()` 获取目录地址时，就变成了：
+
+```python
+with TemporaryDirectory() as d:
+    print(d)
+    os.chdir(d)
+    print(os.getcwd())
+
+# output
+/var/folders/38/hh_gtxgn6dd48gg0z86mszzc0000gn/T/tmphgacpq7v
+/private/var/folders/38/hh_gtxgn6dd48gg0z86mszzc0000gn/T/tmphgacpq7v
+```
+
+为什么会切换到临时目录中再获取当前目录就从 `/var/folders/` 变为 `/private/var/folders` 了呢？
+
+!! 解决
+
+这两个目录虽然路径不同，但应该是同一个目录。所以其中有一个肯定是软连接：
+
+```bash
+ls -al /
+lrwxr-xr-x@ 1 root  wheel  11  5 17  2019 /var -> private/var
+```
+
+果然 `/var` 是 `/private/var` 的软连接。而'' python 的 [[tempfile|Python tempfile]] 返回的临时目录是相对于 `/var` 的目录。而 `cwd()` 函数返回的则是真实路径。''

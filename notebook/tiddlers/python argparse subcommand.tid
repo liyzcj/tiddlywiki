@@ -1,0 +1,48 @@
+created: 20200314074854910
+modified: 20200314080348028
+tags: Case Python
+title: python argparse subcommand
+type: text/vnd.tiddlywiki
+
+! Argparse 子命令
+
+有时候一个命令行工具可能会有多个子命令，那么如何使用 Python argparse 来创建带有子命令的 CLI 工具呢？
+
+答案是 ''Subparser''，我们可以为一个 parser 添加多个 subparsers，这样每个 subparser 都是一个子命令，并且可以进行独立的参数解析。
+
+!! Usage
+
+添加 subparser 非常简单：
+
+首先需要为 main parser 添加一个 subparsers，相当于一组子命令：
+
+```python
+import argparse
+main_parser = argparse.ArgumentParser()
+subparsers = main_parser.add_subparsers(dest='subparser', required=True)
+```
+
+>  `dest` 参数非常必要，因为它决定了你如何通过解析出的参数确定使用的是那个 subcommand。如果没有 `dest` 参数，你无法从 main parser 解析出的参数中知道调用的子命令。
+
+>  `required` 表示这一组 subparsers 是必须的，这在子命令中非常有用。
+
+然后，你可以为这个 subparsers 组添加多个子命令：
+
+```python
+foo_parser = subparsers.add_parser('foo')
+bar_parser = subparsers.add_parser('bar')
+```
+
+现在有了这些子命令的 parser 之后，就可以像正常使用 parser 那样添加参数了：
+
+```python
+foo_parser.add_argument('-k', '--key')
+bar_parser.add_argument('-f', '--food')
+```
+
+解析结果：
+
+```python
+>>> args = main_parser.parse_args(['bar', '-f', "apple"])
+Namespace(food='apple', subparser='bar')
+```

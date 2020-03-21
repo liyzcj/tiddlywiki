@@ -1,5 +1,5 @@
 created: 20190903155315017
-modified: 20190903160036248
+modified: 20200216190809195
 tags: Docker
 title: Docker 基础知识
 type: text/vnd.tiddlywiki
@@ -11,6 +11,10 @@ type: text/vnd.tiddlywiki
 * ''Docker Desktop for Mac''，Container 内任何用户创建的文件都属于 Mac os 运行 docker 的当前用户。
 * ''Docker Desktop for Windows''，即使 root 用户创建，也所有用户可读写，可执行。
 * ''Docker For Linux''，根据 UID 与 GID，所有在 Container 内创建的文件在宿主机中会有相同的权限与 UID GID。
+
+!! Docker 命名规则
+
+{{Docker image naming}}
 
 
 ---

@@ -1,7 +1,7 @@
 created: 20150320143808221
-modified: 20190826161632688
+modified: 20200321045928750
 tags: $:/tags/Macro floating-images
-title: floating-image-macros
+title: $:/custom/macros/floating-image-macros
 type: text/vnd.tiddlywiki
 
 \define image-left(name, width:"33%", tooltip, caption)

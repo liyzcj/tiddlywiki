@@ -1,0 +1,16 @@
+created: 20200321095030429
+modified: 20200321095331970
+title: Javascript 开发环境
+type: text/vnd.tiddlywiki
+
+!! 环境
+
+Javascript 并不需要安装特殊的开发环境，只要有一个''浏览器''就可以开发和 DEBUG javascript。
+
+比较推荐的是 Chrome 浏览器，配置 Chrome 提供的 console `F12` 就可以进行 Debug。
+
+!! IDE
+
+使用 Vscode 作为 Js 的IDE 非常方便， Vscode 本身就是采用 JS 开发的，所以 Vscode 对 javascript 有着原生的良好支持。
+
+<<info "不过要想与浏览器结合进行 Debug，需要安装对应的插件。例如 `Debugger for Chrome`">>

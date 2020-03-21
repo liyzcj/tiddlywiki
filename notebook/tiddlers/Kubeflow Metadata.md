@@ -252,7 +252,7 @@ Kubeflow MEtadata service 定义的接口有：
 | CreateArtifact      | 创建一个 Artifact       | PutArtifacts                                    |
 | GetArtifact         | 获取一个 Artifact       | GetArtifactsByID                                |
 | ListArtifacts       | 列出 Artifacts          | GetArtifacts，GetArtifactsByType                |
-| DeleteArtifact      | 删除一个 Artifact       | Null                                            |
+| DeleteArtifact      | 删除一个 Artifact       | 未实现                                           |
 | CreateExecution     | 创建一个 Execution      | PutExecutions                                   |
 | GetExecution        | 获取一个 Execution      | GetExecutionsByID                               |
 | ListExecutions      | 列出 Executions         | GetExecutions，GetExecutionsByType              |
@@ -283,7 +283,7 @@ Kubeflow MEtadata service 定义的接口有：
 
 
 
-<img src="https://camo.githubusercontent.com/e75a8b46b078a3c1df0ed9966a16c24add9ccb83/68747470733a2f2f646f63732e676f6f676c652e636f6d2f64726177696e67732f642f3132687034435071724e5046686174744c5f63496f4a707446766c41716d35774c513067677149356d6b43672f7075623f773d37343926683d333730"  />
+![Architecture](https://camo.githubusercontent.com/e75a8b46b078a3c1df0ed9966a16c24add9ccb83/68747470733a2f2f646f63732e676f6f676c652e636f6d2f64726177696e67732f642f3132687034435071724e5046686174744c5f63496f4a707446766c41716d35774c513067677149356d6b43672f7075623f773d37343926683d333730)
 
 这样只需要编写一个 `service.proto` 文件，就可以实现两种接口的监听。
 

@@ -1,0 +1,90 @@
+created: 20200221061010167
+modified: 20200225131251882
+tags: Python
+title: Python Import 机制
+type: text/vnd.tiddlywiki
+
+! import 机制
+---
+
+> https://docs.python.org/zh-cn/3/reference/import.html
+
+!! import modules
+
+# 执行某条 import 语句
+# 在 sys.modules 中查找将要 import 的 module <div>
+
+sys.modules 是一个当前内存中所有的 module 的 dictionary，其中 key 是 module 名称，value是内存中对应 module。
+
+> 注意 `sys.modules` 中的 key 是module 的原名称。 即使 `import numpy as np`，`sys.modules` 中的 key 也是 `numpy`， `np` 只作为别名存在与当前的 local 环境中。
+
+</div>
+
+# 如果 module 存在，返回 module 对象。
+# 如果 module 不存在，创建一个新的 module对象
+# 执行module 内的代码，填充module 对象的 `__dict__` 变量。
+
+!! import Package
+
+import 包与 import module 是一样的步骤，只不过在填充 `__dict__` 的那一步是执行包内的 `__init__.py` 文件，而不是整个包的代码了。
+
+!! 循环导入错误
+
+循环导入（circular importing）是很常见的错误，如果不了解导入的原理，就会感觉很困惑。
+
+```python
+#foo.py
+from bar import Bar
+class Foo: pass
+```
+
+```python
+#bar.py
+from foo import Foo
+class Bar: pass
+```
+
+这时候执行 `python foo.py` 会抛出异常： `ImportError: cannot import name Bar`
+
+步骤：
+
+# `from bar import Bar` 从 `sys.modules` 查找 `bar` 发现没有，创建新的 module 对象
+# 执行 bar.py 填充 module bar 对象的 `__dict__`
+# 执行到 bar.py 的 `from foo import Foo` ，查找 `foo` 发现没有， 创建新的 module 对象。
+# 执行 foo.py  填充 module foo 对象的 `__dict__`.
+# 执行到 `from bar import Bar`， 从 `sys.modules` 查找 `bar`, 找到了，但是注意这时候 module bar 的 __dict__ 还是空的。所以报错找不到 `Bar`
+
+!! 解决循环导入
+
+!!! 方法一
+
+最简单的方法是把''所有的代码放到一个 module 中''，这样就不需要导入，但是这样可能会造成代码的耦合。
+
+!!! 方法二
+
+''使用 `import xx` 而不是 `from x import y`.''
+
+根据上面的 import 机制，使用 `import xx` 语句可以避免循环导入。步骤如下：
+
+# `import bar` 从 `sys.modules` 查找 `bar` 发现没有，创建新的 module 对象
+# 执行 bar.py 填充 module bar 对象的 `__dict__`
+# 执行到 bar.py 的 `import foo` ，查找 `foo` 发现没有， 创建新的 module 对象。
+# 执行 foo.py 填充 module foo 对象的 `__dict__`
+''# 执行到 `import bar`, `bar` module 已经存在，返回 bar''
+# 继续执行 foo.py, 完毕后返回 `foo` 对象继续执行 bar.py
+
+关键在于''步骤四''，因为不是 `from bar import Bar` 所以不需要去 `bar` 对象的 `__dict__` 中查找 `Bar`, 从而避免循环导入。
+
+!!! 方法三
+
+动态导入，''仅仅在需要的函数中执行导入语句''。
+
+```python
+def func():
+	from bar import Bar
+	Bar()
+```
+
+这样在导入时并不会执行 `from bar import Bar` 所以也不会造成循环导入问题。
+
+

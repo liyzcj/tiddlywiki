@@ -1,0 +1,53 @@
+created: 20200218130855276
+modified: 20200218151511260
+tags: Docker Case
+title: Docker delete existed Container
+type: text/vnd.tiddlywiki
+
+''删除 Docker 中已经完成或者出错的 Container。''
+
+
+大致方案时通过 `awk` 与 `xargs` 命令配合 docker CLI 完成。
+
+
+!! 方案一
+
+列出所有 Existed 状态的容器的 ID。
+
+```bash
+docker ps -a|grep Exited|awk '{print $1}'
+```
+
+删除过滤出的容器 ID：
+
+```bash
+docker ps -a|grep Exited|awk '{print $1}' | xargs docker rm
+```
+
+!! 方案二：直接删除
+
+''正在运行的容器无法被删除''，所以仅会删除不在运行的容器：
+
+```bash
+docker ps -a -q | xargs docker rm
+```
+
+!! 方案三：通过 `-f` filter 参数
+
+```bash
+docker ps -qf status=exited
+```
+
+> [[Docker常用命令]]
+
+!! 方案四 prune
+
+Docker 1.13 版本添加 prune 参数，可以删除停止的容器
+
+```bash
+docker container prune
+```
+
+---
+
+Brother case：[[Kubernetes delete completed pod]]

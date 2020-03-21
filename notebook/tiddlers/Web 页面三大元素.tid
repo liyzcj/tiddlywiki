@@ -1,0 +1,11 @@
+created: 20200321083716876
+modified: 20200321083812721
+tags: Concept
+title: Web 页面三大元素
+type: text/vnd.tiddlywiki
+
+Web 页面的三大元素：
+
+* [[HTML]]：包含页面的内容
+* [[CSS]]：包含页面的风格
+* [[Javascript]]：控制页面的行为

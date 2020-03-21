@@ -1,0 +1,74 @@
+created: 20200216190549411
+modified: 20200219071430275
+tags: Docker
+title: Docker image naming
+type: text/vnd.tiddlywiki
+
+! Image Naming
+---
+
+Docker 镜像的命名为
+
+镜像的全名：`Registry/Repository:Tag`
+
+* Registry: Docker Registry 地址
+* Repository: 镜像仓库名称
+* Tag: 镜像的标签
+
+
+其中 `Repository` 可以包含多个斜杠 `/` 作为层级结构。整个 `Registry/Repository` 可以作为一个路径看待，路径中的每一段都必须符合正则表达式 ''`[a-z0-9]+(?:[._-][a-z0-9]+)*`''
+
+> 注意不能为''大写字符''。
+
+如果省略 Tag，则默认为 `latest`
+
+!! 本地
+
+在本地情况下，可以省略 `<Registry>`, 所以可以为 1 - n 段 path 的 `<Repository>`.
+
+!! Registry
+
+对于自定义的 Registry，可以将名称的根目录命名为 Registry 的路径。
+
+`Repository` 仍然可以为''一段或多段。''
+
+> 注意，对于自己部署的 Docker Registry 需要指定 Registry 的''端口''。
+
+```bash
+myregistry.io:port/myrepo/myimage:latest
+```
+
+!! Docker Hub
+
+对于官方的 Docker Hub，命名有一些限制。
+
+`Registry/Username/Image_name:Tags`
+
+Docker Hub 将 Repository 限制为至少 ''两段''。其中第一段作为 Docker Hub User Name。第二段作为 Repository name。
+
+!!! 省略
+
+为了方便用户从 Docker hub 拉取镜像，拉取时镜像名称可以进行一些省略。
+
+* `Registry`： 首先是 Regsitry，如果省略则 docker 会默认从''Docker Hub: `docker.io`'' 中拉取镜像。 <div>
+
+> Docker Hub 可以通过 Mirror 加速。[[Docker 镜像加速]]
+
+</div>
+
+* `Username`: 如果省略 Username，则默认为 `library`，里面包含了许多常用的镜像。 <div>
+
+例如对于 ubuntu，如果省略，则为：
+
+```bash
+docker pull ubuntu
+# 等价于
+docker pull docker.io/library/ubuntu:latest
+```
+
+</div>
+
+
+---
+
+* [[Registry HTTP API V2|https://docs.docker.com/registry/spec/api/#overview]]

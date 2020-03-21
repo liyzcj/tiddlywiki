@@ -1,0 +1,76 @@
+created: 20200321045019629
+modified: 20200321050620989
+tags: $:/tags/Stylesheet
+title: $:/custom/styles/doc
+type: text/vnd.tiddlywiki
+
+.tc-doc-note {
+    background-color: #ffffcc !important;
+    border-left: 6px solid #ffeb3b !important;
+}
+
+.tc-doc-info {
+    background-color: #ddffdd;
+    border-left: 6px solid #4CAF50;
+}
+
+.tc-doc-attention {
+    background-color: #ffdddd;
+    border-left: 6px solid #f44336;
+}
+
+.tc-doc-note, .tc-doc-attention, .tc-doc-info {
+	padding-top: 0.01em;
+    padding-right: 16px;
+    padding-bottom: 0.01em;
+    padding-left: 16px;
+}
+
+.tc-doc-note:before, .tc-doc-info:before, .tc-doc-attention:before, .tc-doc-note:after, .tc-doc-info:after, .tc-doc-attention:after {
+    box-sizing: inherit;
+}
+
+.tc-tabbed-table-of-contents, .tc-table-of-contents, .tc-tabbed-table-of-contents-content {
+	border: 0px solid #cccccc !important;
+}
+
+.tc-tabbed-table-of-contents-content {
+	width: 65% !important;
+    padding-left: 0.5rem !important;
+}
+
+.tc-table-of-contents, .tc-tabbed-table-of-contents {
+	background: transparent !important;
+    border: 0px solid #cccccc !important;
+    padding-left: 0px !important;
+}
+
+.tc-tabbed-table-of-contents .tc-table-of-contents .toc-item-selected > a {
+    border-left: 0px solid #cccccc !important;
+    border-top: 0px solid #cccccc !important;
+    border-bottom: 0px solid #cccccc !important;
+	background: <<colour muted-foreground>> !important;
+}
+
+.tc-tabbed-table-of-contents .tc-table-of-contents .toc-item > a {
+    border-left: 0px solid #cccccc !important;
+    border-top: 0px solid #cccccc !important;
+    border-bottom: 0px solid #cccccc !important;
+}
+
+.tc-tabbed-table-of-contents .tc-table-of-contents .toc-item > a.tc-tiddlylink, .tc-tabbed-table-of-contents .tc-table-of-contents .toc-item-selected > a.tc-tiddlylink {
+ 	color: <<colour foreground>> !important;
+    padding-right: 0.5rem !important;
+}
+
+.tc-tabbed-table-of-contents .tc-table-of-contents .toc-item > a:hover {
+	background: transparent !important;
+}
+
+.javascript .xml, .xml .javascript {
+	opacity: 1.0 !important;
+}
+
+.full-slider {
+	width: 100%;
+}

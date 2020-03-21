@@ -1,0 +1,31 @@
+created: 20200307135213124
+modified: 20200307140649393
+tags: Pandas Issue
+title: Pandas to csv Excel 乱码
+type: text/vnd.tiddlywiki
+
+!! Description
+
+使用 Pandas 的 `to_csv()` 方法导出的 CSV 文件在 Excel 中打开时''中文显示乱码。''
+
+!! 原因
+
+Pandas `to_csv()` 导出的文件''默认采用 UTF-8 编码''。
+
+Excel在读取csv的时候是通过''读取文件头上的BOM（ByteOrderMark）''来识别编码的，如果文件头无bom信息，则默认按照unicode编码读取。所以无法识别 UTF-8 编码的中文。
+
+> 类似WINDOWS自带的记事本等软件，在保存一个以UTF-8编码的文件时，会在文件开始的地方插入三个不可见的字符（0xEF 0xBB 0xBF，即BOM）。它是一串隐藏的字符，用于让记事本等编辑器识别这个文件是否以UTF-8编码。
+
+!! 解决
+
+Pandas 提供的编码 `utf-8-sig` 会在文件头添加 BOM：
+
+```python
+df.to_csv('file.csv',encoding='utf-8-sig')
+```
+
+---
+
+!! References
+
+* [[Stack overflow|https://stackoverflow.com/questions/25788037/pandas-df-to-csvfile-csv-encode-utf-8-still-gives-trash-characters-for-min]]

@@ -1,0 +1,22 @@
+created: 20200321112508777
+modified: 20200321112711092
+title: COMET
+type: text/vnd.tiddlywiki
+
+Comet是一种用于web的推送技术，能使服务器实时地将更新的信息传送到客户端，而无须客户端发出请求，当前有两种实现方式，''长轮询''和''iframe''流。
+
+!! 实现方式
+
+!!! 长轮询
+
+长轮询是在打开一条连接以后保持，等待服务器推送来数据再关闭的方式。
+
+!!! iframe 流
+
+iframe流方式是在页面中插入一个隐藏的iframe，利用其src属性在服务器和客户端之间创建一条长链接，服务器向iframe传输数据（通常是HTML，内有负责插入信息的javascript），来实时更新页面。
+
+iframe 流方式的优点是浏览器兼容好，Google 公司在一些产品中使用了 iframe 流，如 Google Talk。
+
+!! Future
+
+在 [[HTML5]] 标准中，定义了客户端和服务器通讯的 ~WebSocket方式，在得到浏览器支持以后，~WebSocket 将会取代 Comet 成为服务器推送的方法

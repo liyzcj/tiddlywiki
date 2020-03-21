@@ -1,0 +1,25 @@
+created: 20200315092314001
+modified: 20200315092512326
+tags: RST
+title: RST 图片
+type: text/vnd.tiddlywiki
+
+!! 图片
+
+语法：
+
+```markdown
+.. image:: picture.jpeg
+    :height: 100px
+    :width: 200 px
+    :scale: 50 %
+    :alt: alternate text
+    :align: right
+```
+
+* `alt`: 简单的图片介绍
+* `height`: 图片的高度
+* `width`: 图片宽度，可以是长度单位或百分比
+* `scale`: 图片缩放比例，整数百分比
+* `align`: 图片的位置
+* `target`: 图片指向的超链接

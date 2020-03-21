@@ -1,0 +1,17 @@
+created: 20200222104828036
+modified: 20200222141019844
+tags: Definitions Python
+title: Python PathLike object
+type: text/vnd.tiddlywiki
+
+! Python ~PathLike object
+---
+
+> Add in python 3.6
+
+`PathLike` 是 3.6 新增加的一个抽象对象，抽象方法为 ''`__fspath__()`''，该方法返回的是一个''字符串''，代表一个路径。
+
+
+---
+
+* [[os Pathlike|https://docs.python.org/3/library/os.html#os.PathLike]]

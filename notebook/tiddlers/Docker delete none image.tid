@@ -1,0 +1,31 @@
+created: 20200218153905425
+modified: 20200218154545457
+tags: Case Docker
+title: Docker delete none image
+type: text/vnd.tiddlywiki
+
+''Docker 删除没有 tag 的 None image。''
+
+如果一个 image 没有 tag，则会被标记为 `none:none`，这样这个 image 就无法辨认，称为''孤立镜像。''
+
+要删除这种镜像首先需要停止并且删除使用这个镜像的 Container。 参考[[Docker delete existed Container]]
+
+!! 方案一：通过 awk xargs等
+
+在 Docker v1.13 之前，没有专用的命令来删除孤立镜像，但是可以通过文本工具获取镜像 id 并删除：
+
+```bash
+docker image ls | grep none | awk '{print $3}' | xargs docker rmi
+```
+
+!! 方案二：通过 Image prune
+
+在 Docker v1.13 中，添加了新的命令 prune，用来专门删除孤立镜像：
+
+```bash
+docker image prune
+```
+
+---
+
+[[Docker prune object|https://docs.docker.com/config/pruning/]]

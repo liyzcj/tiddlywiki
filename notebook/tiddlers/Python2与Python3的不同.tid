@@ -1,6 +1,6 @@
 created: 20190719224601810
 creator: liyzcj
-modified: 20190828184329768
+modified: 20200315050418743
 modifier: liyzcj
 tags: Python
 title: Python2与Python3的不同
@@ -39,3 +39,10 @@ Python 3 中的普通除法:
 
 Python 2 中继承 `object` 的为新式类, 否则为经典类. Python 3 中所有的都是新式类. 详见 [[Python 面向对象]]
 
+区别：
+
+* 新式类可以通过 `__class__` attribute 获取自身的 class
+* 继承多个类时，经典类按照深度优先搜索，新式类按照广度优先搜索
+* 新式类增加了 `__slots__` 属性，限制 Attribute。
+* 新式类添加了 `__getattribute__()` 方法。
+* 新式类添加了 [[__new__|Python __new__]] 方法

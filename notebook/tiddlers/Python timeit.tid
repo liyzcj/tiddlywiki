@@ -1,10 +1,151 @@
 created: 20200211075704919
-modified: 20200211075945094
-tags: Python Module TODO Builtin
+modified: 20200215090558973
+tags: Python Module Builtin
 title: Python timeit
 type: text/vnd.tiddlywiki
 
 ! Python timeit
 ---
 
-Python timeit module 可以用来方便的测试程序运行时间。
+Python timeit module 可以用来方便的测试程序运行时间。它提供了一个''命令行接口''和一个''可调用函数''。它避免了许多关于时间测试的常见的坑。
+
+!! 基本实例
+
+下面的例子展示了如何使用命令行工具来比较三种表达式的时间消耗：
+
+```bash
+$ python3 -m timeit '"-".join(str(n) for n in range(100))'
+10000 loops, best of 5: 30.2 usec per loop
+$ python3 -m timeit '"-".join([str(n) for n in range(100)])'
+10000 loops, best of 5: 27.5 usec per loop
+$ python3 -m timeit '"-".join(map(str, range(100)))'
+10000 loops, best of 5: 23.2 usec per loop
+```
+
+对应的使用 Python 函数的实现为：
+
+```python
+>>> import timeit
+>>> timeit.timeit('"-".join(str(n) for n in range(100))', number=10000)
+0.3018611848820001
+>>> timeit.timeit('"-".join([str(n) for n in range(100)])', number=10000)
+0.2727368790656328
+>>> timeit.timeit('"-".join(map(str, range(100)))', number=10000)
+0.23702679807320237
+```
+
+通过Python 的接口而不是字符串也可以进行测试：
+
+```python
+>>> timeit.timeit(lambda: "-".join(map(str, range(100))), number=10000)
+0.19665591977536678
+```
+
+> Python 接口接收的是一个可调用的函数，可以使用 `lambda` 快速创建。并且注意：''只有命令行有默认的循环次数。''
+
+
+!! Python 接口
+
+;`timeit.timeit(stmt='pass', setup='pass', timer=<default timer>, number=1000000, globals=None)`
+:根据给定的表达式、setup 代码和 timer 函数创建一个 Timer 实例，并运行它的 `timeit()` 方法 number 次。3.5 之后添加了 globals 来指定执行代码的 namespace。
+
+;`timeit.repeat(stmt='pass', setup='pass', timer=<default timer>, repeat=5, number=1000000, globals=None)`
+:和 timeit相同，不过是调用 Timer 的 `repeat()` 方法，重复运行多次。
+
+;`timeit.default_timer()`
+:默认的 Timer。
+
+!!! Timer 类
+
+timeit 中的主要实现就是 Timer 类，这个类通过 statement 代码，setpup 代码，指定 timer以及 gobals namespace 来确定一个测试时间实例。上面的 `timeit()` `repeat()` 方法都是创建一个 Timer 实例并调用对应的方法。
+
+;`class timeit.Timer(stmt='pass', setup='pass', timer=<timer function>, globals=None)`
+:构造器的参数包含 `statement 代码` `setup 代码`，指定 `timer` 以及 `globals` namesace 来创建一个 Timer 实例。其中 `statement`和 `setup` 为 Python代码，可以通过 `;` 分割为多行。默认在 timeit 命名空间中执行 statement ，并可以通过 `globals` 指定命名空间。<div>
+
+使用 `timeit()` 方法来测试 `statement` 代码的执行时间。或者使用 `repeat()` 或 `autorange()` 来进行多次调用 `timeit()`。
+
+> `stmt` 和 `setup` 也可以指定一个没有参数的 callable。这样 Timer 会在 timer 函数中调用这个函数来测试时间。''注意这种方法会比直接指定 Python 代码消耗的额外时间要稍微长一点，因为这样会包含调用函数的时间。''
+
+;timeit(number=1000000)
+:执行 statement `number` 次，但仅仅执行 setup 一次。（setup 的执行时间不计算在内）。结果的单位为秒，是一个浮点数。<div>
+
+> 默认情况下，垃圾回收机制在测试时间时会关闭。这种策略的优点是，多个独立的时间测试更有可比性。缺点是垃圾回收也是测试性能的一部分，而关闭了就测不到了。如果需要打开垃圾回收机制可以在 setup 代码中执行：<div>
+
+```python
+timeit.Timer('for i in range(10): oct(i)', 'gc.enable()').timeit()
+```
+
+</div>
+
+</div>
+
+;autorange(callback=None)
+:自动决定调用 `timeit()` 的次数。<div>
+
+autorange 是一个非常方便的方法，因为它会自动调用 `timeit()` 多次知道总时间大于 0.2 秒。
+
+如果 `callback` 不为空，则 `callback` 会在每次执行完毕 `timeit()` 是被调用，`callback`函数有两个参数：
+
+```python
+callback(number, time_taken)
+```
+
+</div>
+
+;repeat(repeat=5,number=1000000)
+:repeat 用来手动决定重复调用 `timeit()` 的次数。他会返回''包含每次调用的时间的列表''。第一个指定了调用 `timeit` 多少次，第二个参数指定了 `timeit()` 的参数 number。
+
+> 可能会有人想根据返回的 list 来计算耗时的均值和方差。这看起来很正确，但是确是没用的。因为结果的最小值是系统运行你的代码用的最小时间，而最大值可能是由于系统中的其他进程而不是 Python 导致运行时间变长的，所以''最小值才是最具有参考意义的''。
+
+
+;print_exc(file=None)
+:Helper 方法，用来打印被测试代码中的 trackback。通常如下： <div>
+
+```python
+t = Timer(...)       # outside the try/except
+try:
+    t.timeit(...)    # or t.repeat(...)
+except Exception:
+    t.print_exc()
+```
+
+相较于标准的 trackback 这样做的优点是''引起异常的 statement 代码会被显示出来。''可选参数 `file` 指定了将 trackback 发送的文件描述符位置，默认为 `sys.stderr`
+
+</div>
+
+</div>
+
+
+!! 命令行工具
+
+命令行调用的参数如下：
+
+```bash
+python -m timeit [-n N] [-r N] [-u U] [-s S] [-h] [statement ...]
+```
+
+选项如下：
+
+|!Option|!Description|
+|`-n N, --number=N`|执行 statement 的次数|
+|`-r N, --repeat=N`|重复执行 timer 的次数，默认为 5|
+|`-s S, --setup=S`|statement 执行之前的 setup 代码|
+|`-p, --process`|使用 process timer `time.process_time()`而不是 `time.perf_counter()`|
+|`-u, --unit=U`|3.5 版本加入，指定时间单位 nsec, usec, msec, or sec|
+|`-v, --verbose`|显示更多信息|
+|`-h, --help`|打印帮助|
+
+多行代码可以通过将每一行指定为单独的参数给出，缩进用空格表示，-s 也是同理。
+
+如果没有指定 `-n` 参数，则默认和 `autorange()` 行为相同，会自动决定循环的次数，并直到时间大于 0.2 秒。
+
+默认的 `default_timer()` 时间统计函数可能会收到其他程序的影响，重复测试多次并取最小值是比较可靠的办法。 `-r` 会默认重复 5 次，在大多情况下都够用。或者你可以使用 `time.process_time()` 来统计 CPU 时间。
+
+> 当测试 `pass` 时得出的是一个时间的基线，也是执行时间的 Overhead。这个时间可能会由于 Python 版本的不同而不同。
+
+
+---
+
+!! Reference
+
+[[Official doc|https://docs.python.org/3.8/library/timeit.html]]

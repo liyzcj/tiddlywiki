@@ -1,0 +1,89 @@
+created: 20200315092212502
+modified: 20200315092438828
+tags: RST
+title: RST 列表
+type: text/vnd.tiddlywiki
+
+!! 列表
+
+!!! 无序列表
+
+`-` `+` `*` 都可用来标记无序列表：
+
+```markdown
+- option1
++ something2
+* something2
+```
+
+!!! 有序列表
+
+数字或字母后加一个 `1.`，`a.` 或者双圆括号 `(1)` 单圆括号 `1)` 都可以作为有序列表。
+
+```markdown
+1. 数字
+
+A. 小写字母
+    可以有多行
+
+    可以有几个段落。
+
+a. 小写字母
+
+    3. 以不同的数字开始的子列表
+    4. 确保数字的顺序是对的
+
+I. 大写罗马数字
+
+i. 小写罗马数字
+
+(1) 又是数字
+
+1) 还是数字
+```
+
+
+!!! 定义列表
+
+```markdown
+what
+    this is a english word.
+apple
+    this is a kind of fruit.
+```
+
+!!! 字段列表
+
+```markdown
+:Authors:
+    Alex, Tony.
+:Version: 1.1 Alpha
+:Dedication: To my father.
+```
+
+> 默认注册的字段有 <div>
+
+|!字段名|!代表元素|
+|"Authors"|作者.|
+|"Organization"|组织.|
+|"Contact"|联系方式.|
+|"Address"|地址.|
+|"Version"|版本.|
+|"Status"|状态.|
+|"Date"|日期.|
+|"Copyright"|版权.|
+|"Dedication"|主题.|
+|"Abstract"|主题.|
+
+</div>
+
+!!! 选项列表
+
+```bash
+-a           command-line option"a"
+-b file      options and arguments
+--long       long options
+/V           DOS option
+```
+
+[[官方文档：列表|http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#bullet-lists]]

@@ -1,0 +1,28 @@
+created: 20200225170458741
+modified: 20200309133359900
+tags: TODO Python ProtoBuf
+title: Protobuf Python
+type: text/vnd.tiddlywiki
+
+
+!! Repeated Field
+
+可重复的字段可以看作 Python 的 List，但是不能直接赋值，protocol 为 repeated Field 提供了一些方法进行赋值：
+
+* append：添加
+* extend：扩展一个 List
+* insert：插入 
+* MergeFrom：从另一个 Message merge
+* pop：出栈
+* remove：删除
+* sort：排序
+
+还有一个比较 trick 的方法：
+
+```python
+msg.repeated_field[:] = [elems]
+```
+
+---
+
+* [[Protocol Buffers Python Doc|https://developers.google.com/protocol-buffers/docs/reference/python-generated]]

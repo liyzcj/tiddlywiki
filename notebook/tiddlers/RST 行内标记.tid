@@ -1,0 +1,22 @@
+created: 20200315092125376
+modified: 20200315092422258
+tags: RST
+title: RST 行内标记
+type: text/vnd.tiddlywiki
+
+!! 行内标记
+
+
+|!功能|!代码|!附加代码|
+|斜体|<code>*emphasis*</code>||
+|加粗|<code>**emphasis**</code>||
+|解释|<code>&#96;interpreted&#96;</code>||
+|代码|<code>&#96;&#96;code&#96;&#96;</code>||
+|参考|<code>google_</code>|<code>.. _google: http://google.com/</code>|
+|短语参考|<code>&#96;this google&#96;_</code>|<code>.. _this google: http://google.com/</code>|
+|间接参考|<code>&#96;search engine&#96;&#95;&#95;</code>|<code>&#95;&#95; google_</code>|
+|替换|<code>|biohazard|</code>|<code>.. |biohazard| image:: biohazard.png</code>|
+|脚注|<code>footnote reference \[1]_</code>|<code>.. [1] This is a footnote ref</code>|
+|引用|<code>[CIT2002]_</code>|<code>.. [CIT2002] This is a Citation.</code>|
+|超链接|<code>http://google.com/</code>||
+|公式|<code>:math:x\in\mathbb{W}</code>||

@@ -1,0 +1,13 @@
+created: 20200321084852864
+modified: 20200321085729232
+tags: Markup
+title: HTML
+type: text/vnd.tiddlywiki
+
+超文本标记语言（''H''yper''T''ext ''M''arkup ''L''anguage）简称 HTML，是一种用于创建网页的标准标记语言，通常与 [[CSS]] [[Javascript]] 一起用于网页，网页应用程序的设计与实现。
+
+''HTML 元素'' 是使用 HTML 构建网站的基石。这些 HTML 元素被用来结构化信息 --- 例如标题、列表、段落等等，也可以一定程度上描述文档的外观和语义。
+
+HTML 以''尖括号''包裹着元素作为主要语言形式。例如 `<body> </body>`，`<body>` 表示 body 元素的开始， `</body>` 表示 body 元素的结束。''浏览器会根据元素来诠释网页中的内容。''
+
+<<note "随着网页技术的发展，现在推荐使用 CSS 描述元素的外观与布局，HTML 用来包含网页内容">>

@@ -1,5 +1,5 @@
 created: 20191126062443584
-modified: 20191126070544013
+modified: 20200218072814168
 tags: Python Spark
 title: findspark
 type: text/vnd.tiddlywiki
@@ -44,7 +44,17 @@ findspark can add spark packages by setting a ENV `PYSPARK_SUBMIT_ARGS`.
 findspark.add_packages('package_name')
 ```
 
-> ''Note:'' if you don't have ENV `PYSPARK_SUBMIT_ARGS` before, this will raise KeyError. In findspark repo master branch, find spark will set `PYSPARK_SUBMIT_ARGS=''` if you don't have `PYSPARK_SUBMIT_ARGS`.
+> ''Note:'' if you don't have ENV `PYSPARK_SUBMIT_ARGS` before, this will raise `KeyError`. In findspark repo master branch, find spark will set `PYSPARK_SUBMIT_ARGS=''` if you don't have `PYSPARK_SUBMIT_ARGS`.
 
 
 ''IF you install pyspark through PIP, you don't have to use findspark, but if you want use spark packages, you have to set `PYSPARK_SUBMIT_ARGS` manually''
+
+!! 总结
+
+* spark 安装后自带 pyspark 但是默认并不在 `sys.path` 中。
+* findspark `init()` 会根据 `SPARK_HOME` 将 pyspark 添加到 path中，`find()` 会从几个可能的目录搜索。
+* spark 的 package 应该由环境变量 `PYSPARK_SUBMIT_ARGS` 指定参数，findspark 的 `add_package()` 会将 package 参数添加到环境变量 `PYSPARK_SUBMIT_ARGS`中
+
+---
+
+[[Github -- findspark|https://github.com/minrk/findspark]]

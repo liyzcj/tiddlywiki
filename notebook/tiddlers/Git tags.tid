@@ -1,0 +1,71 @@
+created: 20200310174829589
+modified: 20200312041639746
+tags: Command Git
+title: Git tags
+type: text/vnd.tiddlywiki
+
+git tag 包括两种：
+
+* unannotated tag
+* annotated tag
+
+unannotated tag 是轻量的 tag，可以随时打 tag，是为了方便开发者进行标记。所以''不应该被 Push 到远程仓库。''
+
+annotated tag 是代表正式的、发布的 tag。所以应该被推送到远程仓库。
+
+!! 创建 tag
+
+创建一个 tag：
+
+```bash
+git tag light  # unannotated
+git tag -a -m "Msg" annot  # annotated
+```
+
+仅仅列出 annotated tags：
+
+```bash
+git describe
+```
+
+!! 推送
+
+自动推送 annotated tag 到远程仓库：
+
+```bash
+git push --follow-tags
+```
+
+可以将该参数作为永久配置：
+
+```bash
+git config --global push.followTags true
+```
+
+!! 删除tag
+
+删除本地 tag：
+
+```bash
+git tag -d footag
+```
+
+删除远程 tag：
+
+```bash
+git push origin :footag
+```
+
+或者使用 `delete` 参数：
+
+```bash
+git push --delete origin footag
+```
+
+> ''注意'': Tag 与 Branch 在 Git 中是不同的命名空间，所以是可以重名的。''如果重名的话，上面的命令会删掉那个重名的 Branch。''所以，在重名的情况下，可以使用 refs 的完整路径： <div>
+
+```bash
+git push origin :refs/tags/footag
+```
+
+</div>

@@ -1,0 +1,26 @@
+created: 20200214150500627
+modified: 20200214151302236
+tags: Builtin Python
+title: Python print 函数
+type: text/vnd.tiddlywiki
+
+! Python print()
+
+```python
+def print(
+        *values: object, sep: Optional[Text] = ..., end: Optional[Text] = ..., file: Optional[_Writer] = ..., flush: bool = ...
+    ) -> None: ...
+```
+
+!! 参数
+
+* `end` <div>
+
+指定结尾字符。
+
+|!字符|!含义|
+|`\n`|换行，''默认''|
+|`字符`|在结尾打印|
+|`\r`|下次打印刷新当前输出|
+
+</div>

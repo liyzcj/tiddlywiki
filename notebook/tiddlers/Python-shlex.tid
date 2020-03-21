@@ -1,0 +1,142 @@
+created: 20200217161058120
+modified: 20200219085711733
+tags: Builtin Python
+title: Python-shlex
+type: text/vnd.tiddlywiki
+
+! shlex module
+---
+
+Shlex module 可以用来轻松的实现类似 Shell 的语法分析器。它经常被用来''实现迷你语言''（例如 Python 应用的运行控制文件）或者用于''分析带引号的字符串。''
+
+!! 函数
+
+* ''split()'' <div>
+
+```python
+shlex.split(s, comments=False, posix=True)
+```
+
+使用 shell 类似的语法将字符串 `s` 分割为字符串序列。如果 `comments=False`, 则不会解析字符串中的注释。若打开则会将注释解析为空字符。默认在 `posix` 模式下执行。
+
+> 由于 `split()` 函数实例化一个 shlex 实例，所以如果字符串为 `None` 则会从''标准输入''获取字符串。
+
+</div>
+
+* ''join()'' <div>
+
+```python
+shlex.join(split_command)
+```
+
+将字符串序列拼接为单个字符串命令。该函数是 `split()` 的反函数。
+
+> 返回的字符串为 shell-escaped，以防止漏洞注入。
+
+''该命令 3.8 版本加入。''
+
+</div>
+
+* ''quote()'' <div>
+
+```python
+shlex.quote(s)
+```
+
+返回字符串 s 的 shell-escaped 版本。返回的字符串可以安全准确的在 shell 中执行，防止 shell 漏洞注入。
+
+例如：
+
+```bash
+>>> filename = 'somefile; rm -rf ~'
+>>> command = 'ls -l {}'.format(filename)
+>>> print(command)  # executed by a shell: boom!
+ls -l somefile; rm -rf ~
+```
+
+`quote()` 会添加一个安全引号：
+
+```python
+>>> from shlex import quote
+>>> command = 'ls -l {}'.format(quote(filename))
+>>> print(command)
+ls -l 'somefile; rm -rf ~'
+>>> remote_command = 'ssh home {}'.format(quote(command))
+>>> print(remote_command)
+ssh home 'ls -l '"'"'somefile; rm -rf ~'"'"''
+```
+
+引用后的字符串与 `split()` 函数以及 Unix shell 兼容：
+
+```python
+>>> from shlex import split
+>>> remote_command = split(remote_command)
+>>> remote_command
+['ssh', 'home', "ls -l 'somefile; rm -rf ~'"]
+>>> command = split(remote_command[-1])
+>>> command
+['ls', '-l', 'somefile; rm -rf ~']
+```
+
+</div>
+
+
+!! 类
+
+shlex 定义了一个 shlex 类：
+
+```python
+shlex.shlex(instream=None, infile=None, posix=False, punctuation_chars=False)
+```
+
+shlex 的实例或子类的实例是一个语法分析器。''构造参数指定了从哪里读取字符''。必须为一个 file-stream 类的对象，并且拥有 `read()` 和 `readline()` 方法，或者一个字符串。如果没有指定参数，则默认从 `sys.stdin` 读取输入。
+
+第二个参数是一个文件名字符串，定义了 attribute `infile` 的值。如果 `instream` 被省略或等于 `sys.stdin`，这个参数默认为 `"stdin"`。
+
+`posix` 参数定义了操作系统的模式。当 `posix` 为 false 时（默认），shlex 会在兼容模式下操作。当以 POSIX 模式操作时，shlex 会尝试尽可能接近 POSIX 的 shell 解析规则。
+
+`punctuation_chars` 提供了一种更加接近真实 shell 解析器的方式。默认值为 `False` 保留在 Python 3.5 以及更早版本下看到的行为。如果设置为 `True`，那么会将字符 `();<>|&` 作为标点处理，全部返回单个字符。如果设置为一个非空的字符串，那么字符串中包含的字符都会作为标点处理。
+
+> `punctuation_chars` 仅仅能够在初始化时设置，初始化之后无法改变。
+
+!! Parsing 规则
+
+在''非 POSIX模式''下，shlex 会遵守如下规则：
+
+* 在字符中间的引号不会被识别出来。例如 `Do"Not"Separate` 会被解析为单个单词。
+* 转义字符不会被识别。
+* 用引号引起来的字符全部保留。
+* 单个引号在边界则会将单词分开。例如 `"Do"Separate` 会被分割为 `"Do"` 和 `Separate`
+* 如果 `witespace_split` 为 False，任何未声明为单词字符的字符，空格或引号会作为单个字符返回。如果为 True，仅仅会在空白字符出分割。
+* EOF 由一个空字符指定 `''`;
+* 无法对空字符进行解析，即使使用引号引用。
+
+在 ''POSIX 模式''下，shlex 会遵守如下规则：
+
+* ''所有的引号都会被丢弃。''例如，`"Do"Not"Separate"` 会被解析为 `DoNotSeparate`
+* `\` 作为转义字符将下一个字符保持原样。
+* 使用非 `escapedquotes` 指定的字符将字符串引用，则字符串会保持原样，不进行转义。例如 `"'"`
+* 使用 `escapedquotes` 中的字符作为引用时，例如 `'"'` 那么除了 `escape` 中指定的字符，其他都作为原字符处理。转义字符仅仅会在跟一个引号或者转义字符时才会有特殊意义，否则作为普通字符处理。
+* EOF 由 `None` 指定。
+* 引号引用空字符串是被允许的。`''`
+
+!! 提高与 shell 的兼容性
+
+shlex 提供了与 `bash` `dash` 和 `sh` 同样的字符解析的兼容性。要打开这种兼容性模式，可以指定 `punctuation_chars=True` (默认为 False)。当打开该选项后，`();<>|&` 都会被作为单个字符被分割开，也就是作为标点符号。`punctuation_chars` 还可以指定为多个字符组成字符串，这些字符都会作为''标点符号''解析。
+
+> 当打开 `punctuation_chars` 选项时，`wordchars` 将会扩展这些字符：`~-./*?=` 因为这些字符可能会出现在文件名或者参数中。<div>
+
+```python
+>>> import shlex
+>>> s = shlex.shlex('~/a && b-c --color=auto || d *.py?',
+...                 punctuation_chars=True)
+>>> list(s)
+['~/a', '&&', 'b-c', '--color=auto', '||', 'd', '*.py?']
+```
+
+然而，为了更加接近shell，建议在使用 `pounctuation_chars` 的同总是打开 `posix` 和 `witespace_split` 参数。`wordchars`  会失效。
+
+</div>
+
+作为最佳实践，参数 `punctuation_chars` 总会和 `posix=True` 一起使用。（默认 posix=Flalse)
+

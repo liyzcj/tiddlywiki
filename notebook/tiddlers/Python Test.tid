@@ -1,6 +1,6 @@
 created: 20191205025244694
-modified: 20200201145432273
-tags: Survey Python
+modified: 20200316030223291
+tags: Survey Python Test
 title: Python Test
 type: text/vnd.tiddlywiki
 
@@ -23,9 +23,9 @@ type: text/vnd.tiddlywiki
 
 Test Runner 有多个可以选择。Python 内建的叫做 [[unittest|Python unittest]]. 最流行的三个：
 
-* unittest
-* nose or nose2
-* pytest
+* [[unittest|Python unittest]]
+* [[nose or nose2|Python nose]]
+* [[pytest|Python pytest]]
 
 三种 runner 对代码的要求：
 

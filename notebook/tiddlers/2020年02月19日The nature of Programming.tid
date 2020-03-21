@@ -1,0 +1,19 @@
+created: 20200218170202628
+modified: 20200218171422716
+tags: 日志 Mind
+title: 2020年02月19日The nature of Programming
+type: text/vnd.tiddlywiki
+
+! The nature of Programming
+
+There are two things in programming: ''Function'' and ''Data''.
+
+''The programming is to abstract Functions and Datas.'' Then use abstracted functions and datas to imeplement business logic.
+
+!! Legacy Programming
+
+Legacy programming always use function to manipulate data and implement logic. Whatever which kind of data coming from input, the logic won't be changed.
+
+!! Machine Learing Programming
+
+In ML Programming, The coming data join in to logic. The logic will be change and adapt the coming data distribution.

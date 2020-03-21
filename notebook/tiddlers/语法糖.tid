@@ -1,0 +1,23 @@
+created: 20200321111704253
+modified: 20200321111940789
+tags: Programming
+title: 语法糖
+type: text/vnd.tiddlywiki
+
+语法糖（syntactic sugar）是由英国计算机科学家彼得·兰丁发明的一个术语，指计算机语言中添加的某种语法，这种语法对语言的功能没有影响，但是更方便程序员使用。
+
+语法糖让程序更加简洁，有更高的可读性。
+
+!! 派生词语
+
+!!! 语法盐
+
+语法盐（英语：syntactic salt）指的是让写出坏代码更难的语法特性。这些特性强迫程序员做出一些基本不用于描述程序行为，而是用来证明他们知道自己在做什么的额外举动。
+
+!!! 语法糖精
+
+语法糖精（英语：syntactic saccharine），或者说语法糖浆（英语：syntactic syrup），指的是未能让编程更加方便的附加语法。
+
+---
+
+[[Wiki|https://zh.wikipedia.org/wiki/%E8%AF%AD%E6%B3%95%E7%B3%96]]

@@ -1,0 +1,13 @@
+created: 20200321083458820
+modified: 20200321084014012
+tags: Javascript
+title: Nodejs
+type: text/vnd.tiddlywiki
+
+Node.js 是能够在服务器端运行 [[Javascript]] 的开源、跨平台的运行环境。
+
+Node.js采用Google开发的 V8 引擎运行代码，使用事件驱动、非阻塞和异步输入输出模型等技术来提高性能，可优化应用程序的传输量和规模。
+
+Node.js 的出现使 [[Javascript]]也能用于服务端编程。Node.js 含有一系列内置模块，使得程序可以脱离 Apache HTTP Server 或 IIS，作为独立服务器运行。
+
+* [[安装 node js]]

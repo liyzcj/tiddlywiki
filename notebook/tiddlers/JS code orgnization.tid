@@ -1,0 +1,53 @@
+created: 20200321084431594
+modified: 20200321101738220
+tags: Javascript
+title: JS code orgnization
+type: text/vnd.tiddlywiki
+
+!! 代码位置
+
+运行在网页上的 JS 代码由 [[HTML]] 的 `script` 的元素指定，可以位于 `head` 或者 `body` 元素中。为了代码简洁易读，通常将 JS 代码写入额外的 `.js` 文件，然后在 `script` 中指定文件的位置。
+
+```html
+<head>
+	<script src="js_file.js">
+</head>
+```
+
+<<note "`script` 元素中的 `type` 与 `language` 属性都已经弃用">>
+
+
+!! 分号
+
+
+不同的javascript 指令在同一行时需要用分号隔开。
+
+如果在指令之间进行换行，解释器会自动添加分号，但是这在有时候会产生错误，所以 JS 社区比较推荐的方式是在任何时候都不要忘记分号。
+
+
+!! 注释
+
+JS 的注释与 C 语言类似。
+
+
+* 单行注释采用 `//` 符号
+* 多行注释采用 `/* */` 符号
+
+<<note "注释不支持嵌套">>
+
+
+!! use strict
+
+Js 在很长一段时间没有遇到过兼容性问题，因为在添加新的功能的同时旧的功能也没有修改。
+
+这样做有很多好处，但是坏处是那些在旧的功能中做的不正确的决策无法被修改。
+
+在 2019 年，ECMAscript 5 推出了一个新的 `strict` 模式，在这个模式下，会采用新版本的功能而不是兼容旧版本。
+
+
+<<note "一些特性，例如 classes 与 modules 会自动打开 strict 模式">>
+
+* `"use strict"` 意味着打开现代模式，这会修改内建函数的行为。
+* 你可以通过在''文件开头'' 或 ''函数开头'' 添加 `"use strict"` 来打开 strict 模式。
+* 所有的现代浏览器都支持 Strict 模式
+* 推荐使用 Strict 模式

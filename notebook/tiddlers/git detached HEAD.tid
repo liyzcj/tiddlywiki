@@ -1,0 +1,35 @@
+created: 20200312181749270
+modified: 20200314034351940
+tags: Explore Git
+title: git detached HEAD
+type: text/vnd.tiddlywiki
+
+''在 Git 中 HEAD 是一个特殊的指针，它指向当前 Commit 所在的节点。''
+
+> ''注意：HEAD 与 `refs/heads` 中的节点不同。'' `refs/heads` 中包含了所有的头节点，也就是每个分支中冲到最前头的节点（其实就是分支）。''所以头节点肯定是叶子节点，但是 Detach HEAD 不属于头节点。''
+
+所以，HEAD 决定了当前工作目录的状态。
+
+Detached HEAD 是指 HEAD 指针指向了一个非任何分支的 Commit 节点，也就是''当前所在的节点不是任何分支。''
+
+[img[Detached_HEAD.svg]]
+
+分支指向的 Commit ''一定是一个叶子节点''。所以当你在分支上添加新的 Commit 时，分支自动 update 到新的 Commit 节点。
+
+[img[Detached_HEAD1.svg]]
+
+!! Detached Commit
+
+不是所有的叶子节点都是分支，当你在一个 Detached HEAD 上创建新的分支时，新的 Commit 节点不属于任何 branch，但是它是一个叶子节点：
+
+[img[detached_head_commit.svg]]
+
+因为这个新的 commit 不属于任何分支，所以当你 checkout 到别的分支时，再想回到这个新的 Commit 的时候，你只能通过 ''`SHA` 哈希码'' 才能回到新的 Commit。这样的 Commit 可以被称为 Detached commit。
+
+当你切换到一个 branch 时，这样的 Detached commit 无法在 `git log` 中看到。并且，Git 的垃圾清理机制会自动清理掉这些''没有被引用的 Detached Commit。''
+
+当你想要为这个 Detached Commit 节点创建新的分支时，可以使用 `-b` 直接指定一个新的分支：
+
+```bash
+git checkout -b bar b6d204e
+```

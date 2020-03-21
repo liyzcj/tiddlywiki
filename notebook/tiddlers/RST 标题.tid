@@ -1,0 +1,28 @@
+created: 20200315092152766
+modified: 20200315092431799
+tags: RST
+title: RST 标题
+type: text/vnd.tiddlywiki
+
+!! 标题
+
+使用下面任何一个符号重复一行就会生成标题：
+
+```html
+= - ` : ' " ~ ^ _ * + # < >
+```
+
+例如：
+
+```html
+ 一级标题
+======================
+二级标题
+----------------------
+三级标题
+''''''''''''''''''''''
+```
+
+单独的一行 `-----` 会渲染为分割线：
+
+[[官方文档：段落|http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#sections]]

@@ -1,0 +1,38 @@
+created: 20200309131230281
+modified: 20200309132015644
+tags: ProtoBuf
+title: Protocol Buffer Quick Start
+type: text/vnd.tiddlywiki
+
+在编写完 Proto 文件之后，需要编译工具 protoc 来编译为不同语言的 package。
+
+!! 安装
+
+安装可以选择从源码安装或者根据运行环境下载编译好的二进制程序。
+
+!!! 源码安装
+
+!!! 二进制安装
+
+从[[下载页面|https://developers.google.com/protocol-buffers/docs/downloads]]选择一个需要的版本的二进制包并下载。
+
+下载完毕后，只需要解压，并将对应的文件放入安装位置：
+
+```bash
+unzip protoc-3.11.4-linux-x86_64.zip
+cp bin/protoc /usr/local/bin
+cp -r include/* /usr/local/include
+rm -rf include bin readme.txt protoc-3.11.4-linux-x86_64.zip
+```
+
+!!! Homebrew 安装
+
+Macos 可以选择使用 Homebrew 安装。
+
+!! 使用
+
+编译为 Python 代码：
+
+```bash
+protoc -I[Import路径] --python_out=[生成代码的文件夹] [需要编译的 proto 文件]
+```

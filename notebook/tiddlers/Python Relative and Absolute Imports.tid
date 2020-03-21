@@ -1,0 +1,54 @@
+created: 20200221061257714
+modified: 20200221062330381
+tags: Python Survey
+title: Python Relative and Absolute Imports
+type: text/vnd.tiddlywiki
+
+!! Aboslute Imports
+
+绝对导入即将一个 module 的绝对路径完整的写出来：
+
+```python
+from package1 import module1
+from package1.module2 import function1
+from package2 import class1
+from package2.subpackage1.module5 import function2
+```
+
+优点：
+
+* 绝对导入比较清晰和直接，能够根据语句一眼看出代码的位置。
+* 此外，绝对导入在当前 module 位置改变时也依然有效。
+
+所以 PEP 8 很明确的推荐使用''绝对导入。''
+
+缺点：
+
+* 如果项目结构复杂，可能导入的语句会很长。
+
+!! Relative Imports
+
+相对导入指的是通过待导入 module 相对于当前文件的位置的相对路径来导入。：
+
+```python
+from .some_module import some_class
+from ..some_package import some_function
+from . import some_class
+```
+
+其中，单个点`.` 代表当前目录，没增加一个点代表几层父级目录。
+
+优点：
+
+* 对于复杂的情况，导入语句简单。
+
+缺点：
+
+* 语句不明确，不易读和理解。
+* 更换当前文件位置将使导入不可用。
+
+所以''不推荐使用相对导入。''
+
+---
+
+* [[Absolute vs Relative|https://realpython.com/absolute-vs-relative-python-imports/]]

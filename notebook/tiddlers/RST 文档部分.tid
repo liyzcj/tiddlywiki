@@ -1,0 +1,37 @@
+created: 20200315092351403
+modified: 20200315092529299
+tags: RST
+title: RST 文档部分
+type: text/vnd.tiddlywiki
+
+!! 文档部分
+
+!!! 目录 contents
+
+`contents` 在文档中显示一个目录：
+
+```markdown
+.. contents::
+    :depth: 2
+    :local:
+    :backlinks:
+    :class:
+```
+
+参数：
+
+* `depth`: 目录的深度, 默认不限深度。
+* `local`: 生成一个本地目录。条目只包含指定标题的章节的子标题，如果没有显式指定标题，目录没有标题。
+* `backlinks`: 是否从章节标题反向链接到目录。
+* `class`: 在主题元素上设置类属性。
+
+!!! 章节自动编号
+
+`sectnum` 或者 `section-autonumbering`
+
+参数：
+
+* `depth`: 目录深度
+* `prefix`: 任意字符串，用于生成章节的前缀
+* `suffix`: 任意后缀，默认为空
+* `start`: 用于第一个章节的值

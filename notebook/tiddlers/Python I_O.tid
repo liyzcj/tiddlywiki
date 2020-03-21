@@ -1,0 +1,11 @@
+created: 20200225165852070
+modified: 20200225170105810
+tags: Explore Python TODO
+title: Python I/O
+type: text/vnd.tiddlywiki
+
+
+---
+
+* [[IO typing|https://stackoverflow.com/questions/38569401/type-hint-for-a-file-or-file-like-object]]
+* [[Offcial Doc|https://docs.python.org/3/library/io.html]]

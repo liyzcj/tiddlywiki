@@ -1,13 +1,40 @@
 created: 20190801154727935
 creator: liyzcj
-modified: 20190828175819194
+modified: 20200315092643818
 modifier: liyzcj
+tags: Summary RST Markup
 title: reStructuredText
 type: text/vnd.tiddlywiki
 
 !! reStructuredText
 ---
 
-reStructuredText 是 Python 的文档语言.
+reStructuredText 是 Python 的文档语言，也属于一种标记语言。下称 ''RST''.
 
-语法: https://znote.readthedocs.io/zh/latest/program/markup/restructuredtext.html
+与 [[Markdown]] 相同，RST 也是以行为间隔，每隔一行为一个段落。
+
+[[RST 行内标记]]
+
+
+[[RST 标题]]
+
+[[RST 列表]]
+
+[[RST 代码块]]
+
+[[RST 表格]]
+
+[[RST 指令]]
+
+[[RST 图片]]
+
+[[RST 正文元素]]
+
+[[RST 文档部分]]
+
+[[RST 其他]]
+
+---
+
+[[效果展示|https://znote.readthedocs.io/zh/latest/program/markup/restructuredtext.html]]
+
