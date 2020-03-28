@@ -1,0 +1,57 @@
+created: 20200324043945740
+modified: 20200324111415695
+title: Pytest fixtures
+type: text/vnd.tiddlywiki
+
+> 测试的初始化是在测试之前启动一些服务、修改一些状态等操作，以保证每次测试产生''一致和可重复的结果''。
+
+!! 优点
+
+Pytest fixtures 对 [[xunit-style|pytest xunit-style setup]] 的 `setup`/ `teardown` 函数进行了重大改进，个人认为更加符合 [[Pythonic]] 风格。
+
+除了风格上的不同，fixture 还有以下优点：
+
+* fixture 通过''显式''的指定名称来控制在函数或者方法中的执行。而不是之前隐式的默认执行。
+* fixture 可以以模块化的方式实现，每个 fixture 代表一个功能，同时在一个 fixture 中也可以调用另一个 fixture。
+* fixture 不仅可以 cover 简单的单元测试，对于更复杂的功能测试也能胜任。fixture 允许参数化，这样就可以在调用时配置功能，更方便在函数、类、模组甚至整个session 之间的重用。
+
+此外，pytest 也会一值支持 [[xunit-style|pytest xunit-style setup]] 的初始化，两者也可以同时使用。
+
+!! Usage
+
+Fixture 通过 `@pytest.fixture` 装饰器来定义。
+
+<<info "Pytest 也提供了一些内建的 Fixtures: [[Built-in fixtures]]">>
+
+
+```python
+@pytest.fixture
+def foo(): pass
+```
+
+`fixture` 可以带''或者不带''参数使用。`fixture()` 参数如下：
+
+```python
+def fixture(callable_or_scope=None, *args, scope='function', params=None, autouse=False, ids=None, name=None)
+```
+
+* ''`scope`'': Fixture 共享的 scope，可以是 `function`(默认), `class`, `module`, `package`, `session`. 这个参数也可以是一个 Callable 对象，接收 `(fixture_name, config)` 作为参数，并且必须返回上面提供的字符串之一。
+* ''`params`'': 一个可选的参数列表，可以让调用这个 fixture 的测试函数或其他 fixture ''多次调用''。现在仅仅支持 `request.param` 作为参数。
+* ''`autouse`'': `bool`, 如果为 True，则所以可以看到这个 fixture 的 test 函数都会调用它。如果为 False，就需要手动指定来调用这个 fixture。
+* ''`ids`'': a list of id. 对应 params 中的每个参数，对应的 id 会作为 test 名称的后缀加入测试名称。如果没有给定，则会自动生成 id。也可以是一个函数，以 `params` 中的单个值为输入，返回一个 id。
+* ''`name`'': 这个 Fixture 的名称。''默认为被装饰的函数名''。
+
+
+!! conftest.py
+
+如果想要在多个 module 之间共用一些 fixtures，你可以将 Fixture 定义在一个名称为 `conftest.py` 的文件中。
+
+* 定义在 `conftest.py` 中的 fixtures 可以直接被''当前文件夹和子文件夹''中的测试 Module 使用，''不需要导入''。
+* 可以定义多个 `conftest.py`, 每个都遵循可以被 `conftest.py` 的文件夹和其子文件夹使用。
+* 当存在多个 `conftest.py` 文件时，如果不同文件中存在相同名称的 fixture。一个 ''Module 会优先采用当前文件夹的 fixture，其次父级，依次往上''。
+
+
+---
+
+* [[Reference Doc|https://docs.pytest.org/en/latest/fixture.html]]
+* [[pytest测试框架中的setup和tearDown|https://python012.github.io/2018/05/08/pytest%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84setup%E5%92%8CtearDown/]]

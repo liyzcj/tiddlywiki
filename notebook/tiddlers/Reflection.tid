@@ -1,7 +1,72 @@
 created: 20200316122432180
-modified: 20200316122547941
-tags: Programming Concept TODO
+modified: 20200322021433739
+tags: Programming Concept
 title: Reflection
 type: text/vnd.tiddlywiki
 
 https://thecodeboss.dev/2016/02/programming-concepts-type-introspection-and-reflection/
+
+Reflection (反射) 是指计算机程序在运行时（runtime）可以访问、检测和''修改''它本身状态或行为的一种能力。
+
+<<note "注意反射和 [[内省|Introspection]] 的关系。内省（或称“自省”）机制仅指程序在运行时对自身信息（称为元数据）的''检测''；">>
+
+反射允许你在运行时修改元数据，属性，函数等。
+
+''反射的主要概念是可以让你的数据来影响代码的运行。你可以通过数据来生成代码，确定代码的行为。''
+
+由于反射特殊的运行时特性，相较于静态语言，动态语言更容易实现反射机制。因为''静态语言的类型检查发生在编译阶段''。但是这也不代表不可能，像 Java C# 等高级语言都已经支持[[自省|Introspection]] 和反射。
+
+<<note "C++ 只支持自省，不支持反射">>
+
+就像动态语言更容易实现反射一样，解释型语言也比编译型语言更容易实现反射。
+
+因为反射意味着，在运行时创建并调用函数、对象或者其他的数据结构，所以肯定需要某种运行时的系统来为程序正确的分配内存。对于解释型语言，这非常容易，因为''解释器本身就起了这个运行时系统的作用''。但是对于编译型语言，它需要''实现一个额外的编译器和解释器来监控或修改程序的运行时状态''。
+
+例如，对于解释型语言 Python，我们可以通过字符串来调用程序的类或方法：
+
+```python
+# Python
+ 
+# without reflection
+obj = Foo()
+obj.hello()
+ 
+# with reflection
+class_name = "Foo"
+method = "hello"
+obj = globals()[class_name]()
+getattr(obj, method)()
+ 
+# with eval
+eval("Foo().hello()")
+```
+
+对于编译语言 Java 则需要更复杂的语法：
+
+```java
+// Java
+ 
+// without reflection
+Foo foo = new Foo();
+foo.hello();
+ 
+// with reflection
+Object foo = Class.forName("complete.classpath.and.Foo").newInstance();
+// Alternatively: Object foo = Foo.class.newInstance();
+Method m = foo.getClass().getDeclaredMethod("hello", new Class<?>[0]);
+m.invoke(foo);
+```
+
+反射可以让一个编程语言具有强大的能力。但是能力越大，责任越大。如果使用不当，轻则降低代码的可读性，重则会影响程序的运行安全。
+
+
+!!! Eval
+
+
+很多具有反射能力的语言（大多数是解释型语言）会提供一个 `eval` statements 用来运行一段代码，通常由一个字符串指定代码。
+
+```python
+eval("print('Hello.')")
+```
+
+Eval 赋予了一个编程语言强大的反射能力，甚至是[[元编程|MetaProgramming]]能力。但是同时这也是一个危险的能力，使用 eval statement 往往会伴随着风险，因为这样可以允许别人通过字符串来修改你的程序。所以在使用时通常会限定 Eval 的使用范围，以提高安全性。

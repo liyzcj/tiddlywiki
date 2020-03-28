@@ -1,0 +1,84 @@
+created: 20200324063245387
+modified: 20200324065837989
+title: pytest xunit-style setup
+type: text/vnd.tiddlywiki
+
+
+! xunit-style setup
+---
+
+<<info "xunit 风格的 setup 是 pytest 为从 unittest 或者 nose 转过来的人提供的类似风格的 `setup` `teardown` 的方式。[[Pytest fixtures]] 是更加适合 [[Pytest|Python pytest]]的方式。">>
+
+!! Module 级别
+
+Module 级别的函数，会在''开始测试这个 module 之前执行 `setup`''，在这个 module ''测试结束时执行 `teardown`''：
+
+```python
+def setup_module(module):
+    print("Start to test module", module)
+
+def teardown_module(module):
+    print("Finish to test module", module)\
+```
+
+<<note "自 pytest-3.0 起，`module` 参数可以省略。">>
+
+
+!! Class 级别
+
+与 Module 级别类似，Class 级别代表分别在 Class 开始和结束时执行 `setup` 与 `teardown`:
+
+```python
+class Foo:
+
+    @classmethod
+		def setup_class(cls):
+        print("Start to test class", cls)
+
+    @classmethod
+		def teardown_class(cls):
+        print("Finish to test class", cls)
+```
+
+
+!! Method / Function 级别
+
+同样类似的，对于方法级别来说，pytest 会在这个类中''每个方法开始和结束时''执行 `setup` 与 `teardown`:
+
+```python
+class Foo:
+
+    def setup_method(self, method):
+		    print("Start to test method", method)
+
+    def teardown_method(self, method):
+		    print("Finish to test method", method)
+```
+
+<<note "自 pytest-3.0 起，`method` 参数可以省略。">>
+
+
+对于函数级别，是对当前 module 中每一个函数开始和结束时都会执行的 `setup` 和 `teardown`:
+
+```python
+def setup_function(function):
+    print("Start to test function", function)
+
+def teardown_functionj=(function):
+    print("Finish to test function", function)
+```
+
+
+!! 提示
+
+* 在每个测试过程中，可以多次调用 `setup` 与 `teardown`.
+* 如果在 `setup` 函数中触发了退出程序或者执行失败，`teardown` 函数不会被执行。(与 unittest 相同)
+* 在 pytest-4.2 之前，xunit-style 函数并不符合 [[fixtures|Pytest fixtures]] 的 scope 规则，所以有可能，例如 `setup_method` 在 [[fixtures|Pytest fixtures]] 的 session-scoped 之前执行。
+
+<<info "在 4.2 之后，xunit-style 与 [[fixtures|Pytest fixtures]] 是可以完美结合的。">>
+
+---
+
+!! Reference
+
+* [[Reference doc|https://docs.pytest.org/en/5.4.1/xunit_setup.html]]

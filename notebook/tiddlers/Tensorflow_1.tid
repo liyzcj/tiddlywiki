@@ -1,0 +1,20 @@
+created: 20200322040759952
+modified: 20200322041039404
+tags: AI Python
+title: Tensorflow
+type: text/vnd.tiddlywiki
+
+* [[调研 Tensorflow Extended]]
+
+* [[Tensorflow 乘法]]
+* [[Tensorflow 连接 HDFS]]
+* [[Tensorflow 特征列]]
+* [[Tensorflow 优化]]
+
+* [[Tensorflow Data Validator]]
+* [[Tensorflow shapes]]
+
+* [[构建计算图]]
+* [[模型保存与恢复]]
+* [[TensorBoard]]
+* [[tf.app.flags]]

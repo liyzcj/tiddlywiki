@@ -1,6 +1,6 @@
 created: 20190704003117115
 creator: liyzcj
-modified: 20191201153836118
+modified: 20200322034345082
 modifier: liyzcj
 tags: Python
 title: argparse
@@ -255,6 +255,14 @@ doors.py: error: argument door: invalid choice: 4 (choose from 1, 2, 3)
 !!! dest
 
 dest 指定了保存变量的名称.
+
+!! 参数组
+
+{{python argparse group argument}}
+
+!! 子命令
+
+{{python argparse subcommand}}
 
 ---
 

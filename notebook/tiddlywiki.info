@@ -7,7 +7,8 @@
 		"tiddlywiki/katex",
 		"tiddlywiki/codemirror",
 		"tiddlywiki/codemirror-closebrackets",
-		"tiddlywiki/codemirror-search-replace"
+		"tiddlywiki/codemirror-search-replace",
+        "tiddlywiki/codemirror-keymap-vim"
 	],
 	"languages": [
 		"zh-Hans"

@@ -1,0 +1,41 @@
+created: 20200324071607442
+modified: 20200324081455633
+title: Built-in fixtures
+type: text/vnd.tiddlywiki
+
+! 内建的 fixtures
+---
+
+
+内建的 fixtures 可以在 测试函数中直接指定名称作为参数使用，例如：
+
+```python
+def test_a_func(tmp_path):
+    print("current tmporary dir", tmp_path)
+```
+
+!! 临时文件夹
+
+* `tmp_path`: 创建一个 ''function-based'' 的临时文件夹，返回的是一个 `pathlib.Path` object。
+* `tmp_path_factory`: 返回一个 ''session-based'' factory object，这个实例可以用来创建文件夹。（参考 [[API|https://docs.pytest.org/en/latest/reference.html#tmp-path-factory]]）
+
+<<note "这些 fixture 创建的临时文件夹并不会在测试推出后删除。">>
+
+!! 捕获输出
+
+
+* `capfd`: 捕获标准输出，通过 `readouterr()` 方法捕获标准输出，返回一个 ~CaptureResult 实例。 <div>
+
+```python
+def test_system_echo(capfd):
+    os.system('echo "hello"')
+    captured = capfd.readouterr()
+    assert captured.out == "hello\n"
+```
+
+</div>
+
+* `capfdbinary`: 与 `capfd` 类似，不同的是捕获的是 bytes 数据。
+
+* `caplog`: 控制捕获日志，返回一个 [[LogCaptureFixture|https://docs.pytest.org/en/latest/reference.html#_pytest.logging.LogCaptureFixture]] 实例。 查看教程[[Capture Logging Tutorial|https://docs.pytest.org/en/latest/logging.html]]
+

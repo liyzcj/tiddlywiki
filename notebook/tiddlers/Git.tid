@@ -1,0 +1,35 @@
+created: 20200323061134921
+modified: 20200323061651608
+tags: Git Summary
+title: Git
+type: text/vnd.tiddlywiki
+
+! Git
+---
+
+Git 是分布式的版本管理工具。
+
+* [[Git config]]
+* [[git delete submodule]]
+* [[git detached HEAD]]
+* [[Git remote]]
+* [[git submodule and subtree]]
+* [[Git tags]]
+* [[Git常用命令]]
+
+
+
+!! Git 托管平台
+
+
+!!! Github
+
+* [[在gitpages上部署Gitbook]]
+
+!!! Gitlab
+
+* [[Gitlab CI/CD]]
+
+!!! CI/CD
+
+* [[GitOps]]

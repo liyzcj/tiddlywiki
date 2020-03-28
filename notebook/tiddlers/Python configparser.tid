@@ -1,0 +1,58 @@
+created: 20200326103551830
+modified: 20200328081911451
+tags: Python TODO
+title: Python configparser
+type: text/vnd.tiddlywiki
+
+! ~ConfigParser
+---
+
+Python 3 中提供了一个模块用来解析配置文件 -- `configparser`，这个模组提供了一个 `ConfigParser` 类，实现了一个结构类似于 Microsoft Windows INI 文件的基础配置文件。
+
+你可以使用 `configparser` 的 INI 格式来作为配置文件。
+
+<<info "Python 还提供了其他可以用来作为配置文件的格式，例如： <div>
+
+* [[shlex|Python-shlex]] 可以用来创建一种类似于 UNIX shell 的配置语言
+
+* [[json|Python Json]] 可以解析 [[Javascript]] 风格的配置文件。
+
+</div>">>
+
+
+配置文件实例：
+
+```ini
+[DEFAULT]
+ServerAliveInterval = 45
+Compression = yes
+CompressionLevel = 9
+ForwardX11 = yes
+
+[bitbucket.org]
+User = hg
+
+[topsecret.server.com]
+Port = 50022
+ForwardX11 = no
+```
+
+`[]` 中括号内的字段称为 ''Section''，每个 ''Section'' 中又可以有多个 ''Option''。
+
+<<note "`DEFAULT` 是一个特殊的预定义的 Section，代表一些 Options 的默认值。例如在 `DEFAULT` 中定义了一个 Option，你在其他的所有 Section 中都可以获取到这个 Option。">>
+
+!! 读取与写入配置文件
+
+读取配置文件
+
+
+!! 关于配置数据类型
+
+`ConfigParser` 不会对数据类型进行推算，也就是说没有类似于 primitive 的概念或者 literal 来推算数据类型，所有的配置项都作为''字符串''看待。
+
+`ConfigParser` 提供了方法来将存储的配置项转换为需要数据类型。例如方法 `getboolean()` 会将指定项转换为布尔类型。而且除了简单的 `'true'/'false'` ，这个方法还可以解析  `'yes'/'no'` `'on'/'off'` `'1'/'0'`。Get 特定类型的配置项一共有三个方法：
+
+* `getboolean()`
+* `getint()`
+* `getfloat()`
+

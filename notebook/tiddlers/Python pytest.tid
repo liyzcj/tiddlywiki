@@ -1,5 +1,5 @@
 created: 20200316030247459
-modified: 20200316030508788
+modified: 20200324111747155
 tags: Test Python
 title: Python pytest
 type: text/vnd.tiddlywiki
@@ -17,5 +17,17 @@ pytest 的特性：
 * 支持过滤选择测试用例
 * 支持失败重跑
 * 数百个插件的生态
+* 与 `unittest` 完美兼容
+
+<<info "pytest 通过文件搜索的方式进行测试，它会查找以 `test_` 开头的文件与测试函数。而不是 Unittest 那种导入的方式，所以 pytest 可以完全不需要 `__init__.py` 文件。">>
 
 > [[pytest 文档|https://docs.pytest.org/en/latest/]]
+
+!! 基础用法
+
+* [[常用 Option|Pytest common options]]
+
+!! 高级用法
+
+* [[xunit-style setup|pytest xunit-style setup]]
+* [[Pytest fixtures]]

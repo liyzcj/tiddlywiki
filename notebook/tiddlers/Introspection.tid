@@ -1,7 +1,37 @@
 created: 20200316122413413
-modified: 20200316122554645
-tags: Programming Concept TODO
+modified: 20200322021446059
+tags: Programming Concept
 title: Introspection
 type: text/vnd.tiddlywiki
 
-https://thecodeboss.dev/2016/02/programming-concepts-type-introspection-and-reflection/
+Introspection (内省)也可以称作自省。
+
+有时候，我们需要在程序''运行时''获取程序的信息，例如：数据的类型是什么？某个对象是否是一个类的实例？
+
+
+''Type introspection (类型自省) 指的是编程语言能够在运行时来检查对象的类型或者属性。''
+
+```python
+isinstance(f, Foo)
+```
+
+
+就像上面提到的，你可能会在运行时去检查一个数据的类型，或者检查某个对象的类型。甚至有些语言允许你去追溯一个对象的继承路线来检查是否是某个类的派生类。
+
+有些语言本身就有自省能力：Ruby，Java，PHP，Python，C++ 等等。例如，在 Python 中你可以使用 `dir()` 函数轻松的获取一个类的所有 attributes：
+
+```python
+class Foo:
+    pass
+print(dir(Foo()))
+# ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__']
+```
+
+除了 [[Python]], [[Ruby]] 也是一个类似的语言。
+
+
+
+---
+
+
+[[Programming Concepts: Type Introspection and Reflection|https://thecodeboss.dev/2016/02/programming-concepts-type-introspection-and-reflection/]]
