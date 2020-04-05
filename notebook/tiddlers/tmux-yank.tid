@@ -1,6 +1,7 @@
+caption: 复制系统剪切板 tmux-yank
 created: 20190809193645117
-modified: 20190828174227459
-tags: 插件 Tmux
+modified: 20200404191424008
+tags: TmuxPlugin
 title: tmux-yank
 type: text/vnd.tiddlywiki
 

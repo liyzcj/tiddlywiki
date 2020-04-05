@@ -1,8 +1,0 @@
-created: 20190821025528051
-modified: 20190828174933379
-tags: Linux Command 美化 Macos
-title: ls 配置颜色
-type: text/vnd.tiddlywiki
-
-* Linux 配置颜色使用变量 `LS_COLORS`
-* Macos 使用变量 `LSCOLORS`

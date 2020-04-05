@@ -1,0 +1,85 @@
+caption: 镜像相关
+created: 20190820040507403
+modified: 20200404181757259
+tags: DockerCommonCommand
+title: Image Command
+type: text/vnd.tiddlywiki
+
+
+!!! 搜索镜像
+
+```bash
+docker search image_name
+```
+
+上述查找方法只能找到远端仓库的镜像名称，没法找到镜像的 Tag。 参考: [[Docker 查找远端仓库 Tag]]
+
+
+!!! 镜像保存&加载 save&load
+
+```bash
+docker save image:tag -o output.tar
+# 或者
+docker save image:tag > output.tar
+```
+
+保存的镜像可以使用 load 命令来加载。
+
+```bash
+docker load < output.tar
+```
+
+!!! 列出镜像
+
+
+```bash
+# 列出所有本地镜像
+docker image ls
+# 列出特定镜像
+docker image ls image_name
+```
+
+使用 `--filter` `-f` 过滤符合条件的镜像, 总共有五个字段可以过滤：
+
+* dangling (boolean - true or false) - 是否是悬挂镜像
+
+* label  符合的lable
+
+* before - 在给定镜像之前创建的镜像
+
+* since - 在给定镜像之后创建的镜像
+
+* reference (pattern of an image reference) - 符合 pattern 的 reference。
+
+使用 `--format` 修改输出的格式（指定的是 Go Template）：
+
+
+```
+docker image ls --format "{{.ID}}: {{.Repository}}"
+```
+
+使用 `-q` 选项输出镜像的 id：
+
+```bash
+docker image ls -q
+```
+
+!!! 删除镜像
+
+删除镜像符合 `grep` 命令的镜像：
+
+```bash
+docker image ls --format "{{.Repository}}\t{{.ID}}" | grep istio | awk '{print $2}' | xargs docker image rm
+```
+
+另一种方法：
+
+```bash
+docker image ls | grep istio | awk '{printf "%s:%s\n",$1,$2}' | xargs docker image rm
+```
+
+!!! 查看镜像历史
+
+```bash
+docker history [image_name:tag or image_id]
+```

@@ -12,7 +12,7 @@ Array Scalar 的数据类型与 ndarray 有着相同的属性与方法。这样�
 
 ![](https://s2.ax1x.com/2019/09/29/u3Buwj.png)
 
-> **Figure:**图像展示了 Numpy 数据类型的树形结构，除了两个类型没有展示：`intp` 和 `uintp`，这两个代表 int 类型，用来保存一个平台的指针，根据平台不同而不同。
+> **Figure:** 图像展示了 Numpy 数据类型的树形结构，除了两个类型没有展示：`intp` 和 `uintp`，这两个代表 int 类型，用来保存一个平台的指针，根据平台不同而不同。
 
 > **注意** ： Numpy 的内建数据类型并不是 np.dtype 的实例。
 

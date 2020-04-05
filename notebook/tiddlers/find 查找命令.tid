@@ -1,8 +1,9 @@
+caption: 查找文件 find
 created: 20190728171931602
 creator: liyzcj
-modified: 20191125025937650
+modified: 20200404163412168
 modifier: liyzcj
-tags: Macos Command Linux
+tags: FileSystemRelated StandardUnixPrograms
 title: find 查找命令
 type: text/vnd.tiddlywiki
 

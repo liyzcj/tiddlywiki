@@ -1,0 +1,12 @@
+caption: 英语 English
+created: 20200405074748830
+modified: 20200405074906876
+tags: Language
+title: English
+type: text/vnd.tiddlywiki
+
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

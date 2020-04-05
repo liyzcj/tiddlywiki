@@ -1,0 +1,73 @@
+caption: 查看空闲内存 free
+created: 20191122075248705
+modified: 20200404161956587
+tags: LinuxTaskProcessRelated
+title: free
+type: text/vnd.tiddlywiki
+
+!! Free
+
+Free 命令显示系统内存的使用情况，包括''物理内存、交换内存和内核缓冲区内存。''
+
+* `-h` 选项代表人性化显示。
+* `-s` 选项指定''刷新的秒数''
+
+!! 输出简介
+
+|!行Field|!Description|
+|Mem|内存使用情况|
+|Swap|交换空间使用情况|
+
+|!列Field|!Description|
+|total|系统总内存使用情况|
+|used|已经被使用的内存|
+|free|空闲内存|
+|shared|共享使用的物理内存大小|
+|buff/cache|buffer和cache 使用的物理内存大小|
+|avaliable|还可以被应用程序使用的物理内存|
+
+!! 概念解释
+
+!!! buffer/cache
+
+buffer 和 cache 是两种类型的内存，为什么写到一起？
+
+;buffer
+:在操作系统中指 buffer cache，中文一般称为 “缓冲区”。''扇区''是物理存储设备的最小存储单元，也叫设备块；''块''是操作系统中文件系统的最小寻址单元，也叫文件块，IO块。每个块包含一个或多个扇区，但大小不能超过一个页面，一个内存页包含一个或多个内存块。''当一个块调入内存时，块首先被存在一个缓冲区中，每个缓冲区与一个块对应。''
+
+;cache
+:cache 代表 page cache，中文一般称为''页高速缓存''。页高速缓存是内核实现的磁盘缓存，主要用来减少对磁盘的 IO 操作。''就是把磁盘中的数据缓存到物理内存中以减少对磁盘的读写。''但是页高速缓存缓存的是内存中的页面，
+
+所以缓冲区 buffer 仅仅是数组来自磁盘的 page cache，两个实现的功能是类似的。
+
+
+!!! free / available
+
+free 和 availabe 的区别是什么？
+
+free 是真正未被使用的物理内存。
+
+available 是应用程序的角度看到的剩余内存数量。上面提到的 buffer 和 cache 都是为了提高磁盘性能而牺牲的物理内存空间。对于内核，这些空间已经被使用，但是对于应用程序，如果内存不够，内核会释放 buffer 或者 cache 占用的内存空间，所以:
+
+available = free + buffer + cache
+
+> 实际情况下可能会有误差。
+
+!!! 交换空间 Swap
+
+''交换空间是磁盘上的一块区域。''可以是 swap 分区，也可以是 swap 文件。
+
+当系统物理内存不够用时，内核会将内存中不常使用的数据保存到磁盘的 swap 上，这样系统就能释放出一部分物理内存，而当系统需要 swap 上的数据时，再将 swap 上的数据换入内存。这就是换入和换出。
+
+交换空间可以缓解内存不足的情况，但是会降低系统运行的性能。
+
+Linux 内核提供了一个叫 `swappiness` 的参数，用于配置需要将内存换到 swap 的紧迫程度，取值为 0～100， 0 代表尽可能不要进行交换，100代表只要有可能就交换。ubuntu 中 `swappiness=60`。可以在 `/etc/sysctl.conf` 中修改这个配置：
+
+```bash
+# /etc/sysctl.conf
+vm.swappiness=10
+```
+
+!! /proc/meminfo  文件
+
+free 命令的信息都来自 `/proc/meminfo` 文件，文件中包含更多原始信息。

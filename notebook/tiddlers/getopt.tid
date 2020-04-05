@@ -1,7 +1,9 @@
+caption: 命令行参数解析 getopt
 created: 20190704001750108
 creator: liyzcj
-modified: 20190828182420713
+modified: 20200404194600271
 modifier: liyzcj
+tags: [[Python 内建 Modules]]
 title: getopt
 type: text/vnd.tiddlywiki
 

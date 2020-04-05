@@ -1,10 +1,10 @@
 created: 20190901152451077
-modified: 20190901163016790
-tags: 软件开发
+modified: 20200404203614835
+tags: CI/CD
 title: GitOps
 type: text/vnd.tiddlywiki
 
-!! GitOps：一款基于Kubernetes的高速[[CI/CD]]框架。
+!! GitOps：一款基于 [[Kubernetes]] 的高速[[CI/CD]]框架。
 
 <<<.tc-big-quote
 “把世界设想成一套代码库，而非Kubernetes环境。”

@@ -1,0 +1,18 @@
+caption: 删除用户 userdel
+created: 20200404163758361
+modified: 20200404163852242
+tags: UserManagement
+title: userdel
+type: text/vnd.tiddlywiki
+
+!! userdel
+
+删除用户
+
+```bash
+userdel [option] user
+```
+
+|!Option|!Description|
+|`-f`|强制删除用户，即使用户当前已登录；|
+|`-r`|删除用户的同时，删除与用户相关的所有文件；|

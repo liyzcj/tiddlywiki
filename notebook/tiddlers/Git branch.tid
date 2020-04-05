@@ -1,0 +1,64 @@
+caption: 分支 branch
+created: 20200405062812994
+modified: 20200405063037773
+tags: GitCommand
+title: Git branch
+type: text/vnd.tiddlywiki
+
+
+!!! 合并分支
+
+```bash
+git checkout 要合并到的分支
+git merge 待合并的分支
+```
+
+> ''注意 merge 命令是 merge 其他分支到当前分支。''
+
+删除 已经 merge 到 master 的分支：
+
+```bash
+git branch --merged master | grep -v '^\*\|  master' | xargs -n 1 git branch -d
+```
+
+!!! 查看所有分支（包括远程分支）：
+
+```bash
+git branch -a
+```
+
+!!! 查看本地分支：
+
+```bash
+git branch
+```
+
+!!! 拉取远程分支：
+
+```bash
+git pull origin remote_name:local_name
+```
+
+> 如果要与本地当前分支 merge，则可以省略 `local_name`。
+
+!!! 创建分支：
+
+```bash
+git branch branch_name # 方法一，创建后不会自动切换
+git checkout -b branch_name # 方法二，创建后会自动切换到分支
+```
+
+!!! 删除本地分支：
+
+```bash
+git branch -d branch_name
+```
+
+> 如果没有 merge 的分支，需要使用 -D 参数。
+
+!!! 删除远程分支：
+
+```bash
+git branch -r -d origin/branch_name # 删除本地远程分支
+git push origin :branch_name # 删除远程分支
+```

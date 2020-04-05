@@ -1,111 +1,11 @@
 created: 20200322032900494
-modified: 20200328063344705
-tags: Summary Language
+modified: 20200404142314412
+tags: Summary [[Programming Language]]
 title: Python
 type: text/vnd.tiddlywiki
 
-!! 概念
+<div class="tc-table-of-contents">
 
-* [[Python 面向对象]]
-* [[Pythonic]]
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
 
-!! 基础
-
-* [[变量 Variables|Python 变量]]
-* [[网络请求 Networks|Python 网络请求]]
-* [[文件 Files|Python 文件操作]]
-* [[参数 Arguments|Python Arguments]]
-* [[断言 Assertions|Python Assertion]]
-* [[字典 Dictionary|Python dict 操作]]
-* [[代码导入 Import|Python Import]]
-* [[代码组织 Modules|Python Module]]
-* [[上下文 Context|Python with statement]]
-* [[交互式 Interactive|PythonCLI]]
-* [[运算符 Operators|Python Operators]]
-* [[闭包 Closure|Function Closure]]
-
-!! 高级
-
-* [[Comprehension 语法|Python comprehension syntax]]
-* [[Python 配置文件|Python configparser]]
-* [[析构函数|Destructors in Python]]
-* [[类型提示系统|Python Type Hint system]]
-* [[new 构造函数|Python __new__]]
-* [[错误和异常 Exception|Python 错误和异常]]
-* [[Magic method|Python 特殊属性方法]]
-* [[Code Quality|Python Code Quality tutorial]]
-* [[eval() 函数|Python eval 与 ast.literal_eval]]
-* [[函数式编程|python function programmming]]
-* [[I/O|Python I/O]]
-* [[迭代器与生成器|Python Iterator vs Generator vs Iterable]]
-* [[Lint 工具|Python Lint Module]]
-* [[元类|Python Meta Class]]
-* [[变量解析机制|Python Name Resolution]]
-* [[操作符重载|Python operator overload]]
-* [[代码打包与分发|Python Packaging]]
-* [[PathLike 对象|Python PathLike object]]
-* [[Print 函数|Python print 函数]]
-* [[正则表达式|Python regular expression]]
-* [[子进程|Python subprocess]]
-* [[单元测试|Python Test]]
-* [[不生成 Pycache|运行不生成 __pycache__]]
-
-
-!! 常用 Modules
-
-!!! 内建
-
-* [[inspect|Python inspect]]
-* [[json|Python Json]]
-* [[mock|Python Mock]]
-* [[pathlib|Python pathlib]]
-* [[tempfile|Python tempfile]]
-* [[timeit|Python timeit]]
-* [[os|python-os]]
-* [[shlex|Python-shlex]]
-* [[shutil|python-shutil]]
-* [[sys|python-sys]]
-* [[time|python-time]]
-* [[logging|logging 模块]]
-* [[pickle]]
-
-
-!!! 第三方
-
-* [[Matploblib]]
-* [[Tensorflow]]
-* [[findspark]]
-* [[Numpy]]
-* [[Pandas]]
-
-
-!! 实现
-
-* [[脚本参数传递|Python 脚本参数传递]]
-* [[进度条|Python 进度条]]
-* [[根据参数创建不同子类|Python 根据参数创建不同子类]]
-* [[工厂模式|Python Factory Pattern]]
-* [[栈|Python implementation of Stack]]
-* [[常用代码片段|Python Snippet]]
-* [[Docker 自动代理|Docker-Wrapper-gcr.io.py]]
-* [[n个数字的倒序输出（递归）]]
-* [[单例模式|Singleton Pattern]]
-
-!! 相关书籍
-
-* [[Dive Into Python 3]]
-* [[SICP]]
-
-!! 开发工具
-
-* [[Vim 编辑器]]
-* [[配置 VSCode]]
-* [[jupyter notebook]]
-
-!! 其他
-
-* [[Python 2 与 Python 3 共存]]
-* [[Python2与Python3的不同]]
-* [[Python 的五个彩蛋]]
-* [[pip config]]
-* [[Pypy 与 JIT]]
+</div>

@@ -1,9 +1,9 @@
+caption: 原子操作 Atomic
 created: 20200309043106270
-modified: 20200309044648970
-tags: Concept Definitions
+modified: 20200405065345297
+tags: DatabaseConcept Definitions
 title: Atomic Operation
 type: text/vnd.tiddlywiki
-
 
 原子操作通常在内核中使用，是大多数操作系统的主要组件。不过，许多计算机硬件，编译器和库也会提供不同级别的原子操作。
 

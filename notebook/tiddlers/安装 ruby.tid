@@ -1,0 +1,78 @@
+caption: 安装 ruby
+created: 20190804195642364
+creator: liyzcj
+modified: 20200404164246753
+modifier: liyzcj
+tags: Ruby
+title: 安装 ruby
+type: text/vnd.tiddlywiki
+
+! ruby
+---
+
+通过 [[rbenv|https://github.com/rbenv/rbenv]] 安装 ruby.
+
+!! 安装
+
+# 克隆 rbenv 到 `~/.rbenv`: <div>
+
+```bash
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+# Optionally, try to compile dynamic bash extension to speed up rbenv.
+cd ~/.rbenv && src/configure && make -C src
+```
+
+</div>
+
+# 增加 `~/.rbenv/bin` 到 `$PATH`: <div>
+
+```bash
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc # bash
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc # zsh
+```
+
+</div>
+
+
+# 初始化 rbenv <div>
+
+```bash
+~/.rbenv/bin/rbenv init
+```
+</div>
+
+# 以后自动加载 rbenv <div>
+
+```bash
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc # bash
+echo 'eval "$(rbenv init -)"' >> ~/.zashrc # zsh
+```
+
+</div>
+
+!! 检测安装
+
+通过 `rbenv-doctor` 检测是否安装成功:
+
+```bash
+curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-doctor | bash
+```
+
+!! 安装 ruby-build
+
+克隆 ruby-build 到 `~/.rbenv/plugins/ruby-build` :
+
+```bash
+git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+```
+
+!! 使用 rbenv
+
+|!命令|!备注|
+|`rbenv install --list`| 列出 ruby 可用版本|
+|rbenv version |列出已安装版本|
+|rbenv install 2.5.1|安装一个版本|
+|rbenv global 2.5.1|设置全局版本|
+|rbenv local 2.5.1|设置本地版本|
+|rbenv shell 2.5.1|设置 shell 版本|
+

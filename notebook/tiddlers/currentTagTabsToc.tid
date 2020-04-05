@@ -1,0 +1,11 @@
+caption: 当前标签筛选的Tab目录
+created: 20200404115439918
+modified: 20200404115543430
+tags: $:/tags/TextEditor/Snippet
+title: currentTagTabsToc
+type: text/vnd.tiddlywiki
+
+<$macrocall $name="tabs"
+    tabsList="[tag{!!title}]"
+    class="tc-vertical"
+  />

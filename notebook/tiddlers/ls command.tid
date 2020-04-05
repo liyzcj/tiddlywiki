@@ -1,0 +1,13 @@
+caption: 列出文件 ls
+created: 20200404164548619
+modified: 20200404164737893
+tags: StandardUnixPrograms FileSystemRelated
+title: ls command
+type: text/vnd.tiddlywiki
+
+`ls` 命令用来列出文件系统中某个目录下的文件。
+
+!! 文件颜色配置
+
+* Linux 配置颜色使用变量 `LS_COLORS`
+* Macos 使用变量 `LSCOLORS`

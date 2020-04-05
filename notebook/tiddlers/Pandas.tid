@@ -1,26 +1,15 @@
-caption: DataFrame 操作
+caption: 数据处理 Pandas
 created: 20190801161535828
 creator: liyzcj
-modified: 20200322042314493
+modified: 20200404132358866
 modifier: liyzcj
-tags: Pandas
+tags: [[Python 第三方 Modules]]
 title: Pandas
 type: text/vnd.tiddlywiki
 
-! ~DataFrame 操作
----
 
-! 常用函数
+<div class="tc-table-of-contents">
 
+<$macrocall $name="toc" tag={{!!title}}/>
 
-统计 unique 以及个数
-
-```python
-pd.value_counts()
-```
-
-* [[Pandas 切分数据集]]
-* [[Pandas Options]]
-* [[Pandas数据替换]]
-
-* [[Pandas to csv Excel 乱码]]
+</div>

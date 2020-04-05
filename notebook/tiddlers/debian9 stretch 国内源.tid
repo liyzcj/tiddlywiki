@@ -1,10 +1,10 @@
 created: 20191031112058248
-modified: 20191031112425765
-tags: Linux
+modified: 20200404155427980
+tags: apt
 title: debian9 stretch 国内源
 type: text/vnd.tiddlywiki
 
-/etc/apt/sources.list
+`/etc/apt/sources.list`
 
 !! 清华源
 

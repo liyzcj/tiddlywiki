@@ -1,6 +1,7 @@
+caption: 状态栏 CPU 信息 tmux-mem-cpu-load
 created: 20190809191944692
-modified: 20190828174159195
-tags: 插件 Tmux
+modified: 20200404191213887
+tags: TmuxPlugin
 title: tmux-mem-cpu-load
 type: text/vnd.tiddlywiki
 

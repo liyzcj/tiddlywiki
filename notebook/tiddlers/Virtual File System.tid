@@ -1,0 +1,37 @@
+caption: 虚拟文件系统 VFS
+created: 20190730054340499
+creator: liyzcj
+modified: 20200404164132445
+modifier: liyzcj
+tags: FileSystemRelated Concept
+title: Virtual File System
+type: text/vnd.tiddlywiki
+
+Linux VFS (Virtual File System 又称 Virtual Filesystem Switch), 即虚拟文件系统. VFS 作为通用文件系统, 抽象了文件系统的''四个基本概念'': 文件, 目录项 (dentry), 索引节点(inode) 以及挂载点, 其在内核中为用户空间层的文件系统提供了相关的接口.
+
+<<image-center "vfs.svg" width:"60%" caption:"Linux VFS">>
+
+VFS 实现了 `open()` `read()` 等系统调用, 并使得 `cp` 等用户程序可以跨文件系统. 真正的实现了: 
+
+> ''在 Linux 中, 除了进程就是文件.''
+
+<<<.tc-big-quote
+Linux 有着丰富多样的文件系统, 大体上可以分为以下几类:
+
+# 网络文件系统, nfs, cifs 等;
+# 磁盘文件系统, ext4, ext3 等;
+# 特殊文件系统, proc, sysfs, ramfs, tmpfs 等.
+<<<
+
+Linux VFS 包括四个基本对象: 
+
+* 超级块对象 (superblock object), 代表一个已安装的文件系统;
+* 索引节点对象 (inode object), 代表一个文件;
+* 目录项对象 (dentry object), 代表一个目录项;
+* 文件对象 (file object), 代表进程打开的文件.
+
+其关系如下图所示:
+
+<<image-center "vfs_object.svg" caption:"Linux VFS Object" width:"60%">>
+
+d_inode 即为硬链接.

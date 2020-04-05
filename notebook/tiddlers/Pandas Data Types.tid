@@ -1,0 +1,173 @@
+caption: 数据类型
+created: 20200402175416341
+modified: 20200404121011605
+tags: [[Pandas 基础]]
+title: Pandas Data Types
+type: text/vnd.tiddlywiki
+
+! Pandas Data Types
+
+!! 基础类型与扩展类型
+
+大部分情况下，Pandas 会使用 Numpy Array 与 [[Numpy dtyps|Numpy 内建数据类型]] 作为每个 Series 的数据类型。一个 ~DataFrame 是一组 Series 的集合，并且每个 Series 有自己的数据类型。例如 `float, int, bool, timedelta64[ns], datetime64[ns]`。
+
+但是有时候，仅仅通过 Numpy 的类型系统，无法 Cover 所有的情况，例如一下情况等。
+
+* 带有''时区''的 Datetime 类型，Numpy 中的 Datetime 是不支持时区的。
+* 带有 `NaN` 缺失值的整数类型，Numpy 中的整数数组不支持缺失值。
+
+所以 Pandas 自己定义了一些''扩展类型''，来满足这些情况，例如:
+
+* `Int64Dtype` 等提供有缺失值的整数数组
+* `BooleanDtype` 提供有缺失值的布尔类型数组
+* `DatetimeTZDtype` 提供带有时区的 DateTime
+* `CategoricalDtype` 提供 Category 类型
+* `StringDtype` 作为专用的 String 类型
+
+等等。
+
+> [[该表格|https://pandas.pydata.org/pandas-docs/stable/getting_started/basics.html#dtypes]] 给出了所有的 ''Pandas 内置扩展类型''。
+
+Pandas 除了内置一些扩展类型之外，还提供了''自定义扩展类型''的接口，查看  [[Extension types|https://pandas.pydata.org/pandas-docs/stable/development/extending.html#extending-extension-types]] 了解如何''自定义扩展类型''。
+
+> 查看 [[Extension data types|https://pandas.pydata.org/pandas-docs/stable/ecosystem.html#ecosystem-extensions]] 获取已经实现了的第三方扩展类型库。
+
+!! 查看 Pandas 中的数据类型
+
+要查看 Series 中数据的类型，可以通过 `dtype` Attribute，这会返回一个 `numpy.dtype` Object：
+
+```python
+>>> Series.dtype
+```
+
+<<info "创建 Series 时，它的数据类型会尝试满足其中所有的数据，所以如果一个 Series 中包含多种类型的数据，一般类型会是 `object`">>
+
+
+要查看 DataFrame 中数据的类型，可以通过 `dtypes` Attribute 列出所有的数据类型：
+
+```python
+DataFrame.dtypes
+```
+
+还可以通过 `value_counts()` 方法来统计不同类型的 Series 的数量：
+
+```python
+DataFrame.dtypes.value_counts()
+```
+
+
+!! 数值类型
+
+默认情况下，整数的类型为 `int64` 或者 `int32`，浮点数的类型为 `float64` 或者 `float32`，和 Numpy 相同，与运行的平台相关。
+
+当多种类型的数值进行计算时，会产生 Upcasting, 结果会转换为最 generic 的类型，例如 `int32` 加 `int64` 结果为 `int64`。
+
+!! 类型转换
+
+数据类型可以通过多种方法进行转换，这其中包括''硬转换''与''软推断''。硬转换即通过方法显式的进行转换，软推断是指根据数据的信息进行隐式的推断。
+
+!!! 硬转换
+
+硬转换包含三个函数与一个方法：
+
+* 函数 `pd.to_numeric()`
+* 函数 `pd.to_datetime()`
+* 函数 `pd.to_timedelta()`
+* 方法 `astype()`
+
+
+首先，三个转换函数都有一些相同的参数来控制转换的行为，例如：
+
+* `errors`： 控制遇到转换错误时的行为，可选的值有三种：
+** `raise`：默认行为，抛出异常，停止转换。
+** `coerce`：将错误的数据转换为 `NaN`
+** `ignore`：遇到错误不处理直接返回原数据
+
+
+对于 `to_numeric()` 还有一个方便的参数 `downcast`，该参数用来将数据转换为''某种类型的最小能够容纳数据的类型''，以节省内存：
+
+* `integer`: 最小的有符号整数类型
+* `signed`: 同上
+* `unsigned`: 最小的无符号整数类型
+* `float`: 最小的浮点数类型。注意浮点数最小为 `float32` 不会自动产生 `float16`
+
+方法 `astype()` 可以用来将一个 Series 转换为指定的类型，该方法默认会对原来的数据进行 Copy，也可以指定参数 `copy=False` 来关闭这个行为：
+
+```python
+Series.astype('float16')
+```
+
+DataFrame 也有这个方法，可以用来转换一个列的子集：
+
+```python
+DataFrame['a', 'b'].astype('int')
+```
+
+或者通过字典转换某些指定的列：
+
+```python
+DataFrame.astype({'a': np.int8, 'b': np.float16})
+```
+
+<<note "注意在调用 `astype()` 之后需要对原数据进行赋值，否则转换无效。<div>
+
+```python
+new_df = df['a', 'b'].astype(np.bool)
+```
+
+</div>
+
+">>
+
+!!! 软推断
+
+软推断主要用于 `object` 类型的数据，因为 `object` 类型可以存储任何的 Python Object，是最通用的类型，但是将数据存储为 `object` 类型会带来一些问题：
+
+* 计算速度慢，因为无法按照特定的类型去优化数值的计算。
+* 占用空间大，Object 类型占用空间较大。
+* 无法使用特定类型的计算操作，例如 Datetime 的时间计算。
+
+所以我们在进行数据处理时通常会避免使用 `object` 类型，而是转换为数据''正确的类型''。但是有时候手动一个一个转换就会非常浪费时间，我们可以通过 `infer_objects()` 这个方法来自动推断一些类型：
+
+```python
+DataFrame.infer_objects()
+Series.infer_objects()
+```
+
+这个方法''尝试''将数据推断为正确的类型。
+
+
+> Pandas 有两种类型可以保存字符串：
+># `object`: 可以保存 Python Object，也包含字符串。
+># `StringDtype`: 专用的字符串类型。
+> `StringDtype` 是比较推荐的方式。查看 [[Text Data Types|https://pandas.pydata.org/pandas-docs/stable/user_guide/text.html#text-types]] 了解更多。
+
+!! 注意事项
+
+
+当对整型的数据进行选择时，很容易会将数据转换为 Float 格式。因为在选择的过程中，很可能出现 `NaN` 值，而该值在 Numpy 中为一个 `float` 值 `np.nan`。
+
+
+!! 根据类型选择列
+
+
+我们可以根据数据类型来选择 ~DataFrame 中的一些列，通过 `select_dtypes()` 方法可以做到。
+
+
+```python
+DataFrame.select_dtypes(include=[np.number], exclude=['unsignedinteger'])
+```
+
+该方法通过两个参数 `include` 与 `exclude` 来控制选择的类型。
+
+
+所有 [[Numpy 中的类型|Numpy 内建数据类型]]，无论是 Generic 类型还是普通类型，都可以用来进行选择，除此之外，还可以通过''字符串''进行选择，支持 Pandas 中所有的数据类型，包括''扩展类型''。
+
+
+
+---
+
+!! Reference
+
+* [[Pandas dtypes doc|https://pandas.pydata.org/pandas-docs/stable/getting_started/basics.html#basics-dtypes]]
+* [[what are all the dtypes that pandas recognizes?|https://stackoverflow.com/a/29246498/12572033]]

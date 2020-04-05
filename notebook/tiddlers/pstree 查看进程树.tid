@@ -1,8 +1,9 @@
+caption: 查看进程树 pstree
 created: 20190722193028744
 creator: liyzcj
-modified: 20190826153841068
+modified: 20200404165536256
 modifier: liyzcj
-tags: Macos Command Linux
+tags: LinuxTaskProcessRelated
 title: pstree 查看进程树
 type: text/vnd.tiddlywiki
 

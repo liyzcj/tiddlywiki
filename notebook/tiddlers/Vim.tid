@@ -1,0 +1,16 @@
+created: 20190807195516369
+modified: 20200404204727933
+tags: Tools
+title: Vim
+type: text/vnd.tiddlywiki
+
+! Vim
+---
+
+Vim 是著名的编辑器.
+
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

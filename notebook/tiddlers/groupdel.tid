@@ -1,0 +1,14 @@
+caption: 删除用户组 groupdel
+created: 20200404163807391
+modified: 20200404163912934
+tags: UserManagement
+title: groupdel
+type: text/vnd.tiddlywiki
+
+!! groupdel
+
+删除组
+
+```bash
+groupdel group
+```

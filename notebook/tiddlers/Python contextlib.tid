@@ -1,0 +1,11 @@
+caption: 上下文管理 contextlib
+created: 20200220075721885
+modified: 20200404140319329
+tags: [[Python 内建 Modules]] Explore TODO
+title: Python contextlib
+type: text/vnd.tiddlywiki
+
+! Python with statement
+---
+
+https://stackoverflow.com/questions/44437694/using-python-variable-outside-with-statement

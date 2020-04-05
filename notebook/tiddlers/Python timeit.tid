@@ -1,6 +1,7 @@
+caption: 评估运行时间 timeit
 created: 20200211075704919
-modified: 20200215090558973
-tags: Python Module Builtin
+modified: 20200404131441078
+tags: [[Python 内建 Modules]]
 title: Python timeit
 type: text/vnd.tiddlywiki
 

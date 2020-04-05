@@ -1,9 +1,8 @@
 created: 20191201162545120
-modified: 20191201164149834
-tags: Tensorflow Python
+modified: 20200404141337573
+tags: Tensorflow
 title: Tensorflow shapes
 type: text/vnd.tiddlywiki
-
 
 Tensorflow 中有两种 shape，一种是 static shape，也叫 inferred shape，因为它是根据你定义的 OP 推理出来的，这个 shape 用来构建静态图的时候使用；第二种是 dynamic shape，是运行时的一个 Tensor 真正的 shape。
 

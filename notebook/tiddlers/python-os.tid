@@ -1,9 +1,9 @@
-caption: os
+caption: 系统接口 OS
 created: 20190629215216423
 creator: liyzcj
-modified: 20190828182752010
+modified: 20200404131506907
 modifier: liyzcj
-tags: Python
+tags: [[Python 内建 Modules]]
 title: python-os
 type: text/vnd.tiddlywiki
 

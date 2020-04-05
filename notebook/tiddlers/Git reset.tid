@@ -1,0 +1,20 @@
+caption: 重置 reset
+created: 20200405062847312
+modified: 20200405063122740
+tags: GitCommand
+title: Git reset
+type: text/vnd.tiddlywiki
+
+!! reset
+
+放弃已暂存的修改(物理): 
+
+```bash
+git reset --hard <HEAD>
+```
+
+放弃已暂存的修改(逻辑):
+
+```bash
+git reset <HEAD>
+```

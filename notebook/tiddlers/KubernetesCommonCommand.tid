@@ -1,0 +1,12 @@
+caption: 常用命令
+created: 20200404183219062
+modified: 20200404183254815
+tags: Kubernetes
+title: KubernetesCommonCommand
+type: text/vnd.tiddlywiki
+
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

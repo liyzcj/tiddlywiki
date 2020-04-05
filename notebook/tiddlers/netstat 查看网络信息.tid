@@ -1,6 +1,7 @@
+caption: 查看网络相关信息 netstat
 created: 20190812173453587
-modified: 20190927041605189
-tags: Macos Linux Command
+modified: 20200404165250040
+tags: NetworkRelated
 title: netstat 查看网络信息
 type: text/vnd.tiddlywiki
 

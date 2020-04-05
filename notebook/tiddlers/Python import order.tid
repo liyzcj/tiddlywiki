@@ -1,6 +1,7 @@
+caption: 导入语句顺序
 created: 20191210120907470
-modified: 20200221062943380
-tags: Python [[PEP 8]]
+modified: 20200404140517337
+tags: [[Python Import]]
 title: Python import order
 type: text/vnd.tiddlywiki
 

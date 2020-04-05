@@ -1,9 +1,0 @@
-created: 20190903152943123
-modified: 20190903153033995
-tags: Macos Linux 常用文件
-title: ssh 配置文件
-type: text/vnd.tiddlywiki
-
-```bash
-/etc/ssh/sshd_config
-```

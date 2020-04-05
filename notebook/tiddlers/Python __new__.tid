@@ -1,6 +1,7 @@
+caption: 构造函数 new
 created: 20200225170606711
-modified: 20200315055534278
-tags: Explore Python
+modified: 20200404125150502
+tags: [[Python 高级应用]] Explore
 title: Python __new__
 type: text/vnd.tiddlywiki
 

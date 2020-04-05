@@ -1,0 +1,16 @@
+caption: 扩展文件权限 ACL
+created: 20190804193252536
+creator: liyzcj
+modified: 20200404170021682
+modifier: liyzcj
+tags: FileSystemRelated
+title: ACL权限管理
+type: text/vnd.tiddlywiki
+
+! 设置ACL权限
+
+---
+
+* https://man.linuxde.net/setfacl
+
+* [[Access Control Lists|https://wiki.archlinux.org/index.php/Access_Control_Lists]]

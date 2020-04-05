@@ -1,0 +1,11 @@
+created: 20200404134448000
+modified: 20200404204727927
+tags: Tools
+title: Vscode
+type: text/vnd.tiddlywiki
+
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

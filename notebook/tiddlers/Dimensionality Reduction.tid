@@ -1,0 +1,18 @@
+caption: 降维 Dimensionality Reduction
+created: 20190804184943712
+creator: liyzcj
+modified: 20200404200257279
+modifier: liyzcj
+tags: [[Machine Learning]]
+title: Dimensionality Reduction
+type: text/vnd.tiddlywiki
+
+
+
+降维算法是指降低随机变量的个数.
+
+主要算法:
+
+
+* [[PCA]]
+* [[t-SNE]]

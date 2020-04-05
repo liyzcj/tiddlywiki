@@ -1,0 +1,11 @@
+caption: 基础知识
+created: 20200405072449122
+modified: 20200405072851875
+tags: Javascript
+title: JavascriptBasic
+type: text/vnd.tiddlywiki
+
+<<list-links "[tag{!!title}sort[title]]">>
+
+---
+[[JavaScript 教程|https://javascript.info/]]

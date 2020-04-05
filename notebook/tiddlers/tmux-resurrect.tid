@@ -1,6 +1,7 @@
+caption: 会话状态保存 tmux-resurrect
 created: 20190809192405452
-modified: 20190828174206943
-tags: 插件 Tmux
+modified: 20200404191252126
+tags: TmuxPlugin
 title: tmux-resurrect
 type: text/vnd.tiddlywiki
 

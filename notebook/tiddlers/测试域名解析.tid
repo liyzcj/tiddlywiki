@@ -1,11 +1,10 @@
 created: 20200106024228170
-modified: 20200106025235139
-tags: Command
+modified: 20200404204224176
+tags: CommonSolution
 title: 测试域名解析
 type: text/vnd.tiddlywiki
 
-
-！nslookup
+! nslookup
 
 > nslookup命令用于查询DNS的记录，查看域名解析是否正常，在网络故障的时候用来诊断网络问题。
 

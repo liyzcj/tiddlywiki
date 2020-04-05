@@ -1,0 +1,8 @@
+caption: 常用配置
+created: 20200405062221845
+modified: 20200405062238755
+tags: Git
+title: GitConfig
+type: text/vnd.tiddlywiki
+
+<<list-links "[tag{!!title}sort[title]]">>

@@ -1,0 +1,21 @@
+caption: 输出字符串 echo
+created: 20200404202235724
+modified: 20200404202437930
+tags: TextProcessTools
+title: echo
+type: text/vnd.tiddlywiki
+
+echo 用来将字符串输出到终端上。
+
+
+!! 转义字符
+
+当 echo 的内容里有转义字符的时候，需要加上 -e 参数。
+
+例如：
+
+```bash
+echo -e "[global]\nindex-url = https://pypi.tuna.tsinghua.edu.cn/simple" > $HOME/.pip/pip.conf
+```
+
+用来修改pip 源。 其中 `\n` 需要转义。

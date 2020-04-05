@@ -1,6 +1,7 @@
+caption: 语法检查 syntastic
 created: 20190809200045389
-modified: 20190828173943056
-tags: 插件 Vim
+modified: 20200404185258963
+tags: VimPlugins
 title: syntastic
 type: text/vnd.tiddlywiki
 

@@ -1,8 +1,9 @@
+caption: 查看网络信息 ipconfig
 created: 20190805163653650
 creator: liyzcj
-modified: 20190828171235259
+modified: 20200404173308291
 modifier: liyzcj
-tags: Windows Command Powershell
+tags: PowershellNetworkRelated
 title: Powershell ipconfig
 type: text/vnd.tiddlywiki
 

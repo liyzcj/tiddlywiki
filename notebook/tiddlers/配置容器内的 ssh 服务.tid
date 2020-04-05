@@ -1,10 +1,10 @@
 created: 20190905034522322
-modified: 20190905034921615
-tags: SSH Docker
+modified: 20200404182111367
+tags: Dockerfile
 title: 配置容器内的 ssh 服务
 type: text/vnd.tiddlywiki
 
-! UBUNTU
+! Ubuntu
 ---
 
 # 安装 ssh server： <div>

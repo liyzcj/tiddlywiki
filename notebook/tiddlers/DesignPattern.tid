@@ -1,0 +1,12 @@
+caption: 设计模式
+created: 20200404184300218
+modified: 20200404184404013
+tags: Programming
+title: DesignPattern
+type: text/vnd.tiddlywiki
+
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

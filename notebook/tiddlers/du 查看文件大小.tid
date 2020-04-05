@@ -1,8 +1,9 @@
+caption: 查看文件大小 du
 created: 20190804192711701
 creator: liyzcj
-modified: 20190826154410619
+modified: 20200404163402133
 modifier: liyzcj
-tags: Macos Linux Command
+tags: StandardUnixPrograms FileSystemRelated
 title: du 查看文件大小
 type: text/vnd.tiddlywiki
 

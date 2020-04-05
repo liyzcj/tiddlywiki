@@ -1,8 +1,9 @@
+caption: 环境变量 PATH
 created: 20190722200357019
 creator: liyzcj
-modified: 20190828171007875
+modified: 20200404174414703
 modifier: liyzcj
-tags: Windows Command Powershell
+tags: PowershellUtilities
 title: 添加目录到环境变量PATH
 type: text/vnd.tiddlywiki
 

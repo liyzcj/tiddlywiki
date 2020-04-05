@@ -1,5 +1,6 @@
+caption: 配置文件 ConfigMap
 created: 20200109073838429
-modified: 20200109073901817
-tags: Kubernetes
+modified: 20200404183210791
+tags: KubernetesResources
 title: Kubernetes ConfigMap
 type: text/x-markdown

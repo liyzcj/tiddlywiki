@@ -1,6 +1,7 @@
+caption: 删除创建的容器
 created: 20200218130855276
-modified: 20200218151511260
-tags: Docker Case
+modified: 20200404175721809
+tags: DockerCommonOperation
 title: Docker delete existed Container
 type: text/vnd.tiddlywiki
 

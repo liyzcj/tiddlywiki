@@ -1,0 +1,12 @@
+caption: 当前标签筛选的目录
+created: 20200404114832057
+modified: 20200404115638544
+tags: $:/tags/TextEditor/Snippet
+title: currentTagToc
+type: text/vnd.tiddlywiki
+
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

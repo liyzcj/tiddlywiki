@@ -1,0 +1,71 @@
+caption: 终端复用工具 Tmux
+created: 20190807173520449
+creator: liyzcj
+modified: 20200404191514036
+modifier: liyzcj
+tags: ShellRelated
+title: Tmux
+type: text/vnd.tiddlywiki
+
+! Tmux
+---
+
+Tmux 是优秀的终端复用软件:
+
+
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>
+
+
+!! 常用命令
+
+https://tmuxcheatsheet.com/
+
+> Tmux 的所有命令都有一个 prefix, 默认为: `ctrl + b`.
+
+!!! 创建一个 session
+
+```bash
+tmux new -s session_name
+```
+
+!!! 停止某个 session
+
+```bash
+tmux kill-session -t session_name
+```
+
+!!! 进入后台执行 tmux
+
+```bash
+prefix + d
+```
+
+!!! 返回最近的 session
+
+```bash
+tmux a
+```
+
+!!! 列出所有 session
+
+```bash
+tmux ls
+```
+!!! 进入某个 session
+
+```bash
+tmux a -t session_name
+```
+
+!! 复制模式
+
+* 进入复制模式 : `prefix` + `[`
+
+* 开始选择 : `space`
+* 结束选择 : `Enter`
+
+* 粘贴内容: `prefix` + `]`

@@ -1,10 +1,9 @@
-caption: sys
+caption: 内部接口 sys
 created: 20190703011247615
 creator: liyzcj
-modified: 20200211080016463
+modified: 20200404131734652
 modifier: liyzcj
-priority: 2
-tags: Builtin Python Module
+tags: [[Python 内建 Modules]]
 title: python-sys
 type: text/vnd.tiddlywiki
 

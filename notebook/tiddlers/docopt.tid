@@ -1,13 +1,15 @@
+caption: 命令行参数传递 docopt
 created: 20190718211352961
 creator: liyzcj
-modified: 20190828182404621
+modified: 20200404194449575
 modifier: liyzcj
+tags: [[Python 第三方 Modules]]
 title: docopt
 type: text/vnd.tiddlywiki
 
 !! docopt
 ---
 
-与 `rgparse` 定义参数并自动生成帮助文本不同, `docopt` 是根据特定的格式从 `__doc__` 描述中自动生成参数解析.
+与 `argparse` 定义参数并自动生成帮助文本不同, `docopt` 是根据特定的格式从 `__doc__` 描述中自动生成参数解析.
 
 > 官方网站: [ext[docopt|http://docopt.org/]]

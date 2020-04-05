@@ -1,6 +1,7 @@
+caption: 配置文件 configparser
 created: 20200326103551830
-modified: 20200328081911451
-tags: Python TODO
+modified: 20200404124924364
+tags: [[Python 高级应用]] Explore [[Python 内建 Modules]]
 title: Python configparser
 type: text/vnd.tiddlywiki
 
@@ -43,16 +44,278 @@ ForwardX11 = no
 
 !! 读取与写入配置文件
 
-读取配置文件
+`ConfigParser` 类提供了几个读取和写入配置文件的方法。
+
+```python
+read(filenames, encodeing=None)
+```
+
+`filenames` 参数可以是一个文件，也可以是多个文件，`read()` 方法会尝试去加载''每一个文件''，如果文件无法加载，会直接''忽略该文件''。如果多个文件有相同的 Section 和 Option，则后面的 Section 里的 Option 会覆盖前面的 Option。
+
+> 这个方法在层级的配置文件时特别有用，例如 `~/.bashrc`, `/etc/bashrc/` 等等。需要注意文件的顺序，因为''后面的 Section 里的 Option 会覆盖前面的 Option''。
+
+```python
+read_file(f, source=None)
+```
+
+从文件中读取配置。与 `read()` 不同的是，这个方法的参数必须为一个产生字符串的迭代器，例如 `open(file)`，所以这个文件是必须存在的，经常用在 `read()` 之前来保证读取自定义的配置文件之前能够保证已经有默认的配置。
+
+<<info "旧的 `readfp()` 方法已经被 `read_file()` 方法取代。">>
+
+```python
+read_string(string, source='<string>')
+```
+
+从一个字符串中读取配置.
 
 
-!! 关于配置数据类型
+```python
+read_dict(dictionary, source='<dict>')
+```
 
-`ConfigParser` 不会对数据类型进行推算，也就是说没有类似于 primitive 的概念或者 literal 来推算数据类型，所有的配置项都作为''字符串''看待。
+从一个''字典对象''中读取配置，这个对象可以是任何能够使用 `item()` 方法获取一个字典的对象，字典的 Key 是 Section， Value 是一个包含 Option-Value 的字典。
 
-`ConfigParser` 提供了方法来将存储的配置项转换为需要数据类型。例如方法 `getboolean()` 会将指定项转换为布尔类型。而且除了简单的 `'true'/'false'` ，这个方法还可以解析  `'yes'/'no'` `'on'/'off'` `'1'/'0'`。Get 特定类型的配置项一共有三个方法：
+```python
+write(fileobject, space_around_delimiters=True)
+```
 
-* `getboolean()`
-* `getint()`
-* `getfloat()`
+向一个''文件对象''中写入配置文件。
 
+
+!! get 与 set 配置
+
+从一个 `ConfigParser` 中读取或设置配置项也有多种方式。对于 Section 与 Option 的方法略有不同。
+
+
+!!! Section
+
+首先对于一个不存在的 Section，需要通过 `add_section()` 方法才能添加 ''Section''。
+
+```python
+>>> config = configparser.ConfigParser()
+>>> config.add_section('Foo')
+```
+
+查看所有 Sections：
+
+```python
+>>> config.sections()
+['Foo']
+```
+
+删除一个 Section：
+
+```python
+>>> config.remove_section('Foo')
+True
+>>> config.sections()
+[]
+```
+
+还有一个方法可以查看是否有某个 Section：
+
+```python
+>>> config.has_section('Foo')
+False
+```
+
+!!! Option
+
+在设置 Option 的时候我们假设它属于的 Section 是已经存在的。Option 的设置和获取非常简单，可以像一个字典一样去获取和设置：
+
+```python
+>>> config['Foo']['bar'] = 'zzzz'
+>>> config['Foo']['bar']
+'zzzz'
+```
+
+<<note "一个 Option 的值必须为一个字符串">>
+
+除此之外，还可以使用 `set()` 方法来设置某一个 Option：
+
+```python
+>>> config.set('Foo', 'bar', 'aaaa')
+>>> config['Foo']['bar']
+'aaaa'
+```
+
+与 `set()` 方法相对应的 `get()` 方法可以用来获取一个 Option 的值，并且与字典的 `get()` 相同，可以设置一个 Fallback Value，就是当没有get 到相应的 Key 时，返回 Fallback Value。
+
+
+```python
+>>> config.get('Foo', 'bar')
+'aaaa'
+>>> config.get('Foo', 'zoo', fallback=3)
+3
+```
+
+有时候我们不仅仅想获取字符串，而是获取一个特定类型的数据例如 `int`, `float`, `bool`，`ConfigParser` 提供了三个 Get 方法来分别获取这些类型的值：
+
+```python
+>>> config.set('Foo', 'zoo', '20')
+>>> config.getint('Foo', 'zoo')
+20
+>>> config.getfloat('Foo', 'zoo')
+20.0
+```
+
+对于方法 `getboolean()` 需要值为 `'yes'/'no'` `'on'/'off'` `'1'/'0'` 一种，才能获取：
+
+```python
+>>> config['Foo']['A bool'] = 'yes'
+>>> config.getboolean('Foo', 'A bool')
+True
+```
+
+我们可以通过 `options()` 方法查看一个 Section 内有那些 Options：
+
+```python
+>>> config.options('Foo')
+['bar']
+```
+
+也可以通过 `has_option()` 判断是否有某个 option：
+
+```python
+>>> config.has_option('Foo', 'bar')
+True
+```
+
+通过 `remove_option()` 可以删除某个 Option：
+
+```python
+>>> config.remove_option('Foo', 'bar')
+True
+```
+
+!!! 获取字典
+
+对于一个 `ConfigParser` 我们还可以通过与 Dict 相同的 `items()` 方法直接获取一个 `ItemsView` Object
+
+
+<<info "对于上面的大部分方法，基本都有两种用法，一种是直接在 `ConfigParser` 层级通过给定 Section 与 Option 使用，另一种是在 Section 层级通过给定 Option 使用：<div>
+
+例如：
+
+```python
+config.get('Foo', 'zoo')
+20
+config['Foo'].get('zoo')
+'20'
+```
+
+</div>"
+>>
+
+
+!! 配置文件中值的替换
+
+在配置文件中是支持对 Option 的值进行 Interpolation 的。configparser 提供了两种 Interpolation：
+
+* `configparser.BasicInterpolation` : 基础的，同时也是默认的 Interpolation <div>
+
+这种方法可以通过 `%()s` 的格式来调用''同一个'' Section 内的其他 Option。
+
+```ini
+home_dir: /Users
+my_dir: %(home_dir)s/lumberjack
+my_pictures: %(my_dir)s/Pictures
+
+[Escape]
+gain: 80%%  # 使用 %% 对 百分号进行转义
+```
+
+</div>
+
+* `configparser.ExtendedInterpolation`: 高级的 Interpolation <div>
+
+这种 interpolation 是通过 `${section:option}` 的方法来引用当前或其他 Section 中的值。如果为当前 Section，则大括号内的 Section 可以省略：
+
+```ini
+[Paths]
+home_dir: /Users
+my_dir: ${home_dir}/lumberjack
+my_pictures: ${my_dir}/Pictures
+
+[Escape]
+cost: $$80  # 使用 $$ 来转义美元符号
+```
+
+</div>
+
+
+!! 自定义解析器行为
+
+
+`ConfigParser` 的解析行为可以进行高度的自定义。自定义的方式是通过 `ConfigParser.__init__()` 方法传递参数。 支持的自定义参数：
+
+* `defaults`: 一个包含默认 option 的字典，这会作为 `DEFAULT` Section 写入文件。<div>
+
+<<info "如果要为特定的 Section 设置默认值，可以在读取文件之前使用 `read_dict()`">>
+
+</div>
+
+* `allow_no_value`: 是否允许 Option 的值为空
+* `delimiters`: Option 与 Value 的分隔符，默认为 `('=', ':')`
+* `comment_prefixes`: 注释的前缀，默认为 `('#', ';')`
+* `inline_comment_prefixes`: 行内注释的前缀，默认为 `None`，最好不要允许行内注释。
+* `strit`: 默认为 `True` 代表同一个文件内不允许重复的 Option 或 Section.
+* `empty_lines_in_values`: 默认为 `True`. 表示一个值可以跨越空行
+* `default_section`: 默认 Section 的名称，默认为 `configparser.DEFAULTSECT` 即 `"DEFAULT"`
+* `interpolation`: Interpolation 的方式，默认为 `configparser.BasicInterpolation`
+* `converters`: 增加自定义的 Convert，应该给定一个字典，key 为字符串，value 为一个 Callable 的类型转换器，例如 `{'decimal': decimal.Decimal}`，这样就会为 `ConfigParser` 和 所有的 Section Proxies 添加  `getdecimal()` 方法来获取转换后的值。<div>
+
+<<info "也可以通过在 `ConfigParser` 的子类中实现以 `get` 开头的方法来做到这一点。">>
+
+</div>
+
+
+!! INI 文件的结构
+
+
+一个 Option 的值可以是多行，只要在缩进上保持比 Option 多一个缩进就行，和 [[Yaml]] 类似。
+
+
+```ini
+[Simple Values]
+key=value
+spaces in keys=allowed
+spaces in values=allowed as well
+spaces around the delimiter = obviously
+you can also use : to delimit keys from values
+
+[All Values Are Strings]
+values like this: 1000000
+or this: 3.14159265359
+are they treated as numbers? : no
+integers, floats and booleans are held as: strings
+can use the API to get converted values directly: true
+
+[Multiline Values]
+chorus: I'm a lumberjack, and I'm okay
+    I sleep all night and I work all day
+
+[No Values]
+key_without_value
+empty string value here =
+
+[You can use comments]
+# like this
+; or this
+
+# By default only in an empty line.
+# Inline comments can be harmful because they prevent users
+# from using the delimiting characters as parts of values.
+# That being said, this can be customized.
+
+    [Sections Can Be Indented]
+        can_values_be_as_well = True
+        does_that_mean_anything_special = False
+        purpose = formatting for readability
+        multiline_values = are
+            handled just fine as
+            long as they are indented
+            deeper than the first line
+            of a value
+        # Did I mention we can indent comments, too?
+```

@@ -1,16 +1,16 @@
-caption: 文件验证
+caption: 文件验证 Get-FileHash
 created: 20190805163345463
 creator: liyzcj
-modified: 20190828171210095
+modified: 20200404173514335
 modifier: liyzcj
-tags: Command Powershell
+tags: PowershellFileSystemRelated
 title: Powershell File Verification
 type: text/vnd.tiddlywiki
 
 ! 文件验证
 ---
 
-```bash
+```powershell
 Get-FileHash _filename_ -Algorithm MD5
 Get-FileHash _filename_ -Algorithm SHA256
 ```

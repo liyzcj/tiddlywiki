@@ -1,0 +1,12 @@
+created: 20200404092205974
+modified: 20200404092423541
+tags: $:/tags/Macro
+title: $:/custom/macros/htmlref
+type: text/vnd.tiddlywiki
+
+\define htmlref(link)
+<html><div align="center">
+<iframe src="$link$"
+frameborder="0" width="100%" height="600"></iframe>
+</div></html>
+\end

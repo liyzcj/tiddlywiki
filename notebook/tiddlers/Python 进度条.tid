@@ -1,8 +1,8 @@
 created: 20190719221203339
 creator: liyzcj
-modified: 20190828180945173
+modified: 20200404194900805
 modifier: liyzcj
-tags: Python
+tags: PythonImplementation
 title: Python 进度条
 type: text/vnd.tiddlywiki
 
@@ -13,4 +13,4 @@ Python 中的进度条的实现有几种方式, 包括:
 
 * [[手动实现 Python 进度条]]
 * [[progressbar]]
-* [[tqdm 实现python进度条]]
+* [[tqdm 实现python进度条|tqdm]]

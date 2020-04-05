@@ -1,0 +1,71 @@
+caption: 判断 ifelse
+created: 20200127184718652
+modified: 20200405072302168
+tags: GoSyntax ifelse
+title: Go IfElse
+type: text/vnd.tiddlywiki
+
+!! 判断
+
+Go 中的 If 语句和 for 语句类似：
+
+```go
+if [init statement;] [condition expression] {}
+```
+
+其中：
+
+* 也不需要括号，并且 `{}` 无法省略。
+* init statement 可以省略。
+
+> 和 for 相同，init statement 中定义的变量只能在 if 的scope 中使用。
+
+Else 和 Else if
+
+```go
+if condition {} else {}
+// or
+if condition {} else if {}
+```
+
+!!! Switch
+
+Switch 语句从上到下执行，直到遇到一个符合的 case。
+
+```go
+switch [init statement;] [variable] {
+case var1:
+	...
+case var2:
+	...
+default:
+	...
+}
+```
+
+> 注意与 C 等 switch 语句不同，Go 中的 Switch 语句仅仅会执行满足条件的分支，而不像其他语言会继续执行，需要手动写 `break`.
+
+Switch 还可以忽略变量：
+
+```go
+switch {
+case condition1:
+	...
+case condition2:
+	...
+}
+```
+
+这样可以在 Case 中编写条件语句，大大简化 If Else 语句。
+
+!!! defer
+
+`defer` 是 Go 中一个特有的逻辑控制语句，它的功能是将 defer 修饰的语句''推迟到下一次函数调用后再执行。''
+
+```go
+defer ...
+```
+
+如果连续使用多个 `defer` 则会采用''后进先出''的顺序执行调用。
+
+> [[Defer panic and Recover|https://blog.golang.org/defer-panic-and-recover]]

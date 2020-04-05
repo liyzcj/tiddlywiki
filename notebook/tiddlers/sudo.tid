@@ -1,0 +1,17 @@
+caption: 提升权限 sudo
+created: 20190903054411348
+modified: 20200404204125738
+tags: UserManagement
+title: sudo
+type: text/vnd.tiddlywiki
+
+!! 无密码使用
+
+```bash
+user_name ALL=(ALL) NOPASSWD:ALL
+%group_name ALL=(ALL) NOPASSWD:ALL
+```
+
+!! Reference
+
+https://help.ubuntu.com/community/Sudoers

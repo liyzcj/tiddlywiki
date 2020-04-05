@@ -1,0 +1,12 @@
+caption: 几何学 Geometry
+created: 20200405064037700
+modified: 20200405064053954
+tags: Mathematic
+title: Geometry
+type: text/vnd.tiddlywiki
+
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

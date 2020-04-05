@@ -1,12 +1,13 @@
+caption: 类型检查
 created: 20200209134110402
-modified: 20200209142427642
-tags: Tip Python
+modified: 20200404141008490
+tags: [[Python Type Hint system]]
 title: Python Type Hint Type Check
 type: text/vnd.tiddlywiki
 
-[[Python  Type Hint system]] 可以非常方便的标记变量或者参数的类型。但是它的设计仅仅是为了作为类型的参考，而不会在运行时进行类型检查。所以''类型检查相关的代码还是得我们自己实现''。
+[[Python Type Hint system]] 可以非常方便的标记变量或者参数的类型。但是它的设计仅仅是为了作为类型的参考，而不会在运行时进行类型检查。所以''类型检查相关的代码还是得我们自己实现''。
 
-在使用[[类型检查系统|Python  Type Hint system]]时，我们经常会用到 Union、List、Dict 等类型，这些类型都可以和其他类型组成复合类型：
+在使用[[类型检查系统|Python Type Hint system]]时，我们经常会用到 Union、List、Dict 等类型，这些类型都可以和其他类型组成复合类型：
 
 ```python
 NewType = Union[int, dict]

@@ -1,0 +1,13 @@
+created: 20190805175933207
+creator: liyzcj
+modified: 20200405074627756
+modifier: liyzcj
+tags: Matlab
+title: Matlab 错误自动停止
+type: text/vnd.tiddlywiki
+
+如果运行出现错误，matlab会自动停止，并保存相关变量
+
+```matlab
+dbstop if error
+```

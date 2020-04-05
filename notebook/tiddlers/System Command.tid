@@ -1,0 +1,12 @@
+caption: 系统相关
+created: 20200404181612319
+modified: 20200404181654952
+tags: DockerCommonCommand
+title: System Command
+type: text/vnd.tiddlywiki
+
+查看占用空间：
+
+```bash
+docker system df
+```

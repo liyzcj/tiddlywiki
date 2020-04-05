@@ -1,20 +1,12 @@
+caption: 机器学习 tensorflow
 created: 20200322040759952
-modified: 20200322041039404
-tags: AI Python
+modified: 20200404194326810
+tags: [[Python 第三方 Modules]]
 title: Tensorflow
 type: text/vnd.tiddlywiki
 
-* [[调研 Tensorflow Extended]]
+<div class="tc-table-of-contents">
 
-* [[Tensorflow 乘法]]
-* [[Tensorflow 连接 HDFS]]
-* [[Tensorflow 特征列]]
-* [[Tensorflow 优化]]
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
 
-* [[Tensorflow Data Validator]]
-* [[Tensorflow shapes]]
-
-* [[构建计算图]]
-* [[模型保存与恢复]]
-* [[TensorBoard]]
-* [[tf.app.flags]]
+</div>

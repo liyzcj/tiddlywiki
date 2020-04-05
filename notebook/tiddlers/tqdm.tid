@@ -1,0 +1,57 @@
+caption: 进度条 tqdm
+created: 20190719221428005
+creator: liyzcj
+modified: 20200404194741115
+modifier: liyzcj
+tags: [[Python 第三方 Modules]]
+title: tqdm
+type: text/vnd.tiddlywiki
+
+tqdm 在阿拉伯语中意思为 "进展" (taqadum) 并且是西班牙语 "我很爱你" 的缩写.(te quiero demasiado)
+
+!! 命令行
+
+tqdm 简单易用, 仅仅需要在循环外包裹一个 `tqdm` 对象:
+
+```python
+>>> from tqdm import tqdm
+>>> from time import sleep
+
+>>> for _ in tqdm(range(10), ncols=100):
+>>>   sleep(1)
+100%|█████████████| 10/10 [00:10<00:00,  1.00s/it]
+```
+
+> 💡 windows 上最好指定 `ncols` 参数, 设置进度条的宽度, 否则容易出 bug.
+
+!! GUI
+
+tqdm 还提供了 gui 版本的进度条, 但是需要 matplotlib 支持
+
+```python
+from tqdm import tqdm_gui
+from time import sleep
+
+for i in tqdm_gui(range(10), ncols=100):
+  sleep(1)
+```
+
+!! 快捷方法
+
+tqdm 还提供了许多快捷方法来简单的实现进度条:
+
+|!快捷方法|!完整语法|
+|trange(*args, **kwargs)|tqdm(range(args), *kwargs)|
+|tgrange(*args, **kwargs)|tqdm_gui(range(args), *kwargs)|
+|tnrange(*args, **kwargs)|tqdm_notebook(range(args), *kwargs)|
+
+示例:
+
+```python
+>>> from tqdm import trange
+>>> from time import sleep
+
+>>> for i in trange(10, ncols=50):
+>>>   sleep(1)
+100%|█████████████| 10/10 [00:10<00:00,  1.00s/it]
+```

@@ -1,0 +1,72 @@
+created: 20200330040638605
+modified: 20200405065626390
+tags: NetworkConcept
+title: OSI 模型
+type: text/vnd.tiddlywiki
+
+OSI (Open System Interconnection Model) 简称 OSI 模型，OSI 是一种概念模型，由国际标准化组织提出。
+
+<<info "1984年，ISO发布了著名的ISO/IEC 7498标准，它定义了网络互联的7层框架，也就是开放式系统互联参考模型。">>
+
+
+OSI 将计算机网络体系划分为七层。
+
+!!! 第七层 应用层 Application Layer
+
+提供为应用软件而设计的接口，提供与另一台计算机上的对应的应用软件之间的通信。
+
+''应用层与应用层通信，同时也会向表示层发送请求。''
+
+<<info "包含 HTTP、HTTPS、FTP、TELNET、SSH、SMTP、POP3、HTML 等协议。">>
+
+!!! 第六层 表达层 Presentation Layer
+
+将数据转换为与接受者的系统格式兼容并适合传输的格式。
+
+<<attention "该层已经弃用。应用层的 HTTP、HTTPS、FTP、TELNET 等协议已经提供了类似的功能。传输层的 TLS/SSL 协议也具有类似的功能。">>
+
+!!! 第五层 会话层 Session Layer
+
+会话层负责在数据传输中设置和维护计算机网络中两台计算机之间的通信状态。
+
+<<attention "该层已经弃用。应用层的 HTTP、RPC、SDP、RTCP 等协议提供类似的功能。">>
+
+
+!!! 第四层 传输层 Transport Layer
+
+传输层把''传输表头'' `TH` 加入数据以形成数据包。''传输表头''中包含了所使用的传输协议等发送信息。
+
+<<info "传输层协议有 TCP、UDP、SCTP、TLS/SSL、PPTP 等。">>
+
+!!! 第三层 网络层 Network Layer
+
+网络层决定数据的路径选择和转寄，将''网络表头'' `NH` 加入数据包，以形成''报文''。网络表头包含了网络数据，例如互联网协议（IP）等。
+
+<<info "网络层的协议有 IP(v4,v6)、ICMP(v6)、RIP、RARP 等。">>
+
+!!! 第二层 数据链路层 Data Link Layer
+
+数据链路层负责网络寻址、错误侦测和改错。当表头和表尾增加到数据包时，会形成 ''Data Frame''。
+
+* ''数据链路表头''（DLH）包含了物理地址和错误侦测及改错的方法。
+* ''数据链表尾''（DLT）是一串指示数据包末端的字符串。
+
+<<info "数据链路层包含 Wi-Fi(IEEE 802.11)、ARP、ATM、PPPoE、GPRS、L2TP 等协议。">>
+
+<<info "数据链路层包含的设备主要有网卡、交换机、桥接器。">>
+
+数据链路层又分为两个子层：
+
+* 逻辑链路控制层（Logical Link Control，LLC）
+* 介质访问控制层（Media Access Control，MAC）
+
+!!! 第一层 物理层 Physical Layer
+
+物理层在局部局域网上传送链路层的 ''Data Frame''，负责管理电脑通信设备和网络媒体之间的互通。
+
+物理层主要确保 ''Data Frame'' 可以在各种物理媒介上传输。
+
+* 为数据端设备提供传送数据通路
+* 传输数据
+
+<<info "物理层包含电压、针脚、线缆、中继等规范">>

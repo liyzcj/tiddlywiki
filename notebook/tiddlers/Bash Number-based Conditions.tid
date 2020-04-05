@@ -1,8 +1,9 @@
+caption: 数字相关条件
 created: 20200202095926966
-modified: 20200202110942982
+modified: 20200404201734159
+tags: [[Shell 条件判断]]
 title: Bash Number-based Conditions
 type: text/vnd.tiddlywiki
-
 
 数字相关的条件仅仅限于整数，对于字符串，如果可能会转换为整数。
 

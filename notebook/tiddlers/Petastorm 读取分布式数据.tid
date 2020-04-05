@@ -1,6 +1,7 @@
+caption: 数据接入 Petastorm
 created: 20190905070850503
-modified: 20190905102618564
-tags: 机器学习 Python 分布式
+modified: 20200404135737277
+tags: [[Python 第三方 Modules]] 机器学习 分布式
 title: Petastorm 读取分布式数据
 type: text/vnd.tiddlywiki
 

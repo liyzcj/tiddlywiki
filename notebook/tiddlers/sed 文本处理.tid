@@ -1,8 +1,9 @@
+caption: 编辑文本文件 sed
 created: 20190805161554034
 creator: liyzcj
-modified: 20191219030758327
+modified: 20200404165759856
 modifier: liyzcj
-tags: Linux Command
+tags: StandardUnixPrograms TextProcessTools
 title: sed 文本处理
 type: text/vnd.tiddlywiki
 

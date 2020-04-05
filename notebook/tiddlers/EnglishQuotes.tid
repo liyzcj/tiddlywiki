@@ -1,0 +1,12 @@
+caption: 英文名言
+created: 20200405075243303
+modified: 20200405075303666
+tags: English
+title: EnglishQuotes
+type: text/vnd.tiddlywiki
+
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

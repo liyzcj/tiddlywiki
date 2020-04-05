@@ -1,8 +1,9 @@
+caption: 关机与重启 halt shutdown reboot
 created: 20190804192547892
 creator: liyzcj
-modified: 20190826155410535
+modified: 20200404164515989
 modifier: liyzcj
-tags: Linux Command
+tags: LinuxTaskProcessRelated
 title: Linux关机和重启
 type: text/vnd.tiddlywiki
 

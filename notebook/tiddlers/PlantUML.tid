@@ -1,12 +1,15 @@
+caption: 绘制 UML PlantUML
 created: 20200221104315685
-modified: 20200221111805435
-tags: Software Macos
+modified: 20200404193056567
+tags: VscodePlugin
 title: PlantUML
 type: text/vnd.tiddlywiki
 
 想要在 VSCODE 中编写 UML 图，可以使用 plantuml 插件。
 
 该插件有两个依赖：`java` 和 `graphviz`:
+
+!! Macos
 
 ```bash
 brew install openjdk

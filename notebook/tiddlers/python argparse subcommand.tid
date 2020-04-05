@@ -1,6 +1,7 @@
+caption: 子命令
 created: 20200314074854910
-modified: 20200314080348028
-tags: Case Python
+modified: 20200404140149374
+tags: [[Python argparse]] Case
 title: python argparse subcommand
 type: text/vnd.tiddlywiki
 

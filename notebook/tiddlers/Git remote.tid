@@ -1,6 +1,7 @@
+caption: 远程仓库 remote
 created: 20191207182112134
-modified: 20191207182325196
-tags: Git
+modified: 20200405062931952
+tags: GitCommand
 title: Git remote
 type: text/vnd.tiddlywiki
 
@@ -16,4 +17,12 @@ git remote add [<options>] <name> <url>
 
 ```bash
 git remote -v
+```
+
+!! 推送到远程仓库
+
+强制推送, 可以用来删除远程仓库的某些节点:
+
+```bash
+git push --force
 ```

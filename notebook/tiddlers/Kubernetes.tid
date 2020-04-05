@@ -1,0 +1,11 @@
+created: 20200404182259657
+modified: 20200404182306902
+tags: Framework
+title: Kubernetes
+type: text/vnd.tiddlywiki
+
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

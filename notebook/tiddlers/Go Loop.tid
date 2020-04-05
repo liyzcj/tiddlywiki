@@ -1,0 +1,44 @@
+caption: 循环 Loop
+created: 20200405071447419
+modified: 20200405071720675
+tags: GoSyntax loop
+title: Go Loop
+type: text/vnd.tiddlywiki
+
+!! 循环
+
+''Go 只有一个循环语句 `for`''。
+
+```go
+for [init statement];condition expression;[post statement] {}
+```
+
+特性如下：
+
+* 不同于 C 语言等，Go 的 for 语句是''不需要括号''的。并且 ''`{}` 不能省略。''
+* 其中 `init statement` 和 `post statement` 是可以省略的。''如果同时省略的话，分号也可以省略。'' 这时候 for 就变成了 while 语句。
+* 如果需要无限循环，只需要将 condition 语句也省略。
+
+> 注意，init statement 中定义的变量只能在 for 语句的 scope 中使用。
+
+例如：
+
+```go
+// 不省略
+for i:=0;i<100;i++ {}
+// 省略部分
+for ;i<100;i++ {}
+// 前后都省略, (等同于 while)
+for i<100 {}
+// 无限循环
+for {}
+```
+
+''`for` 还经常和 `range` 配合使用，用来遍历[[数组|Go Array and Slice]]或者[[哈希表|Go Map]]。''
+
+```go
+for i[, v] := range SliceOrMap {}
+```
+* 当遍历 Slice 时：第一个变量 `i` 是元素的 index， 第二个变量 `v` 是元素的一个 Copy。并且第二个''变量`v`可以省略。''
+
+* 当遍历 Map 时： 第一个变量 `i` 代表 Key，而第二个变量 `v` 是对应 Value 的 Copy。第二个''变量 `v` 也可以省略。''

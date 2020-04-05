@@ -1,0 +1,69 @@
+caption: Method Resolution Order
+created: 20200328152942134
+modified: 20200404131016341
+tags: [[Python 高级应用]]
+title: Python MRO
+type: text/vnd.tiddlywiki
+
+> MRO (Method Resolution Order)
+
+Python 的 MRO 过程发生在[[面向对象|Python 面向对象]] 中的[[继承|Python继承]]，由于继承的原因，特别是多继承的情况下，如果多个父类覆写了相同的方法，应该调用哪个父类的方法就成了问题。
+
+!!! MRO
+
+在查找一个 Attribute 时：
+
+1. 首先会搜索当前 Class
+
+2. 搜索父类 在[[新式类|Python2与Python3的不同]]中，MRO 对于父类的搜索顺序采用''从左到右，广度优先''的规则。
+
+> 左右指的是继承时，父类填写的顺序：<div>
+
+```python
+class A(B, C, D):
+	pass
+```
+
+</div>
+
+最后生成的查找顺序称为 Linearization of Class，而查找中采用的规则就称为 ''MRO''。
+
+你可以通过一个类的 `__mro__` Attribute 来获取这个查找顺序，它返回一个 ''Tuple''。也可以通过 `mro()` 方法来查看某个 Class 的查找顺序，`mro()` 方法返回的是一个 ''List''。
+
+!!! 一个例子
+
+考虑一个 Diamond 继承。
+
+[img[multi_inheritance.svg]]
+
+```python
+class A:
+    foo = 1
+
+class B(A):
+    bar = 2
+
+class C(A):
+    foo = 3
+		
+class D(B, C):
+    pass
+```
+
+由于 C 与 A 中都定义了 `foo`，按照''广度优先''的规则，在 D 中会首先找到 C 的 `foo` Attribute:
+
+```python
+>>> D.foo
+3
+>>> D.__mro__
+(__main__.D, __main__.B, __main__.C, __main__.A, object)
+>>> D.mro()
+[__main__.D, __main__.B, __main__.C, __main__.A, object]
+```
+
+
+---
+
+!! Reference
+
+* [[Python Multiple Inheritance|https://data-flair.training/blogs/python-multiple-inheritance/]]

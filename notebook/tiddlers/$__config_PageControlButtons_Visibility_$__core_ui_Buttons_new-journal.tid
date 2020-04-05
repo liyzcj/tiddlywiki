@@ -1,6 +1,6 @@
 created: 20190829023521244
-modified: 20200212102617600
+modified: 20200404143556458
 title: $:/config/PageControlButtons/Visibility/$:/core/ui/Buttons/new-journal
 type: text/vnd.tiddlywiki
 
-show
+hide

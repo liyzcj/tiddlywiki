@@ -1,8 +1,9 @@
+caption: 后台挂起任务 nohup
 created: 20190806174827487
 creator: liyzcj
-modified: 20190826155031121
+modified: 20200404165411769
 modifier: liyzcj
-tags: Macos Linux Command
+tags: LinuxTaskProcessRelated
 title: nohup 挂起命令
 type: text/vnd.tiddlywiki
 

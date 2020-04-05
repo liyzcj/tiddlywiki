@@ -1,6 +1,7 @@
+caption: Eval 函数
 created: 20190919080445085
-modified: 20191022030652037
-tags: Python
+modified: 20200404125513174
+tags: [[Python 基础概念]]
 title: Python eval 与 ast.literal_eval
 type: text/vnd.tiddlywiki
 
@@ -12,3 +13,6 @@ type: text/vnd.tiddlywiki
 ---
 
 处于安全考虑，在只需要进行 string 到Python内建类型转换的时候，使用 `ast.literal_eval()` 这个函数会判断你的字符串在转换后是否为 Python 的合法类型， 如果不是，程序就会报错，从而解决了安全问题。
+
+
+<<info "很多语言都有 `eval()` 函数或操作，这是一个语言的[[反射功能|Reflection]]的体现。">>

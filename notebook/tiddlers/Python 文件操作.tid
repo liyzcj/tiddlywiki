@@ -1,11 +1,10 @@
-caption: 基本文件操作
+caption: 文件操作 Files
 created: 20190719224352263
 creator: liyzcj
-modified: 20190828182907895
+modified: 20200404123131302
 modifier: liyzcj
-tags: Python
+tags: [[Python 基础概念]]
 title: Python 文件操作
-todo-done: 20190720181049
 type: text/vnd.tiddlywiki
 
 Python 通过 `open(filname, flag)` 函数打开一个文件, 返回一个文件对象, 并通过对象对文件进行操作.

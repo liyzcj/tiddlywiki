@@ -1,7 +1,7 @@
 caption: 继承
 created: 20190720174051342
 creator: liyzcj
-modified: 20190828182706171
+modified: 20200328155636796
 modifier: liyzcj
 tags: Concept
 title: Python继承
@@ -15,3 +15,12 @@ Python 可以实现多继承, 即继承多个类. 当继承多个类时, 调用�
 
 * 经典类按照深度优先搜索.
 * 新式类按照广度优先搜索.
+
+!!! 多继承语法
+
+```python
+class A(B, C, D):
+	pass
+```
+
+这个搜索的过程称作 [[MRO|Python MRO]]

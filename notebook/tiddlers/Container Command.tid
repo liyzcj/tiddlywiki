@@ -1,0 +1,60 @@
+caption: 容器相关
+created: 20200404181012487
+modified: 20200404181747985
+tags: DockerCommonCommand
+title: Container Command
+type: text/vnd.tiddlywiki
+
+!!! 启动容器
+
+使用 docker 启动容器，并在退出后自动删除：
+
+```bash
+docker run -it --rm image command
+```
+
+> 其中， -i 是指交互式操作， -t 指终端， --rm 指在运行完成后删除容器。
+
+挂起一个镜像，并不退出：
+
+```bash
+docker run -d --rm image command
+```
+
+> 挂起后，使用 `exec` 执行命令也不会推出，只要不执行 `exit`。
+
+挂载宿主机目录：
+
+```bash
+docker run --mount type=bind,source=/local/path,target=/container/path
+```
+
+!!! 进入容器
+
+```bash
+docker exec -it image bash
+# or
+docker attach image
+```
+
+!!! 提交容器
+
+```bash
+docker commit [选项] <容器ID或容器名> [<仓库名>[:<标签>]]
+```
+
+常用 snippet：
+
+```bash
+docker commit \
+    --author "Tao Wang <twang2218@gmail.com>" \
+    --message "修改了默认网页" \
+    容器名或ID \
+    镜像:标签
+```
+
+!!! 复制文件：
+
+```bash
+docker cp 容器ID:/path/to/file /local/path
+```

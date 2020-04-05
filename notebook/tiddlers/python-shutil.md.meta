@@ -1,8 +1,8 @@
-caption: shutil
+caption: Shell 常用操作 shutil
 created: 20190719214520251
 creator: liyzcj
-modified: 20200220115521686
+modified: 20200404135415665
 modifier: liyzcj
-tags: Explore Jupyter Python
+tags: [[Python 内建 Modules]] Explore
 title: python-shutil
 type: text/x-markdown

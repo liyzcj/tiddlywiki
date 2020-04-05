@@ -1,8 +1,9 @@
+caption: 验证文件正确性 md5sum sha256sum
 created: 20190804193555755
 creator: liyzcj
-modified: 20190826161348699
+modified: 20200404172603642
 modifier: liyzcj
-tags: Linux
+tags: FileSystemRelated
 title: 验证文件
 type: text/vnd.tiddlywiki
 

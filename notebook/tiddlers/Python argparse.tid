@@ -1,0 +1,270 @@
+caption: 命令行参数解析 argparse
+created: 20190704003117115
+creator: liyzcj
+modified: 20200404140044780
+modifier: liyzcj
+tags: [[Python 内建 Modules]]
+title: Python argparse
+type: text/vnd.tiddlywiki
+
+! argparse
+---
+
+argparse 是 [[optparse]] 的升级版本, 更加灵活也方便使用. 推荐使用该模组实现脚本参数传递.
+
+argparse 的使用分为三个步骤
+
+# 创建 `ArgumentParser` 对象
+# 使用 `add_argument()` 方法添加参数选项
+# 使用 `parse_args()` 方法解析参数
+
+!!! 创建解析器对象
+
+```python
+parser = argparse.ArgumentParser()
+```
+
+可选参数:
+
+* `prog` : 脚本名称(default: `sys.argv[0]`)
+* `usage` : 帮助信息(default: 自动生成)
+* `description` : 显示在帮助之前的描述(default: `None`)
+* `epilog` : 显示在帮助之后的文本 (default: `None`)
+* `parents` : 包含多个 `ArgumentParser` 对象的 List, 同样需要被解析的参数.
+* `formatter_class` : 格式化帮助信息的类
+* `prefix_chars` : 包含可选参数前缀的 Set (default: `{-}`)
+* `fromfile_prefix_chars` : 从文件读取参数前缀 (default: `None`)
+* `argument_default` : 参数全局默认值 (default: `None`)
+* `conflict_handler` : 解决参数冲突的策略(usually unnecessary)
+* `add_help` : 增加 `-h/--help` 选项 (default: `True`)
+* `allow_abbrev` : 允许长选项缩写, 3.5版本加入(default: `True`)
+
+> 详细信息见: [ext[ArgumentParser objects|https://docs.python.org/3/library/argparse.html#argumentparser-objects]]
+
+!!! 增加需要解析的参数选项
+
+```python
+ArgumentParser.add_argument(name or flags...[key args])
+```
+
+参数:
+
+* `name or flags` : 名称或flag. 例如 `foo, -f, --foo`
+* `action` : 当参数传入时执行的动作. (default: `store`)
+* `nargs` : 选项消耗的参数个数.
+* `const` : 常量, 用于 `action` 或着 `nargs`
+* `default` : 选项的默认值
+* `type` : 参数类型
+* `choices` : 所允许参数值的容器
+* `required` : 是否可以省略(仅可选参数)
+* `help` : 帮助描述
+* `metavar` : 帮助中显示的名称
+* `dest` : 解析后的变量名称
+
+> 详细信息见: [ext[the-add-argument-method|https://docs.python.org/3/library/argparse.html#the-add-argument-method]]
+
+---
+
+!! 简单示例
+
+```python
+import argparse
+
+parser = argparse.ArgumentParser(description="This is a example.")
+parser.parse_args()
+```
+
+> 💡 如果没有传递参数给 `parse_args()` 方法, 则默认解析 `sys.argv`.
+
+默认拥有 `-h` 或 `--help` 选项:
+
+```bash
+PS D:\znote> python.exe test.py -h
+usage: test.py [-h]
+
+This is a example.
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
+
+!! 位置参数
+
+位置参数的意思就是像普通的函数参数一样根据参数传入的位置来确定参数, 而 ''不需要指定参数选项'':
+
+```python
+import argparse
+
+parser = argparse.ArgumentParser(description="This is a example.")
+parser.add_argument('loc1', help='这是第一个参数.')
+args = parser.parse_args()
+print(args.loc1)
+```
+
+执行代码: 
+
+```bash
+PS D:\znote> python.exe test.py one
+one
+```
+
+查看帮助选项:
+
+```bash
+PS D:\znote> python.exe test.py -h
+usage: test.py [-h] loc1
+
+This is a example.
+
+positional arguments:
+  loc1        这是第一个参数.
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
+
+默认接受的参数是 string 类型的, 我们也可以为位置参数添加数据类型:
+
+```python
+import argparse
+
+parser = argparse.ArgumentParser(description="This is a example.")
+parser.add_argument('squre', help='这是第一个参数.', type=int)
+args = parser.parse_args()
+print(args.squre ** 2)
+```
+
+> 💡 帮助信息不会提示参数值的数据类型
+
+!! 可选参数
+
+可选参数同样使用 `add_argument()` 方法添加:
+
+```python
+import argparse
+
+parser = argparse.ArgumentParser(description="求平方")
+parser.add_argument('--verbose', action = 'store_true', help="提高输出显示等级")
+args = parser.parse_args()
+if args.verbose:
+  print("输出打开.")
+```
+
+输出:
+
+```bash
+PS D:\znote> python.exe test.py --verbose
+输出打开.
+```
+
+这里采用了一个 `action` 参数, 提供了一个 `store_true` 动作, 表明 `verbose` 选项指定时, `verbose` 变量为 `True`, 否则为 `False`.
+
+---
+
+!! add_argument() 方法参数
+
+!!! 动作类型
+
+`action` 参数提供了''八种类型''的动作, 除此之外也可以自定义动作.
+
+|!动作|!介绍|
+|store |默认动作, 直接存储到变量, 消耗一个参数|
+|store_const |配合const, 将const存进变量, 不消耗参数|
+|store_true |存储 True 进变量, 未指定存储 False|
+|append |将参数 Append 到一个 List 对象|
+|append_const |配合const, 将常量 Append 到 List|
+|count |统计参数出现的次数|
+|help |打印 help, ~ArgumentParser 默认有一个|
+|version |配合 version, 打印 version 并退出|
+
+> 详见: [ext[action|https://docs.python.org/3/library/argparse.html#action]]
+
+!!! nargs
+
+`nargs` 参数代表消耗参数的个数. 可取的值有如下几种:
+
+* `N` : 一个整型数字, 代表消耗参数的个数. <div>
+
+这会将消耗的参数保存为 List 存进变量中, 即使 `N = 1`, 也会保存 List, 而不是 String. 所以`N = 1` 时与默认也不相同.
+
+</div>
+
+* `?` : 判断形式 <div>
+
+若选项后有参数, 则保存参数进变量; 若选项后没有参数, 则保存 const 参数的值进变量; 若选项 没有出现, 则保存 default 的值进参数.
+
+常用的方法是重定向输入输出文件:
+
+```python
+>>> parser = argparse.ArgumentParser()
+>>> parser.add_argument('infile', nargs='?', type=argparse.FileType('r'),
+                    default=sys.stdin)
+>>> parser.add_argument('outfile', nargs='?', type=argparse.FileType('w'),
+                    default=sys.stdout)
+>>> parser.parse_args(['input.txt', 'output.txt'])
+Namespace(infile=<_io.TextIOWrapper name='input.txt' encoding='UTF-8'>,
+        outfile=<_io.TextIOWrapper name='output.txt' encoding='UTF-8'>)
+>>> parser.parse_args([])
+Namespace(infile=<_io.TextIOWrapper name='<stdin>' encoding='UTF-8'>,
+        outfile=<_io.TextIOWrapper name='<stdout>' encoding='UTF-8'>)
+```
+</div>
+
+* `*` : 将选项后的所有参数存进 List 变量
+* `+` : 与 `*` 类似, 但至少为一个参数
+* `argparse.REMAINDER` : 所有剩余的未解析参数存进 List 变量
+
+!!! type
+
+类型转换, 将收到的字符串参数转换为特定类型:
+
+```python
+>>> parser = argparse.ArgumentParser()
+>>> parser.add_argument('foo', type=int)
+>>> parser.add_argument('bar', type=open)
+>>> parser.parse_args('2 temp.txt'.split())
+Namespace(bar=<_io.TextIOWrapper name='temp.txt' encoding='UTF-8'>, foo=2)
+```
+
+为了方便打开各种类型的文件, `argparse` 提供了 `FileType` 类型接收 `mode=, bufsize=, encoding= and errors=` 参数来传递给 `open()` 方法, 例如:
+
+```python
+>>> parser = argparse.ArgumentParser()
+>>> parser.add_argument('bar', type=argparse.FileType('w'))
+>>> parser.parse_args(['out.txt'])
+Namespace(bar=<_io.TextIOWrapper name='out.txt' encoding='UTF-8'>)
+```
+
+> 💡 type 可以接受任何以字符串为输入, 返回一个值的函数. 这样就可以方便的将字符串参数转换为各种 python 对象.
+
+!!! choice
+
+`choices` 可以对输入的参数的值进行限定.
+
+将一组可选的值作为 List 传递给 `choices` , 注意应与 `type` 指定的类型相同.
+
+```python
+>>> parser = argparse.ArgumentParser(prog='doors.py')
+>>> parser.add_argument('door', type=int, choices=range(1, 4))
+>>> print(parser.parse_args(['3']))
+Namespace(door=3)
+>>> parser.parse_args(['4'])
+usage: doors.py [-h] {1,2,3}
+doors.py: error: argument door: invalid choice: 4 (choose from 1, 2, 3)
+```
+
+!!! dest
+
+dest 指定了保存变量的名称.
+
+!! 参数组
+
+{{python argparse group argument}}
+
+!! 子命令
+
+{{python argparse subcommand}}
+
+---
+
+Argparse 还提供了一些其他函数, 详细参考: [ext[other-utilities|https://docs.python.org/3/library/argparse.html#other-utilities]]
