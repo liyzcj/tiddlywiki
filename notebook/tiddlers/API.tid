@@ -1,0 +1,21 @@
+created: 20200407091723087
+modified: 20200407092105478
+tags: ProgrammingConcepts
+title: API
+type: text/vnd.tiddlywiki
+
+与因特网相连的端系统提供了一个应用程序接口（英语：''A''pplication ''P''rogramming ''I''nterface，缩写：API；又称为''应用程序编程接口''）是软件系统不同组成部分衔接的约定。
+
+''API规定了运行在一个端系统上的软件请求因特网基础设施向运行在另一个端系统上的特定目的地软件交付数据的方式。''
+
+良好的接口设计可以降低系统各部分的相互依赖，提高组成单元的''内聚性''，降低组成单元间的''耦合程度''，从而''提高系统的可维护性和可扩展性。''
+
+!! 种类划分
+
+API又分为（Windows、Linux、Unix等系统的）系统级API，及非操作系统级的自定义API。
+
+* 面向对象语言的API
+* 库与框架的API
+* API与协议
+* API与设备接口
+* Web API: 例如 [[RESTful API]]

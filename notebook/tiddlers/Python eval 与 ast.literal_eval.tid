@@ -1,7 +1,7 @@
 caption: Eval 函数
 created: 20190919080445085
-modified: 20200404125513174
-tags: [[Python 基础概念]]
+modified: 20200405093859205
+tags: [[Python StandardFunc]]
 title: Python eval 与 ast.literal_eval
 type: text/vnd.tiddlywiki
 

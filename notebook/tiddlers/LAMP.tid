@@ -1,0 +1,9 @@
+created: 20200406072806212
+modified: 20200406073451010
+tags: [[Develop Concept]]
+title: LAMP
+type: text/vnd.tiddlywiki
+
+LAMP 代表的就是：Linux 系统下 Apache + MySQL + PHP 这种网站服务器架构。
+
+与 [[LNMP]] 不同的是，采用 Apache HTTP Server 而不是 Nginx 作为网页服务器。 

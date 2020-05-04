@@ -1,0 +1,17 @@
+caption: 接口 Interface
+created: 20200423052716284
+modified: 20200423052916898
+tags: [[Python 常用方法]] TODO
+title: Python Interface
+type: text/vnd.tiddlywiki
+
+! Python Interface
+---
+
+Python 接口
+
+---
+
+!! Reference
+
+* [[Implementing an Interface in Python|https://realpython.com/python-interface/]]

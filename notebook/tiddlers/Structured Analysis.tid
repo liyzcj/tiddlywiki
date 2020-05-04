@@ -1,0 +1,13 @@
+caption: 结构化分析 SA
+created: 20200411093441403
+modified: 20200411093625362
+tags: [[Software Design]]
+title: Structured Analysis
+type: text/vnd.tiddlywiki
+
+! 结构化分析
+---
+
+''结构化分析（Structured Analysis，简称SA）''是软件工程中的一种方法，结构化分析和结构化设计可以分析商业的需求，再转换为规格文件，最后再产生电脑软件、硬件配置及相关的手册及程序。
+
+结构化分析及设计技术是系统分析的基础，是由1960到70年代的系统分析技术发展而成。

@@ -1,0 +1,9 @@
+created: 20200423041303822
+modified: 20200423041426442
+tags: [[Software Design]]
+title: 控制反转原则
+type: text/vnd.tiddlywiki
+
+控制反转原则（Inversion of Control），缩写 ~IoC。控制反转原则意思就是对于控制权的反转。
+
+

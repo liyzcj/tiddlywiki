@@ -1,0 +1,245 @@
+caption: 缺失值处理 Missing Data
+created: 20200410114407665
+modified: 20200410162040423
+tags: [[Pandas 基础]]
+title: Pandas Missing Data
+type: text/vnd.tiddlywiki
+
+! Pandas 缺失值与处理
+---
+
+Missing Value，称作缺失值。缺失值处理是数据处理必不可少的一个环节。原始数据中难免会出现错误或者丢失的数据。Pandas 对于处理缺失数据提供了非常好的支持。
+
+关于缺失值主要有一下几块内容：
+
+* 缺失值的表示
+* 缺失值在数学计算等操作中的行为
+* 缺失值的处理：包括''替换，丢弃，插值''等方法。
+
+
+!! 缺失值的表示
+
+在 Numpy 中，缺失值由 `np.NaN` 表示，表示 Not avaliable number，这是一个 ''`float64`'' 类型的字符。由于 Pandas 沿用了 Numpy 的类型系统，所有在 Pandas 中，同样是使用 `np.NaN` 来代表''数值类型''缺失值。但是在其他类型中，Pandas 却有着不同的缺失值。下表列出了，Pandas 不同容器中的缺失值类型以及赋值时的行为。
+
+|!Pandas Dtype|!赋值 `None`|!赋值 `np.NaN`|!reindex|
+|int|变为 `np.NaN`, 且 Cast 为 float64|Cast 为 float64|Cast 为 float64|
+|float|变为 `np.NaN`|不变|不变|
+|complex|变为 `np.NaN`|不变|不变|
+|datetime|变为 `pd.NaT`|变为 `pd.NaT`|变为 `pd.NaT`|
+|bool|变为 `False`|变为 `True`|变为 `np.NaN`, Cast 为 object|
+|object|不变|不变|变为 `np.NaN`|
+
+''不变''指的是，赋值是什么，插入的结果还是什么。
+
+所以，表示缺失值的变量有：
+
+* `np.NaN`: 数值类型等
+* `pd.NaT`: Datetime
+
+
+> 在 v1.0 版本，Pandas 的实验特性中加入了一个 `pd.NA` 代表 Int 类型缺失值。本文的最后会讨论相关内容。
+
+<<info "在 Pandas中，如果你想将正无穷 `inf` 与负无穷 `-inf` 作为无效值（缺失值）处理，可以设置选项：<div>
+
+```python
+pandas.options.mode.use_inf_as_na = True
+```
+
+</div>
+
+">>
+
+
+!! 缺失值的计算
+
+将缺失值用于数学计算或其他操作符号时，可能会得到与预想不同的结果，下面来介绍用于一些操作符时的行为。
+
+!!! 等于 `==`
+
+你不能使用 `==` 来判断某个值是否是缺失值。缺失值 `np.nan` 不能用来比较，和 `None` 不同：
+
+```python
+>>> None == None
+True
+>>> np.nan == np.nan
+False
+```
+
+> `np.nan` 是 `np.NaN` 的别名。
+
+那么如何判断一个值是否为缺失值呢？可以使用 Pandas 提供的 `pd.isna()` 或 `pd.notna()` 方法，这会返回一个相同大小的 Mask，`True` 代表为缺失值。
+
+<<info "`isnull()` `notnull` 是相同的别名函数。">>
+
+!!! 算术运算
+
+当进行算术运算时，缺失值会有以下行为：
+
+* 当取和时，缺失值作为 0。
+* 当所有数据都为缺失值时，sum 结果为 0，prod 结果为 1.
+* Cumulative （累计）方法例如 `cumsum()` `cumprod()` 默认会忽略''缺失值''，可以使用参数 `skipna=False` 取消忽略。
+
+
+!!! ~GroupBy
+
+在 ~GroupBy操作中，缺失值会被自动排除。
+
+
+!! 缺失值清洗
+
+!!! 填充 `fillna()`
+
+函数 `fillna()` 可以用来填充一个值到缺失值的位置。最简单的就是填充一个标量：
+
+```python
+df.fillna(0)
+```
+
+除了填充一个固定的值，还可以使用 `method` 参数来指定填充的方法：
+
+可以指定的值如下：
+
+* `pad` / `ffill` : 向前填充
+* `bfill` / `backfill` : 向后填充
+
+> 向前填充 `pad` / `ffill` 在处理''时序数据''时是非常常见的操作，因为最后一个值通常在每个时间点都是有效的。
+
+* `ffill()` 等价于 `fillna(method='ffill')` 
+* `bfill()` 等价于 `fillna(method='bfill')`
+
+另一种常见的操作是根据数据进行填充，例如''平均值，众数''等。
+
+```python
+dff.fillna(dff.mean())
+```
+
+或者使用 `where()` 方法来替换缺失值：
+
+```python
+dff.where(pd.notna(dff), dff.mean(), axis='columns')
+```
+
+> `axis` 代表在 column 轴上取平均，并填充缺失值，而 `fillna` 默认就是 column 轴。
+
+
+!!! 替换
+
+除了上面提到的 `where()` 函数，还有一个更加通用的方法来将一个值替换为另一个值，也可以是缺失值。
+
+查看 [[替换值|Pandas Replace Value]] 了解更详细的信息。
+
+
+!!! 删除 `dropna()`
+
+`dropna()` 方法可以用来丢弃缺失值。
+
+```python
+df.dropna(axis=0)
+```
+
+* `axis=0` 代表丢弃所有带有缺失值的''行''。
+* `axis=1` 代表丢弃所有带有缺失值的''列''。
+
+
+!!! 插值 Interpolation
+
+`interpolate(method='linear')` 函数，可以用来对缺失值进行插值处理，
+
+插值算法采用 `scipy` 提供的[[插值算法|https://docs.scipy.org/doc/scipy/reference/interpolate.html#univariate-interpolation]], method 的默认值为 `linear` 代表线性插值。
+
+> [[点击这里|https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.interpolate.html#pandas.DataFrame.interpolate]] 查看 `interpolate()` 文档获取，所有插值算法
+
+一些插值常用的操作：
+
+* 如果你处理的是时间序列，`method='quadratic'` 可能是最合适的。
+* 如果你的数据近似与累积分布函数，`method='pchip'` 一般表现比较好。
+* 如果为了平滑绘图，可以使用 `method='akima'`
+
+`interpolate()` 函数还可以接受一个 `limit` 参数，用来''限制连续的缺失值的数量''。
+
+
+!! 实验特性 `NA`
+
+
+在之前，采用 `np.NaN` 完全是为了计算性能的考虑，虽然也能够满足大部分需求，但是有时候我们确实可能用到带有缺失值的 `int` 类型，或者 `boolean` 类型。
+
+在版本 v1.0 Pandas 推出了一个新的变量 `pd.NA`，采用 MASK 的方式来实现 `Int` 与 `Boolean`  类型中的缺失值。分别对应两中扩展类型： `Int8, 16..`、`Boolean`。
+
+然而，`pd.NA` 的最终目标是''统一所有类型''中的缺失值表示，代替其他的 `None` `np.nan` `pd.NaT` 表示。但是目前，Pandas 仍然没有将这种标志作为默认值，仅仅作为实验特性。
+
+
+!!! 数学计算
+
+`pd.NA` 的数学计算与数值类型的 `np.NaN` 类型不同，例如 `pd.NA` 与大部分类型的乘除运算结果都为 `pd.NA`
+
+```python
+In [147]: pd.NA + 1
+Out[147]: <NA>
+
+In [148]: "a" * pd.NA
+Out[148]: <NA>
+```
+
+但是幂运算的结果都为 1:
+
+```python
+In [149]: pd.NA ** 0
+Out[149]: 1
+
+In [150]: 1 ** pd.NA
+Out[150]: 1
+```
+
+在比较运算符中，所有的结果同样为 `pd.NA`:
+
+```python
+In [151]: pd.NA == 1
+Out[151]: <NA>
+
+In [152]: pd.NA == pd.NA
+Out[152]: <NA>
+
+In [153]: pd.NA < 2.5
+Out[153]: <NA>
+```
+
+!!! 逻辑运算
+
+对于逻辑运算，`pd.NA` 遵循 [[Three-valued logic|https://en.wikipedia.org/wiki/Three-valued_logic]] 的原则，意思是当需要 `NA` 值的时候，它才会起作用。
+
+例如，或运算 `|` 如果有 True，总会返回 True，与 `NA` 无关。如果另一个是 False，则 `NA` 将作为结果：
+
+```python
+In [160]: False | pd.NA
+Out[160]: <NA>
+```
+
+对于且运算 `&` 正好相反，如果有 True 则返回 `NA`:
+
+```python
+In [166]: True & pd.NA
+Out[166]: <NA>
+```
+
+
+> 对于布尔类型  `bool()` ，`pd.NA` 无法作为 `bool()` 的输入，因为它既不是 True，也不是 Flase。
+
+!!! Numpy ufuncs
+
+`pd.NA` 实现了 Numpy 的 `__array_ufunc__` 协议，大部分支持  `ufuncs` 的操作，都会返回 `NA`.
+
+
+> 查看 [[Numpy ufuncs 协议|Numpy ufuncs protocol]]
+
+
+!!! 转换旧的 `np.nan` 为新的 `pd.NA`
+
+
+你可以使用 `convert_dtypes()` 函数对旧的数据进行转换，只要转换为新的 [[扩展类型|Pandas Data Types]]，其中的 `np.nan` 会自动变为 `pd.NA`.
+
+---
+
+!! Reference
+
+* [[Handling Missing Values with Pandas|https://towardsdatascience.com/handling-missing-values-with-pandas-b876bf6f008f]]
+* [[Working with missing data|https://pandas.pydata.org/pandas-docs/stable/user_guide/missing_data.html#missing-data]]

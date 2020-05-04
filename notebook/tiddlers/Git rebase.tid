@@ -1,0 +1,82 @@
+caption: 变基 rebase
+created: 20200425171938777
+modified: 20200427162027874
+tags: GitCommand
+title: Git rebase
+type: text/vnd.tiddlywiki
+
+! Rebase
+---
+
+!! 原理
+
+与 [[Merge|Git merge]] 类似，rebase 可以将两个分支合并到一起。但是 Rebase 的原理与 [[Merge|Git merge]] 不同，正如它得名字''变基''，Rebase 做得事情就是改变''基点''，这个''基点''指的是''两个分支得交汇点''。
+
+[img[基点.svg]]
+
+图中蓝色的点就是''feature 分支与 master 分支的基点。''
+
+那么变基的意思也就非常明显了，就是改变这个基点。变为什么呢？''`rebase` 命令的参数会作为一个新的基点''。如果你在 feature 分支上执行语句：
+
+```bash
+git rebase master
+```
+
+那么 feature 分支与 master 分支的基点就会变为 master 当前指向的节点。这样就类似于''将 master 分支 merge 到了 feature 分支''。而 feature 分支上原来的 commit （红色点）就会接在新的 base 上。
+
+[img[rebase_master.svg]]
+
+<<info "默认的 Rebase 操作会将原来 feature 分支的 commit 全部移到新的基点上，但是这个行为可以通过修改命令进行控制。详见下面的 Interactive model。">>
+
+<<attention "Rebase 的黄金法则：由于 Rebase 会改变当前分支的历史，所以''永远不要在公共分支上进行 Rebase 操作。''">>
+
+
+!! 用法
+
+!!! 交互模式
+
+使用 Rebase 的交互模式，可以对每个 commit 采用更加灵活的选择。
+
+```bash
+git rebase --interactive/-i Commit_id
+```
+
+当使用交互模式时，执行命令后会打开一个文本编辑器。其中，每行由一个格式为 `command commit_id commit_msg`，`command` 可以为以下几种之一：
+
+* `p, pick <commit>`: 保留该 commit
+* `r, reword <commit>`: 保留该 commit，修改 commit message
+* `e, edit <commit>`: 保留该 commit, 停止 amending。
+* `s, squash <commit>`: 与上一个 commit 合并。
+* `f, fixup <commit>`: 类似于 squash，但是丢弃 commit message
+* `x, exec <command>`: 运行一个 shell 命令
+* `b, break`: 停止 Rebase，可以通过 `git rebase --continue` 继续
+* `d, drop <commit>`: 删除这个 commit
+* `l, label <label>`: 给当前 HEAD 标记一个 label
+* `t, reset <label>`: 将 HEAD 重置为某个 label
+* `m, merge [-C <commit> | -c <commit>] <label>`: 创建一个 merge commit。
+
+<<info "像 edit/squash/fixup 都可以理解为将当前 commit 作为对上一个 commit 的补充。">>
+
+!!! 清理分支
+
+通过上面的交互模式，我们可以进行一个非常实用的操作。我们可以采用 Rebase 来清理本地分支，由于 Rebase 并不一定非得指定一个其他分支的节点作为 Base，也可以指定当前分支的节点。当指定当前分支的节点作为 Base 的时候，相当于对当前分支的 Commit 节点进行整理。
+
+整理可以用到的操作就是上面的交互模式中列出来的命令。例如，我们可以使用 `squash` 或者是 `fixup` 或者 `edit` 来将多个 commit 合并为几个主要的 commit。
+
+!!! 拉取公共分支的修改
+
+
+拉取公共分支的修改到当前分支通常有两个选择：
+
+* 通过 [[Merge|Git merge]] 命令
+* 通过 Rebase 命令。
+
+通过 Merge 命令的缺点就是会创建一个新的 Commit，有时候''仅仅是想将公共分支的改动拉取到本地，而并不想增加一个新的 Commit。''
+
+使用 Rebase 将公共分支合并到本地分支就相当于将本地分支的 Base 节点改为最新的公共分支的节点，''相当于基于新的主分支创建了一个新的分支，但是之前的 Commit 会原封不动的移过来。''
+
+
+---
+!! Reference
+
+* [[Merging vs Rebasing|https://www.atlassian.com/git/tutorials/merging-vs-rebasing]]

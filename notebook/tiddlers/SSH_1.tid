@@ -1,0 +1,13 @@
+caption: 安全外壳协议 SSH
+created: 20200407090408186
+modified: 20200407090454766
+tags: NetworkProtocol
+title: SSH
+type: text/vnd.tiddlywiki
+
+! Secure Shell 
+---
+
+Secure Shell（安全外壳协议，简称SSH）是一种加密的网络传输协议，可在不安全的网络中为网络服务提供安全的传输环境。SSH通过在网络中创建安全隧道来实现SSH客户端与服务器之间的连接。
+
+''SSH的经典用途是登录到远程电脑中执行命令。除此之外，SSH也支持隧道协议、端口映射和X11连接。借助SFTP或SCP协议，SSH还可以传输文件。''

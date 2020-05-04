@@ -1,6 +1,6 @@
 caption: 资源部署与管理 helm
 created: 20191217051452363
-modified: 20200404182422226
+modified: 20200415122020144
 tags: [[Kubernetes 相关应用]]
 title: helm
 type: text/x-markdown
@@ -48,7 +48,20 @@ Debug :
 helm install --debug --dry-run test ./mychart
 ```
 
- 
+## Get Repo Charts
+
+```bash
+helm search repo stable
+```
+
+## Upgrade Release
+
+```bash
+helm -n namespace upgrade -f values.yaml release-name new_chart
+```
+
+
+
 ## Reference
 
 [官方文档](https://helm.sh/docs/)

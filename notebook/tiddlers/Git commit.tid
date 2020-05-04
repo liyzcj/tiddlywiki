@@ -1,0 +1,29 @@
+caption: 提交 Commit
+created: 20200427163154766
+modified: 20200427163706169
+tags: GitCommand
+title: Git commit
+type: text/vnd.tiddlywiki
+
+! commit
+
+
+Git commit 用来提交一个 Commit，它会将当前的暂存的修改作为一个新的 Commit 节点。
+
+```bash
+git commit -m "msg"
+```
+
+!! 常用操作
+
+!!! 增加并 Commit
+
+```bash
+git commit -am "msg"
+```
+
+!!! 修改上一个节点
+
+```bash
+git commit --amend
+```

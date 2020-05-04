@@ -1,7 +1,7 @@
 caption: 迭代器与生成器 Iterator vs Generator
 created: 20200315025558590
 modified: 20200404125642061
-tags: [[Python 高级应用]]
+tags: PythonFeature
 title: Python Iterator vs Generator vs Iterable
 type: text/vnd.tiddlywiki
 

@@ -1,0 +1,94 @@
+created: 20200421095300291
+modified: 20200421101059761
+tags: GitConcept
+title: Git LFS
+type: text/vnd.tiddlywiki
+
+Git LFS 表示 Git Large File Storage.
+
+对于大型文件，每次都从远程仓库 Pull 下来显然不是一个好的选择，通过 Git LFS 就能够有选择的来拉取大型文件，并且通过 `SHA256` 来控制大型文件的版本。
+
+!! 安装
+
+* Macos <div>
+
+```bash
+brew install git-lfs
+git lfs install
+```
+
+</div>
+
+* RHEL/CentOS <div>
+
+Add Repo:
+
+```bash
+curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash
+```
+
+Install LFS
+
+```bash
+sudo yum install git-lfs
+git lfs install
+```
+
+
+</div>
+
+
+
+* Debian and Ubuntu <div>
+
+> Ubuntu 18.04 与 Debian 10 官方仓库提供了 `git-lfs`，如果不是这两个版本，首先添加仓库：<div>
+
+
+```bash
+curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+```
+
+</div>
+
+
+```bash
+sudo apt-get install git-lfs
+git lfs install
+```
+
+</div>
+
+
+* Dockerfile <div>
+
+```dockerfile
+RUN build_deps="curl" && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ${build_deps} ca-certificates && \
+    curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git-lfs && \
+    git lfs install && \
+    DEBIAN_FRONTEND=noninteractive apt-get purge -y --auto-remove ${build_deps} && \
+    rm -r /var/lib/apt/lists/*
+```
+
+
+</div>
+
+
+
+!! Usage
+
+
+首先需要通过 `track` 选择追踪的大型文件：
+
+```bash
+git lfs track "*.iso"
+```
+
+这会生成 `.gitattributes` 文件，添加这个文件之后，所有符合 `*.iso` 的文件都会作为 LFS 处理，通过普通 Git 命令操作即可。
+
+```bash
+git commit -m "track *.psd files using Git LFS"
+```
+

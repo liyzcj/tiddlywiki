@@ -1,0 +1,27 @@
+caption: 合并 merge
+created: 20200426012501920
+modified: 20200427163118936
+tags: GitCommand
+title: Git merge
+type: text/vnd.tiddlywiki
+
+!Merge
+---
+
+Merge 操作的功能是将一个[[分支|Git branch]]''合并''到另一个分支。另一个有类似功能但是不同原理的命令是 [[Rebase|Git rebase]]
+
+```bash
+git merge branch_1 branch_2
+```
+
+Merge 操作涉及到''两个分支''，所以 `merge` 命令有两个参数。它会将 `branch_2` 的与 `branch_1` 的基点之后的所有 Commit ''作为一个新的 Merge Commit'' 添加到 `branch_1` 中。在实际使用中，参数 `branch_1` 通常会省略，默认使用当前分支。''注意这里的关键是 Merge 会创建一个新的 Commit。''
+
+[img[基点.svg]]
+
+Merge 之后（黄色的点是新创建的 Merge Commit）
+
+[img[git_merge.svg]]
+
+> 两个分支的交汇点叫做基点。
+
+与 Merge 类似但是原理完全不同的相关的操作是 [[Rebase|Git rebase]]。

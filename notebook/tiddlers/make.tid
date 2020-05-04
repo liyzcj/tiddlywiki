@@ -1,0 +1,35 @@
+caption: 构建工具 make
+created: 20200225170110781
+modified: 20200406071010879
+tags: LinuxUtilities TODO GNU
+title: make
+type: text/vnd.tiddlywiki
+
+Make 是一个用来协助构建软件的工具。在诞生之初，并没有现在这样方便的集成开发环境，集环境检查、构建命令于一身。软件构建过程需要手动执行大量的命令来完成检查依赖、构建等功能。Make 通过一个 Makefile 记录从源码到可执行程序的过程，让构建大型软件变得简单。
+
+> 虽然现代集成开发环境提供了大部分的功能，在 Unix 类系统上，程序员仍然习惯使用 Makefile 来将一些命令集成起来，方便每次重复调用。
+
+
+Make 的使用非常简单，主要的精华就在于 Makefile 上。
+
+
+!! 特殊指令
+
+`.PHONY` 可以用来指定文件无关。即指定该命令不是一个文件。
+
+```makefile
+.PHONY foo
+foo:
+	echo 123
+```
+
+> 如果你的文件夹中有 `foo` 这个文件，并且你不使用 `.PHONY` 指定的话，make 不会执行指定的命令： <div>
+
+```bash
+❯ make foo
+make: 'foo' is up to date.
+```
+
+</div>
+
+* [[跟我一起写 Makefile|https://seisman.github.io/how-to-write-makefile/conditionals.html]]

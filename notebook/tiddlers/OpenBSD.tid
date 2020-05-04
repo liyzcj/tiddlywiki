@@ -1,0 +1,11 @@
+created: 20200407085959250
+modified: 20200407090132294
+tags: Unix-like
+title: OpenBSD
+type: text/vnd.tiddlywiki
+
+[img[https://upload.wikimedia.org/wikipedia/zh/thumb/8/83/OpenBSD_Logo_-_Cartoon_Puffy_with_textual_logo_below.svg/400px-OpenBSD_Logo_-_Cartoon_Puffy_with_textual_logo_below.svg.png]]
+
+''OpenBSD'' 是一个[[类 Unix|Unix-like]] 计算机操作系统，是加州大学伯克利分校所开发的 Unix 派生系统伯克利软件套件（BSD）的一个后继者。
+
+''OpenBSD'' 项目已为众多子系统编写了可移植版本，其中最值得注意的是 PF（Packet Filter）、OpenSSH 和 OpenNTPD，作为软件包，它们在其他操作系统中随处可见。

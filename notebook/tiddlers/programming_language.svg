@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" viewBox="258 145 201 271" width="201" height="271">
+  <defs>
+    <linearGradient x1="0" x2="1" id="Gradient" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#68bc36"/>
+      <stop offset="1" stop-color="#b9dea5"/>
+      <stop offset="1" stop-color="white"/>
+    </linearGradient>
+    <linearGradient id="Obj_Gradient" xl:href="#Gradient" gradientTransform="translate(258.5 160.5) scale(200)"/>
+    <font-face font-family="Helvetica Neue" font-size="16" panose-1="2 0 5 3 0 0 0 2 0 4" units-per-em="1000" underline-position="-100" underline-thickness="50" slope="0" x-height="517" cap-height="714" ascent="951.9958" descent="-212.99744" font-weight="400">
+      <font-face-src>
+        <font-face-name name="HelveticaNeue"/>
+      </font-face-src>
+    </font-face>
+    <linearGradient x1="0" x2="1" id="Gradient_2" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#68bc36"/>
+      <stop offset=".9" stop-color="#b9dea5"/>
+      <stop offset="1" stop-color="white"/>
+    </linearGradient>
+    <linearGradient id="Obj_Gradient_2" xl:href="#Gradient_2" gradientTransform="translate(258.5 200.5) scale(200)"/>
+    <linearGradient x1="0" x2="1" id="Gradient_3" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#68bc36"/>
+      <stop offset=".75" stop-color="#b9dea5"/>
+      <stop offset="1" stop-color="white"/>
+    </linearGradient>
+    <linearGradient id="Obj_Gradient_3" xl:href="#Gradient_3" gradientTransform="translate(258.5 240.5) scale(200)"/>
+    <linearGradient x1="0" x2="1" id="Gradient_4" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#68bc36"/>
+      <stop offset=".6" stop-color="#b9dea5"/>
+      <stop offset="1" stop-color="white"/>
+    </linearGradient>
+    <linearGradient id="Obj_Gradient_4" xl:href="#Gradient_4" gradientTransform="translate(258.5 280.5) scale(200)"/>
+    <linearGradient x1="0" x2="1" id="Gradient_5" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#68bc36"/>
+      <stop offset=".45" stop-color="#b9dea5"/>
+      <stop offset="1" stop-color="white"/>
+    </linearGradient>
+    <linearGradient id="Obj_Gradient_5" xl:href="#Gradient_5" gradientTransform="translate(258.5 320.5) scale(200)"/>
+    <linearGradient x1="0" x2="1" id="Gradient_6" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#68bc36"/>
+      <stop offset=".3" stop-color="#b9dea5"/>
+      <stop offset="1" stop-color="white"/>
+    </linearGradient>
+    <linearGradient id="Obj_Gradient_6" xl:href="#Gradient_6" gradientTransform="translate(258.5 360.5) scale(200)"/>
+    <linearGradient x1="0" x2="1" id="Gradient_7" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#68bc36"/>
+      <stop offset=".15" stop-color="#b9dea5"/>
+      <stop offset="1" stop-color="white"/>
+    </linearGradient>
+    <linearGradient id="Obj_Gradient_7" xl:href="#Gradient_7" gradientTransform="translate(258.5 400.5) scale(200)"/>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.11.5 
+    <dc:date>2020-04-07 03:20:01 +0000</dc:date>
+  </metadata>
+  <g id="Canvas_1" fill="none" fill-opacity="1" stroke="none" stroke-opacity="1" stroke-dasharray="none">
+    <title>Canvas 1</title>
+    <rect fill="white" x="258" y="145" width="201" height="271"/>
+    <g id="Canvas_1: Layer 1">
+      <title>Layer 1</title>
+      <g id="Graphic_2">
+        <rect x="258.5" y="145.5" width="200" height="30" fill="url(#Obj_Gradient)"/>
+        <rect x="258.5" y="145.5" width="200" height="30" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(263.5 151.276)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="54.72" y="15">Hello world</tspan>
+        </text>
+      </g>
+      <g id="Graphic_3">
+        <rect x="258.5" y="185.5" width="200" height="30" fill="url(#Obj_Gradient_2)"/>
+        <rect x="258.5" y="185.5" width="200" height="30" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(263.5 191.276)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="20.92" y="15">Keyword and Syntax</tspan>
+        </text>
+      </g>
+      <g id="Graphic_4">
+        <rect x="258.5" y="225.5" width="200" height="30" fill="url(#Obj_Gradient_3)"/>
+        <rect x="258.5" y="225.5" width="200" height="30" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(263.5 231.276)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="31.128" y="15">Standard function</tspan>
+        </text>
+      </g>
+      <g id="Graphic_5">
+        <rect x="258.5" y="265.5" width="200" height="30" fill="url(#Obj_Gradient_4)"/>
+        <rect x="258.5" y="265.5" width="200" height="30" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(263.5 271.276)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="30.392" y="15">Language Feature</tspan>
+        </text>
+      </g>
+      <g id="Graphic_6">
+        <rect x="258.5" y="305.5" width="200" height="30" fill="url(#Obj_Gradient_5)"/>
+        <rect x="258.5" y="305.5" width="200" height="30" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(263.5 311.276)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="42.848" y="15">Built-in Library</tspan>
+        </text>
+      </g>
+      <g id="Graphic_7">
+        <rect x="258.5" y="345.5" width="200" height="30" fill="url(#Obj_Gradient_6)"/>
+        <rect x="258.5" y="345.5" width="200" height="30" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(263.5 351.276)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="28.768" y="15">Third-party Library</tspan>
+        </text>
+      </g>
+      <g id="Graphic_8">
+        <rect x="258.5" y="385.5" width="200" height="30" fill="url(#Obj_Gradient_7)"/>
+        <rect x="258.5" y="385.5" width="200" height="30" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(263.5 391.276)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="39.568" y="15">Implementation</tspan>
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>

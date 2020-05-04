@@ -1,0 +1,12 @@
+caption: 耦合性 Coupling
+created: 20200411092832669
+modified: 20200411093407841
+tags: [[Software Design]]
+title: Coupling
+type: text/vnd.tiddlywiki
+
+''耦合性''（英语：Coupling，dependency，或称耦合力或耦合度）是一种软件度量，是指一程序中，''模块及模块之间信息或参数依赖的程度。''
+
+[[内聚性|Cohesion]]是一个和耦合性''相对''的概念，一般而言低耦合性代表高内聚性，反之亦然。
+
+> 耦合性和内聚性都是由提出结构化设计概念的赖瑞·康斯坦丁所提出。低耦合性是结构良好程序的特性，低耦合性程序的可读性及可维护性会比较好。

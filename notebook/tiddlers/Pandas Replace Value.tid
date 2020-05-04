@@ -1,0 +1,91 @@
+caption: 值替换 Replacement
+created: 20200410154423295
+modified: 20200410164653050
+tags: [[Pandas 基础]]
+title: Pandas Replace Value
+type: text/vnd.tiddlywiki
+
+! Pandas Replacement
+---
+
+在 Pandas 中，替换一些值是非常常见的操作。通常使用 `replace()` 方法进行替换。
+
+!! 替换通用值
+
+!!! 对于 Series
+
+简单的替换两个值：
+
+```python
+ser.replace(0, 5)
+```
+
+使用两个 List 替换对应的值：
+
+```python
+ser.replace([0, 1, 2, 3, 4], [4, 3, 2, 1, 0])
+```
+
+或者使用一个字典，使用 Value 替换对应的 Key 值：
+
+```python
+ser.replace({0: 10, 1: 100})
+```
+
+!!! 对于 DataFrame
+
+通过指定列名进行特定列中特定值的替换：
+
+```python
+df.replace({'a': 0, 'b': 5}, 100)
+```
+
+!! 字符串 / 正则表达式 替换
+
+例如简单的使用 `np.nan` 替换 `'.'`
+
+```python
+df.replace('.', np.nan)
+```
+
+或者在匹配中使用''正则表达式'':
+
+```python
+df.replace(r'\s*\.\s*', np.nan, regex=True)
+```
+
+同样可以使用 List 进行一对一的替换：
+
+```python
+df.replace([r'\.', r'(a)'], ['dot', r'\1stuff'], regex=True)
+```
+
+或者对于指定的 Column 进行匹配：
+
+```python
+df.replace({'b': '.'}, {'b': np.nan})
+```
+
+更细致的，还可以通过一个嵌套的 Dict，来指定某列的替换规则：
+
+```python
+df.replace({'b': {'b': r''}}, regex=True)
+```
+
+除了 List 到 List 的一一对应，还可以使用 List 到 Scalar 的对应，将符合 List 的中的值都替换为一个 Scalar：
+
+```python
+df.replace([r'\s*\.\s*', r'a|b'], np.nan, regex=True)
+```
+
+<<info "除了可以使用 `regex=True` 参数，还可以直接将表达式作为参数传递给 `regex` 参数。">>
+
+!! 数值替换
+
+数值替换与上面类似，不过需要注意的是，对于某些类型例如 `bool` 和 `datetime` 你传递的 `to_replace` 的值必须是能够和对应的类型进行比较的。
+
+---
+
+!! Reference
+
+* [[Replacement Values|https://pandas.pydata.org/pandas-docs/stable/user_guide/missing_data.html#replacing-generic-values]]

@@ -1,0 +1,12 @@
+created: 20200407085235283
+modified: 20200407085742068
+tags: Operation
+title: Unix-like
+type: text/vnd.tiddlywiki
+
+! 类 Unix 操作系统
+---
+
+类Unix系统（英语：''Unix-like''；经常被称为 `UN*X` 或 `*nix` ）指各种 Unix 的派生系统，比如 FreeBSD、OpenBSD、SUN 的 Solaris，以及各种与传统 Unix 类似的系统，例如 Minix、Linux、QNX 等。它们虽然有的是自由软件，有的是私有软件，但都相当程度地继承了原始 UNIX 的特性，有许多相似处，并且都在一定程度上遵守 [[POSIX]] 规范。
+
+[img[https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Unix_history-simple.svg/1920px-Unix_history-simple.svg.png]]

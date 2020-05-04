@@ -1,0 +1,19 @@
+created: 20200407091349171
+modified: 20200407091704579
+tags: Unix-like
+title: POSIX
+type: text/vnd.tiddlywiki
+
+''可移植操作系统接口''（英语：''P''ortable ''O''perating ''S''ystem ''I''nterface，缩写为 ''POSIX'' ）是 IEEE 为要在各种 UNIX 操作系统上运行软件，而定义 [[API]] 的一系列互相关联的标准的总称，其正式称呼为 IEEE Std 1003，而国际标准名称为 ISO/IEC 9945。
+
+> ''X'' 表明其对Unix [[API]] 的传承
+
+
+当前的POSIX主要分为四个部分：''Base Definitions、System Interfaces、Shell and Utilities 和 Rationale。''
+
+
+!! 实现
+
+Linux 基本上逐步实现了 POSIX 兼容，但并没有参加正式的 POSIX 认证。
+
+微软的Windows NT声称部分实现了POSIX标准。

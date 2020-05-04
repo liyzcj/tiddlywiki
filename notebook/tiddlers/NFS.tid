@@ -1,0 +1,180 @@
+caption: 网络文件系统 NFS
+created: 20200422022030049
+modified: 20200422041617886
+tags: FileSystemRelated
+title: NFS
+type: text/vnd.tiddlywiki
+
+''Network File System'' 是一个网络分布式文件系统，它可以让你的计算机轻松的挂载远程计算机上的文件或目录。
+
+''NFS 分为客户端和服务端''。服务端负责讲本地的目录或文件 Export ，客户端可以通过服务端的网络地址来挂载服务端已经 Export 的文件。
+
+!! 原理
+
+NFS 用来进行信息传输的端口并不固定，它会随机选择小于 1024 的端口来进行传输数据。客户端通过 [[RPC|Remote Procedure Call]] 协议与服务端进行端口的确认与同步。
+
+[img[http://cn.linux.vbird.org/linux_server/0330nfs/0330nfs-centos4.php_files/nfs_rpc.png]]
+
+NFS 服务段的守护进程在启动时向 RPC 进行注册，所以 NFS 服务器也被成为 RPC 服务器之一。NFS 服务端主要包含两个守护进程：
+
+* `rpc.nfsd`: 这个 Daemon 的主要功能是管理 Client 的挂载权限。包括挂载者的 ID 识别。
+* `rpc.mountd`: 这个 Daemon 主要管理 NFS 的文件系统。当 Client 通过 `nfsd` 顺利登入主机之后，在可以顺利访问文件之前，还会经过文件权限的认证。这个进程会根据 `/etc/exports` 中配置的权限来验证 Client 是否有访问权限，这时候 Client 才算真正的挂载成功。
+
+除了两个主要进程，NFS 还有两个可选的进程：
+
+* `rpc.lockd`: 管理文件的加锁，在多个用户挂载相同的文件时，同时写入就可能会造成冲突，所以需要一个加锁进程。需要在 Client 和 Server 端同时启动。
+* `rpc.statd`: 用来检查文件的一致性，与 `lockd` 进程相关。若发生因为多个 Clients 同时使用同一文件造成文件可能有所损毁时， rpc.statd 可以用来检测并尝试回复该文件。需要在 Client 和 Server 端同时启动。
+
+!! NFS 权限
+
+
+在访问服务端时一个重要的问题是用户与组的一致性，如果客户端与服务端的用户或者用户组不一致会怎么样？
+
+当访问 NFS 的文件时，跟用户有关的大概有几种情况：
+
+* Server / Client 刚好有相同的用户与用户组。这是比较理想的情况，可以直接读写而不需要考虑用户的问题。
+* Server 端有一个同样的 ~UserID，但是是不同的用户。这种情况下，Server 会默认将访问者的用户作为 `nfsnobody` 用户看待。
+* Client 端的用户是 `root`。Root 是一个非常特殊的用户，如果访问者为 `root` 则 NFS Server 的''默认行为''是将其作为 `nfsnobody` 处理。
+
+> 关于用户 Cast 的相关配置可以通过配置文件 `/etc/exports` 进行个性化定制。
+
+
+!! 命令与配置文件
+
+* 配置文件 `/etc/exports`，用来配置 Export 那些文件或文件夹。
+* 命令 `exportfs`, 当修改上面的 `exports` 文件时，可以使用 `exportfs` 重新发布文件而不需要重启 NFS 服务，主要用于服务端。
+* 命令 `showmount`, 可以查看 NFS Export 出来的资源，主要用于客户端。
+* `/var/lib/nfs/*tab` 所有的登陆记录。在该目录下有两个比较重要的登录档， 一个是 `etab` ，主要记录了 NFS 所分享出来的目录的完整权限设定值；另一个 `xtab` 则记录曾经链接到此 NFS 主机的相关客户端数据。
+
+
+!!! 配置文件 `exports`
+
+配置 `exports` 文件非常简单，''每行是一条记录，代表一个目录，每个目录可以配置由多个客户端挂载访问。''
+
+语法：
+
+```bash
+<export> <host1>(<options>) <hostN>(<options>)...
+```
+
+* export: 要 export 的文件目录
+* host1..N: 可以挂载该目录的客户端主机。可以使用 `*` [[wildcards]] 或者 IP 网段语法。<div>
+
+<<note "多个 host 之间是''空格'', 而不是逗号。">>
+
+</div>
+
+* options: 挂载时的选项配置，下面会列出来常用配置。
+
+''权限相关 Options''
+
+|!Option|!Description|
+|ro|只读|
+|rw|读写|
+|all_squash|所有用户都作为匿名用户处理|
+|no_all_squash|''默认设置''，与上一条相反|
+|root_squash|''默认设置'', 将 root 用户作为匿名用户处理|
+|no_root_squash|root 用户仍然为 root 用户，与上条相反|
+|anonuid=xxx|指定匿名用户 ID|
+|anongid=xxx|指定匿名用户组 ID|
+
+''其他 Options''
+
+|!Option|!Description|
+|secure|''默认选项'', 限制客户端只能使用小于 1024 的端口。|
+|insecure|与上条相反|
+|sync|同步将内存数据写入磁盘，效率底，但能保证一致性|
+|async|在必要时才写入磁盘，效率高。|
+|wdelay|将相关的写操作一起执行，效率高 ''默认选项''|
+|no_wdelay|如果有写操作就立即执行。配合 `sync` 使用|
+|subtree|如果 Export 的目录是一个子目录，NFS 会检查其父目录的权限。''默认选项''|
+|no_subtree|即使 Export 的是一个子目录，也不检查父目录权限。|
+
+<<note "多个 Option 之间采用''逗号''隔开">>
+
+!!! 命令 `exportfs`
+
+```bash
+exportfs [-aruv]
+```
+
+* `-a` 全部挂载或卸载
+* `-r` 重新读取 `exports` 文件，并加载
+* `-u` 卸载某个目录，或配合 `-a` 卸载全部
+* `-v` 打印详细信息
+
+```bash
+# 卸载全部目录
+exportfs -au
+# 重新加载 Exports 目录并显示信息
+exportfs -rv
+```
+
+!!! 命令 `showmount`
+
+```bash
+showmount [-a][-e IP]
+```
+
+* `-a`: 显示已经挂载的目录
+* `-e IP`: 显示 IP 服务器 Export 的文件 
+
+
+!!! 其他相关命令
+
+* 查看 NFS 状态： `nfsstat`
+* 查看 RPC 状态： `rpcinfo`
+* 查看端口  [[netstat|netstat 查看网络信息]] 查看端口
+
+
+
+
+!! Server 端配置
+
+Server 端主要需要两个套件:
+
+* RPC 程序： [[Portmap|linux portmap]]
+* NFS 主程序： Redhat/Centos : nfs-utils  Debian/Ubuntu: nfs-kernel-server
+
+
+安装 NFS 之后，就可以通过 [[service|linux service]] 或者 [[systemctl|linux systemctl]] 或者直接使用 [[init.d]] `/etc/init.d/nfs` 命令启动或停止服务。
+
+首先需要检查 portmap 的状态，再启动 nfs 服务：
+
+```bash
+service portmap status
+service nfs start
+```
+
+
+!! 客户端
+
+!!! 安装
+
+* Redhat / Centos 中同样包含在 `nfs-utils` 中
+* Debian / Ubuntu 中客户端程序为 `nfs-common`
+
+
+
+!!! 操作
+
+客户端同样需要开启 ''portmap'' 服务，本地挂载大概分为四部：
+
+# 确认本地的 `portmap` 服务
+# 使用 `showmount -e host` 命令查看有哪些目录可以挂载
+# 创建需要挂载到的本地目录
+# 使用 [[mount|linux mount]] 命令挂载到相关目录
+
+!!! 开机挂载
+
+有时候可能需要开机就挂载某个目录，和本地挂载硬盘相同，通过 `/etc/fstab` 文件挂载即可。
+
+```bash
+host.myserver.com:/home /mnt/home nfs rw,hard,intr,rsize=8192,wsize=8192,timeo=14 0 0
+```
+
+---
+
+!! Reference
+
+* [[鸟哥的 Linux 私房菜|http://cn.linux.vbird.org/linux_server/0330nfs/0330nfs-centos4.php#What_NFS_RPC]]

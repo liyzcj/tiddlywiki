@@ -1,6 +1,6 @@
 caption: 数据类型
 created: 20200402175416341
-modified: 20200404121011605
+modified: 20200410114351591
 tags: [[Pandas 基础]]
 title: Pandas Data Types
 type: text/vnd.tiddlywiki
@@ -142,10 +142,33 @@ Series.infer_objects()
 ># `StringDtype`: 专用的字符串类型。
 > `StringDtype` 是比较推荐的方式。查看 [[Text Data Types|https://pandas.pydata.org/pandas-docs/stable/user_guide/text.html#text-types]] 了解更多。
 
-!! 注意事项
+!! 缺失值 Missing data
 
+在 Pandas 的数据类型中，需要格外注意的就是缺失值的类型。由于''缺失值''的存在，Pandas 甚至专门编写了多个扩展类型，用来支持 `int` 与  `bool` 类型中的缺失值表示。
+
+如果不使用 Pandas 的扩展类型，则所有关于缺失值的情况如下：
+
+
+* ''布尔类型''中，`None` 会直接变为 `False`。<div>
+
+<<note "注意，`np.NaN` 会变为 `True`.">>
+
+</div>
+
+* ''数值类型''中，如果是''整型''并且带有 `None` 或者 `np.NaN`，就会转换为 `float` 浮点类型。<div>
+
+<<note "`None` 会直接变为 `np.NaN`. 对于 `float` 或 `complex`， 则类型不变。">>
+
+</div>
+
+
+* `datetime` 类型中，`None` 会变为 `pd.NaT`
+* Numpy 中 `bytes_` 类型，如果给 None，则会变为 `b'None'`，如果为 `np.NaN`, 则变为 `b'nan'`.
+* object 类型中，放入什么就是什么，`None` 还是 `None`
 
 当对整型的数据进行选择时，很容易会将数据转换为 Float 格式。因为在选择的过程中，很可能出现 `NaN` 值，而该值在 Numpy 中为一个 `float` 值 `np.nan`。
+
+详细了解，可以参考[[缺失值处理|Pandas Missing Data]]
 
 
 !! 根据类型选择列

@@ -1,11 +1,78 @@
 caption: 输入输出  I/O
 created: 20200225165852070
-modified: 20200404143005601
-tags: [[Python 高级应用]] Explore TODO
+modified: 20200411104225790
+tags: [[Python Built-in]]
 title: Python I/O
 type: text/vnd.tiddlywiki
 
+! Python IO
 ---
+
+`io`  mdoule 提供了多种类型的 IO。主要的类型有三种：
+
+* text I/O
+* binary I/O
+* raw I/O
+
+这些类别都是通用类型，每种类型都可以使用各种 backing stores。一个属于以上任何类型的对象称作  [[file object|https://docs.python.org/3/glossary.html#term-file-object]]。也有属于称之为 stream 和 file-like object.
+
+除了上面这些类别之外，每种特定的 stream 对象都有着不同的能力：可以是 `read-only`, `write-only`, 或者  `read-write`. 它还可以允许''随机访问''（向前或者向后搜索任意位置）或者仅仅允许''顺序访问''（例如，在 socket 或 pipe中）
+
+
+> 所有的 Streams 都只能处理各自的类型。例如，如果你将一个 `str`  类型传递给一个 binary stream 的 `write()` 方法，就会引发一个 `TypeError`。反之也是一样。
+
+!! Text I/O
+
+Text I/O 可以处理 `str` 类型的对象。这意味着，当你的 backing store 是 bytes 类型的时候，需要对 `str` 进行 encoding 和 decoding。可选的，还可以对不同平台的 [[换行符]]进行自动转换。
+
+创建一个 Text stream 的最简单的方法是使用 [[`open()` 方法|Python Open]] 打开一个文件，并且可以指定编码方式：
+
+```python
+f = open("myfile.txt", "r", encoding="utf-8")
+```
+
+也可以通过 `StringIO` 来创建一个内存中的 Text stream：
+
+```python
+f = io.StringIO("some initial text data")
+```
+
+!! Binary I/O
+
+Binary I/O 也称作 Buffered I/O 可以接受 [[bytes-like objects|https://docs.python.org/3/glossary.html#term-bytes-like-object]] 并且产生 `bytes` 对象。''没有 encoding，decoding 或转换[[换行符]]的过程。'' 这种 stream 可以用于所有非文本的数据，或者需要手动控制文本编码的情况。
+
+使用 [[`open()`方法|Python Open]] 同样可以快速创建一个 Binary I/O：
+
+```python
+f = open("myfile.jpg", "rb")
+```
+
+内存中的 Binary stream 可以通过 [[BytesIO|https://docs.python.org/3/library/io.html#io.BytesIO]] 对象创建：
+
+```python
+f = io.BytesIO(b"some initial binary data: \x00\x01")
+```
+
+!! Raw I/O
+
+Raw I/O 也称作 Unbuffered I/O，通常作为 binary 和 text stream 的底层构建模块使用；很少会有用户直接操作一个 Raw I/O。不过，如果你想要创建一个 Raw I/O，可以通过关闭 buffer 的方式打开文件：
+
+```python
+f = open("myfile.jpg", "rb", buffering=0)
+```
+
+!! 类结构
+
+python IO 中类的继承结构如下：
+
+[img[Uml_diagram.svg]]
+
+其中
+
+* `IOBase` 定义了 Stream 的基本接口与操作
+* `RawIOBase` 定义了处理 Bytes 数据的 IO 操作
+* `BufferedIOBase` 定义了 Byte stream 中的缓冲区。其中的 `BufferedWriter`, `BufferedReader`, 和 `BufferedRWPair` 又分别定义了不同访问权限的缓冲区。
+* `TextIOBase` 定义了 Text 相关的 Stream 操作，例如 Encoding 和 Decoding。
 
 * [[IO typing|https://stackoverflow.com/questions/38569401/type-hint-for-a-file-or-file-like-object]]
 * [[Offcial Doc|https://docs.python.org/3/library/io.html]]

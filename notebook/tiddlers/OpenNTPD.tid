@@ -1,0 +1,7 @@
+created: 20200407091048391
+modified: 20200407091200759
+tags: NetworkRelated
+title: OpenNTPD
+type: text/vnd.tiddlywiki
+
+OpenNTPD 是一个 Unix 系统[[网络时间协议（NTP）|Network Time Protocol]]实现的守护进程，可以使计算机系统的本地时钟与远程 ''NTP'' 服务器同步。它也可以作为一个 NT 兼容客户端的 NTP 服务器。

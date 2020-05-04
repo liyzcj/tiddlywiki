@@ -1,0 +1,12 @@
+caption: 软件设计 Software
+created: 20200411092739555
+modified: 20200411092824380
+tags: Computer
+title: Software Design
+type: text/vnd.tiddlywiki
+
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

@@ -1,0 +1,15 @@
+caption: 文件下载 wget
+created: 20200503153008208
+modified: 20200504033516054
+tags: NetworkRelated TODO
+title: Linux wget
+type: text/vnd.tiddlywiki
+
+! Wget
+---
+
+Wget 与 [[curl|Linux curl]] 类似，但是它是专门用来下载网络文件的工具。
+
+
+!! 常用命令
+

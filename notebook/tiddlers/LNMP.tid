@@ -1,0 +1,22 @@
+created: 20200406071815942
+modified: 20200406072756625
+tags: [[Develop Concept]]
+title: LNMP
+type: text/vnd.tiddlywiki
+
+''LNMP'' 代表的就是：''Linux'' 系统下 ''Nginx'' + ''MySQL'' + ''PHP'' 这种网站服务器架构。
+
+> 有时候也称为 LEMP： ''Nginx'' 也可以称为 ''~EngineX''
+
+
+* ''Linux'' 是一类 Unix 计算机操作系统的统称，是目前最流行的免费操作系统。代表版本有：debian、centos、ubuntu、fedora、gentoo等。
+
+* ''Nginx'' 是一个高性能的 HTTP 和反向代理服务器，也是一个IMAP/POP3/SMTP 代理服务器。
+
+* ''Mysql'' 是一个小型关系型数据库管理系统。
+
+* ''PHP'' 是一种在服务器端执行的嵌入HTML文档的脚本语言。
+这四种软件均为免费开源软件，组合到一起，成为一个免费、高效、扩展性强的网站服务系统。
+
+
+与 LNMP 相对应的还有 [[LAMP]]

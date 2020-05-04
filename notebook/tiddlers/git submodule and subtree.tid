@@ -1,6 +1,6 @@
 caption: Submodule vs Subtree
 created: 20191122075052303
-modified: 20200405062620844
+modified: 20200414114314286
 tags: GitConcept
 title: git submodule and subtree
 type: text/vnd.tiddlywiki
@@ -58,6 +58,22 @@ git submodule foreach git pull
 
 如果想要修改子项目的代码，只需要切换到子项目的目录就可以像使用正常的 git 仓库一样使用了。而且如果在子项目中进行了修改，在主项目中也会进行提示，但是 git add 或者 commit 不会影响子项目的代码。
 
+> 如果想要修改 Submodule 所在的 Commit 位置，只需要在 submodule 的文件夹进行 `checkout` 操作，再切换到项目目录就可以看到变动信息。Submodule 所在的 Commit 并不记录在 `.gitmodules` 文件中，他们所在 Commit 的 SHA 值作为他们的文件的 SHA 值记录在 git objects 中，可以通过一下命令查看 :<div>
+
+```bash
+git ls-file -s path/of/submodule
+```
+
+也可以通过下面的三个命令之一查看。
+
+```bash
+git submodule
+git ls-tree @ path/of/submodule
+git rev-parse @:path/of/submodule
+```
+
+</div>
+
 
 
 !!! subtree
@@ -86,3 +102,9 @@ git remote add [<options>] <name> <url>
 
 
 增加到本地以后，就可以使用 <name> 代替 <url> 进行提交或者拉取。
+
+---
+
+!! Reference
+
+* [[Get the current commit id of specified submodule|https://stackoverflow.com/a/32327200/12572033]]

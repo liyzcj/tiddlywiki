@@ -1,0 +1,26 @@
+created: 20200405164506611
+modified: 20200405165221163
+tags: [[Python StandardFunc]]
+title: Python bytearray
+type: text/vnd.tiddlywiki
+
+创建一个 bytearray，bytes 数组，`bytes()` 是他的 Immutable 版本。
+
+!! 参数
+
+!!! 字符串
+
+如果参数是字符串，需要同时给出 `encoding` 参数，或者是一个已经通过 `str.encode()` 编码过的字符串。
+
+
+!!! 整数
+
+如果是整数，则代表 bytesarry 的 size。内容初始化为全 0，`\x00` 即 null
+
+!!! buffer
+
+如果是一个满足 buffer 接口的对象，则对象的一个只读 buffer 会用来初始化这个 bytesarray。
+
+!!! iterable
+
+如果参数是一个 [[可迭代对象|Python Iterator vs Generator vs Iterable]]，则迭代产生的元素必须是一个 `0 <= x < 256` 的整数，用作为 bytesarray 的内容。

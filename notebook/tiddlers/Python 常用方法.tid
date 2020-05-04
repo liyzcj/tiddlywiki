@@ -1,0 +1,10 @@
+caption: 常用方法 Common Method
+tags: Python
+title: Python 常用方法
+type: text/vnd.tiddlywiki
+
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

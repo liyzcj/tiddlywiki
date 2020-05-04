@@ -114,6 +114,13 @@ helm install gitlab-runner gitlab/gitlab-runner -f values.yaml --namespace gitla
 helm -n gitlab list
 ```
 
+
+如果修改了某些 Values，需要更新，可以使用 `upgrade` 命令：
+
+```bash
+helm -n gitlab upgrade -f gitlab-runner.yaml gitlab-runner gitlab/gitlab-runner
+```
+
 ---
 
 Kubernetes runner 没有问题，但是要想在 Runner 内使用集群上的 docker，只有两种方法：

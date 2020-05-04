@@ -1,0 +1,17 @@
+caption: 日期与时间 datetime
+created: 20200407101123356
+modified: 20200407101730804
+tags: [[Python Built-in]]
+title: Python datetime
+type: text/vnd.tiddlywiki
+
+! 日期与时间 datetime
+
+datetime 提供了六个数据类型：
+
+* `datetime.date`: 代表''日期''，例如年月日，不包括小时、分钟等；
+* `datetime.time`: 代表''时间''，小时分钟等，不包含年月日；
+* `datetime.datetime`: 代表''日期与时间''，包含年月日分钟小时所有信息；
+* `datetime.timedelta`: 代表''时间差''；
+* `datetime.tzinfo`: 时区信息的抽象类，可以实现确定的时区；
+* `datetime.timezone`: `tzinfo` 的一个实现，可以指定相对 [[UTC|TimeZone]] 的固定偏移量。

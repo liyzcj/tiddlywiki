@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="281 404 767 272" width="767" height="272">
+  <defs>
+    <font-face font-family="Helvetica Neue" font-size="16" panose-1="2 0 5 3 0 0 0 2 0 4" units-per-em="1000" underline-position="-100" underline-thickness="50" slope="0" x-height="517" cap-height="714" ascent="951.9958" descent="-212.99744" font-weight="400">
+      <font-face-src>
+        <font-face-name name="HelveticaNeue"/>
+      </font-face-src>
+    </font-face>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 10 8" markerWidth="10" markerHeight="8" color="black">
+      <g>
+        <path d="M 8 0 L 0 -3 L 0 3 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.11.5 
+    <dc:date>2020-04-11 10:33:57 +0000</dc:date>
+  </metadata>
+  <g id="python_io" stroke="none" fill="none" stroke-dasharray="none" fill-opacity="1" stroke-opacity="1">
+    <title>python io</title>
+    <rect fill="white" x="281" y="404" width="767" height="272"/>
+    <g id="python_io: 图层 1">
+      <title>图层 1</title>
+      <g id="Graphic_2">
+        <rect x="490.3937" y="405.35433" width="141.73228" height="28.346457" fill="white"/>
+        <rect x="490.3937" y="405.35433" width="141.73228" height="28.346457" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(495.3937 410.30356)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="39.64214" y="15">IOBase</tspan>
+        </text>
+      </g>
+      <g id="Graphic_3">
+        <rect x="338.74016" y="467.71654" width="141.73228" height="28.346457" fill="white"/>
+        <rect x="338.74016" y="467.71654" width="141.73228" height="28.346457" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(343.74016 472.66577)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="23.802142" y="15">RawIOBase</tspan>
+        </text>
+      </g>
+      <g id="Graphic_4">
+        <rect x="490.3937" y="467.71654" width="141.73228" height="28.346457" fill="white"/>
+        <rect x="490.3937" y="467.71654" width="141.73228" height="28.346457" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(495.3937 472.66577)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="9.242142" y="15">BufferedIOBase</tspan>
+        </text>
+      </g>
+      <g id="Graphic_5">
+        <rect x="644.8819" y="467.71654" width="141.73228" height="28.346457" fill="white"/>
+        <rect x="644.8819" y="467.71654" width="141.73228" height="28.346457" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(649.8819 472.66577)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="24.978142" y="15">TextIOBase</tspan>
+        </text>
+      </g>
+      <g id="Line_6">
+        <line x1="526.79313" y1="433.7008" x2="453.2291" y2="463.9514" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="miter" stroke-width="1"/>
+      </g>
+      <g id="Graphic_7">
+        <rect x="282.04725" y="543.89764" width="85.03937" height="28.346457" fill="white"/>
+        <rect x="282.04725" y="543.89764" width="85.03937" height="28.346457" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(287.04725 548.8469)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="16.927684" y="15">FileIO</tspan>
+        </text>
+      </g>
+      <g id="Line_8">
+        <line x1="393.78502" y1="496.063" x2="347.76208" y2="537.2919" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_9">
+        <line x1="561.25985" y1="433.7008" x2="561.25985" y2="457.81654" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_10">
+        <rect x="566.92914" y="579.68504" width="113.38583" height="28.346457" fill="white"/>
+        <rect x="566.92914" y="579.68504" width="113.38583" height="28.346457" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(571.92914 584.6343)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x=".10891306" y="15">BufferedWriter</tspan>
+        </text>
+      </g>
+      <g id="Graphic_11">
+        <rect x="462.04725" y="646.2992" width="141.73228" height="28.346457" fill="white"/>
+        <rect x="462.04725" y="646.2992" width="141.73228" height="28.346457" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(467.04725 651.24845)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="8.802142" y="15">BufferedRWPair</tspan>
+        </text>
+      </g>
+      <g id="Graphic_12">
+        <rect x="905.6693" y="543.89764" width="141.73228" height="28.346457" fill="white"/>
+        <rect x="905.6693" y="543.89764" width="141.73228" height="28.346457" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(910.6693 548.8469)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="36.530142" y="15">StringIO</tspan>
+        </text>
+      </g>
+      <g id="Graphic_13">
+        <rect x="690.2362" y="579.68504" width="141.73228" height="28.346457" fill="white"/>
+        <rect x="690.2362" y="579.68504" width="141.73228" height="28.346457" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(695.2362 584.6343)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="9.690142" y="15">BufferedReader</tspan>
+        </text>
+      </g>
+      <g id="Line_14">
+        <line x1="586.5564" y1="496.063" x2="727.1691" y2="574.846" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_16">
+        <line x1="559.0101" y1="496.063" x2="536.7151" y2="636.5216" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_17">
+        <rect x="627.874" y="646.2992" width="141.73228" height="28.346457" fill="white"/>
+        <rect x="627.874" y="646.2992" width="141.73228" height="28.346457" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(632.874 651.24845)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="5.082142" y="15">BufferedRandom</tspan>
+        </text>
+      </g>
+      <g id="Graphic_19">
+        <rect x="418.11024" y="543.89764" width="85.03937" height="28.346457" fill="white"/>
+        <rect x="418.11024" y="543.89764" width="85.03937" height="28.346457" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(423.11024 548.8469)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="9.071684" y="15">BytesIO</tspan>
+        </text>
+      </g>
+      <g id="Line_20">
+        <line x1="542.538" y1="496.063" x2="487.245" y2="537.9221" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_21">
+        <line x1="569.1538" y1="496.063" x2="610.91094" y2="571.03606" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_22">
+        <line x1="596.3708" y1="433.7008" x2="671.4568" y2="464.01075" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_24">
+        <rect x="729.9213" y="534.3307" width="141.73228" height="28.346457" fill="white"/>
+        <rect x="729.9213" y="534.3307" width="141.73228" height="28.346457" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(734.9213 539.27994)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="12.378142" y="15">TextIOWrapper</tspan>
+        </text>
+      </g>
+      <g id="Line_26">
+        <line x1="733.8415" y1="496.063" x2="774.9004" y2="528.22576" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_29">
+        <line x1="764.2666" y1="496.063" x2="918.514" y2="541.1217" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_31">
+        <line x1="639.6046" y1="608.0315" x2="675.3505" y2="639.7307" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_32">
+        <line x1="747.8338" y1="608.0315" x2="718.7746" y2="639.072" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+    </g>
+  </g>
+</svg>
