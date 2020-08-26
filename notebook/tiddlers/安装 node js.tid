@@ -1,5 +1,5 @@
 created: 20200213124858307
-modified: 20200405065806198
+modified: 20200612011056553
 tags: Nodejs
 title: 安装 node js
 type: text/vnd.tiddlywiki
@@ -7,7 +7,9 @@ type: text/vnd.tiddlywiki
 ! Nodejs 安装
 ---
 
-!! 安装 NVM
+!! 通过 NVM
+
+!!! 安装 NVM
 
 [[NVM Github 仓库|https://github.com/creationix/nvm]]
 
@@ -32,7 +34,7 @@ export NVM_DIR="$HOME/.nvm"
 
 </div>
 
-!! 使用 NVM 安装 node
+!!! 使用 NVM 安装 node
 
 * 列出所有已经下载的版本，并标记正在使用的版本：<div>
 
@@ -59,3 +61,53 @@ nvm install node
 > `node` 是最新版本的别名。
 
 </div>
+
+
+!! 通过 APT 安装 Nodejs 10/12
+
+<<note "由于 apt 仓库默认的 nodejs 版本为 8，所以需要添加新的 nodejs 仓库。 2020/06/12">>
+
+# 增加 APT repo <div>
+
+* Node.js 10 <div>
+
+```bash
+apt update
+curl -sL https://deb.nodesource.com/setup_10.x | sudo bash
+```
+
+</div>
+
+* Node.js 12 <div>
+
+
+```bash
+apt update
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+```
+
+</div>
+
+</div>
+
+
+# 安装 Node.js <div>
+
+
+```bash
+sudo apt -y install nodejs
+```
+
+</div>
+
+# 安装 Yarn 包管理器（Optional） <div>
+
+```bash
+curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt-get update && sudo apt-get install yarn
+```
+
+</div>
+
+> [[Install Node.js 10,12 LTS on Ubuntu 19.04/18.04/16.04 & Debian 10/9/8|https://computingforgeeks.com/installing-node-js-10-lts-on-ubuntu-18-04-16-04-debian-9/]]

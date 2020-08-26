@@ -1,0 +1,80 @@
+caption: 二进制数据转换 od
+created: 20200627092144336
+modified: 20200628054000154
+tags: TextProcessTools
+title: od
+type: text/vnd.tiddlywiki
+
+与 [[hexdump]] 类似，将二进制数据 dump 为 八、十、十六进制或 ASCII 码。
+
+```bash
+od [options] file
+```
+
+od 同样可以从标准输入或者文件中读取数据。
+
+od 命令主要的选项只有几个，其中最关键的是 `-t`，其他的选项都可以看作 `-t` 的缩写
+
+* `-A base`: 地址的单位，`o` `d` `x` `n` 分别代表八、十、十六进制和无（默认为八进制）
+* `-j skip`: 跳过前 skip 个 bytes
+* `-N length`: 最多 dump N 个 bytes
+* `-t type`: 指定输出的格式
+* `-v` : 写入所有数据，而不是将重复的行输出`*`
+
+!! Option `-t`
+
+对于选项 `-t type`，type 可以是如下的值：
+
+* `a`: 以 ASCII 码显示 byte 数据。
+* `c`: 将特殊字符作为 C 风格的转义字符显示。 <div>
+
+|!特殊字符|!转义符|
+|NUL              |`\0`|
+|alert            |`\a`|
+|backspace        |`\b`|
+|newline          |`\n`|
+|carriage-return  |`\r`|
+|tab              |`\t`|
+|vertical tab     |`\v`|
+
+</div>
+
+* `[d|o|u|x]` `[C|S|I|L|n]` <div>
+
+* 第一个字符为进制：`d` 十 ; `o` 八; `u` 无符号十; `x` 十六;
+* 第二个字符为类型（即长度） `C` char; `S` short; `I` int; `L` long; （默认为 `I`)
+* 第二个字符也可以由数字 `n` 代替,可以为 `[1,2,4,8]`，代表 bytes 个数。
+
+</div>
+
+
+* `f[F|D|L|n]` <div>
+
+浮点数输出，第二个字符为类型（默认为 `D` double）：
+
+* `F`: float
+* `D`: double
+* `L`: long double
+* `n` 为 `4,8,16` 代表bytes数
+
+</div>
+
+!! 其他选项
+
+其他的选项都是对 `-t type` 的简写
+
+
+|!Option|!Type|
+|`-a`|`-t a`|
+|`-B, -o`|`-t o2`|
+|`-b`|`-t o1`|
+|`-c`|`-t c`|
+|`-D`|`-t u4`|
+|`-e, -F`|`-t fD`|
+|`-f`|`-t fF`|
+|`-H, -X`|`-t x4`|
+|`-h, -x`|`-t x2`|
+|`-I, -L, -l`|`-t dL`|
+|`-i`|`-t dI`|
+|`-O`|`-t o4`|
+|`-s`|`-t o2`|

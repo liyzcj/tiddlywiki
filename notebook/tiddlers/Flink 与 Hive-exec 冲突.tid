@@ -1,0 +1,58 @@
+created: 20200515171854611
+modified: 20200515172244561
+tags: [[Flink Others]]
+title: Flink 与 Hive-exec 冲突
+type: text/vnd.tiddlywiki
+
+!! Description
+
+当编写和 [[Hive|Hive]] 有关的 FLink 程序时，Hive 的一些依赖会和 Flink 产生冲突，从而导致错误：
+
+```bash
+Caused by: java.lang.ClassCastException: org.codehaus.janino.CompilerFactory cannot be cast to org.codehaus.commons.compiler.ICompilerFactory
+```
+
+!! Solution
+
+通过查找 Flink Jira，发现有人遇到过类似问题：[[jira 地址|https://issues.apache.org/jira/browse/FLINK-14849?page=com.atlassian.jira.plugin.system.issuetabpanels%3Aall-tabpanel]].
+
+其中一个答案给出解决方案，在 pom 文件中排除不兼容的依赖：
+
+```xml
+<!-- Hive Metastore -->
+<dependency>
+        <groupId>org.apache.hive</groupId>
+        <artifactId>hive-metastore</artifactId>
+        <version>1.2.3</version>
+        <exclusions>
+                <exclusion>
+                        <groupId>org.apache.hadoop</groupId>
+                        <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                        <groupId>commons-cli</groupId>
+                        <artifactId>*</artifactId>
+                </exclusion>
+        </exclusions>
+</dependency>
+
+<dependency>
+        <groupId>org.apache.hive</groupId>
+        <artifactId>hive-exec</artifactId>
+        <version>1.2.3</version>
+        <exclusions>
+                <exclusion>
+                        <groupId>commons-cli</groupId>
+                        <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                        <groupId>com.google</groupId>
+                        <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                        <groupId>org.apache.calcite</groupId>
+                        <artifactId>*</artifactId>
+                </exclusion>
+        </exclusions>
+</dependency>
+```

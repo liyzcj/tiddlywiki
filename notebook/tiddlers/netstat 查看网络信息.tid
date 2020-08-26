@@ -1,11 +1,20 @@
 caption: 查看网络相关信息 netstat
 created: 20190812173453587
-modified: 20200404165250040
+modified: 20200514023104675
 tags: NetworkRelated
 title: netstat 查看网络信息
 type: text/vnd.tiddlywiki
 
 ! netstat
+
+!! Installation
+
+```bash
+yum install net-tools    # [On CentOS/RHEL]
+apt install net-tools    # [On Debian/Ubuntu]
+zypper install net-tools # [On OpenSuse]
+pacman -S netstat-nat    # [On Arch Linux]
+```
 
 查看网络状态
 

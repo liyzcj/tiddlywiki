@@ -1,6 +1,6 @@
 caption: 文本格式化 awk
 created: 20200115073445791
-modified: 20200404162140913
+modified: 20200628052204025
 tags: StandardUnixPrograms TextProcessTools
 title: awk 命令
 type: text/vnd.tiddlywiki
@@ -29,13 +29,15 @@ awk [选项参数] -f scriptfile var=value file(s)
 
 !! 命令用法
 
-分隔后，`$n` 代表第 n 个分隔后的字符串。
+<<info  "''AWK 的命令模式是 `Pattern {statement}`, 当字符串符合 `Pattern` 时，才会执行 `statement`，`Pattern` 可以省略，省略代表可以直接执行 `statement`。''">>
+
+最简单的用法是用来分割字段，分隔后，`$n` 代表第 n 个分隔后的字符串。
 
 ```bash
 awk '{print $1,$4}' test.txt
 ```
 
-''默认对原字符串使用空格或者 tab 分割''，然后打印第一个和第四个字符串，结''果的中间默认是空格分割。'' 也可以使用 `printf` 格式化输出字符串：
+默认对原字符串使用''空格或者 tab 分割''，然后打印第一个和第四个字符串，输出的默认是''空格''分割。 也可以使用 `printf` 格式化输出字符串：
 
 ```bash
 awk '{printf "%-8s %-10s\n",$1,$4}' test.txt
@@ -74,7 +76,7 @@ awk -va=1 -vb=s '{print $1,$1+a,$1b}' test.txt
 如果脚本很长，可以使用脚本文件来进行文件处理：
 
 ```bash
-awk -f {脚本文件} test.txt
+awk -f [脚本文件] test.txt
 ```
 
 !! 脚本编写
@@ -140,8 +142,8 @@ awk '$1>2 && $2=="Are" {print $1,$2,$3}' log.txt
 脚本包含三段：
 
 * `BEGIN{处理之前的命令}`
-* `END{处理之后的命令}`
 * `{处理命令}`
+* `END{处理之后的命令}`
 
 ```bash
 $ cat cal.awk
@@ -183,3 +185,30 @@ seq 9 | sed 'H;g' | awk -v RS='' '{for(i=1;i<=NF;i++)printf("%dx%d=%d%s", i, NR,
 * `-F fs or --field-separator fs` : 指定输入字符串的分隔符，`fs` 是一个字符串或者正则表达式。
 * `-v var=value or --asign var=value`: 赋值一个用户自定义变量。
 * `-f scripfile or --file scriptfile`: 从脚本中读取 AWK 命令。
+
+!! 常用命令
+
+分开列出 `PATH` 中的所有路径：
+
+```bash
+echo $PATH | awk -F: '{for(i=1;i<=NF;i++)printf("%s\n", $i)}'
+```
+
+!! 常用内置函数
+
+!!! system
+
+`system` 用来执行一个系统命令。
+
+```awk
+{ system("ls " $1 $2) }
+```
+
+!!! match
+
+`match` 在 Pattern 中匹配一个正则表达式：
+
+
+```awk
+match($0, "/REGEX/")
+```

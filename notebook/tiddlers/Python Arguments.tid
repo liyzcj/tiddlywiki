@@ -1,6 +1,6 @@
 caption: 参数 Arguments
 created: 20200316111225085
-modified: 20200405093859231
+modified: 20200608014543832
 tags: PythonSyntax
 title: Python Arguments
 type: text/vnd.tiddlywiki
@@ -15,7 +15,7 @@ type: text/vnd.tiddlywiki
 </div>
 
 
-Python 的参数分为物种：
+Python 的参数分为五种：
 
 |!名称|!含义|!语法|
 |POSITIONAL_ONLY|只能作为位置参数提供的参数（Python 3.8）|出现在符号 `/` 之前的参数|

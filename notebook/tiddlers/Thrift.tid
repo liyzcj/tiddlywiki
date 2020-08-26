@@ -1,0 +1,11 @@
+created: 20200513041449639
+modified: 20200513042108060
+tags: Framework Apache
+title: Thrift
+type: text/vnd.tiddlywiki
+
+! Thrift
+
+''Apache Thrift'' 软件框架，用于可扩展的跨语言服务开发。
+
+与 [[gRPC]] 框架不同，Thrift 可以归属于''序列化框架''。

@@ -1,0 +1,27 @@
+created: 20200623062938715
+modified: 20200623065501081
+tags: [[Shell 条件判断]]
+title: 判断函数是否成功
+type: text/vnd.tiddlywiki
+
+可以直接在 `if` 语句后调用函数来判断函数是否执行成功：
+
+
+```bash
+if is_dictionary $1 ; then
+    echo "$1 is dictionary!"
+else
+    echo "$1 is not dictionary!"
+fi
+```
+
+<<note "注意，函数返回 `0` 代表 `true`，返回非零 代表 `false`">>
+
+如果需要判断函数返回的状态值，那么只能在调用函数之后，再通过变量 `$?` 进行判断：
+
+```bash
+some_function
+if [[ $? -eq 22 ]] ; then
+    do_something
+fi
+```

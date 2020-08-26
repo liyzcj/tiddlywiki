@@ -1,0 +1,17 @@
+created: 20200504085032699
+modified: 20200504085234942
+tags: Dockerfile TODO
+title: 用户切换 gosu
+type: text/vnd.tiddlywiki
+
+! gosu
+---
+
+
+Gosu 用来代替容器中的 sudo 与 su 命令
+
+---
+
+!! Reference
+
+* [[docker与gosu|https://blog.csdn.net/boling_cavalry/article/details/93380447]]

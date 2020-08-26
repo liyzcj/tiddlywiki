@@ -1,6 +1,6 @@
 caption: Docker UI Portainer
 created: 20190915115549615
-modified: 20200404181933852
+modified: 20200530063516402
 tags: DeployApplication
 title: Portainer -- Docker webUI
 type: text/vnd.tiddlywiki
@@ -16,4 +16,11 @@ Portainer 是一个 Docker的前端 webUI，可以方便的管理镜像与容器
 ```bash
 docker volume create portainer_data
 docker run -d -p 9000:9000 -p 8000:8000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
+```
+
+!! 卸载
+
+```bash
+docker rm -vf portainer
+docker volume rm -f portainer_data
 ```

@@ -1,0 +1,28 @@
+created: 20200515073108098
+modified: 20200515073337428
+tags: [[Java others]]
+title: 解决 self4j Multi Binding 问题
+type: text/vnd.tiddlywiki
+
+首先通过行号找到包含 slf4j 依赖的位置。
+
+```bash
+mvn dependency:tree| grep slf4j -n
+```
+
+通过行号获取位置依赖的 Artifact
+
+```bash
+mvn dependency:tree | awk '$0=NR":"$0'
+```
+
+在对应 Artifact 的位置排除依赖，例如
+
+```xml
+<exclusions>
+  <exclusion>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-slf4j-impl</artifactId>
+  </exclusion>
+</exclusions>
+```

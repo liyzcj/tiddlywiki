@@ -1,0 +1,19 @@
+caption: 获取资源信息 get
+created: 20200628052539443
+modified: 20200628052730839
+tags: KubernetesCommonCommand
+title: kubectl get
+type: text/vnd.tiddlywiki
+
+!! 排序
+
+
+对获取的资源排序可以使用 `--sort-by` 参数.
+
+* 根据创建时间排序 <div>
+
+```bash
+kubectl get all --sort-by=.metadata.creationTimestamp
+```
+
+</div>

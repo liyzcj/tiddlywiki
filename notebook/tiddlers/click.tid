@@ -1,20 +1,20 @@
 caption: 命令行参数工具 click
 created: 20190718212138106
 creator: liyzcj
-modified: 20200404134657482
+modified: 20200704105357398
 modifier: liyzcj
-tags: [[Python Third-party]]
+tags: [[Python Third-party]] Migrated
 title: click
 type: text/vnd.tiddlywiki
 
-!! click
+! click
 ---
 
 `click` 是可交互式的参数传递模块, 可以实时的将参数交互式的传递给程序.
 
 > 官方网站: [ext[click|https://palletsprojects.com/p/click/]]
 
-click 是基于 [[argparse]] 的扩展, 简化了 argparse 的操作:
+click 是基于 [[optparse]] 的扩展, 简化添加的操作:
 
 ```python
 import click
@@ -41,3 +41,71 @@ click 包含三个主要装饰器：
 3. `click.option()`: 增加可选参数。
 
 > 注意这些参数需要和函数参数名称对应。
+
+!! Usage
+
+最简单的使用方法就是使用 `click.command()` 装饰器，可以将一个函数装饰为一个命令行命令。
+
+
+!!! group
+
+使用 `click.group()` 可以让一个命令能够拥有子命令：
+
+```python
+@click.group()
+def main():
+	pass
+
+@main.command()
+def hello():
+	print("hello")
+```
+
+这样，`main` 就可以有子命令 `hello`:
+
+```bash
+./cli.py hello
+```
+
+!!! argument
+
+使用 `click.argument()` 可以创建一个位置参数。
+
+参数：
+
+* `required`：是否必须指定
+* `type`：参数的类型
+* `metavar`：参数在帮助中的提示名称。
+
+!!! option
+
+使用 `click.option()` 可以创建一个可选参数。
+
+```python
+@click.command()
+@click.option("--name")
+def foo(name):
+	print("Hello, ", name)
+```
+
+参数：
+
+* `is_flag`：是否为 flag 参数，默认 flag 为 bollean 类型，也可以通过下面的参数指定其他类型。
+* `flag_value`：如果为 flag 参数，这个参数可以指定 flag 的值。
+* `prompt`：参数的提示。
+* `type`：指定参数类型。
+
+
+!!! secho
+
+`click.secho()` 是 `echo()` 和 `style()` 函数的结合，可以为终端的字符串指定颜色。
+
+```python
+click.secho("Hello", fg="blue", bg="black")
+```
+
+参数：
+
+* `fg`: 指定文字颜色。
+* `bg`: 指定背景颜色。
+* `nl`: 指定是否在末尾添加换行符。

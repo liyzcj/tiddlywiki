@@ -1,0 +1,29 @@
+caption: 十六进制显示 hexdump
+created: 20200627081851275
+modified: 20200627092124330
+tags: TextProcessTools
+title: hexdump
+type: text/vnd.tiddlywiki
+
+> 与 hexdump 类似的命令还有 [[od]]
+
+```bash
+hexdump [options] file
+```
+
+''从文件中或者标准输入读取二进制数据，并转换为八进制、十进制或十六进制输出。''
+
+|!Option|!Description|
+|`-b`|单字节八进制输出|
+|`-C`|单字节十六位输出，并尝试在右侧输出 ASCII|
+|`-c`|单字节 ASCII 输出|
+|`-d`|双字节十进制输出|
+|`-o`|双字节八进制输出|
+|`-x`|双字节十六进制输出|
+
+
+除了上面的选项，`hexdump` 还支持自定义复杂的输出格式：
+
+* `-e format_string`: 根据自定义的格式化字符串
+* `-f format_file`: 读取文件中的格式化字符串
+* `-s offset`: 跳过开头的 `offset` 个 bytes

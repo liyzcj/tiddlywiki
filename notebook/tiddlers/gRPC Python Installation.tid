@@ -1,0 +1,56 @@
+created: 20200707022224194
+modified: 20200707023418239
+tags: [[gRPC Python]]
+title: gRPC Python Installation
+type: text/vnd.tiddlywiki
+
+通过 [[pip|pip config]] 安装 gRPC Python Package：
+
+```bash
+pip install grpcio
+```
+
+
+额外的，如果你需要通过 `.proto` 文件生成 Python 代码，除了安装 ProtoBuf 的编译程序 `protoc` 之外，还需要安装 gRPC Python 的插件 `protoc-gen-grpc_python`。有两种方法可以选择：
+
+
+# 最简单的方法是通过 pip: <div>
+
+```bash
+pip install grpcio-tools
+```
+
+''grpcio-tools'' 不仅包含 `protoc-gen-grpc_python` 插件，还包含一个完整的 `protoc` 编译程序，即使你的机器上没有 `protoc` 你也可以通过 grpcio-tools 来生成 Python 代码。
+
+<<info "不过需要注意的是，grpcio-tools 并不会将 protoc 与 grpc_python 放到系统的执行目录里，需要通过 `python -m` 来执行">>
+
+```bash
+python -m grpc_tools.protoc -I[source_path] --python_out=[protobuf_path] --grpc_python_out=[grpc_path] proto_file
+```
+
+</div>
+
+
+# 方法二就是手动安装 `protoc` 与 `protoc-gen-grpc_python` 插件： <div>
+
+`protoc` 的安装方法可以参考 [[Protocol Buffer Quick Start]].
+
+`protoc-gen-grpc_python` 的安装可以通过 Git 仓库源码来编译：
+
+```bash
+git clone https://github.com/grpc/grpc.git
+git submodule update --init
+make grpc_python_plugin
+```
+
+编译安装后，就可以直接通过  `--plugin` 参数来指定插件：
+
+```bash
+protoc -I. \
+	--python_out=. \
+	--grpc_python_out=. \
+	--plugin=protoc-gen-grpc_python=~/gits/grpc/bins/opt/grpc_python_plugin \
+	helloworld.proto
+```
+
+</div>

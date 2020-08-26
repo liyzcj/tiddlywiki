@@ -1,0 +1,32 @@
+caption: 插件管理 pathogen
+created: 20200711103306331
+modified: 20200711104846644
+tags: VimPlugins
+title: vim-pathogen
+type: text/vnd.tiddlywiki
+
+对 Vim 的插件进行管理，可以管理 Vim 的运行时插件。安装后只需要将插件放入 `~/.vim/bundle` 即可自动加载插件。
+
+> https://github.com/tpope/vim-pathogen
+
+<<info "Note, the new vim 8 add a runtime plugin management function internally.">>
+
+!! Install
+
+The install is easy. In normal this plugin will be installed in `~/.vim/autoload` directory.
+
+```bash
+mkdir -p ~/.vim/autoload ~/.vim/bundle && \
+curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+```
+
+then you can put other plugins into `~/.vim/bundle`.
+
+But, If you want also manage this plugin as others, you can also choose to put this plugin in `~/.vim/bundle` with others, and just add this line to your vimrc files:
+
+```vim
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+execute pathogen#infect()
+```
+
+

@@ -1,0 +1,29 @@
+created: 20200511081853257
+modified: 20200511082654261
+tags: kafka
+title: Kafka 客户端 TimeoutException 问题之坑
+type: text/vnd.tiddlywiki
+
+
+
+!! Why
+
+原因是发布到 zookeeper 的 `advertised.host.name` 如果没有设置，默认取`java.net.InetAddress.getCanonicalHostName()`.值，被用于生产端和消费端。因此''外部网络或者未配置 hostname 映射的机器''访问 kafka 集群时就会有网络问题了。
+
+原因是 kafka 客户端连接到 broker 是成功的，但连接到集群后更新回来的集群 meta 信息是错误的即是会返回的是节点的 hostname.
+
+!! Solution
+
+解决办法就是手动配置 `advertised.host.name` 和 `advertised.port`，2个参数都必须配置，重启问题解决：
+
+```bash
+advertised.host.name=10.0.0.100
+advertised.port=9092
+```
+
+> 对于较早版本的 Kafka，配置项为 `advertised.listeners`.
+
+!! Reference
+
+* https://www.jianshu.com/p/2db7abddb9e6
+* http://kafka.apache.org/090/documentation.html

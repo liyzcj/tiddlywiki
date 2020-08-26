@@ -1,0 +1,22 @@
+created: 20200622091945465
+modified: 20200622093817327
+tags: [[Python Third-party]]
+title: python pycycle
+type: text/vnd.tiddlywiki
+
+检测 Python 项目中的[[循环导入|Python Import 机制]]。
+
+
+!! 安装
+
+```bash
+pip install pycycle
+```
+
+!! Usage
+
+```bash
+pycycle --source <path>
+```
+
+<<note "只能检测显式 Circular Import， 不能检测隐式的 Circular Import">>

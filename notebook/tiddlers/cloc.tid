@@ -1,0 +1,26 @@
+caption: 代码统计 cloc
+created: 20200717113456404
+modified: 20200717113738314
+tags: NoCommonTools
+title: cloc
+type: text/vnd.tiddlywiki
+
+cloc 可以用来统计一个项目的代码行数和代码的类型。
+
+cloc 不仅可以识别出代码的类型，还可以识别出''代码中的注释行和空行''。
+
+
+!! Install
+
+Mac:
+
+```bash
+brew install cloc
+```
+
+
+!! Usage
+
+```bash
+cloc [dir]
+```

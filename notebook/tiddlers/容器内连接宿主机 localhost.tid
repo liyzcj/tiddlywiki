@@ -1,0 +1,13 @@
+created: 20200722101424861
+modified: 20200722101649046
+tags: DockerCommonOperation
+title: 容器内连接宿主机 localhost
+type: text/vnd.tiddlywiki
+
+在 Docker v 18.03 之后，可以通过 `host.docker.internal` 主机名访问宿主机的 `localhost`  网络。
+
+
+!! [[Macos]] 上之前版本
+
+* Docker for Mac v 17.12 to v 18.02: `docker.for.mac.host.internal`
+* Docker for Mac v 17.06 to v 17.11: `docker.for.mac.localhost`

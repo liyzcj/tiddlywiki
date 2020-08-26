@@ -1,5 +1,7 @@
 created: 20200404195259853
-modified: 20200404195303365
-tags: DataStructure TODO
+modified: 20200505094353610
+tags: 线性表
 title: 顺序表
 type: text/vnd.tiddlywiki
+
+顺序表是在计算机中以''数组''形式保存的[[线性表]]，特指用一组''地址连续''的存储单元''依次存储''数据元素的线性结构。

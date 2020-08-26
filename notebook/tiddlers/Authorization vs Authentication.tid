@@ -1,0 +1,19 @@
+created: 20200722154243128
+modified: 20200722155920553
+tags: Terminology
+title: Authorization vs Authentication
+type: text/vnd.tiddlywiki
+
+Authorization 与 Authentication 是我们经常用来表示身份认证的两个词，也非常容易搞混。实际上，这两个词的意思是有区别的。简单来说，''Authentication 是验证登陆用户是谁的过程''，而 ''Authorization 则是验证一个用户有哪些权限的过程''，它们一起相互补充来实现对应用程序的保护。
+
+> 在词典中，Authorization 代表''授权，批准''，Authentication 的意思是''证明，证实''。
+
+|!Authentication|!Authorization|
+|确定用户是否是他们声称的身份|确定用户可以和不能访问的内容|
+|要求用户验证凭据（例如，通过密码，安全问题的答案或面部识别）|通过策略和规则验证是否允许访问|
+|一般在 Authorization 过程之前|一般在成功进行 Authentication 之后|
+|通常通过一个 ID 传输信息|通常通过一个 Access Token 传递信息|
+|通常由 [[OIDC]] 协议控制|通常由 OAuth 2.0 框架控制|
+|例如，员工需要在访问公司的电子邮件之前通过网络进行认证|在员工成功登陆公司电子邮箱之后，确定员工可以访问哪些信息。|
+
+总的来说，访问一个资源的过程由 Authentication 与 Authorization 共同控制。如果你没有验证身份，那么你无法访问资源。即使你验证了身份，如果你的身份没有访问资源的权限，你仍然无法访问资源。

@@ -1,0 +1,7 @@
+created: 20200714062212920
+modified: 20200717114352342
+tags: [[mysql type]]
+title: Varchar & Text
+type: text/vnd.tiddlywiki
+
+在 Mysql 中，Text 类型的长度固定为 65536 个字符，而 VARCHAR 可以指定字符的长度。

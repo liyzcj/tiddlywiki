@@ -1,7 +1,7 @@
 caption: 数据结构 Data Structure
 created: 20190805195107296
 creator: liyzcj
-modified: 20200404195501526
+modified: 20200505080936868
 modifier: liyzcj
 tags: Algorithm
 title: DataStructure
@@ -12,4 +12,8 @@ type: text/vnd.tiddlywiki
 
 常见的数据结构包括:
 
-<<list-links "[tag{!!title}sort[title]]">>
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

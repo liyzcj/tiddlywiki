@@ -1,0 +1,24 @@
+created: 20200715045910898
+modified: 20200717114007979
+tags: [[useful quries]]
+title: delete all tables
+type: text/vnd.tiddlywiki
+
+! 删除所有的表
+
+
+```sql
+# 获取所有需要删除的表，生成 DROP 语句
+SELECT concat('DROP TABLE IF EXISTS `', table_name, '`;')
+FROM information_schema.tables
+WHERE table_schema = '数据库名称';
+
+
+# 关闭外键检查
+SET FOREIGN_KEY_CHECKS = 0;
+
+# <==将上面的结果粘贴到这里==>
+
+# 重新打开外键检查
+SET FOREIGN_KEY_CHECKS = 1;
+```

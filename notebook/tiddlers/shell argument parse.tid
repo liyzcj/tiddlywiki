@@ -1,0 +1,21 @@
+caption: 参数解析 argument parse
+created: 20200701015456210
+modified: 20200701020248028
+tags: TODO [[Shell Cases]]
+title: shell argument parse
+type: text/vnd.tiddlywiki
+
+! shell 参数解析
+
+!! 解析方法
+
+
+---
+
+!! Convention
+
+
+* `--` 在命令中通常代表''位置参数的开始''。
+* `-` 通常代表 Option 的结束。
+* `-a` 通常代表''短参数''。
+* `--args` 通常代表''长参数''。

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" xmlns:xl="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" viewBox="-151.75 287.5 271.5 209" width="271.5" height="209">
+  <defs>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 10 8" markerWidth="10" markerHeight="8" color="black">
+      <g>
+        <path d="M 8 0 L 0 -3 L 0 3 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.11.5 
+    <dc:date>2020-05-05 11:29:36 +0000</dc:date>
+  </metadata>
+  <g id="Canvas_1" stroke-dasharray="none" fill="none" stroke="none" stroke-opacity="1" fill-opacity="1">
+    <title>Canvas 1</title>
+    <g id="Canvas_1: LinkNode">
+      <title>LinkNode</title>
+      <g id="Graphic_165">
+        <circle cx="6.25" cy="313" r="25.0000399475474" fill="white"/>
+        <circle cx="6.25" cy="313" r="25.0000399475474" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_164">
+        <circle cx="-85.75" cy="391" r="25.0000399475474" fill="white"/>
+        <circle cx="-85.75" cy="391" r="25.0000399475474" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_163">
+        <circle cx="94.25" cy="391" r="25.0000399475474" fill="white"/>
+        <circle cx="94.25" cy="391" r="25.0000399475474" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_162">
+        <line x1="-12.819934" y1="329.168" x2="-59.12877" y2="368.42983" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_161">
+        <line x1="24.959243" y1="329.5832" x2="68.13212" y2="367.85006" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_160">
+        <circle cx="-126.25" cy="471" r="25.0000399475474" fill="white"/>
+        <circle cx="-126.25" cy="471" r="25.0000399475474" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_159">
+        <circle cx="-35.75" cy="471" r="25.0000399475474" fill="white"/>
+        <circle cx="-35.75" cy="471" r="25.0000399475474" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_158">
+        <line x1="-97.04478" y1="413.31067" x2="-110.4837" y2="439.8567" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_157">
+        <line x1="-72.4971" y1="412.20464" x2="-54.24989" y2="441.4002" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+    </g>
+  </g>
+</svg>

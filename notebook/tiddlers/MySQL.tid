@@ -1,7 +1,11 @@
 created: 20200406072600975
-modified: 20200406072625499
+modified: 20200717114434920
 tags: SqlDB
 title: MySQL
 type: text/vnd.tiddlywiki
 
-<<list-links "[tag{!!title}sort[title]]">>
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

@@ -1,0 +1,13 @@
+created: 20200513042133894
+modified: 20200707095246344
+tags: Framework
+title: gRPC
+type: text/vnd.tiddlywiki
+
+''gRPC 是一个高性能的、开源的、通用的 RPC 框架，它以 [[ProtoBuf]] 作为传输协议。'' 
+
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

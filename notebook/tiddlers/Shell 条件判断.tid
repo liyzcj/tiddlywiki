@@ -1,15 +1,13 @@
 caption: 条件判断 IfElse
 created: 20190925124338594
-modified: 20200405072337801
+modified: 20200623062924834
 tags: ifelse ShellSyntax
 title: Shell 条件判断
 type: text/vnd.tiddlywiki
 
-!! 实例
+!!! 实例
 
-* [[判断命令是否执行成功]]
-* [[判断文件是否存在]]
-
+<<list-links "[tag{!!title}sort[title]]">>
 !! 简介
 
 Bash 提供了许多方便的内建比较参数。你可能看到过
@@ -92,7 +90,7 @@ if [ $foo -ge 3 -a $foo -lt 10 ]; then
 
 </div>
 
-> Condition 也可以用于其他的语句，例如 [[While 或 until|Bash 循环]].
+> Condition 也可以用于其他的语句，例如 [[While 或 until|Shell 循环]].
 
 所有的 Conditions 概括为以下几种：
 
@@ -207,7 +205,8 @@ if [[ -a *.sh ]]; then
 if [[ $num -eq 3 && "$stringvar" == foo ]]; then
 ```
 
-> 单括号中的 `-o` `-a` 在双括号中也能用。
+> ~~单括号中的 `-o` `-a` 在双括号中也能用。~~
+> 单括号中的 `-o` `-a` 在双括号中''不能用''。
 
 </div>
 
@@ -243,6 +242,35 @@ case $1 in
 			;;
 esac
 ```
+
+!! 组合条件
+
+当有多个条件组合时，
+
+* 传统的单括号 `[]` 中可以使用 `\(\)` 来转义括号。 <div>
+
+
+```bash
+if [ \( "$g" -eq 1 -a "$c" = "123" \) -o \( "$g" -eq 2 -a "$c" = "456" \) ]
+then echo abc
+else echo efg
+fi
+```
+
+</div>
+
+* 使用双括号语法 `[[]]` 则可以直接使用： <div>
+
+```bash
+if [[ ( "$g" -eq 1 && "$c" = "123" ) || ( "$g" -eq 2 && "$c" = "456" ) ]]
+then echo abc
+else echo efg
+fi
+```
+
+
+</div>
+
 
 ---
 

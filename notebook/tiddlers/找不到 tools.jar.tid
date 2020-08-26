@@ -1,0 +1,15 @@
+created: 20200514170720117
+modified: 20200514171204215
+tags: [[Java others]]
+title: 找不到 tools.jar
+type: text/vnd.tiddlywiki
+
+使用最新版本的 java 编译基于旧版本 java 可能会报错：
+
+```bash
+Cannot resolve jdk.tools:jdk.tools:1.7
+```
+
+因为 `tools.jar` 在 JDK9 中就已经废弃。
+
+> 因为这个问题折腾了半晚上，在网上搜索半天都没有人说 `tools.jar` 已经取消了，大部分答案都是老答案，说安装的是 JRE 而不是 JDK 所以没有 `tools.jar`。。。

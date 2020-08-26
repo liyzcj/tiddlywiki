@@ -1,0 +1,25 @@
+caption: 文本处理 textwrap
+created: 20200622084426924
+modified: 20200622084727487
+tags: [[Python StandardFunc]]
+title: python textwrap
+type: text/vnd.tiddlywiki
+
+! textwrap
+
+!! `dedent()`
+
+去除''行前''的''空格''。
+
+> `\t` 不会被去除。
+
+```python
+def test():
+    # end first line with \ to avoid the empty line!
+    s = '''\
+    hello
+      world
+    '''
+    print(repr(s))          # prints '    hello\n      world\n    '
+    print(repr(dedent(s)))  # prints 'hello\n  world\n'
+```

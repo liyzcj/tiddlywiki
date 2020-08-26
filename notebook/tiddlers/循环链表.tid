@@ -1,0 +1,13 @@
+created: 20200505085848617
+modified: 20200505093353868
+tags: 链表
+title: 循环链表
+type: text/vnd.tiddlywiki
+
+''循环链表'' (Circular linked list) 中，末尾节点的指针不为空，而是指向头节点。
+
+循环链表在 [[单向链表]] 和 [[双向链表]] 中都可以实现。
+
+''循环链表''同样需要一个指针指向链表中的某个节点，这个指针被成为''访问指针''。
+
+[img[circular_linked_list]]

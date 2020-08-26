@@ -1,9 +1,14 @@
 caption: 常用 Dockerfile 命令
 created: 20190904150311616
-modified: 20200404180648568
+modified: 20200630034833444
 tags: Dockerfile
 title: Dockerfile 编写笔记
 type: text/x-markdown
+
+## WORKDIR
+
+WORKDIR 用来指定一个**当前工作路径**。
+
 
 ## ADD
 
@@ -47,3 +52,28 @@ SHELL ["/bin/sh", "-c"]
 ```dockerfile
 SHELL ["/bin/bash", "-c"]
 ```
+
+## COPY
+
+COPY 命令用来从 Context 或者多阶段构建时的其他镜像中拷贝文件到镜像中。**支持绝对命令，和相对 `WORKDIR` 的相对路径**
+
+COPY 支持一次拷贝多个文件，以及 wildcard 通配符，例如：
+
+```dockerfile
+COPY 1.txt 2.txt test
+COPY *.txt test
+```
+
+需要注意的是，如果源文件是目录，COPY 命令的含义就不同了：
+
+```dockerfile
+COPY dir1 dir2 ./
+```
+
+就会转换为：
+
+```dockerfile
+COPY dir1/* dir2/* ./
+```
+
+所以如果需要拷贝整个或者多个文件夹到镜像中，通常可以指定一个父级目录来执行。

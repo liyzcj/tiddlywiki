@@ -1,0 +1,241 @@
+caption: 字典验证 Cerberus
+created: 20200704105426855
+modified: 20200704115412781
+tags: [[Python Third-party]]
+title: Cerberus
+type: text/vnd.tiddlywiki
+
+> Cerberus: https://github.com/pyeve/cerberus
+
+Cerberus 可以用来创建一个 Schema 来指定一些规则去验证一个字典。
+
+!! Install
+
+```bash
+pip install cerberus
+```
+
+!! Usage
+
+使用 Cerberus 验证首先需要创建一个 Schema，以''字典''的形式提供，例如：
+
+```python
+schema = {"name": {"type": "string", "required": true}}
+```
+
+> 为了方便可以使用 yaml 的形式编写 Schema，这需要借助到 [[textwrap|python textwrap]] 的 `dedent()` 函数来去掉行前的空格：<div>
+
+```python
+schema = yaml.safe_load(dedent("""\
+	name:
+		type: string
+		required: true
+"""))
+```
+
+</div>
+
+然后再使用 `cerverus.Validator()` 来验证某个字典是否符合要求：
+
+```python
+d = {"name": "yahaha"}
+v = cerverus.Validator()
+v.validate(d, schema)
+```
+
+`validate()` 函数会返回一个 boolean 值，如果验证通过返回 `True`，验证失败返回 `False`。如果验证失败了，可以通过 `v.errors` 来打印出没有通过验证的字段。
+
+!! 支持的规则
+
+
+!!! check_with
+
+''指定一个函数用来检查该字段''，函数的签名为：
+
+```python
+def functionnname(field, value, error):
+    if value is invalid:
+        error(field, 'error message')
+```
+
+其中，`field` 为字段， `value` 为它的值，使用参数中的 `error(field, msg)` 回调函数来生成错误。
+
+
+!!! Type
+
+<<note "为了直观，下面用 yaml 表示 Schema">>
+
+支持的 `type` ：
+
+|!Type Name|!Python 2 Type|!Python 3 Type|
+|boolean|bool|bool|
+|binary|bytes(str), bytearray|bytes, bytearray|
+|date|datetime.date|datetime.date|
+|datetime|datetime.datetime|datetime.datetime|
+|dict|collections.Mapping|collections.abc.Mapping|
+|float|float|float|
+|integer|int, long|int|
+|list|collections.Sequence, excl.string|collections.abc.Sequence, excl.string|
+|number|float, int, long, excl.bool|float, int, excl.bool|
+|set|set|set|
+|string|basestring()|str|
+
+!!! Schema
+
+`schema` 可以用来指定 List 或者 Dict 容器内的规则，还可以相互嵌套指定：
+
+例如，指定 List 内的对象类型为 `number`:
+
+```yaml
+names:
+	type: list
+	schema:
+		type: number
+```
+
+指定 List 内为 Dict：
+
+```yaml
+names:
+	type: list
+	schema:
+		type: dict
+		schema:
+			foo:
+				type: string
+			bar:
+				type: number
+```
+
+!!! keysrules
+
+指定 Mapping 中 Key 的规则：
+
+```yaml
+foo:
+	type: dict
+	keysrules:
+		type: string
+```
+
+!!! required
+
+设置字段是否''必须''。
+
+!!! require_all
+
+可以与上面的 schema Dict 相结合，用来指定 Mapping 类型中的字段''全部为必须。''
+
+!!! nullable
+
+是否可以为 `None` 值：
+
+```yaml
+name:
+	nullable: True
+```
+
+!!! empty
+
+设置是否可以为空字符串 `''`
+
+!!! excludes
+
+指定不于当前字段兼容的字段(可以为 List，指定多个字段)：
+
+```yaml
+foo:
+	excludes:
+		- bar
+		- zee
+```
+
+```python
+>>> v.validate({'foo': 1, 'bar': 2}, schema)
+False
+```
+要指定 list 值中的字段的规则， 可以使用 `schema`:
+
+!!! allowed
+
+指定该字段能够使用的值（如果为 List，则指定 List 内能够使用的值）：
+
+```yaml
+foo:
+	type: list
+	allowed: ['foo', 'bar']
+```
+
+```python
+>>> v.validate({'foo': ['foo', 'bar']}, schema)
+True
+```
+
+!!! forbidden
+
+与上面的 allowed 相反，指定不能使用的值
+
+
+!!! contains
+
+指定一个 List 内必须包含的值：
+
+```python
+>>> document = {'states': ['peace', 'love', 'inity']}
+
+>>> schema = {'states': {'contains': 'peace'}}
+>>> v.validate(document, schema)
+True
+
+>>> schema = {'states': {'contains': 'greed'}}
+>>> v.validate(document, schema)
+False
+
+>>> schema = {'states': {'contains': ['love', 'inity']}}
+>>> v.validate(document, schema)
+True
+
+>>> schema = {'states': {'contains': ['love', 'respect']}}
+>>> v.validate(document, schema)
+False
+```
+
+!!! items
+
+指定一个 List 内的多个值的类型（''顺序必须一致''）：
+
+```python
+>>> schema = {'list_of_values': {
+...              'type': 'list',
+...              'items': [{'type': 'string'}, {'type': 'integer'}]}
+...           }
+>>> document = {'list_of_values': ['hello', 100]}
+>>> v.validate(document, schema)
+True
+>>> document = {'list_of_values': [100, 'hello']}
+>>> v.validate(document, schema)
+False
+```
+
+
+!!! min, max
+
+对于实现了 `__gt__` 与 `__lt__` 方法的对象设置最大最小值：
+
+```python
+>>> schema = {'weight': {'min': 10.1, 'max': 10.9}}
+>>> document = {'weight': 10.3}
+>>> v.validate(document, schema)
+True
+```
+
+!!! minlength, maxlength
+
+对于实现了 `__len__` 方法的对象设置最大最小长度：
+
+```python
+>>> schema = {'numbers': {'minlength': 1, 'maxlength': 3}}
+>>> document = {'numbers': [256, 2048, 23]}
+>>> v.validate(document, schema)
+True
+```

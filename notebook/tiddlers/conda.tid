@@ -1,0 +1,38 @@
+created: 20200505165056143
+modified: 20200505171930584
+tags: [[Python others]]
+title: conda
+type: text/vnd.tiddlywiki
+
+! Conda
+
+Anaconda 是用于科学计算的 Python 发行版，包含众多流行的 Python 包，并且可以方便的创建虚拟环境和处理依赖。
+
+!! Installation
+
+通过安装包安装后，使用 `conda init` 添加初始化命令到 shell 配置文件中：
+
+```bash
+conda init zsh
+```
+
+> 配置 Conda 源：[[清华 Conda 源|https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/]]
+
+
+
+
+!! 常用命令
+
+!!! 环境管理
+
+列出已有环境
+
+```bash
+conda env list
+```
+
+创建环境：
+
+```bash
+conda create -n grover -p .env python=3.6
+```

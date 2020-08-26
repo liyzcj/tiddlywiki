@@ -1,5 +1,5 @@
 created: 20190916141603556
-modified: 20190916142340960
+modified: 20200709164531382
 tags: Kubeflow
 title: 安装 kubeflow
 type: text/vnd.tiddlywiki
@@ -64,4 +64,37 @@ kfctl apply k8s -V
 
 ```bash
 kfctl delete k8s -V
+```
+
+!! 1.0 Update
+
+
+Kubeflow 的所有安装信息都在一个类型为 `kfDef` 的资源文件中包含，Kubeflow 准备将其实现为一个 K8S 的 Operator，来进行自动安装。
+
+安装 Kubeflow 需要注意两个问题：
+
+# 一个就是需要准备好镜像，`grc.io` 中的镜像在墙内都无法下载。
+# 另一个就是一定要注意''将之前 Kubeflow 的残留卸载干净''
+
+要卸载干净 Kubeflow 并不是仅仅将命名空间 `kubeflow` 删除了就行，还有一些 Configmap、Secret、role、rolebinding、clusterrole、clusterrolebinding、serviceaccount、crd 等资源需要手动删除干净，最最重要的两个资源是 ''mutatingwebhookconfigurations'' 与 ''validatingwebhookconfigurations''，这些资源都是有可能会导致安装失败的。
+
+
+<<info "可以通过 `kubectl api-resources` 查看所有的可用资源。">>
+
+!!! 配置 Dex 授权
+
+kubeflow 1.0 采用开源的 [[Dex]] 提供多租户的功能。可以配置 [[Dex]] 与多种授权系统连接进行账户授权。例如连接到公司的 [[Crowd]] 授权系统，步骤如下：
+
+# 首先需要获取 Kubeflow 中的 Dex 配置文件：
+
+```bash
+kubectl get configmap dex -n auth -o jsonpath='{.data.config\.yaml}' > dex-config.yaml
+```
+
+# 参考 [[Dex]] 配置 [[Crowd]] Connectors。
+# 更新配置文件，并更新 Dex Deployment
+
+```bash
+kubectl create configmap dex --from-file=config.yaml=dex-config.yaml -n auth --dry-run -oyaml | kubectl apply -f -
+kubectl rollout restart deployment dex -n auth
 ```

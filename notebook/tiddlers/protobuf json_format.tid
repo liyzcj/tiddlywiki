@@ -1,0 +1,46 @@
+created: 20200717120441397
+modified: 20200717121226910
+tags: [[Protobuf Python]]
+title: protobuf json_format
+type: text/vnd.tiddlywiki
+
+`json_format` 包可以用来实现 ''JSON 字符串'' 或者 Python 字典和 Protobuf message 之间的转换。
+
+!! Message --> Dict
+
+将 Message 转换为 字典。
+
+```python
+from google.protobuf import json_format
+
+python_dict = json_format.MessageToDict(message)
+```
+
+!! Dict --> Message
+
+将 Python 字典解析为 Message。
+
+```python
+message = Message()
+
+json_format.ParseDict(python_dict, message)
+```
+
+
+!! Message --> JSON
+
+将 Message 转换为 JSON 字符串。
+
+```python
+json_str = json_format.MessageToJson(message)
+```
+
+!! JSON --> Message
+
+将 JSON 字符串中解析为 Protobuf Message：
+
+```python
+message = Message()
+
+json_format.Parse(json_str, message)
+```

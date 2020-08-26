@@ -1,0 +1,13 @@
+created: 20200505085821893
+modified: 20200505090318136
+tags: 链表
+title: 单向链表
+type: text/vnd.tiddlywiki
+
+单向链表 (Singly linked list) 是最简单的链表，它包含两个域，一个信息域和一个指针域。
+
+指针域中的指针指向列表中的下一个节点，而最后一个节点指向空值。
+
+!! 图示
+
+[img[singly_linked_list]]

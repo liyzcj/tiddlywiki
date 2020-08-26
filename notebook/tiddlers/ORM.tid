@@ -1,0 +1,39 @@
+created: 20200608094102119
+modified: 20200608111326224
+tags: DatabaseConcept
+title: ORM
+type: text/vnd.tiddlywiki
+
+Object Relational Mappers (ORM) 对象关系映射，是一种技术用来实现''关系数据库里的数据与面向对象编程中的不同数据类型之间的映射''。
+
+面向对象是从软件工程的基本原则上发展而来的，而[[关系数据库|RDBMS]] 是从数学理论发展而来的，二者有着显著的区别，而 ORM 就是为了解决这种不匹配的现象产生的。
+
+[img[https://www.fullstackpython.com/img/visuals/orms-bridge.png]]
+
+
+在编程中通过 ORM 访问关系数据库，不仅可以提高代码编程的速度，在不同的 ORM 库的支持下，还可以方便的在不同的数据库之间进行切换。
+
+下表显示了常用的框架以及支持的 ORM 库：
+
+[img[https://www.fullstackpython.com/img/visuals/orm-examples.png]]
+
+
+!! 优缺点
+
+!!! 优点
+
+* 方便代码编写，提高程序开发速度
+* 能够实现在多个数据库之间的转换
+
+
+!!! 缺点
+
+* Impedance mismatch:由于两种技术根源的不同，两者之间的平衡很难区别
+* 有潜在的降低性能的可能性
+* 将复杂性从数据库带到程序中
+
+
+!! Reference
+
+* [[Object-relational Mappers (ORMs)|https://www.fullstackpython.com/object-relational-mappers-orms.html]]
+* [[The Object-Relational Impedance Mismatch|http://www.agiledata.org/essays/impedanceMismatch.html]]

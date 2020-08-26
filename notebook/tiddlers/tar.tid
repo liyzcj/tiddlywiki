@@ -1,0 +1,22 @@
+caption: 文件打包 tar
+created: 20200629112630680
+modified: 20200629113753250
+tags: FileSystemRelated
+title: tar
+type: text/vnd.tiddlywiki
+
+tar 命令可以用来对文件进行打包，也可以选择进行压缩，以方便在网络上传输。
+
+
+
+!! 常用选项
+
+
+|!option|!Description|
+|`-z`|使用 [[gzip]] 压缩或解压|
+|`-j`|使用 [[bzip2]] 压缩或解压|
+|`-c`|''压缩文件''|
+|`-x`|''解压文件''|
+|`-v`|显示过程|
+|`-f`|指定文件|
+|`-C`|指定解压到某个目录|

@@ -1,6 +1,6 @@
 caption: 重定向 Redirection
 created: 20190904073224214
-modified: 20200404202040527
+modified: 20200619053624971
 tags: ShellSyntax
 title: shell 重定向
 type: text/vnd.tiddlywiki
@@ -92,7 +92,7 @@ some command > /dev/null
 cat < out.log
 ```
 
-其次就是 EOF 重定向，也就是还是从键盘读取数据，但是会一直读取到结束符 EOF
+当想要使用重定向输入多行内容时，需要指定一个结束符，通常是 `EOF`:
 
 ```bash
 cat << EOF
@@ -102,7 +102,7 @@ cat << EOF
 4
 EOF
 ```
-> ''注意 `EOF` 可以是任意字符''
+> ''注意 `EOF` 可以是任意字符'', ''且多行必须使用 `<<`''
 
 ---
 

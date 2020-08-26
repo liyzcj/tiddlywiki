@@ -1,0 +1,14 @@
+caption: 同步与异步通信
+created: 20200710033921987
+modified: 20200710034425597
+tags: NetworkConcept
+title: synchronous and asynchronous
+type: text/vnd.tiddlywiki
+
+!! 同步通信 Synchronous
+
+同步通信指的是双方通信中，一方发送出的消息后，并''阻塞''住等待消息回复。
+
+!! 异步通信 Asynchronous
+
+异步通信指的是双方通信中，一方发出消息之后，不会阻塞等待回复。

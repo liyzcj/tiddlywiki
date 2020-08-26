@@ -1,0 +1,36 @@
+created: 20200515080119603
+modified: 20200515081307602
+tags: [[Java Third-party Library]]
+title: SLF4J
+type: text/vnd.tiddlywiki
+
+''JAVA简易日志门面（Simple Logging Facade for Java，缩写SLF4J）''，它提供了统一的日志接口。使用 SLF4J 接口之后，可以在部署时决定要使用的 Logging 框架，目前主要支援的有 Java Logging API、[[log4j|Log4j and Log4j 2]] 及 logback 等框架。
+
+SLF4J 的作者就是 log4j 的作者 Ceki Gülcü，他宣称 ''SLF4J 比 log4j 更有效率，而且比 Apache Commons Logging (JCL) 简单、稳定。''
+
+
+!! 与 [[Log4j|Log4j and Log4j 2]] 的不同
+
+* log4j 提供 TRACE, DEBUG, INFO, WARN, ERROR 及 FATAL 六种纪录等级，但是 SLF4J 认为 ERROR 与 FATAL 并没有实质上的差别，所以拿掉了 FATAL 等级，只剩下其他五种。
+
+* 大部分人在程序里面会去写 `logger.error(exception)`, 其实这个时候 log4j 会去把这个 exception tostring。真正的写法应该是`logger(message.exception)`; 而 slf4j 就不会使得程序员犯这个错误。
+* log4j 间接的在鼓励程序员使用 string 相加的写法，而 slf4j 就不会有这个问题 ,你可以使用 `logger.error("{} is+serviceid",serviceid)`;
+* 使用 slf4j 可以方便的使用其提供的各种集体的实现的 jar。（类似commons-logger）
+* 从 commons--logger 和 log4j merge 非常方便，slf4j 也提供了一个 swing 的 tools 来帮助大家完成这个 merge。
+* 提供字串内容替换的功能，会比较有效率，说明如下： <div>
+
+```java
+// 传统的字符串产生方式，如果没有要记录Debug等级的信息，就会浪费时间在产生不必要的信息上
+logger.debug("There are now " + count + " user accounts: " + userAccountList);
+
+// 为了避免上述问题，我们可以先检查是不是开启了Debug信息记录功能，只是程序的编码会比较复杂
+if (logger.isDebugEnabled()) {
+    logger.debug("There are now " + count + " user accounts: " + userAccountList);
+}
+
+// 如果Debug等级没有开启，则不会产生不必要的字符串，同时也能保持程序编码的简洁
+logger.debug("There are now {} user accounts: {}", count, userAccountList); 
+```
+
+</div>
+* SLF4J 只支持 [[MDC|NDC MDC]]，不支持 [[NDC|NDC MDC]]。

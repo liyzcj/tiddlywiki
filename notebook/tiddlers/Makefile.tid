@@ -1,0 +1,80 @@
+created: 20200630015852910
+modified: 20200708145010128
+tags: make
+title: Makefile
+type: text/vnd.tiddlywiki
+
+! Makefile
+
+Makefile 描述了如何去编译和链接程序。
+
+
+!! 组成
+
+Makefile 主要有''五个部分''组成：
+
+* ''显示规则''：显式的声明要编译的目标文件，依赖与编译命令。
+* ''隐式规则''：根据 make 的自动推导功能，让我们可以简略的书写 Makefile。
+* ''变量定义''：Makefile 中的变量都是字符串，类似于宏替换。
+* ''文件指示''：文件指示包含三个部分，一个是引用另一个 Makefile；另一个是根据条件指定文件中的有效部分；最后就是多行的命令。
+* ''注释''：Makefile 中''只有行注释''，使用符号 `#` 开始注释。
+
+!! 规则
+
+!!! 规则语法
+
+Makefile 的编写只遵循一个主要的规则：
+
+```makefile
+target ... : prerequisites ...
+    command
+    ...
+    ...
+```
+
+或者
+
+```makefile
+targets : prerequisites ; command
+    command
+    ...
+```
+
+<<note "`command` 前面一定要使用 `<tab>` 而不是空格。如果命令太长，也可以使用反斜杠 `\` 换行。''一般情况下，make 会使用 `SHELL` 环境变量指定的 shell 执行命令，一般是标准的 `/bin/sh` 执行命令。'' ">>
+
+* ''target'': 可以是一个目标文件，也可以是一个执行文件，也可以是一个虚拟的标签（伪目标）。
+* ''prerequisites'': 生成该目标所依赖的文件或者其他目标。
+* ''command'': 需要执行的命令（任意的 shell 命令）
+
+也就是说，''如果 `prerequisites` 任何一个文件比 `target` 更新，`command` 就会被执行''。
+
+
+!!! 规则中的通配符
+
+在规则中可以使用 Unix Shell 风格的通配符。包含：
+
+* `*`: 
+* `?`: 
+* `~`: 家目录。或者 `~foo` 代表 `foo` 的家目录。
+
+
+!! 特殊指令
+
+`.PHONY` 可以用来指定文件无关。即指定该命令不是一个文件。
+
+```makefile
+.PHONY foo
+foo:
+	echo 123
+```
+
+> 如果你的文件夹中有 `foo` 这个文件，并且你不使用 `.PHONY` 指定的话，make 不会执行指定的命令： <div>
+
+```bash
+❯ make foo
+make: 'foo' is up to date.
+```
+
+</div>
+
+* [[跟我一起写 Makefile|https://seisman.github.io/how-to-write-makefile/conditionals.html]]

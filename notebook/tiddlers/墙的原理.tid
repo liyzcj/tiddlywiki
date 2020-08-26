@@ -1,0 +1,16 @@
+created: 20200706142935980
+modified: 20200706143547609
+tags: 翻墙
+title: 墙的原理
+type: text/vnd.tiddlywiki
+
+GFW 即 Great Fire Wall，中文也称为中国国家防火墙，中国大陆民众俗称墙
+
+GFW实现网络封锁的手段主要有两种：''dns劫持和ip封锁''。
+
+
+DNS 劫持是最早的防护手段，即劫持你到 DNS 之间的请求，让你无法拿到正确的 IP 地址。
+
+IP 封锁则更干脆，直接采用''黑名单''模式，将外网的 IP 封锁。
+
+

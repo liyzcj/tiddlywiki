@@ -1,0 +1,10 @@
+caption: 云原生
+created: 20200624095240415
+modified: 20200624170944186
+tags: Contents
+title: Cloud Native
+type: text/vnd.tiddlywiki
+
+Cloud Native (云原生) 概念上是指''在应用开发中充分利用云特性。组件化，并且面向 API。''
+
+在技术上，云原生包含容器技术，微服务等等

@@ -1,0 +1,103 @@
+caption: 虚拟环境
+created: 20200618023605977
+modified: 20200618062301355
+tags: [[Python others]]
+title: Python virtual environment
+type: text/vnd.tiddlywiki
+
+该页面总结 Python 所有的虚拟环境，区别等信息。我把虚拟环境分为两类，一类是 Python 解释器内的，另一类是独立于
+Python 解释器的。
+
+* Python 解释器内：仅仅''基于当前的 Python 解释器版本''创建虚拟环境。虚拟环境中只包含新安装的 Package，而不包含当前版本的标准库和解释器等。
+* Python 解释器外：可以创建''多个版本的 Python 解释器''，独立于 Python 环境之外进行管理。虚拟环境中包含解释器，标准库等所有需要的 Package。
+
+!! Python 解释器内
+
+解释器内的又分为标准库的和第三方的工具。
+
+========== 标准库 ===========
+
+!!! pyvenv
+
+`pyvenv` 是随着 python 3 中的标准库发布的，不过在 ''[[Python 3.6 版本之后被弃用|https://docs.python.org/dev/whatsnew/3.6.html#id8]]''了。
+
+!!! venv
+
+`venv` 也是随着 python 3 中的标准库发布的，你可以通过命令：
+
+```bash
+python3 -m venv
+```
+
+来使用。
+
+> venv 是 virtualenv 功能子集，且只能在 Python 3 中使用。可以查看[[这里的对比|https://virtualenv.pypa.io/en/latest/]]。
+
+
+========== 第三方 ===========
+
+!!! virtualenv
+
+virtualenv 是一个非常流行的工具，可以为一个 Python 解释器版本创建不同的虚拟环境。
+
+virtualenvwrapper 是 virtualenv 的一系列插件。
+
+!!! pipenv
+
+pipenv 将 `Pipfile`, `pip` 与 `virtualenv` 结合到一个命令行工具中使用。
+
+
+!!! poetry
+
+[[Poetry|https://github.com/python-poetry/poetry]] 可以用来方便的处理 Python 的依赖，并且进行打包和发布。
+
+!! Python 解释器外
+
+!!! conda
+
+典型的可以创建多个不同版本的 Python 环境。[[conda]] 的做法非常极端，甚至所有依赖的 C 库都会直接包含在 Python 环境中。
+
+[[conda]] 将 Python 也作为其环境中的一个 Package 看待。
+
+''优点''
+
+* 直接将一个虚拟环境打包就可以直接在其他机器上运行，不用担心会有某些 C 语言库没有安装
+
+''缺点''
+
+* 虚拟环境占用的空间较大，不易传输。
+* 有时候 Python 版本会和一些其他的 Package 冲突而无法安装。
+
+!!! pyenv
+
+
+pyenv 是受到 Ruby 的环境管理 rbenv 的启发创建的环境管理器，用来隔离不同的版本的 Python，每个环境内还是使用 [[pip|pip config]] 进行包的管理。
+
+插件：
+
+* pyenv-virtualenv <div>
+
+pyenv-virtualenv 是 pyenv 的一个插件，可以允许你同时使用 pyenv 和 virtualenv，这样就既可以创建不同版本的 Python 解释器，又可以在解释器内创建虚拟环境。
+
+</div>
+
+* pyenv-virtualenvwrapper <div>
+
+这个插件将 virtualenvwrapper 集成到 pyenv 中。
+
+</div>
+
+
+''优点''
+
+* 相较于 conda 比较轻量，内部还是用 pip 管理，比较统一。
+* 可以结合 virtualenv 使用。
+
+''缺点''
+
+* 安装解释器时网速很慢，没找到合适的国内镜像。
+
+
+!! Reference
+
+* [[Python 各种虚拟环境工具的不同|https://stackoverflow.com/questions/41573587/what-is-the-difference-between-venv-pyvenv-pyenv-virtualenv-virtualenvwrappe]]

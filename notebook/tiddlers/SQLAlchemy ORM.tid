@@ -1,0 +1,15 @@
+caption: ORM
+created: 20200612022615002
+modified: 20200612022910459
+tags: SQLAlchemy
+title: SQLAlchemy ORM
+type: text/vnd.tiddlywiki
+
+!! ORM
+
+通过 [[ORM]] 你可以''快速''的开发基于数据库的应用，而不需要编写 [[SQL]] 语句。
+
+使用 ORM 主要包含两个步骤：
+
+* ''声明''；ORM 系统会根据你编写的声明来理解数据之间的关系以及表结构，并且初始化数据库。
+* ''增删改查''；根据上面的声明进行增删改查。

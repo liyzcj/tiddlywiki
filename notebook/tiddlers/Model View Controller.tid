@@ -1,0 +1,14 @@
+created: 20200605095207045
+modified: 20200605100301116
+tags: [[Software Design Pattern]]
+title: Model View Controller
+type: text/vnd.tiddlywiki
+
+Model View Controller (MVC) 是一种知名的软件设计模式，经常用于''开发用户界面''，该用户界面将相关的程序逻辑分为三个相互关联的元素。
+
+
+* Model
+* View
+* Controller
+
+WIki: [[MVC|https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller]]

@@ -1,0 +1,60 @@
+created: 20200515074255273
+modified: 20200515081322436
+tags: [[Java Third-party Library]]
+title: Log4j and Log4j 2
+type: text/vnd.tiddlywiki
+
+Apache Log4j 是一个''基于 Java 的日志记录工具''。它是由 Ceki Gülcü 首创的，现在则是 Apache 软件基金会的一个项目。
+
+> Gülcü 此后开创了 [[SLF4J]] 和 Logback 项目，意图成为 Log4j 的继任者。
+
+
+Log4j 2 是 Log4j 团队创建的 Log4j 的继任者。
+
+!! Intro
+
+与 Python 的 [[logging 模块]] 类似，Log4j 主要包含三个组件 ''Logger、Appender 和 Layout''，其中 Logger 作为入口，Appender 作为出口，Layout 为日志格式。
+
+
+!! 日志级别
+
+|!级别|!描述|
+|OFF|最高级别，用于关闭日志记录。|
+|FATAL|导致应用程序提前终止的严重错误。一般这些信息将立即呈现在状态控制台上。|
+|ERROR|	其他运行时错误或意外情况。一般这些信息将立即呈现在状态控制台上。|
+|WARN|使用已过时的API，API的滥用，潜在错误，其他不良的或意外的运行时的状况（但不一定是错误的）。一般这些信息将立即呈现在状态控制台上。|
+|INFO|令人感兴趣的运行时事件（启动/关闭）。一般这些信息将立即呈现在状态控制台上，因而要保守使用，并保持到最低限度。|
+|DEBUG|流经系统的详细信息。一般这些信息只记录到日志文件中。|
+|TRACE|最详细的信息。一般这些信息只记录到日志文件中。自版本1.2.12。|
+
+
+!! 配置
+
+有三种方法配置 Log4j：
+
+* `.properties` 文件
+* XML 文件
+* Java 代码
+
+
+!! Layout 配置
+
+''TTCC'' 是 log4j 使用的消息格式。''TTCC'' 是 ''Time Thread Category Component''（时间、线程、类别、组件）的缩写。
+
+例如：
+
+```bash
+%r [%t] %-5p %c %x - %m%n
+```
+
+|!模式参数|!描述|
+|`%r`|用于输出从 layout（布局）的构建到日志事件创建所经过的毫秒数。|
+|`%t`|用来输出生成该日志事件的线程的名称。(thread)|
+|`%p`|用于输出日志事件的优先级 level(priority)|
+|`%c`|用于输出日志事件的类别 Logger(category)|
+|`%x`|用于输出与产生该日志事件的线程相关联的 [[NDC|NDC MDC]]|
+|`%X{key}`|用于输出与产生指定的key的日志事件的线程相关联的 [[MDC|NDC MDC]]|
+|`%m`|输出与日志记录事件相关联的应用程序提供的消息（message）。|
+|`%n`|输出该其所在的特定平台的换行字符。|
+|`%d{HH:mm:ss,SSS}`|时间戳|
+

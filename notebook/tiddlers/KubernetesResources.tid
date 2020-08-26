@@ -5,8 +5,4 @@ tags: Kubernetes
 title: KubernetesResources
 type: text/vnd.tiddlywiki
 
-<div class="tc-table-of-contents">
-
-<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
-
-</div>
+<<list-links "[tag{!!title}sort[title]]">>

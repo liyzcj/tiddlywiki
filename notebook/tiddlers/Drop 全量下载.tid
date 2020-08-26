@@ -1,0 +1,14 @@
+created: 20200521014714610
+modified: 20200521015034954
+tags: dropbox
+title: Drop 全量下载
+type: text/vnd.tiddlywiki
+
+直接在 Dropbox 官网下载下载下来的是一个下载器，不翻墙无法下载。
+
+
+可以通过在连接后添加 `&full=1` 进行全量下载：
+
+```bash
+https://www.dropbox.com/downloading?src=index&full=1
+```

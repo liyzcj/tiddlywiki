@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" xmlns:xl="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" viewBox="-.5 -.5 401 51" width="401" height="51">
+  <defs>
+    <font-face font-family="Helvetica Neue" font-size="16" panose-1="2 0 5 3 0 0 0 2 0 4" units-per-em="1000" underline-position="-100" underline-thickness="50" slope="0" x-height="517" cap-height="714" ascent="951.9958" descent="-212.99744" font-weight="400">
+      <font-face-src>
+        <font-face-name name="HelveticaNeue"/>
+      </font-face-src>
+    </font-face>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="SharpArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-3 -3 7 6" markerWidth="7" markerHeight="6" color="black">
+      <g>
+        <path d="M 2.3333333 0 L -1.4 -1.4 L 0 0 L 0 0 L -1.4 1.4 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.11.5 
+    <dc:date>2020-05-05 08:56:16 +0000</dc:date>
+  </metadata>
+  <g id="Canvas_1" stroke-dasharray="none" fill="none" stroke="none" stroke-opacity="1" fill-opacity="1">
+    <title>Canvas 1</title>
+    <g id="Canvas_1: LinkNode">
+      <title>LinkNode</title>
+      <g id="Group_21">
+        <g id="Graphic_4">
+          <title>Data</title>
+          <rect x="0" y="0" width="50" height="50" fill="white"/>
+          <rect x="0" y="0" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <text transform="translate(5 15.776001)" fill="black">
+            <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="11.104" y="15">43</tspan>
+          </text>
+        </g>
+        <g id="Group_20">
+          <title>Pointer</title>
+          <g id="Graphic_5">
+            <title>Data</title>
+            <rect x="50" y="0" width="50" height="50" fill="white"/>
+            <rect x="50" y="0" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_19">
+            <circle cx="75" cy="25" r="13.4000219840909" fill="black"/>
+            <circle cx="75" cy="25" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+      </g>
+      <g id="Group_22">
+        <g id="Graphic_26">
+          <title>Data</title>
+          <rect x="150" y="0" width="50" height="50" fill="white"/>
+          <rect x="150" y="0" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <text transform="translate(155 15.776001)" fill="black">
+            <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="11.104" y="15">52</tspan>
+          </text>
+        </g>
+        <g id="Group_23">
+          <title>Pointer</title>
+          <g id="Graphic_25">
+            <title>Data</title>
+            <rect x="200" y="0" width="50" height="50" fill="white"/>
+            <rect x="200" y="0" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_24">
+            <circle cx="225" cy="25" r="13.4000219840909" fill="black"/>
+            <circle cx="225" cy="25" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+      </g>
+      <g id="Line_27">
+        <line x1="88.40001" y1="25" x2="138.3" y2="25" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+      </g>
+      <g id="Group_28">
+        <g id="Graphic_32">
+          <title>Data</title>
+          <rect x="300" y="0" width="50" height="50" fill="white"/>
+          <rect x="300" y="0" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <text transform="translate(305 15.776001)" fill="black">
+            <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="11.104" y="15">52</tspan>
+          </text>
+        </g>
+        <g id="Group_29">
+          <title>Pointer</title>
+          <g id="Graphic_31">
+            <title>Data</title>
+            <rect x="350" y="0" width="50" height="50" fill="white"/>
+            <rect x="350" y="0" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_30">
+            <circle cx="375" cy="25" r="13.4000219840909" fill="white"/>
+            <circle cx="375" cy="25" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+      </g>
+      <g id="Line_34">
+        <line x1="238.4" y1="25" x2="288.3" y2="25" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+      </g>
+    </g>
+  </g>
+</svg>

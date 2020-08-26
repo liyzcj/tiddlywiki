@@ -1,6 +1,6 @@
 caption: 安装 Go
 created: 20191221100034446
-modified: 20200405071140973
+modified: 20200724095120457
 tags: GoModule
 title: Install Go
 type: text/vnd.tiddlywiki
@@ -22,28 +22,57 @@ brew install go
 apt installl go
 ```
 
-!! Manual Download
+!! 手动下载
 
-Download the package in https://golang.org/dl/
-
-unzip and add PATH env, for example:
+一般，发行版例如 ubuntu 1804 中 apt 的 go 版本较低（1.10），如果要安装最新版本的 go，可以通过[[官网|https://golang.org/dl/]]下载预编译好的二进制文件安装，例如：
 
 ```bash
-tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+wget https://golang.org/dl/go1.14.6.linux-amd64.tar.gz
 ```
 
-!! Initial Go Environment
+> Go 安装包的命名格式为 : <div>
 
-By convention, all Go code lives within a single workspace (folder). This folder could be everywhere and specified by `GOPATH`, for example:
+```bash
+wget go$VERSION.$OS-$ARCH.tar.gz
+```
+
+</div>
+
+下载完毕之后可以验证安装包的完整性：
+
+```bash
+sha256sum go1.14.6.linux-amd64.tar.gz
+```
+
+将压缩包解压到某个位置，这里安装到 `/usr/local` 中：
+
+```bash
+tar -C /usr/local -xzvf go1.14.6.linux-amd64.tar.gz
+````
+
+最后需要将路径添加到 `PATH`:
+
+```bash
+export PATH=/usr/local/go/bin:$PATH
+```
+
+!! 设置环境变量
+
+为了方便，所有的 GO 包都会安装到一个路径下，这个路径可以是任何路径，通过 `GOPATH` 指定, 例如:
 
 ```bash
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 ```
 
-Go assumes that your workspace contains a specific directory structure.
+Go 会默认认为你的目录是符合 GO 的目录结构的。
 
-Go places its files in three directories: All source code lives in src, package objects lives in pkg, and the compiled programs live in bin. You can create these directories as follows.
+* `src` : 所有的源码
+* `pkg` : 所有的 Package
+* `bin` : 所有编译好的二进制文件
+
+
+可以通过如下命令创建：
 
 ```bash
 mkdir -p $GOPATH/src $GOPATH/pkg $GOPATH/bin
@@ -51,10 +80,10 @@ mkdir -p $GOPATH/src $GOPATH/pkg $GOPATH/bin
 
 ---
 
-Now youcan install some [[Go packages]].
+更多包管理参考：[[Go packages]].
 
 ---
 
-Reference: 
+!! Reference: 
 
-https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/install-go#go-editor
+* [[Install Go|https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/install-go#go-editor]]

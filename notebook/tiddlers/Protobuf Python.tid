@@ -1,7 +1,7 @@
-caption: Protocol Buffers Python 实现
+caption: Python
 created: 20200225170458741
-modified: 20200404135920757
-tags: PythonFeature TODO ProtoBuf
+modified: 20200717121400637
+tags: TODO [[Protobuf language]]
 title: Protobuf Python
 type: text/vnd.tiddlywiki
 
@@ -22,6 +22,34 @@ type: text/vnd.tiddlywiki
 ```python
 msg.repeated_field[:] = [elems]
 ```
+
+!! google.protobuf.Struct
+
+`google.protobuf.Struct` 可以用来保存一个 JSON。
+
+```python
+struct_message = google.protobuf.Struct()
+struct_message["key1"] = 5
+struct_message["key2"] = "abc"
+struct_message["key3"] = True
+```
+
+如果想要快速的从一个字典创建，可以使用 `update()` 方法：
+
+```python
+struct_message = google.protobuf.Struct()
+struct_message.update({"key": "value"})
+```
+
+从 Struct 转为字典，可以通过 `json_format`
+
+```python
+from google.protobuf import json_format
+
+json_format.MessageToDict(struct_message)
+```
+
+<<info "`json_format` 可以用来转换任何类型的 message 到一个字典中，详情见 [[protobuf json_format]]">>
 
 ---
 

@@ -1,0 +1,100 @@
+caption: 函数 Function
+created: 20200619030618123
+modified: 20200623064948339
+tags: ShellSyntax TODO
+title: shell function
+type: text/vnd.tiddlywiki
+
+!! 函数定义
+
+* 不带 `function` 形式 <div>
+
+```bash
+function_name () {
+  commands
+}
+```
+
+
+或者 单行形式
+
+```bash
+function_name () { commands; }
+```
+
+> 这种形式一定要记得函数名后带''括号'', 单行形式不要忘记分号 `;`.
+
+</div>
+
+* 带 `function` 形式  <div>
+
+```bash
+function function_name {
+  commands
+}
+
+function function_name () {
+	commands
+}
+```
+
+或者 单行形式
+
+```bash
+function function_name { commands; }
+function function_name () { commands; }
+```
+
+> 带有 `function` 的时候，可以''带或者不带''括号。
+
+
+</div>
+
+
+!! 函数参数
+
+函数的参数与脚本相同，''不需要显示的声明，在函数内部通过[[内建变量|shell 内建变量]]使用。''
+
+
+!! 返回值
+
+!!! 基本
+
+Bash 函数不允许自定义返回值，只能通过 `return` 语句返回一个''`[0, 255]` 范围内的整数'' 作为状态码。在调用的时候，通过 [[内建变量|shell 内建变量]] 中的 `$?` 访问函数的返回值：
+
+```bash
+function return_error {
+	return 1
+}
+```
+
+<<info "通常返回 `0` 就代表函数执行成功，这一点和脚本、程序、命令都是一样的，本质上都是同一个东西。">>
+
+!!! True and False
+
+除了返回状态值之外，Linux 中还有两个命令 `true` 和 `false`:
+
+* `true`：只是返回 `0` 什么都不做。
+* `false`: 只是返回 `1` 什么都不做。
+
+所以我们可以用这两个命令来代替 `return 0` 与 `return 1` 来提高代码的可读性。例如：
+
+```bash
+function is_dictionary2 {
+    if [ -d $1 ] ; then
+			  return `true`
+    else
+		    return `false`
+    fi
+}
+```
+
+!!! 其他
+
+''如果没有 `return` 语句，函数默认返回最后一句的返回值。'' 所以，上面的函数还可以用一句话来完成：
+
+```bash
+is_dictionary {
+    [ -d $1 ]
+}
+```

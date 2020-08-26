@@ -1,0 +1,43 @@
+caption: 单机模式
+created: 20200511083606489
+modified: 20200511084914158
+tags: [[Flink Deployment]]
+title: Flink Deployment Standlone
+type: text/vnd.tiddlywiki
+
+
+!! 下载安装包
+
+[[FLink download 1.10|https://flink.apache.org/downloads.html#apache-flink-1100]]
+
+!! 解压到指定安装目录
+
+```bash
+FLINK_PACKAGE_PATH=/tmp/flink.tar.gz
+tar xzvf $FLINK_PACKAGE_PATH -C /opt
+export FLINK_HOME=/opt/flink
+```
+
+!! 添加用户
+
+```bash
+groupadd --system --gid=9999 flink
+useradd --system --home-dir $FLINK_HOME --uid=9999 --gid=flink flink
+```
+
+!! 修改文件所属
+
+```bash
+chown -R flink.flink $FLINK_HOME
+```
+
+!! 切换用户并启动单机模式
+
+```bash
+su flink
+bash $FLINK_HOME/bin/start-cluster.sh
+```
+
+<<note "默认配置下，hostname 必须配置在 `/etc/hosts` 中。">>
+
+

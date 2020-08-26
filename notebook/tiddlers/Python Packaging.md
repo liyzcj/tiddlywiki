@@ -212,6 +212,10 @@ py_modules=["six"],
 
 !!! install_requires
 
+> Optional
+>
+> Type: `List[Text]`
+
 ```python
 install_requires=['peppercorn'],
 ```
@@ -219,6 +223,20 @@ install_requires=['peppercorn'],
 这个参数用来指定这个项目的依赖。当使用 pip 安装这个项目的时候，他会首先安装这些依赖。
 
 > 与 requirements.txt 的区别: requirements.txt 通常用来创建一个完整的 Python 环境，而 install_requires 仅仅用来确定一个项目的依赖。
+
+!!! tests_require
+
+> Optional
+>
+> Type: `List[Text]`
+
+用来指定测试时的项目依赖, 当你使用命令
+
+```bash
+python setup.py test
+```
+
+来测试 Python 项目时，会自动安装这个参数指定的依赖。
 
 !!! extras_require
 

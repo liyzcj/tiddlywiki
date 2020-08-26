@@ -1,0 +1,13 @@
+created: 20200717115505147
+modified: 20200717115647118
+tags: [[useful quries]]
+title: query SHOW
+type: text/vnd.tiddlywiki
+
+SHOW 通常用来显示一些系统信息：
+
+```sql
+SHOW STATUS; # 显示系统状态
+SHOW PROCESSLIST; # 显示线程
+SHOW FULL PROCESSLIST; # 显示详细线程
+```

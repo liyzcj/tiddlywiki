@@ -1,6 +1,6 @@
 caption: OpenSSH
 created: 20190820145145921
-modified: 20200407091021406
+modified: 20200616015313048
 tags: NetworkRelated
 title: OpenSSH
 type: text/vnd.tiddlywiki
@@ -44,7 +44,9 @@ ssh-keygen -t rsa
 
 * `.ssh` 文件夹的权限最多为 755，也就是说其他用户不能有写入权限。
 * 私钥 `id_rsa` 权限必须为 `600`.
-* 公钥和 `authorized_keys` 可以为 600 或 644
+* ~~公钥和 `authorized_keys` 可以为 600 或 644~~
+* ''`auchorized_keys` 同 `.ssh` 相同，最高 755，其他组无法写入即可。''
+
 </div>
 
 !!! 连接配置

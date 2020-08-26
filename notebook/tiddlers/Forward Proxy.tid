@@ -1,0 +1,11 @@
+created: 20200706142320815
+modified: 20200706142829605
+tags: NetworkConcept
+title: Forward Proxy
+type: text/vnd.tiddlywiki
+
+正向代理就是我们平常口中所说的代理，从它的名字就能看出它的功能，就是一个代理，''代替你将你的流量转发出去''。
+
+正向代理最主要的目的和 [[VPN|virtual private network]] 相同，都是为了''匿名访问''。代理可以代理很多协议，有 HTTP、HTTP over TLS(HTTPS)、Socks、Socks over TLS 等。但HTTP和Socks不能加密，只能匿名，HTTPS既可以匿名，也可以用于加密通信。
+
+一般通过代理上网的流程是，将你的请求发送给代理服务器，代理服务器帮你把请求发送给目标，从目标接受到响应后，再将响应转发给你。这样访问目标就无法知道你的信息，也就实现了匿名访问。

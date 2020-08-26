@@ -1,0 +1,19 @@
+created: 20200623020918984
+modified: 20200623021007306
+tags: [[Docker Registry]]
+title: Docker registry ui
+type: text/vnd.tiddlywiki
+
+! Docker Registry UI
+
+!! Simple Docker Registry UI
+
+```bash
+docker run --rm -d --name docker_registry_ui \
+    -p 9001:80 \
+    -e REGISTRY_URL=http://192.168.10.251:5000 \
+    -e DELETE_IMAGES=true \
+    -e PULL_URL=192.168.10.251:5000 \
+    -e REGISTRY_TITLE="AI 192.168.10.251:5000" \
+    joxit/docker-registry-ui:static
+```

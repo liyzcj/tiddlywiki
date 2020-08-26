@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" xmlns:xl="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" viewBox="-216.0662 166.2945 778.9216 111.38957" width="778.9216" height="111.38957">
+  <defs>
+    <font-face font-family="Helvetica Neue" font-size="16" panose-1="2 0 5 3 0 0 0 2 0 4" units-per-em="1000" underline-position="-100" underline-thickness="50" slope="0" x-height="517" cap-height="714" ascent="951.9958" descent="-212.99744" font-weight="400">
+      <font-face-src>
+        <font-face-name name="HelveticaNeue"/>
+      </font-face-src>
+    </font-face>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="SharpArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-4 -4 10 8" markerWidth="10" markerHeight="8" color="black">
+      <g>
+        <path d="M 5 0 L -3 -3 L 0 0 L 0 0 L -3 3 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 10 8" markerWidth="10" markerHeight="8" color="black">
+      <g>
+        <path d="M 8 0 L 0 -3 L 0 3 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.11.5 
+    <dc:date>2020-05-05 09:25:34 +0000</dc:date>
+  </metadata>
+  <g id="Canvas_1" stroke-dasharray="none" fill="none" stroke="none" stroke-opacity="1" fill-opacity="1">
+    <title>Canvas 1</title>
+    <g id="Canvas_1: LinkNode">
+      <title>LinkNode</title>
+      <g id="Group_87">
+        <title>LinkNode</title>
+        <g id="Graphic_94">
+          <title>Data</title>
+          <rect x="50" y="192" width="50" height="50" fill="white"/>
+          <rect x="50" y="192" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <text transform="translate(55 207.776)" fill="black">
+            <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="11.104" y="15">43</tspan>
+          </text>
+        </g>
+        <g id="Group_91">
+          <title>Pointer</title>
+          <g id="Graphic_93">
+            <title>Data</title>
+            <rect x="100" y="192" width="50" height="50" fill="white"/>
+            <rect x="100" y="192" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_92">
+            <circle cx="125" cy="217" r="13.4000219840909" fill="black"/>
+            <circle cx="125" cy="217" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+        <g id="Group_88">
+          <title>Pointer</title>
+          <g id="Graphic_90">
+            <title>Data</title>
+            <rect x="2842171e-20" y="192" width="50" height="50" fill="white"/>
+            <rect x="2842171e-20" y="192" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_89">
+            <circle cx="25" cy="217" r="13.4000219840909" fill="black"/>
+            <circle cx="25" cy="217" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+      </g>
+      <g id="Group_79">
+        <title>LinkNode</title>
+        <g id="Graphic_86">
+          <title>Data</title>
+          <rect x="250" y="192" width="50" height="50" fill="white"/>
+          <rect x="250" y="192" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <text transform="translate(255 207.776)" fill="black">
+            <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="11.104" y="15">99</tspan>
+          </text>
+        </g>
+        <g id="Group_83">
+          <title>Pointer</title>
+          <g id="Graphic_85">
+            <title>Data</title>
+            <rect x="300" y="192" width="50" height="50" fill="white"/>
+            <rect x="300" y="192" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_84">
+            <circle cx="325" cy="217" r="13.4000219840909" fill="black"/>
+            <circle cx="325" cy="217" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+        <g id="Group_80">
+          <title>Pointer</title>
+          <g id="Graphic_82">
+            <title>Data</title>
+            <rect x="200" y="192" width="50" height="50" fill="white"/>
+            <rect x="200" y="192" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_81">
+            <circle cx="225" cy="217" r="13.4000219840909" fill="black"/>
+            <circle cx="225" cy="217" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+      </g>
+      <g id="Group_71">
+        <title>LinkNode</title>
+        <g id="Graphic_78">
+          <title>Data</title>
+          <rect x="450" y="192" width="50" height="50" fill="white"/>
+          <rect x="450" y="192" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <text transform="translate(455 207.776)" fill="black">
+            <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="11.104" y="15">99</tspan>
+          </text>
+        </g>
+        <g id="Group_75">
+          <title>Pointer</title>
+          <g id="Graphic_77">
+            <title>Data</title>
+            <rect x="500" y="192" width="50" height="50" fill="white"/>
+            <rect x="500" y="192" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_76">
+            <circle cx="525" cy="217" r="13.4000219840909" fill="black"/>
+            <circle cx="525" cy="217" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+        <g id="Group_72">
+          <title>Pointer</title>
+          <g id="Graphic_74">
+            <title>Data</title>
+            <rect x="400" y="192" width="50" height="50" fill="white"/>
+            <rect x="400" y="192" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_73">
+            <circle cx="425" cy="217" r="13.4000219840909" fill="black"/>
+            <circle cx="425" cy="217" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+      </g>
+      <g id="Line_70">
+        <path d="M 134.67364 207.72738 C 142.01762 202.20374 153.44365 196.2601 168.60987 196.2601 C 177.20556 196.2601 185.77632 198.16933 193.546 200.82925" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_69">
+        <path d="M 212.95007 222.86998 C 203.74272 226.62252 190.01278 230.78924 174.43946 230.78924 C 168.12194 230.78924 162.16353 230.10355 156.7182 229.038" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_68">
+        <path d="M 412.80317 222.55827 C 402.97774 226.38778 388.2033 230.78924 372.1973 230.78924 C 366.66 230.78924 361.4842 230.26245 356.74015 229.4148" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_67">
+        <path d="M 335.7588 209.00903 C 344.40945 203.66423 357.70794 197.60538 373.5426 197.60538 C 380.5998 197.60538 387.33413 198.80886 393.4685 200.61624" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Group_95">
+        <title>LinkNode</title>
+        <g id="Graphic_102">
+          <title>Data</title>
+          <rect x="-150" y="192" width="50" height="50" fill="white"/>
+          <rect x="-150" y="192" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <text transform="translate(-145 207.776)" fill="black">
+            <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="15.112" y="15">V</tspan>
+          </text>
+        </g>
+        <g id="Group_99">
+          <title>Pointer</title>
+          <g id="Graphic_101">
+            <title>Data</title>
+            <rect x="-100" y="192" width="50" height="50" fill="white"/>
+            <rect x="-100" y="192" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_100">
+            <circle cx="-75" cy="217" r="13.4000219840909" fill="black"/>
+            <circle cx="-75" cy="217" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+        <g id="Group_96">
+          <title>Pointer</title>
+          <g id="Graphic_98">
+            <title>Data</title>
+            <rect x="-200" y="192" width="50" height="50" fill="white"/>
+            <rect x="-200" y="192" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_97">
+            <circle cx="-175" cy="217" r="13.4000219840909" fill="black"/>
+            <circle cx="-175" cy="217" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+      </g>
+      <g id="Line_104">
+        <path d="M -64.121954 209.17173 C -56.292425 204.71005 -44.49557 200 -29.583333 200 C -22.647693 200 -15.836574 201.01886 -9.504679 202.55772" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_105">
+        <path d="M 13.675655 224.16913 C 5.627708 228.22774 -6.376354 232.5 -21.25 232.5 C -27.8991 232.5 -34.38785 231.64621 -40.42527 230.3394" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_106">
+        <path d="M -187.92149 220.55767 C -212.91938 228.3383 -255.17732 247.13168 -131.25 259.16667 C 28.227108 274.654 201.99776 283.6127 387.91667 271.66667 C 461.3941 266.94545 498.2046 257.41746 515.85395 247.6195" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_108">
+        <path d="M 537.90255 213.374 C 561.8063 205.73016 599.70694 187.88297 472.5 178.33333 C 307.71092 165.96235 126.77332 162.37887 -56.66667 173.33333 C -114.18463 176.76813 -147.26677 182.34203 -165.58203 188.3759" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+    </g>
+  </g>
+</svg>

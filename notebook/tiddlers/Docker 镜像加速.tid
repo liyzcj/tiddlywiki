@@ -1,6 +1,6 @@
 caption: 镜像加速
 created: 20200216175627611
-modified: 20200404180516638
+modified: 20200601122730636
 tags: DockerCommonOperation
 title: Docker 镜像加速
 type: text/vnd.tiddlywiki
@@ -75,9 +75,9 @@ https://x435a1xi.mirror.aliyuncs.com
 
 !!! gcr.io / k8s.gcr.io
 
-gcr.io 是 Google 的 Docker Registry。可以使用 Azure 提供的镜像代理服务。
+gcr.io 是 Google 的 Docker Registry。~~可以使用 Azure 提供的镜像代理服务。~~
 
-对于非官方的 Docker Registry，不能省略前面的地址字段。''所以需要 Pull 下来之后再重命名为原仓库的地址使用。'' 这个 [[docker-wrapper|Docker-Wrapper-gcr.io.py]] 可以用来自动修改代理拉取再重命名回来。
+对于非官方的 Docker Registry，不能省略前面的地址字段。''所以需要 Pull 下来之后再重命名为原仓库的地址使用。'' 
 
 ---
 

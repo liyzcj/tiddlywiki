@@ -1,0 +1,74 @@
+caption: 数值算术
+created: 20200626142944380
+modified: 20200626145259617
+tags: ShellSyntax
+title: shell numeric arithmetic
+type: text/vnd.tiddlywiki
+
+> 需要注意的是
+
+!! 利用圆括号语法
+
+
+双圆括号语法可以让你进行数值操作 `$((1 + 2))`
+
+```bash
+$ echo $(( 1 + 2 ))
+3
+```
+
+双圆括号''可以用来赋值，也可以用来变量自加减。''
+
+```bash
+$ a=$(( 4 + 2 ))
+$ echo $a
+6
+$ (( a++ ))
+$ echo $a
+7
+```
+
+> 双圆括号还可以用来进行[[数值比较|Bash Number-based Conditions]]
+
+!! 使用 `let` 命令
+
+
+```bash
+$ let "a = 1 + 2"
+$ echo $a
+3
+$ let "a = $a + 2"
+$ echo $a
+5
+```
+
+`let` 命令支持大部分的数值操作符号，例如：
+
+|!Operator|!Operation|
+|`+`, `-`, `*`, `/`|加，减，乘，除|
+|`var++`|自加|
+|`var--`|自减|
+|`%`|取余数|
+
+
+!! `expr` 命令
+
+`expr` 命令和 `let` 命令类似，只不过它是''打印''出结果，而不是保存在一个变量中。
+
+> 注意 `expr` 的乘法符号需要转义 `\*`
+
+
+!! 字符串变量的长度
+
+如果需要计算字符串变量的长度，可以采用如下语法：
+
+```bash
+${#var}
+```
+
+例如：
+
+```bash
+$ a="hello"
+$ echo ${#a}
+5

@@ -1,6 +1,6 @@
 caption: 提升权限 sudo
 created: 20190903054411348
-modified: 20200404204125738
+modified: 20200616015951630
 tags: UserManagement
 title: sudo
 type: text/vnd.tiddlywiki
@@ -10,6 +10,12 @@ type: text/vnd.tiddlywiki
 ```bash
 user_name ALL=(ALL) NOPASSWD:ALL
 %group_name ALL=(ALL) NOPASSWD:ALL
+```
+
+写入到 `sudoers.d` 文件夹中：
+
+```bash
+echo "liyanzhe ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/liyanzhe
 ```
 
 !! Reference

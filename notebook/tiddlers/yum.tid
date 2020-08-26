@@ -1,6 +1,6 @@
 caption: RedHat/Centos/Suse 包管理工具 yum
 created: 20190830055452461
-modified: 20200404172228869
+modified: 20200615105115994
 tags: PackageManagement
 title: yum
 type: text/vnd.tiddlywiki
@@ -40,7 +40,7 @@ yum list  <regex>    //列出资源库中与正则表达式匹配的可以安装
 yum list  软件名         //列出指定的软件包的安装情况
 yum list  available         //列出资源库中所有可以安装的rpm包
 yum list  available <regex> //列出资源库中与正则表达式匹配的所有可以安装的rpm包
-yum listinstalled          //列出所有已经安装的软件包
+yum list installed          //列出所有已经安装的软件包
 yum list  installed <regex>  //列出资源库中与正则表达式匹配的所有已经安装的rpm包
 yum list extras          //列出所有已经安装但不在YUM 仓库内的软件包
 yum list extras <regex>//列出与正则表达式匹配的已安装的但不包含在资源库中的rpm包

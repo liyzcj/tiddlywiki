@@ -1,0 +1,7 @@
+created: 20200722154202961
+modified: 20200722154241002
+tags: Computer
+title: Terminology
+type: text/vnd.tiddlywiki
+
+<<list-links "[tag{!!title}sort[title]]">>

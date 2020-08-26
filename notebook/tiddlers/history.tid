@@ -1,0 +1,15 @@
+created: 20200721021732323
+modified: 20200721021912716
+tags: ShellRelated
+title: history
+type: text/vnd.tiddlywiki
+
+history 可以记录和管理历史命令。
+
+
+!! 临时开关
+
+```bash
+set +o history # 临时关闭
+set -o history # 临时打开
+```

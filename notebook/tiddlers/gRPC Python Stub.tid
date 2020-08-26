@@ -1,0 +1,47 @@
+caption: Python 服务端
+created: 20200707100058459
+modified: 20200709154927545
+tags: [[gRPC Python]]
+title: gRPC Python Stub
+type: text/vnd.tiddlywiki
+
+要想编写 gRPC 服务端的代码，需要首先根据 `.proto` 文件生成对应的代码库。
+
+生成 Python 的代码库建议参考 [[Python gRPC|gRPC Python Installation]] 中，通过 pip 安装 `grpcio.tools`, 并使用一下命令进行编译:
+
+```bash
+python -m grpc_tools.protoc -I[source_path] --python_out=[protobuf_path] --grpc_python_out=[grpc_path] proto_file
+```
+
+编译完成后，对于一个 `.proto`  会生成两个文件：
+
+
+* `some_file_pb2.py`：[[Protobuf]] Message 的声明文件
+* `some_file_pb2_grpc.py`： 为 ''包含 gRPC servicer'' 的文件
+
+通过 `some_file_pb2_grpc.py` 中自动生成的 Servicer 就可以实现服务端的代码：
+
+```python
+from some_file_pb2_grpc import GeneratedServicer
+
+class MyServicer(GeneratedServicer):
+
+	def SomeMethod(self):
+		pass
+```
+
+实现服务端的代码之后，就可以编写代码启动服务端监听进程：
+
+```python
+from concurrent import futures
+from some_file_pb2_grpc import add_GeneratedServicer_to_server
+
+server = grpc.server(fubures.ThreadPoolExecutor(max_workers=10))
+
+add_GeneratedServicer_to_server(MyServicer(), server)
+
+server.add_insecure_port('[::]:9090')
+server.start()
+server.wait_for_termination()
+```
+

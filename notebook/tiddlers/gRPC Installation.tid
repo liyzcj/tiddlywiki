@@ -1,0 +1,9 @@
+created: 20200707095420255
+modified: 20200709150357974
+tags: gRPC
+title: gRPC Installation
+type: text/vnd.tiddlywiki
+
+gRPC 作为一个 ProtoBuf 的插件存在，所以要安装 gRPC 首先需要[[安装 Protobuf|Protocol Buffer Quick Start]]。
+
+对于 gRPC，不同语言的插件安装方法各不相同，可以参考各个语言的安装方法。

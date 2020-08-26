@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" xmlns:xl="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" viewBox="-.5 99.5 551 51" width="551" height="51">
+  <defs>
+    <font-face font-family="Helvetica Neue" font-size="16" panose-1="2 0 5 3 0 0 0 2 0 4" units-per-em="1000" underline-position="-100" underline-thickness="50" slope="0" x-height="517" cap-height="714" ascent="951.9958" descent="-212.99744" font-weight="400">
+      <font-face-src>
+        <font-face-name name="HelveticaNeue"/>
+      </font-face-src>
+    </font-face>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="SharpArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-4 -4 10 8" markerWidth="10" markerHeight="8" color="black">
+      <g>
+        <path d="M 5 0 L -3 -3 L 0 0 L 0 0 L -3 3 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.11.5 
+    <dc:date>2020-05-05 09:16:14 +0000</dc:date>
+  </metadata>
+  <g id="Canvas_1" stroke-dasharray="none" fill="none" stroke="none" stroke-opacity="1" fill-opacity="1">
+    <title>Canvas 1</title>
+    <g id="Canvas_1: LinkNode">
+      <title>LinkNode</title>
+      <g id="Group_35">
+        <title>LinkNode</title>
+        <g id="Graphic_39">
+          <title>Data</title>
+          <rect x="50" y="100" width="50" height="50" fill="white"/>
+          <rect x="50" y="100" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <text transform="translate(55 115.776)" fill="black">
+            <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="11.104" y="15">43</tspan>
+          </text>
+        </g>
+        <g id="Group_36">
+          <title>Pointer</title>
+          <g id="Graphic_38">
+            <title>Data</title>
+            <rect x="100" y="100" width="50" height="50" fill="white"/>
+            <rect x="100" y="100" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_37">
+            <circle cx="125" cy="125" r="13.4000219840909" fill="black"/>
+            <circle cx="125" cy="125" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+        <g id="Group_40">
+          <title>Pointer</title>
+          <g id="Graphic_42">
+            <title>Data</title>
+            <rect x="0" y="100" width="50" height="50" fill="white"/>
+            <rect x="0" y="100" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_41">
+            <circle cx="25" cy="125" r="13.4000219840909" fill="white"/>
+            <circle cx="25" cy="125" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+      </g>
+      <g id="Group_43">
+        <title>LinkNode</title>
+        <g id="Graphic_50">
+          <title>Data</title>
+          <rect x="250" y="100" width="50" height="50" fill="white"/>
+          <rect x="250" y="100" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <text transform="translate(255 115.776)" fill="black">
+            <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="11.104" y="15">99</tspan>
+          </text>
+        </g>
+        <g id="Group_47">
+          <title>Pointer</title>
+          <g id="Graphic_49">
+            <title>Data</title>
+            <rect x="300" y="100" width="50" height="50" fill="white"/>
+            <rect x="300" y="100" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_48">
+            <circle cx="325" cy="125" r="13.4000219840909" fill="black"/>
+            <circle cx="325" cy="125" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+        <g id="Group_44">
+          <title>Pointer</title>
+          <g id="Graphic_46">
+            <title>Data</title>
+            <rect x="200" y="100" width="50" height="50" fill="white"/>
+            <rect x="200" y="100" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_45">
+            <circle cx="225" cy="125" r="13.4000219840909" fill="black"/>
+            <circle cx="225" cy="125" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+      </g>
+      <g id="Group_51">
+        <title>LinkNode</title>
+        <g id="Graphic_58">
+          <title>Data</title>
+          <rect x="450" y="100" width="50" height="50" fill="white"/>
+          <rect x="450" y="100" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <text transform="translate(455 115.776)" fill="black">
+            <tspan font-family="Helvetica Neue" font-size="16" font-weight="400" fill="black" x="11.104" y="15">99</tspan>
+          </text>
+        </g>
+        <g id="Group_55">
+          <title>Pointer</title>
+          <g id="Graphic_57">
+            <title>Data</title>
+            <rect x="500" y="100" width="50" height="50" fill="white"/>
+            <rect x="500" y="100" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_56">
+            <circle cx="525" cy="125" r="13.4000219840909" fill="white"/>
+            <circle cx="525" cy="125" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+        <g id="Group_52">
+          <title>Pointer</title>
+          <g id="Graphic_54">
+            <title>Data</title>
+            <rect x="400" y="100" width="50" height="50" fill="white"/>
+            <rect x="400" y="100" width="50" height="50" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+          <g id="Graphic_53">
+            <circle cx="425" cy="125" r="13.4000219840909" fill="black"/>
+            <circle cx="425" cy="125" r="13.4000219840909" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+      </g>
+      <g id="Line_63">
+        <path d="M 134.67364 115.72738 C 142.01762 110.20374 153.44365 104.26009 168.60987 104.26009 C 177.20556 104.26009 185.77632 106.16933 193.546 108.82925" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_64">
+        <path d="M 212.95007 130.86998 C 203.74272 134.62252 190.01278 138.78924 174.43946 138.78924 C 168.12194 138.78924 162.16353 138.10355 156.7182 137.03799" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_65">
+        <path d="M 412.80317 130.55827 C 402.97774 134.38778 388.2033 138.78924 372.1973 138.78924 C 366.66 138.78924 361.4842 138.26245 356.74015 137.41481" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_66">
+        <path d="M 335.7588 117.00903 C 344.40945 111.66423 357.70794 105.60538 373.5426 105.60538 C 380.5998 105.60538 387.33413 106.80886 393.4685 108.61624" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,7 +1,7 @@
 caption: 循环 Loop
 created: 20200202112119326
-modified: 20200405072408067
-tags: ShellSyntax loop
+modified: 20200623065806617
+tags: ShellSyntax loop TODO
 title: Shell 循环
 type: text/vnd.tiddlywiki
 
@@ -49,12 +49,31 @@ for name [ [in [words …] ] ; ] do commands; done
 
 !!! 语法二
 
+```bash
 for (( init-command ; conditions ; post-command )) ; do commands ; done
+```
 
 与 [[Go]] 和 c 语言类似。
 
----
-可以使用 `break` 和 `continue` 来控制流程。
+> 可以使用 `break` 和 `continue` 来控制流程。
+
+!! 遍历 Sequence
+
+如果要遍历一个范围内的数值，可以使用 `seq` 命令，或者 `{}`  符号：
+
+```bash
+for i in `seq 1 10` ; do
+    echo $i
+done
+```
+
+```bash
+for i in {1..10} ; do
+    echo $i
+done
+```
+
+
 
 !! Reference
 

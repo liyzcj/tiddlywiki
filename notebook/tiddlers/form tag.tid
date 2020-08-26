@@ -1,0 +1,22 @@
+caption: 表单 form
+created: 20200713062635599
+modified: 20200713063952453
+tags: [[HTML Tags]]
+title: form tag
+type: text/vnd.tiddlywiki
+
+!! Attribute
+
+
+!!! `enctype`
+
+enctype 仅仅当 [[HTTP|HTTP 协议]] 方法为 POST 时，才能使用，表示''在 Post data 中的编码方式''。可以使用的值有三个：
+
+|!Value|!Description|
+|`application/x-www-form-urlencoded`|''默认值''。所有的字符都会进行编码（空格编码为 `+`，特殊字符转换为 ASCII 的十六进制码。|
+|`multipart/form-data`|''不对字符进行编码''。当上传文件时需要使用这种方式|
+
+HTML5 新增
+
+|!Value|!Description|
+|`text/plain`|空格编码为 `+`，特殊字符不进行编码|

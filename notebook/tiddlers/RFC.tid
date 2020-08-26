@@ -1,6 +1,6 @@
-caption: 请求意见稿 RFC 
+caption: 请求意见稿 RFC
 created: 20191209144250202
-modified: 20200405065433393
+modified: 20200709034927485
 tags: NetworkConcept
 title: RFC
 type: text/vnd.tiddlywiki
@@ -10,5 +10,9 @@ type: text/vnd.tiddlywiki
 
 
 RFC 是由互联网工程组发布的一系列备忘录。文件收集了有关国际网络的协议与咨询。目前由国际网络协会（ISOC） 发行。
+
+RFC 由 IETF 发布和管理：[[RFC 搜索|https://www.rfc-editor.org/search/rfc_search.php]]
+
+---
 
 https://zh.wikipedia.org/wiki/RFC

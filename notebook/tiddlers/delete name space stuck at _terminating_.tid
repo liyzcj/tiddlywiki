@@ -1,0 +1,59 @@
+caption: 删除命名空间卡在 “terminating”
+created: 20200619025335535
+modified: 20200627153414567
+tags: KubernetesCommonOperation
+title: delete name space stuck at "terminating"
+type: text/vnd.tiddlywiki
+
+# get Json file to local
+
+```bash
+kubectl get ns <your namespace> -o json > tmp.json
+```
+
+# Modify json file, delete the `kubernetes` in `finalizers` field.
+
+# use repalce command 
+
+
+```bash
+kubectl replace --raw "/api/v1/namespaces/<your namespace>/finalize" -f ./tmp.json
+```
+
+
+----
+
+实现了一个脚本：
+
+```bash
+cat > delete_stuck_ns.sh << "EOF"
+#!/usr/bin/env bash
+
+function delete_namespace () {
+    echo "Deleting namespace $1"
+    kubectl get namespace $1 -o json > tmp.json
+    sed -i 's/"kubernetes"//g' tmp.json
+    kubectl replace --raw "/api/v1/namespaces/$1/finalize" -f ./tmp.json
+    rm ./tmp.json
+}
+
+TERMINATING_NS=$(kubectl get ns | awk '$2=="Terminating" {print $1}')
+
+for ns in $TERMINATING_NS
+do
+    delete_namespace $ns
+done
+EOF
+
+chmod +x delete_stuck_ns.sh
+```
+
+---
+
+!! Update 2020/06/27
+
+发现了一个更简单的方式：
+
+```bash
+kubectl patch RESOURCE NAME -p '{"metadata":{"finalizers":[]}}' --type=merge
+```

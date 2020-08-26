@@ -1,0 +1,11 @@
+created: 20200621112001338
+modified: 20200621112042593
+tags: Tmux
+title: 服务器自动打开 Tmux
+type: text/vnd.tiddlywiki
+
+```bash
+if [[ -n "$PS1" ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_CONNECTION" ]]; then
+    tmux attach-session -t common || tmux new-session -s common
+fi
+```

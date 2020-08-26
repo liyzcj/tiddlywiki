@@ -1,0 +1,27 @@
+created: 20200717114508487
+modified: 20200717115445049
+tags: [[mysql commands]]
+title: mysqladmin
+type: text/vnd.tiddlywiki
+
+`mysqladmin` 命令用来方便的管理 Mysql 数据库，命令格式：
+
+```bash
+mysqladmin [options] command [command-arg] [command [command-arg]] ...
+```
+
+他提供了非常多的子命令来实现不同的功能。
+
+!! 子命令
+
+* `processlist`: <div>
+
+显示服务端线程的列表。与 `SHOW PROCESSLIST` 的输出类似。 如果指定选项 `--verbose`, 则和命令 `SHOW FULL PROCESSLIST` 类似。
+
+</div>
+
+* `status`: <div>
+
+显示服务端状态。 与命令 `SHOW STATUS` 输出类似。
+
+</div>

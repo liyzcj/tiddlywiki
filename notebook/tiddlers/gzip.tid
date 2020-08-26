@@ -1,0 +1,34 @@
+caption: 文件压缩 gzip
+created: 20200629112810597
+modified: 20200629113042242
+tags: FileSystemRelated
+title: gzip
+type: text/vnd.tiddlywiki
+
+gzip 可以用来对文件进行压缩或者解压。
+
+
+使用 Gzip 非常简单。
+
+
+!! 压缩
+
+```bash
+gzip file
+```
+
+就可以直接对文件压缩。
+
+!! 解压
+
+
+```bash
+gzip -d file
+```
+
+
+!! 其他选项
+
+
+|!Option|!Description|
+|`-c`|解压并输出到''标准输出''，不修改源文件|

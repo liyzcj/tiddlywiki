@@ -1,0 +1,96 @@
+created: 20200707094515467
+modified: 20200709161230186
+tags: gRPC
+title: gRPC Gateway
+type: text/vnd.tiddlywiki
+
+gRPC Gateway 与 [[gRPC]] 相同，都是 [[Google Protocol Buffer|ProtoBuf]] 的一个插件。它可以读取定义了 gRPC 的 `.proto` 文件，自动生成一个反向代理服务，将外部的 [[RESTful|RESTful API]] 请求，转换为 gRPC 调用，反之亦然。要正确的生成 gRPC Gateway，你需要在 `.proto` 文件中''通过 `google.api.http` option 来定义 RESTful 的接口。''
+
+
+[img[https://camo.githubusercontent.com/e75a8b46b078a3c1df0ed9966a16c24add9ccb83/68747470733a2f2f646f63732e676f6f676c652e636f6d2f64726177696e67732f642f3132687034435071724e5046686174744c5f63496f4a707446766c41716d35774c513067677149356d6b43672f7075623f773d37343926683d333730]]
+
+!! Usage
+
+!!! gRPC Stub
+
+要使用 gRPC Gateway 反向代理，当然首先需要[[安装 gRPC|gRPC Installation]]，并''创建一个 gRPC 的服务端'', 例如 [[Python 服务端|gRPC Python Stub]]。
+
+<<info "gRPC 服务的具体创建方法需要参考各个语言的 gRPC 创建方法。例如 [[Python 版本|gRPC Python Stub]]。">>
+
+当有了服务端之后，gRPC Gateway 才能将 HTTP 请求转换为 RPC 调用，并转发给之前创建好的 gRPC 服务。
+
+
+!!! Gateway
+
+编写好 gRPC Stub 之后，就可以开始生成 gRPC gateway 了，生成的 Gateway 为 [[Go]] 语言版本。由于 go gateway 也需要依赖生成的 go 版本的 [[ProtoBuf]] 和 [[gRPC]] Servicer，所以生成 gateway 的同时，也要同时生成 protobuf 和 grpc 的 go 版本代码：
+
+```bash
+protoc -I./api --grpc-gateway_out=logtostderr=true,paths=source_relative:./gateway/gen \
+	--go_out=plugins=grpc,paths=source_relative:./gateway/gen \
+  -I$GOPATH/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.14.6/third_party/googleapis \
+  -I$GOPATH/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.14.6 \
+  api/some_service.proto
+```
+
+生成 Gateway 之后，需要编写文件调用 Gateway 并绑定到 Serve Mux，启动监听进程：
+
+
+```go
+package main
+
+import (
+	"context"
+	"flag"
+	"net/http"
+
+	"github.com/golang/glog"
+	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"google.golang.org/grpc"
+
+	gw "gateway/gen" // 这里填写生成的 Gateway package 的导入路径
+)
+
+var (
+	// command-line options:
+	// gRPC server endpoint gRPC stub 的监听端口
+	grpcServerEndpoint = flag.String("grpc-server-endpoint", "localhost:9090", "gRPC server endpoint")
+)
+
+func run() error {
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	// Register gRPC server endpoint
+	// Note: Make sure the gRPC server is running properly and accessible
+	mux := runtime.NewServeMux()
+	opts := []grpc.DialOption{grpc.WithInsecure()}
+	// 在这里添加 RegisterGeneratedHandlerFromEndpoint
+	err := gw.RegisterGeneratedHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+	if err != nil {
+		return err
+	}
+
+	// Start HTTP server (and proxy calls to gRPC server endpoint)
+	return http.ListenAndServe(":8081", mux)
+}
+
+func main() {
+	flag.Parse()
+	defer glog.Flush()
+
+	if err := run(); err != nil {
+		glog.Fatal(err)
+	}
+}
+```
+
+!! 生成 [[OAS|OpenAPI & Swagger]] API 描述文件 （Optional）
+
+```bash
+protoc -I./api --swagger_out=logtostderr=true:./api/gen/swagger \
+    -I$GOPATH/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.14.6 \
+    -I$GOPATH/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.14.6/third_party/googleapis \
+    ./some_service.proto
+```
+

@@ -1,0 +1,15 @@
+caption: 根据时间删除资源
+created: 20200628035719984
+modified: 20200628050416912
+tags: KubernetesCommonOperation
+title: delete resource by time
+type: text/vnd.tiddlywiki
+
+通过 [[awk 命令]] 的正则表达式 `match()` 函数，和 `system` 函数来删除某些时间的资源
+
+
+例如，对于 configmap，要删除在一小时之内建立的资源，即结尾单位为 `m`：
+
+```bash
+kubectl get configmap --all-namespaces | awk 'match($4, /[0-9]{1,2}+m/) {system("kubectl delete -n " $1 " configmap " $2)}'
+```

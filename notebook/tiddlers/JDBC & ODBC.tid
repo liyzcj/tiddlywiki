@@ -1,5 +1,17 @@
 created: 20200503152621703
-modified: 20200503152653813
-tags: [[Develop Concept]] TODO
+modified: 20200513024447833
+tags: [[Develop Concept]]
 title: JDBC & ODBC
 type: text/vnd.tiddlywiki
+
+!! JDBC
+
+''Java Database Connectivity (JDBC)'' 是 [[Java]] 语言的一种 [[API]]，它定义了''如何使用一个客户端访问数据库''，是基于 Java 的数据库访问技术。
+
+JDBC 是 Java SE 中的一部分，可以通过 `java.sql` 和 `javax.sql` 访问，主要提供了''关系型数据库''的访问方法。通过''JDBC-to-ODBC bridge''，JDBC 还可以连接到所有 ODBC 可以访问的数据库。
+
+!! ODBC
+
+''Open Database Connectivity (ODBC)'' 是用来访问 [[DBMS|DBMS & DBRMS]] 的标准 [[API]]。设计 ODBC 的目标是''将数据库系统与操作系统分离开''。通过 ODBC 编写的程序可以方便的在不同的平台上移植。
+
+ODBC 通过 ODBC 驱动作为应用程序和[[数据库系统|DBMS & DBRMS]] 之间的转换层，来实现两个系统之间的独立性。应用程序通过 ODBC 提供的函数进行查询，ODBC 驱动将查询操作转换为查询语句并传递给 [[DBMS|DBMS & DBRMS]]。

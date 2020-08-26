@@ -1,0 +1,15 @@
+created: 20200505080613780
+modified: 20200505080913841
+tags: DataStructure
+title: 线性表
+type: text/vnd.tiddlywiki
+
+线性表 (Linked List) 是由 $$n\ge0$$ 个数据元素组成的''有限序列''。
+
+线性表包含：
+
+<div class="tc-table-of-contents">
+
+<$macrocall $name="toc-selective-expandable" tag={{!!title}}/>
+
+</div>

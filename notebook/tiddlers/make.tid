@@ -1,6 +1,6 @@
 caption: 构建工具 make
 created: 20200225170110781
-modified: 20200406071010879
+modified: 20200708142926227
 tags: LinuxUtilities TODO GNU
 title: make
 type: text/vnd.tiddlywiki
@@ -9,27 +9,57 @@ Make 是一个用来协助构建软件的工具。在诞生之初，并没有现
 
 > 虽然现代集成开发环境提供了大部分的功能，在 Unix 类系统上，程序员仍然习惯使用 Makefile 来将一些命令集成起来，方便每次重复调用。
 
+!! 执行原理
 
-Make 的使用非常简单，主要的精华就在于 Makefile 上。
+在默认情况下，如果只输入一个 `make` 指令，那么：
+
+# 首先在当前目录下查找 `makefile` 或者 `Makefile` 文件，否则报错；
+# 如果找到文件，在文件中找到第一个 `target`，将其作为最终的目标;
+# 如果第一个 `target` 文件不存在，或者 `target` 之后的文件要比它''更新''，则会执行这个目标文件下的 `command`;
+# 如果这个目标文件的 `prerequisites` 文件有不存在的，则在当前文件的 `target` 中查找它，并执行命令生成它。
+
+如果输入 `make <target>` 则，make 会以 `<target>` 指定的目标为起点。特殊的，`<target>` 也可以是一个标识符，用来作为命令组执行。（这一点让 `make` 使用非常方便）
 
 
-!! 特殊指令
+Make 的使用非常简单，主要的精华就在于 [[Makefile]] 上。
 
-`.PHONY` 可以用来指定文件无关。即指定该命令不是一个文件。
+!! GNU make 执行原理
 
-```makefile
-.PHONY foo
-foo:
-	echo 123
-```
+# 读取所有的 Makefile
+# 读取被 `include` 包含的 Makefile
+# 初始化文件中的变量
+# 推导出隐晦规则，并分析所有规则
+# 为所有的目标文件创建依赖链
+# 根据依赖关系，决定哪些目标需要重新生成
+# 执行生成命令
 
-> 如果你的文件夹中有 `foo` 这个文件，并且你不使用 `.PHONY` 指定的话，make 不会执行指定的命令： <div>
+!! 常用选项
 
-```bash
-❯ make foo
-make: 'foo' is up to date.
-```
+|!Option|!Description|
+|`-d`|Debug 模式，等价于 `--debug=a`|
+|`-f`|指定 Makefile 文件|
+
+<<note "`MAKEFILES` 环境变量中包含的文件会在 make 执行时 `include` 到执行环境中，如果 make 出现了诡异的错误，可以检查 	`MAKEFILE` 是否被定义了。">>
+
+
+!! 其他选项
+
+* `-j, --jobs [num]`: 指定并行执行的 Jobs 的个数。 <div>
+
+> 通常可以指定为 `nproc` 命令的结果，即用户最大进程数限制。
 
 </div>
 
-* [[跟我一起写 Makefile|https://seisman.github.io/how-to-write-makefile/conditionals.html]]
+* `--debugs[=FLAGS]`: 打印 Debug 信息，可以指定多个 FLAG 来过滤显示的日志：<div>
+
+|!FLAGS|!Description|
+|`a`|等价于 `-d`，显示所有 Debug 信息|
+|`b`|Basic，基础 Debug 信息|
+|`v`|Verbose Basic Debug 信息|
+|`i`|Implicit 显示隐含规则|
+|`j`|详细的命令调用信息|
+|`m`|重新制作 makefile 的 Debug 信息|
+
+</div>
+
+

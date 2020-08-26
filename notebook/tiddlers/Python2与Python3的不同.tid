@@ -1,6 +1,6 @@
 created: 20190719224601810
 creator: liyzcj
-modified: 20200404134120262
+modified: 20200621082340430
 modifier: liyzcj
 tags: PythonFeature
 title: Python2与Python3的不同
@@ -46,3 +46,7 @@ Python 2 中继承 `object` 的为新式类, 否则为经典类. Python 3 中所
 * 新式类增加了 `__slots__` 属性，限制 Attribute。
 * 新式类添加了 `__getattribute__()` 方法。
 * 新式类添加了 [[__new__|Python __new__]] 方法
+
+!! `input()` 函数的不同
+
+在 Python 2 中，`input()` 函数是直接从键盘获取并执行 Python 代码，而在 Python 3 中，统一获取的都是''字符串''。

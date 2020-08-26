@@ -30,7 +30,28 @@ kubectl apply -f "https://cloud.weave.works/k8s/scope.yaml?k8s-version=$(kubectl
   kubectl port-forward -n weave "$(kubectl get -n weave pod --selector=weave-scope-component=app -o jsonpath='{.items..metadata.name}')" 4040
   ```
 
-TODO：正确的远程访问方式
+通过 NodePort Service 服务
+
+```bash
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeport-svc
+  namespace: weave
+spec:
+  type: NodePort
+  ports:
+    - name: webui
+      port: 80
+      nodePort: 30001
+      targetPort: 4040
+
+  selector:
+    app: weave-scope
+    name: weave-scope-app
+    weave-cloud-component: scope
+    weave-scope-component: app
+```
 
 
 

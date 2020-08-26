@@ -1,0 +1,35 @@
+created: 20200624171021755
+modified: 20200624172918408
+tags: [[Cloud Native Concept]]
+title: Red/Black Green/Blue Deployment
+type: text/vnd.tiddlywiki
+
+红黑，蓝绿部署是两种部署策略（其实是同一种）。
+
+在应用版本进行更新迭代时，新的版本在部署成功之前，网络流量会逐步的从旧版本移到新版本中来。
+
+在 [[StackOverflow|https://stackoverflow.com/questions/45259589/whats-the-difference-between-red-black-deployment-and-blue-green-deployment]] 的一个回答中，是这样区分蓝绿和红黑部署的：
+
+* ''Blue/Green''：在部署时，流量''逐渐的从旧版本移动至新版本''，所以部署的时候可能同时会有流量分别在两个版本中。
+
+* ''Red/Black''：在部署时，流量会在新版本完全部署成功后再''一次性移动到新版本''，所以同一时间所有的流量要么在新版本，要么在旧版本。
+
+这个答案还同时提到：
+
+> 红黑部署是一个经常被 Netflix Istio 等平台经常使用的新词汇。
+
+但是在 Netflix 的[[开源项目文档|https://www.spinnaker.io/concepts/#deployment-strategies]]中，指出''红黑部署和蓝绿部署实际上是相同的含义，都代表流量逐步的移动到新版本。''并且还用示意图来描述这一过程：
+
+[img[https://spinnaker.io/concepts/deployment-strategies.png]]
+
+---
+
+与部署相关的概念还有一个 ''Canary Deployment''  金丝雀部署，指的是''首先在一小部分服务器上部署新版本应用，并且在测试成功后再进行整个应用的升级''。这种方法可以减少停机时间，并且如果新版本部署失败，也不会影响主要业务。
+
+[img[https://i.octopus.com/docs/deployment-patterns/images/3278255.png]]
+
+---
+
+!! Reference
+
+* [[blue green vs red black deploy|https://octopus.com/blog/blue-green-red-black]]

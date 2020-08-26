@@ -1,0 +1,12 @@
+created: 20200608111339407
+modified: 20200612022806817
+tags: [[Python Third-party]] TODO
+title: SQLAlchemy
+type: text/vnd.tiddlywiki
+
+SQLAlchemy 是 Python 常用的数据库工具，由于其 [[ORM]] 系统而出名。
+
+SQLAlchemy 分为两个层级：''ORM'' 和 ''Core''。其中 Core 属于底层访问数据库的核心库，ORM 是在 Core 的基础上构建的。
+
+<<list-links "[tag{!!title}sort[title]]">>
+

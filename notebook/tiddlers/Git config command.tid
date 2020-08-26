@@ -1,7 +1,7 @@
 caption: 配置命令
 created: 20190804194259526
 creator: liyzcj
-modified: 20200405062326795
+modified: 20200716010330368
 modifier: liyzcj
 tags: GitConfig
 title: Git config command
@@ -30,9 +30,7 @@ git config --global --list
 
 ```shell
 # 设置
-git config --global http.proxy socks5://127.0.0.1:1086
-git config --global https.proxy socks5://127.0.0.1:1086
+git config --global http.proxy http://liyzcj:liYANzhe@127.0.0.1:1086
 # 删除
 git config --global --unset http.proxy
-git config --global --unset https.proxy
 ```

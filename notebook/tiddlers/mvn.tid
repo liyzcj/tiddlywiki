@@ -1,0 +1,145 @@
+created: 20200514080036876
+modified: 20200514172440771
+tags: [[Java HelloWorld]]
+title: mvn
+type: text/vnd.tiddlywiki
+
+!! Install
+
+```bash
+brew install maven # [ Mac OS ]
+```
+
+!!! 修改配置
+
+修改 Java 版本以及编码信息。
+
+编辑文件 `${MAVEN_HOME}/conf/settings.xml`，增加如下内容：
+
+```xml
+<profile>  
+     <id>jdk-1.8</id>  
+     <activation>  
+         <activeByDefault>true</activeByDefault>  
+         <jdk>1.8</jdk>  
+     </activation>
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+         <maven.compiler.source>1.8</maven.compiler.source>  
+         <maven.compiler.target>1.8</maven.compiler.target>   
+     </properties>
+</profile>
+```
+
+
+修改镜像仓库：
+
+```xml
+<mirror>
+    <id>alimaven</id>
+    <name>aliyun maven</name>
+    <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+    <mirrorOf>central</mirrorOf>
+</mirror>
+```
+
+
+!! Project Phases
+
+创建 Project：
+
+```bash
+mvn archetype:generate \
+	-DgroupId=com.mycompany.app \
+	-DartifactId=my-app \
+	-DarchetypeArtifactId=maven-archetype-quickstart \
+	-DarchetypeVersion=1.4 \
+	-DinteractiveMode=false
+```
+
+> Archetype 是一个 Maven 的插件，一个程序模版工具。一个 Archetype 可以看作一个程序的模版。使用 Archetype 可以快速的''创建符合最佳实践的程序脚手架''。Maven 官方提供了一系列的 [[Archetype artifacts|https://maven.apache.org/archetypes/index.html]].
+
+验证: 验证项目是否正确与必要的信息。
+
+```bash
+mvn validate
+```
+
+编译：
+
+```bash
+mvn compile
+```
+
+测试 （仅编译）：
+
+```bash
+mvn test-compile
+```
+
+
+测试（编译 + 运行）：
+
+```bash
+mvn test
+```
+
+
+打包（测试 + 编译 + 打包）：
+
+```bash
+mvn package
+```
+
+运行：
+
+```bash
+java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App
+```
+
+集成测试：部署并进行集成测试
+
+```bash
+mvn integration-test
+```
+
+质量验证：运行并确保包符合要求。
+
+```bash
+mvn verify
+```
+
+
+安装：安装到本地仓库
+
+```bash
+mvn install
+```
+
+部署：发布到远程仓库
+
+```bash
+mvn deploy
+```
+
+
+生成文档：
+
+
+```bash
+mvn site
+```
+
+清理：
+
+```bash
+mvn clean
+```
+
+!! 其他命令
+
+依赖树：
+
+```bash
+mvn dependency:tree
+```

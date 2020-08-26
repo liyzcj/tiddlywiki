@@ -1,0 +1,14 @@
+created: 20200624094255385
+modified: 20200624095140784
+tags: [[Develop Concept]]
+title: On-premises vs Cloud
+type: text/vnd.tiddlywiki
+
+On-premises 与 Cloud 是根据软件部署的方式而区分软件的概念。
+
+Premises 的意思是生产场所, 营业场所。Premises 不是 Premise 的复数形式, 是有独立含义的单词。根据 Wikipedia 的解释, On-premises Software 指的是运行在用户或组织所在的经营场所计算机中的软件。
+
+
+而相对的概念是 Cloud，Software as a Service，软件或者计算是安装并运行在远端的 Cloud/Internet/Network 中的。
+
+在此的基础上还有私有云 (private Cloud) 的概念，相当于还是部署自己的计算机集群，即自己的 Infrastructure，但是在其中采用[[云原生（Cloud Native）|Cloud Native]]的方式管理集群和应用。

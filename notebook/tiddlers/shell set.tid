@@ -1,0 +1,40 @@
+caption: 参数设置 set
+created: 20200701010911818
+modified: 20200701071913549
+tags: LinuxUtilities
+title: shell set
+type: text/vnd.tiddlywiki
+
+`set` 命令用来设置或者取消 shell 选项或者''脚本的位置参数''。
+
+!! 设置位置参数
+
+`set` 还可以用来设置命令行的位置参数，通常使用 `--` 代表位置参数的开始，例如
+
+```bash
+$ set -- foo bar
+$ echo $1
+foo
+$ echo $2
+bar
+```
+
+<<note "使用 `--` 可以避免位置参数和 `set` 命令的 Option 混淆，很多命令都支持 `--`. 也可以使用 `-` 代表选项的结束。">>
+
+
+!! 常用选项
+
+* `-e`: 当一个命令返回非零状态（也就是失败）时立即退出。
+* `-x`: 执行命令前打印命令和参数。
+* `-v`: 在读取输入时打印 shell 的输入。
+* `-u`: 在进行字符串替换时，遇到不存在的变量时报错。
+* `-f`: 关闭文件 glob。
+* `--`: 位置参数的开始，后面的位置参数这是为 `$n`。
+* `-`: set Option 的结束。与 `--` 类似。
+
+
+---
+
+!! Reference
+
+* [[gnu set|https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html]]

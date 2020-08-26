@@ -1,8 +1,8 @@
 caption: 包管理 Homebrew
 created: 20190819172757231
-modified: 20200404192026879
+modified: 20200506111252818
 tags: MacosCommand
-title: Homebrew 安装
+title: Homebrew
 type: text/vnd.tiddlywiki
 
 通过官网安装 Homebrew：https://brew.sh
@@ -14,6 +14,8 @@ type: text/vnd.tiddlywiki
 ```bash
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
+
+> 切换清华源：[[Tuna Homebrew|https://mirror.tuna.tsinghua.edu.cn/help/homebrew/]]
 
 ---
 
