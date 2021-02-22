@@ -68,6 +68,18 @@ fi
 
 !! Condition 的基本规则
 
+```bash
+if TEST-COMMAND1
+then
+  STATEMENTS1
+elif TEST-COMMAND2
+then
+  STATEMENTS2
+else
+  STATEMENTS3
+fi
+```
+
 # ''一定要注意方括号和条件之间的空格''如果没有会报错。
 # ''关键词之间一定要换行或者使用分号。'' `if, then, else, elif, fi` 之间要么换行，要么使用 `;`。
 # ''将字符串用双引号引起来是一个好习惯''。如果字符串含有空格，不实用双引号将会出错。

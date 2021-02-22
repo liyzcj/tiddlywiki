@@ -1,7 +1,7 @@
 caption: 修改用户密码 chpasswd
 created: 20191122084741949
 modified: 20200404182149629
-tags: Dockerfile UserManagement
+tags: Dockerfile UserManagement Migrated
 title: chpasswd
 type: text/vnd.tiddlywiki
 

@@ -1,7 +1,7 @@
 caption: 访问其他 Namespace 的服务
 created: 20191212173303510
 modified: 20200404182527106
-tags: KubernetesCommonOperation
+tags: KubernetesCommonOperation Migrated
 title: K8S access services in other namespace
 type: text/vnd.tiddlywiki
 

@@ -1,7 +1,7 @@
 caption: 配置容器重启规则
 created: 20200216182446487
 modified: 20200404175649959
-tags: DockerCommonOperation
+tags: DockerCommonOperation Migrated
 title: Docker Container restart policy
 type: text/vnd.tiddlywiki
 
