@@ -1,11 +1,11 @@
 caption: 函数 Function
 created: 20200619030618123
 modified: 20200623064948339
-tags: ShellSyntax TODO
+tags: ShellSyntax TODO Migrated
 title: shell function
 type: text/vnd.tiddlywiki
 
-!! 函数定义
+,,,,!! 函数定义
 
 * 不带 `function` 形式 <div>
 

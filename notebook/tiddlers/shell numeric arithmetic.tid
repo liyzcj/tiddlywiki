@@ -1,11 +1,11 @@
 caption: 数值算术
 created: 20200626142944380
 modified: 20200626145259617
-tags: ShellSyntax
+tags: ShellSyntax Migrated
 title: shell numeric arithmetic
 type: text/vnd.tiddlywiki
 
-> 需要注意的是
+~~~~> 需要注意的是
 
 !! 利用圆括号语法
 
