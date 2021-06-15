@@ -1,8 +1,8 @@
 caption: 常用方案
 created: 20200404170308341
 modified: 20200404170358971
-tags: Linux
+tags: Linux Migrated
 title: CommonSolution
 type: text/vnd.tiddlywiki
 
-<<list-links "[tag{!!title}sort[title]]">>
+____<<list-links "[tag{!!title}sort[title]]">>

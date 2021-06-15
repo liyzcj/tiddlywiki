@@ -1,7 +1,7 @@
 caption: 删除已完成的 Pod
 created: 20200218103404122
 modified: 20200404183331148
-tags: KubernetesCommonOperation
+tags: KubernetesCommonOperation Migrated
 title: Kubernetes delete completed pod
 type: text/vnd.tiddlywiki
 

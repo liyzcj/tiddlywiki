@@ -1,15 +1,7 @@
-tags: Contents
+tags: Contents Migrated
 title: Migrated
 type: text/vnd.tiddlywiki
 
 ! 未迁移
 
 <<list-links "[!tag[Migrated]sort[title]!is[system]]">>
-
----
-
-! 已经迁移
-
-<<list-links "[tag[Migrated]sort[title]]">>
-
-

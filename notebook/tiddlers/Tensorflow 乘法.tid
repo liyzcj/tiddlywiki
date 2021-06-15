@@ -1,9 +1,8 @@
 created: 20190908161248277
 modified: 20190908161440110
-tags: Tensorflow
+tags: Tensorflow Migrated
 title: Tensorflow 乘法
 type: text/vnd.tiddlywiki
-
 
 # tf.matmul(dense_a, dense_b, a_is_sparse=False, b_is_sparse=False)
 # tf.sparse_matmul(dense_a, dense_b)

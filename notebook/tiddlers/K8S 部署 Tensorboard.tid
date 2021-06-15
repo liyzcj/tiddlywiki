@@ -1,7 +1,7 @@
 caption: 模型训练可视化 Tensorboard
 created: 20191207151658711
 modified: 20200404183146706
-tags: KubernetesDeployApplication
+tags: KubernetesDeployApplication Migrated
 title: K8S 部署 Tensorboard
 type: text/vnd.tiddlywiki
 

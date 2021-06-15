@@ -1,7 +1,8 @@
 caption: 系统配置
 created: 20200404173757228
+list: [[Windows 10]] WindowsNetworkConfig
 modified: 20200404173825981
-tags: Windows
+tags: Windows Migrated
 title: WindowsConfig
 type: text/vnd.tiddlywiki
 

@@ -1,7 +1,7 @@
 caption: 执行命令 exec
 created: 20191023162426178
 modified: 20200404183628304
-tags: KubernetesCommonCommand
+tags: KubernetesCommonCommand Migrated
 title: Kubernetes 进入 pod 的某一个容器
 type: text/vnd.tiddlywiki
 

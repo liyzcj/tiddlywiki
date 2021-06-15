@@ -1,7 +1,7 @@
 caption: 删除命名空间卡在 “terminating”
 created: 20200619025335535
 modified: 20200627153414567
-tags: KubernetesCommonOperation
+tags: KubernetesCommonOperation Migrated
 title: delete name space stuck at "terminating"
 type: text/vnd.tiddlywiki
 
